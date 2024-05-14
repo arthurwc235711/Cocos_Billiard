@@ -494,7 +494,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Cushion",
+    "_name": "CushionTop",
     "_objFlags": 0,
     "_parent": {
       "__id__": 10
@@ -590,7 +590,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Cushion-001",
+    "_name": "CushionBottom",
     "_objFlags": 0,
     "_parent": {
       "__id__": 10
@@ -686,7 +686,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Cushion-002",
+    "_name": "CushionRight",
     "_objFlags": 0,
     "_parent": {
       "__id__": 10
@@ -782,7 +782,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Cushion-003",
+    "_name": "CushionLeft",
     "_objFlags": 0,
     "_parent": {
       "__id__": 10
