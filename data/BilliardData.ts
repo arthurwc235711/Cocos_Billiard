@@ -9,10 +9,10 @@ export class BilliardData {
     }
 
 
-    private _ballNums: number = 22;
+    private _ballNums: number = 21;
 
 
-    get ballNums(): number {
+    getBallNums(): number {
         return this._ballNums;
     }
 }

@@ -1,4 +1,4 @@
-import { _decorator, Component, director, game, macro, Node, Vec3 } from 'cc';
+import { _decorator, Component, director, game, instantiate, macro, Node, Prefab, Vec3 } from 'cc';
 import { Ball } from './Ball';
 import { Cue } from './Cue';
 import { Collision } from '../../../scripts/physics/collision';
@@ -6,6 +6,8 @@ import { TableGeometry } from './TableGeometry';
 import { yy } from '../../../../../../yy';
 import { Cushion } from './Cushion';
 import { bounceHanBlend } from '../../../scripts/physics/physics';
+import { BilliardData } from '../../../data/BilliardData';
+import { R } from '../../../scripts/physics/constants';
 const { ccclass, property } = _decorator;
 
 interface Pair {
@@ -17,21 +19,31 @@ interface Pair {
 export class Table extends Component {
     @property(Cue)
     cue: Cue = null;
+    @property(Node)
+    nodeBalls: Node = null;
+    @property(Prefab)
+    prefabBall: Prefab = null;
 
     balls:Ball[];
     pairs: Pair[]; // 球对
     cushionModel = bounceHanBlend
     cueBall:Ball = null;
 
-    readonly fixedTimeStep = 1.0 / 512.0;
+    readonly fixedTimeStep = 1.0 / 512.0;// 物理模拟的固定时间步长
 
     protected onLoad(): void {
-        this.initialiseBalls(director.getScene().getChildByName("NodeBalls").getComponentsInChildren(Ball));
-        this.cueBall = this.balls.find(ball => ball.node.name === "CueBall");
-
-        yy.log.w("initialiseBalls", this.balls, this.cueBall, this.balls[0].node.name)
-        this.schedule(this.loopUpdate, 0); 
+       this.prepareBalls();
+       this.initTable();
     }
+
+    initTable() {
+      this.initialiseBalls(director.getScene().getChildByName("NodeBalls").getComponentsInChildren(Ball));
+      this.cueBall = this.balls.find(ball => ball.node.name === "CueBall");
+
+      yy.log.w("initialiseBalls", this.balls, this.cueBall, this.balls[0].node.name)
+      this.schedule(this.loopUpdate, 0); 
+    }
+
     // fixedUpdate 会在所有update之后调用
 
     loopUpdate(dt: number) {
@@ -148,6 +160,35 @@ export class Table extends Component {
             
         // })
     }
+
+
+    prepareBalls() {
+      let ballNums = BilliardData.instance.getBallNums();
+      let row = 1;
+      let cNum = 0;
+      let lNum = 0;
+      let x = TableGeometry.tableX;
+      for( let i = 0; i < ballNums; i++ ) {
+        let ball = instantiate(this.prefabBall).getComponent(Ball);
+        this.nodeBalls.addChild(ball.node);
+        if (row === 1) {
+          ball.pos = new Vec3(x/2, 0, 0);
+        }
+        else {
+          let space = R / 4;
+          let y = (lNum+1)%2 === 0 ?  (R + space/2) +  (2*R + space) * (Math.ceil((lNum+1)/2)-1) : (2*R + space) * (Math.ceil((lNum+1)/2)-1);
+          ball.pos = new Vec3(x/2 + (2 * R + space) * (row - 1), -y + (2 * R + space) * (lNum - cNum), 0);
+        }
+
+        cNum += 1;
+        if (cNum - lNum === 1) {
+          row += 1;
+          lNum = cNum;
+          cNum = 0;
+        }
+      }
+    }
+
 }
 
 
