@@ -27,7 +27,7 @@ export class Ball extends Component {
 
 
     protected onLoad(): void {
-        this.pos = this.node.position;
+        this.pos = this.node.position.clone();
     }
 
     fixedUpdate(dt: number) {
@@ -39,9 +39,15 @@ export class Ball extends Component {
         }
     }
 
+    protected update(dt: number): void {
+      if (!this.pos.vec3Equals(this.node.position)) {
+          this.node.position = this.pos; // 更新球的位置
+      }
+    }
+
     private updatePosition(t: number) {
         this.pos.addScaledVector(this.vel, t)
-        this.node.position = this.pos;
+        // this.node.position = this.pos;
         // yy.log.w("updatePosition ball:", t, this.pos, this.vel);
     }
 

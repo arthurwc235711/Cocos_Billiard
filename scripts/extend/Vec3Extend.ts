@@ -52,6 +52,11 @@ declare module "cc" {
          * @param v 目标Vec3
          */
         distanceToSquared( v: Vec3 ): number;
+        /**
+         * 判断当前向量x,y,z是否和v相等。
+         * @param v 目标Vec3
+         */
+        vec3Equals( v: Vec3 ): boolean;
     }
 }
 Vec3.prototype.setX = function (x: number) {
@@ -93,3 +98,6 @@ Vec3.prototype.distanceToSquared = function ( v: Vec3 ) {
     const dz = this.z - v.z;
     return dx * dx + dy * dy + dz * dz;
 }
+Vec3.prototype.vec3Equals = function ( v: Vec3 ) {
+    return this.x === v.x && this.y === v.y && this.z === v.z;
+}   
