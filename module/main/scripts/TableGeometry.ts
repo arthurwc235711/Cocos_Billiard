@@ -5,7 +5,7 @@ export class TableGeometry  {
     static tableY: number
     static X: number
     static Y: number
-    static hasPockets: boolean = true
+    static hasPockets: boolean = false
   
     static {
       TableGeometry.scaleToRadius(R)
