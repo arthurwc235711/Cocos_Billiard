@@ -16,6 +16,7 @@ export class billiardTest extends Component {
 
         this.node.position.setZ(5);
         this.vel.lengthSqr()
+        this.vel.normalize
     }
 
     update(deltaTime: number) {

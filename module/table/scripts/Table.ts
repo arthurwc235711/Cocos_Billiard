@@ -66,7 +66,6 @@ export class Table extends Component {
           if (depth++ > 100) {
             throw new Error("Depth exceeded resolving collisions")
           }
-          yy.log.e(depth);
         }
         this.balls.forEach((a) => {
           a.fixedUpdate(t)

@@ -1,5 +1,5 @@
 
-import { Ball } from "../../module/main/scripts/Ball"
+import { Ball } from "../../module/table/scripts/Ball"
 import { R } from "./constants"
 
 export class Collision {
