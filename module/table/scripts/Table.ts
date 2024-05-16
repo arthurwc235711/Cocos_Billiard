@@ -1,4 +1,4 @@
-import { _decorator, Component, director, game, instantiate, macro, Node, Prefab, Vec3 } from 'cc';
+import { _decorator, Camera, Component, director, find, game, instantiate, macro, Node, Prefab, Vec3, UITransform, Canvas, geometry } from 'cc';
 import { Ball } from './Ball';
 import { Cue } from './Cue';
 import { Collision } from '../../../scripts/physics/collision';
@@ -8,6 +8,8 @@ import { Cushion } from './Cushion';
 import { bounceHanBlend } from '../../../scripts/physics/physics';
 import { BilliardData } from '../../../data/BilliardData';
 import { R } from '../../../scripts/physics/constants';
+import { Outcome } from './Outcome';
+
 const { ccclass, property } = _decorator;
 
 interface Pair {
@@ -26,6 +28,7 @@ export class Table extends Component {
 
     balls:Ball[];
     pairs: Pair[]; // 球对
+    outcome: Outcome[] = [];
     cushionModel = bounceHanBlend
     cueBall:Ball = null;
 
@@ -37,15 +40,42 @@ export class Table extends Component {
     }
 
     initTable() {
-      this.initialiseBalls(director.getScene().getChildByName("NodeBalls").getComponentsInChildren(Ball));
+      this.initialiseBalls(director.getScene().getChildByPath("p_billiard_3d/NodeBalls").getComponentsInChildren(Ball));
       this.cueBall = this.balls.find(ball => ball.node.name === "CueBall");
 
       yy.log.w("initialiseBalls", this.balls, this.cueBall, this.balls[0].node.name)
+      yy.log.w("balls:", this.cueBall.node.worldPosition, this.cueBall.node.position);
+      yy.log.w("nodeBalls", this.nodeBalls.worldPosition, this.nodeBalls.position);
       this.schedule(this.loopUpdate, 0); 
+
+      this.scheduleOnce(this.drawLine,1);
+
+
+      // this.node.getChildByName("").on("click", , this);
     }
 
-    // fixedUpdate 会在所有update之后调用
+    drawLine() {
+      // 假设 worldPosition 是你想要转换的 3D 世界坐标（Vec3）
+      let worldPosition = this.cueBall.node.position.clone().add3f(R, 0,0);
 
+      // 获取 3D 摄像头组件
+      let camera3D = find("p_billiard_3d/Main Camera").getComponent(Camera);    
+      let screenPosition3D = new Vec3();
+      camera3D.worldToScreen(worldPosition, screenPosition3D);
+      // 获取目标 UI 节点，例如 Canvas
+      let canvas = find("Canvas").getComponent(Canvas);
+      let uiPosition = new Vec3();
+      let wp = new Vec3();
+      canvas.cameraComponent.screenToWorld(screenPosition3D, wp);
+      let dis = find("Canvas/SpriteSplash");
+      let uit =canvas.node.getComponent(UITransform);
+      uit.convertToNodeSpaceAR(wp, uiPosition)
+      dis.setPosition(uiPosition);
+
+
+    }
+
+    // loopUpdate  fixedUpdate 会在所有update之后调用
     loopUpdate(dt: number) {
       let loopTimes = dt/this.fixedTimeStep;
       for (let i = 0; i < loopTimes; i++) {
@@ -102,7 +132,7 @@ export class Table extends Component {
   private prepareAdvancePair(a: Ball, b: Ball, t: number) {
     if (Collision.willCollide(a, b, t)) {
       const incidentSpeed = Collision.collide(a, b)
-    //   this.outcome.push(Outcome.collision(a, b, incidentSpeed))
+      this.outcome.push(Outcome.collision(a, b, incidentSpeed))
       return false
     }
     return true
@@ -132,7 +162,7 @@ export class Table extends Component {
       this.cushionModel
     )
     if (incidentSpeed) {
-    //   this.outcome.push(Outcome.cushion(a, incidentSpeed))
+      this.outcome.push(Outcome.cushion(a, incidentSpeed))
       return false
     }
 

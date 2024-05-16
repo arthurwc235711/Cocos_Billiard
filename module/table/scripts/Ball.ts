@@ -22,7 +22,7 @@ export class Ball extends Component {
     state: State = State.Stationary
 
     private static id = 0;
-    readonly nId = Ball.id++;
+    readonly id = Ball.id++;
     static readonly transition = 0.05;
 
 

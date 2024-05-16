@@ -16,7 +16,7 @@ export class Cue extends Component {
 
 
     protected onLoad(): void {
-        this.node.scale = new Vec3(0.02, TableGeometry.tableX * 1, 0.02);
+        // this.node.scale = new Vec3(0.02, TableGeometry.tableX * 1, 0.02);
     }
 
 
