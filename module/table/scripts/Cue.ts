@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3 } from 'cc';
+import { _decorator, Button, Component, Node, Vec3 } from 'cc';
 import { R } from '../../../scripts/physics/constants';
 import CylinderController from '../../../../../../../../extensions/power_tools/@types/packages/scene/@types/cce/public/gizmos/3d/elements/controller/cylinder-controller';
 import { TableGeometry } from './TableGeometry';
@@ -25,8 +25,7 @@ export class Cue extends Component {
         ball.setSliding();
         ball.vel.copy(unitAtAngle(0).multiplyScalar(this.maxPower));
         ball.rvel.copy(cueToSpin(Vec3.ZERO, ball.vel));
-
-
+        
     }
 
 }

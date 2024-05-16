@@ -9,6 +9,7 @@ import { bounceHanBlend } from '../../../scripts/physics/physics';
 import { BilliardData } from '../../../data/BilliardData';
 import { R } from '../../../scripts/physics/constants';
 import { Outcome } from './Outcome';
+import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 
 const { ccclass, property } = _decorator;
 
@@ -18,7 +19,7 @@ interface Pair {
   }
 
 @ccclass('Table')
-export class Table extends Component {
+export class Table extends BaseCommonScript {
     @property(Cue)
     cue: Cue = null;
     @property(Node)
@@ -34,9 +35,18 @@ export class Table extends Component {
 
     readonly fixedTimeStep = 1.0 / 512.0;// 物理模拟的固定时间步长
 
-    protected onLoad(): void {
-       this.prepareBalls();
-       this.initTable();
+
+    public register_event(): void {
+      // 注册指定的监听方法，格式如下
+      this.event_func_map = {
+          [yy.Event_Name.billiard_hit]: "hit",
+      };
+      super.register_event();
+    }
+
+    public on_init(): void {
+      this.prepareBalls();
+      this.initTable();
     }
 
     initTable() {
@@ -56,21 +66,21 @@ export class Table extends Component {
 
     drawLine() {
       // 假设 worldPosition 是你想要转换的 3D 世界坐标（Vec3）
-      let worldPosition = this.cueBall.node.position.clone().add3f(R, 0,0);
+      // let worldPosition = this.cueBall.node.position.clone().add3f(R, 0,0);
 
-      // 获取 3D 摄像头组件
-      let camera3D = find("p_billiard_3d/Main Camera").getComponent(Camera);    
-      let screenPosition3D = new Vec3();
-      camera3D.worldToScreen(worldPosition, screenPosition3D);
-      // 获取目标 UI 节点，例如 Canvas
-      let canvas = find("Canvas").getComponent(Canvas);
-      let uiPosition = new Vec3();
-      let wp = new Vec3();
-      canvas.cameraComponent.screenToWorld(screenPosition3D, wp);
-      let dis = find("Canvas/SpriteSplash");
-      let uit =canvas.node.getComponent(UITransform);
-      uit.convertToNodeSpaceAR(wp, uiPosition)
-      dis.setPosition(uiPosition);
+      // // 获取 3D 摄像头组件
+      // let camera3D = find("p_billiard_3d/Main Camera").getComponent(Camera);    
+      // let screenPosition3D = new Vec3();
+      // camera3D.worldToScreen(worldPosition, screenPosition3D);
+      // // 获取目标 UI 节点，例如 Canvas
+      // let canvas = find("Canvas").getComponent(Canvas);
+      // let uiPosition = new Vec3();
+      // let wp = new Vec3();
+      // canvas.cameraComponent.screenToWorld(screenPosition3D, wp);
+      // let dis = find("Canvas/p_billiard_2d/SpriteSplash");
+      // let uit =canvas.node.getComponent(UITransform);
+      // uit.convertToNodeSpaceAR(wp, uiPosition)
+      // dis.setPosition(uiPosition);
 
 
     }
@@ -184,7 +194,7 @@ export class Table extends Component {
 
     hit() {
         this.cue.hit(this.cueBall);
-        
+        // yy.log.w("hit");
         // this.cueBall.pos.addScaledVector(new Vec3(3, 0, 0), 0.2);
         // this.balls.forEach(ball => {
             
