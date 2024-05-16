@@ -49,6 +49,11 @@ export class Table extends BaseCommonScript {
       this.initTable();
     }
 
+    protected start(): void {
+      // yy.event.emit(yy.Event_Name.billiard_table_init, this.cueBall.node.worldPosition.clone().add3f(R,0,0));
+      yy.event.emit(yy.Event_Name.billiard_table_init, this.node.getChildByName("Plane"));
+    }
+
     initTable() {
       this.initialiseBalls(director.getScene().getChildByPath("p_billiard_3d/NodeBalls").getComponentsInChildren(Ball));
       this.cueBall = this.balls.find(ball => ball.node.name === "CueBall");
@@ -57,33 +62,8 @@ export class Table extends BaseCommonScript {
       yy.log.w("balls:", this.cueBall.node.worldPosition, this.cueBall.node.position);
       yy.log.w("nodeBalls", this.nodeBalls.worldPosition, this.nodeBalls.position);
       this.schedule(this.loopUpdate, 0); 
-
-      this.scheduleOnce(this.drawLine,1);
-
-
-      // this.node.getChildByName("").on("click", , this);
     }
 
-    drawLine() {
-      // 假设 worldPosition 是你想要转换的 3D 世界坐标（Vec3）
-      // let worldPosition = this.cueBall.node.position.clone().add3f(R, 0,0);
-
-      // // 获取 3D 摄像头组件
-      // let camera3D = find("p_billiard_3d/Main Camera").getComponent(Camera);    
-      // let screenPosition3D = new Vec3();
-      // camera3D.worldToScreen(worldPosition, screenPosition3D);
-      // // 获取目标 UI 节点，例如 Canvas
-      // let canvas = find("Canvas").getComponent(Canvas);
-      // let uiPosition = new Vec3();
-      // let wp = new Vec3();
-      // canvas.cameraComponent.screenToWorld(screenPosition3D, wp);
-      // let dis = find("Canvas/p_billiard_2d/SpriteSplash");
-      // let uit =canvas.node.getComponent(UITransform);
-      // uit.convertToNodeSpaceAR(wp, uiPosition)
-      // dis.setPosition(uiPosition);
-
-
-    }
 
     // loopUpdate  fixedUpdate 会在所有update之后调用
     loopUpdate(dt: number) {

@@ -30,17 +30,17 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 39
+        "__id__": 40
       },
       {
-        "__id__": 41
+        "__id__": 42
       },
       {
-        "__id__": 43
+        "__id__": 44
       }
     ],
     "_prefab": {
-      "__id__": 45
+      "__id__": 46
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -73,7 +73,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Button",
+    "_name": "ButtonHit",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -623,7 +623,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 38
+      "__id__": 39
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -869,7 +869,11 @@
     "__prefab": {
       "__id__": 37
     },
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 38
+      }
+    ],
     "_interactable": true,
     "_transition": 2,
     "_normalColor": {
@@ -928,6 +932,16 @@
     "fileId": "7aZGZzKNFAWJsW5r9K4xzo"
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1
+    },
+    "component": "",
+    "_componentId": "52c2cHyaNpCNKWOdRPHGac0",
+    "handler": "onClickTable",
+    "customEventData": ""
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -949,7 +963,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 40
+      "__id__": 41
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -976,7 +990,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 42
+      "__id__": 43
     },
     "_alignFlags": 45,
     "_target": null,
@@ -1011,7 +1025,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 44
+      "__id__": 45
     },
     "_id": ""
   },
