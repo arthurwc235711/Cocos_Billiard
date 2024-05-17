@@ -1,7 +1,10 @@
 
+import { yy } from "../../../../../yy"
 import { norm, up, upCross } from "../utils"
+import { BaseRayCollision } from "./component/BaseRayCollision"
+import { RaySphereCollision } from "./component/RaySphereCollision"
 import { muS, muC, g, m, Mz, Mxy, R, I, e } from "./constants"
-import { Vec3 } from "cc"
+import { Vec3, Node } from "cc"
 
 export function surfaceVelocity(v, w) {
   return surfaceVelocityFull(v, w).setZ(0)
@@ -200,3 +203,40 @@ export function cueToSpin(offset: Vec3, v: Vec3) {
     .multiplyScalar(spinRate)
   return rvel
 }
+
+export function rayHit(origin: Vec3, direction: Vec3) {
+  let nodes: Node[] = [];
+  let sortNode: BaseRayCollision[] = [];
+  RaySphereCollision.sRaySphereCollisions.forEach((s, i)=>{
+    if(raySphere(origin, direction, s)) {
+      s.sqrDeep = origin.distanceToSquared(s.node.worldPosition);
+      // yy.log.w('rayHit', s.sqrDeep, s.node.name)
+      sortNode.push(s);
+    }
+  });
+
+  sortNode.sort((a, b) => a.sqrDeep - b.sqrDeep);
+  sortNode.forEach((s, i)=>{
+    nodes.push(s.node);
+  })
+
+  return nodes;
+}
+function raySphere(origin: Vec3, direction: Vec3, raySphere: RaySphereCollision) {
+  let m = origin.clone().subtract(raySphere.node.worldPosition);
+
+  let b = m.dot(direction);
+  let c = m.dot(m) - raySphere.radius * raySphere.radius;
+  // 如果c > 0且b > 0，射线起点在球体外部且在球心方向之外，没有交点
+  if (c > 0 && b > 0)   {
+    return false;
+  }
+  let discriminant = b * b - c;
+  // 如果discriminant < 0，射线与球体没有交点
+  if (discriminant < 0) {
+    return false;
+  }
+  // 射线与球体相交（判别式大于或等于0）
+  return true;
+}
+

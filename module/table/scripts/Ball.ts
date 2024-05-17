@@ -28,6 +28,9 @@ export class Ball extends Component {
 
     protected onLoad(): void {
         this.pos = this.node.position.clone();
+        if (this.id !== 0) {
+          this.node.name = "ball_" + this.id;
+        }
     }
 
     fixedUpdate(dt: number) {
