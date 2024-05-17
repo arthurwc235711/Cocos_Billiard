@@ -10,6 +10,7 @@ import { BilliardData } from '../../../data/BilliardData';
 import { R } from '../../../scripts/physics/constants';
 import { Outcome } from './Outcome';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
+import { BilliardTools } from '../../../scripts/BilliardTools';
 
 const { ccclass, property } = _decorator;
 
@@ -50,6 +51,8 @@ export class Table extends BaseCommonScript {
     }
 
     protected start(): void {
+      // yy.log.w("cueBall worldPosition", this.cueBall.node.worldPosition)
+      // BilliardTools.instance.camera3DToCamera2DWPos(this.cueBall.node.worldPosition.clone().add3f(R,0,0));
       // yy.event.emit(yy.Event_Name.billiard_table_init, this.cueBall.node.worldPosition.clone().add3f(R,0,0));
       yy.event.emit(yy.Event_Name.billiard_table_init, this.node.getChildByName("Plane"));
     }
@@ -57,10 +60,10 @@ export class Table extends BaseCommonScript {
     initTable() {
       this.initialiseBalls(director.getScene().getChildByPath("p_billiard_3d/NodeBalls").getComponentsInChildren(Ball));
       this.cueBall = this.balls.find(ball => ball.node.name === "CueBall");
-
-      yy.log.w("initialiseBalls", this.balls, this.cueBall, this.balls[0].node.name)
-      yy.log.w("balls:", this.cueBall.node.worldPosition, this.cueBall.node.position);
-      yy.log.w("nodeBalls", this.nodeBalls.worldPosition, this.nodeBalls.position);
+      BilliardData.instance.setCueBall(this.cueBall);
+      // yy.log.w("initialiseBalls", this.balls, this.cueBall, this.balls[0].node.name)
+      // yy.log.w("balls:", this.cueBall.node.worldPosition, this.cueBall.node.position);
+      // yy.log.w("nodeBalls", this.nodeBalls.worldPosition, this.nodeBalls.position);
       this.schedule(this.loopUpdate, 0); 
     }
 

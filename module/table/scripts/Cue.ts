@@ -6,6 +6,7 @@ import { Ball } from './Ball';
 import { unitAtAngle } from '../../../scripts/utils';
 import { cueToSpin } from '../../../scripts/physics/physics';
 import { yy } from '../../../../../../yy';
+import { BilliardData } from '../../../data/BilliardData';
 const { ccclass, property } = _decorator;
 
 @ccclass('Cue')
@@ -23,7 +24,7 @@ export class Cue extends Component {
     hit(ball: Ball) {
         this.t = 0;
         ball.setSliding();
-        ball.vel.copy(unitAtAngle(0).multiplyScalar(this.maxPower));
+        ball.vel.copy(unitAtAngle(BilliardData.instance.getAngle()).multiplyScalar(this.maxPower));
         ball.rvel.copy(cueToSpin(Vec3.ZERO, ball.vel));
         
     }

@@ -1,4 +1,5 @@
 import { Camera, find } from "cc";
+import { Ball } from "../module/table/scripts/Ball";
 
 export class BilliardData {
     private static __instance__: BilliardData;
@@ -25,8 +26,23 @@ export class BilliardData {
         return this._camera2d;
     }
     private _camera2d: Camera
+    private _cueBall: Ball;
+    private _angle: number = 0;
+
+    getAngle(): number {
+        return this._angle;
+    }
+    setAngle(angle: number) {
+        this._angle = angle;
+    }
 
 
+    getCueBall(): Ball {
+        return this._cueBall;
+    }
+    setCueBall(node: Ball) {
+        this._cueBall = node;
+    }
 
     getBallNums(): number {
         return this._ballNums;

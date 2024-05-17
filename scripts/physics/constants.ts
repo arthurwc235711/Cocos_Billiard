@@ -4,11 +4,12 @@ export let muS = 0.15
 export let muC = 0.8
 export let rho = 0.024
 export let m = 0.23
-export let R = 0.03275
+export let R = 0.03275  // 球半径
 export let e = 0.86
 export let Mz: number
 export let Mxy: number
 export let I: number
+export let Rtd = 57.29578  // 180/pi
 
 refresh()
 

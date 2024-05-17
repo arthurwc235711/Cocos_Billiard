@@ -1,8 +1,9 @@
-import { _decorator, Canvas, Component, find, Node, UITransform } from 'cc';
+import { _decorator, Button, Canvas, Component, EventTouch, find, Node, UITransform, Vec3 } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
 import { BilliardTools } from '../../../scripts/BilliardTools';
+import { Rtd } from '../../../scripts/physics/constants';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardUIView')
@@ -16,10 +17,12 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     public on_init(): void {
-
+        let btn = this.node.getChildByName("ButtonTable").getComponent(Button);
+        btn.setSchTime(0.01);
     }
 
     initBtnTable(node3d:Node) {
+        // this.scheduleOnce(()=>this.node.getChildByName("SpriteSplash").worldPosition = BilliardTools.instance.camera3DToCamera2DWPos(worldPosition), 0);
 
         this.scheduleOnce(()=>{
             // this.node.getChildByName("SpriteSplash").worldPosition = BilliardTools.instance.camera3DToCamera2DWPos(worldPosition);
@@ -49,8 +52,28 @@ export class BilliardUIView extends BaseCommonScript {
         yy.event.emit(yy.Event_Name.billiard_hit);
     }
 
-    onClickTable() {
-        yy.log.w('onClickTable');
+    onClickTable(event:EventTouch) {       
+        let screenPos = event.getLocation();
+        let nodeArrow = this.node.getChildByName("SpriteSplash");
+        let cueBall = BilliardData.instance.getCueBall();
+        let camera3DToCamera2DWPos = BilliardTools.instance.camera3DToCamera2DWPos.bind(BilliardTools.instance);
+        nodeArrow.worldPosition = camera3DToCamera2DWPos(cueBall.node.worldPosition);
+        let wp = BilliardData.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
+
+        // yy.log.w("screenPos", screenPos, "wp", wp, "cueBall", cueBall.node.worldPosition);
+        let direction = wp.clone().subtract(cueBall.node.worldPosition).normalize();
+        let angle = direction.angleTo(Vec3.RIGHT);// 返回弧度
+        // yy.log.w("screenPos", screenPos, "wp", wp, "cueBall", cueBall.node.worldPosition);
+        // yy.log.w("angle", angle, direction,  hDir);
+        if (wp.y > cueBall.node.worldPosition.y) {
+            nodeArrow.angle = angle * Rtd;// 返回角度
+        }
+        else {
+            nodeArrow.angle = 360 - angle * Rtd;// 返回角度
+            angle = - angle;
+        }
+        // yy.log.w("setAngle angle", angle, nodeArrow.angle);
+        BilliardData.instance.setAngle(angle);
     }
 }
 

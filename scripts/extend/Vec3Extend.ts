@@ -57,6 +57,11 @@ declare module "cc" {
          * @param v 目标Vec3
          */
         vec3Equals( v: Vec3 ): boolean;
+        /**
+         * 以弧度为单位返回这个向量和向量v之间的夹角。 转化角度就是 radians * 180 / Math.PI
+         * @param v 目标Vec3
+         */
+        angleTo( v: Vec3 ): number;
     }
 }
 Vec3.prototype.setX = function (x: number) {
@@ -101,3 +106,6 @@ Vec3.prototype.distanceToSquared = function ( v: Vec3 ) {
 Vec3.prototype.vec3Equals = function ( v: Vec3 ) {
     return this.x === v.x && this.y === v.y && this.z === v.z;
 }   
+Vec3.prototype.angleTo = function (v:Vec3):number {
+    return Vec3.angle(this, v);
+}

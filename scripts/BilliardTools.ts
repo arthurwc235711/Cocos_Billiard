@@ -1,5 +1,6 @@
 import { Camera, Vec3 } from "cc";
 import { BilliardData } from "../data/BilliardData";
+import { yy } from "../../../../yy";
 
 export class BilliardTools {
     private static __instance__: BilliardTools;

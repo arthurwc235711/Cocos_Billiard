@@ -239,7 +239,7 @@
     "__prefab": {
       "__id__": 9
     },
-    "_projection": 1,
+    "_projection": 0,
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
@@ -985,7 +985,7 @@
       "__id__": 1
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 41
@@ -1169,7 +1169,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -0.9,
+      "x": -0.877,
       "y": 0,
       "z": 0
     },
@@ -1319,6 +1319,7 @@
       "__id__": 0
     },
     "fileId": "f9VXrFJAdJDLIwf0FHVywy",
+    "instance": null,
     "targetOverrides": null
   }
 ]
