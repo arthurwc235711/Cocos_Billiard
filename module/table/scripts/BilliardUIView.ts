@@ -61,22 +61,13 @@ export class BilliardUIView extends BaseCommonScript {
         nodeArrow.worldPosition = camera3DToCamera2DWPos(cueBall.node.worldPosition);
         let wp = BilliardData.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
 
+        let wp2d = BilliardData.instance.camera2d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
+
         // yy.log.w("screenPos", screenPos, "wp", wp, "cueBall", cueBall.node.worldPosition);
         let direction = wp.clone().subtract(cueBall.node.worldPosition).normalize();
         let angle = direction.angleTo(Vec3.RIGHT);// 返回弧度
         // yy.log.w("screenPos", screenPos, "wp", wp, "cueBall", cueBall.node.worldPosition);
         // yy.log.w("angle", angle, direction,  hDir);
-
-        let nodes = rayHit(cueBall.node.worldPosition, direction);
-        let uiTran = nodeArrow.getComponent(UITransform);
-        if (nodes.length > 0) {
-            yy.log.w("hit sucess", nodes[0].name);
-            let uiTran = nodeArrow.getComponent(UITransform);
-            uiTran.setContentSize(BilliardTools.instance.getDisanceByCamera(cueBall.node, nodes[0]), uiTran.contentSize.y);
-        }
-        else {
-            uiTran.setContentSize(100, uiTran.contentSize.y);
-        }
 
         if (wp.y > cueBall.node.worldPosition.y) {
             nodeArrow.angle = angle * Rtd;// 返回角度
@@ -87,6 +78,19 @@ export class BilliardUIView extends BaseCommonScript {
         }
         // yy.log.w("setAngle angle", angle, nodeArrow.angle);
         BilliardData.instance.setAngle(angle);
+
+        let nodes = rayHit(cueBall.node.worldPosition, direction);
+        let uiTran = nodeArrow.getComponent(UITransform);
+        if (nodes.length > 0) {
+            yy.log.w("hit sucess", nodes[0].name);
+            let uiTran = nodeArrow.getComponent(UITransform);
+            uiTran.setContentSize(BilliardTools.instance.getDisanceByCamera(cueBall.node, nodes[0], direction, wp2d), uiTran.contentSize.y);
+        }
+        else {
+            uiTran.setContentSize(100, uiTran.contentSize.y);
+        }
+
+
     }
 }
 
