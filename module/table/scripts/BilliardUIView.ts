@@ -106,12 +106,31 @@ export class BilliardUIView extends BaseCommonScript {
             // 计算母球方向
             let dirOD = b2dPos.clone().subtract(cue2dWp).normalize();
             let dvAngle = dirOD.angleTo(v1);
-            if (dirOD.y > v1.y) {
-                cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), dirOD.x > 0 ? tmpBallAngle + 90 : tmpBallAngle -90);
+            if (Math.abs(Math.abs(cue2dWp.x) - Math.abs(b2dPos.x)) > Math.abs(Math.abs(cue2dWp.y) - Math.abs(b2dPos.y)) ) {
+                if (dirOD.y > v1.y) {
+                    cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), cue2dWp.x < b2dPos.x ?  tmpBallAngle + 90 : tmpBallAngle - 90);
+                }
+                else {
+                    cueArrow.worldRotation = Quat.fromAngleZ(new Quat(),  cue2dWp.x < b2dPos.x ? tmpBallAngle - 90 : tmpBallAngle + 90);
+                }
             }
             else {
-                cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), dirOD.x > 0 ? tmpBallAngle - 90 : tmpBallAngle + 90);
+                if (dirOD.x > v1.x) {
+                    cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), cue2dWp.y > b2dPos.y ?  tmpBallAngle + 90 : tmpBallAngle - 90);
+                }
+                else {
+                    cueArrow.worldRotation = Quat.fromAngleZ(new Quat(),  cue2dWp.y > b2dPos.y ? tmpBallAngle - 90 : tmpBallAngle + 90);
+                }
             }
+
+
+
+            // if (dirOD.y > v1.y) {
+            //     cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), cDir.x > 0 ? tmpBallAngle + 90 : tmpBallAngle - 90);
+            // }
+            // else {
+            //     cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), cDir.x > 0 ? tmpBallAngle - 90 : tmpBallAngle + 90);
+            // }
 
             let maxLength = 60;
             let cosValue = Math.pow(Math.cos(dvAngle), 2);
@@ -122,6 +141,7 @@ export class BilliardUIView extends BaseCommonScript {
             cueTrans.setContentSize(maxLength - ballLength, cueTrans.contentSize.y);
 
             // yy.log.w( "dvAngle", dvAngle * Rtd,  Math.pow(Math.cos(dvAngle), 2), ballLength);
+            // yy.log.w( "cDir", cDir)
             // yy.log.w( "v1", v1 );
             // yy.log.w( "dirOD", dirOD );
             // yy.log.w( "ballArrow", ballArrow.angle );
