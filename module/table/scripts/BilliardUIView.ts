@@ -82,9 +82,9 @@ export class BilliardUIView extends BaseCommonScript {
         let nodes = rayHit(cueBall.node.worldPosition, direction);
         let uiTran = nodeArrow.getComponent(UITransform);
         if (nodes.length > 0) {
-            yy.log.w("hit sucess", nodes[0].name);
+            // yy.log.w("hit sucess", nodes[0].name);
             let uiTran = nodeArrow.getComponent(UITransform);
-            uiTran.setContentSize(BilliardTools.instance.getDisanceByCamera(cueBall.node, nodes[0], direction, wp2d), uiTran.contentSize.y);
+            uiTran.setContentSize(BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction, wp2d), uiTran.contentSize.y);
         }
         else {
             uiTran.setContentSize(100, uiTran.contentSize.y);

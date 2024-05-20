@@ -43,7 +43,7 @@ export class BilliardTools {
     }
 
 
-    getDisanceByCamera(org: Node, dis: Node, dir: Vec3, wp2d: Vec3) {
+    getDisanceBy2dCamera(org: Node, dis: Node, dir: Vec3, wp2d: Vec3) {
         let source = this.get3dTo2dSize(org.worldPosition);
         let sphereCenter = this.get3dTo2dSize(dis.worldPosition);
         let rayDirection = dir;
@@ -59,7 +59,7 @@ export class BilliardTools {
 
         let f = Math.sqrt(sphereRadius * sphereRadius - e*e + a*a);
         let t = a - f;
-        yy.log.w("t", t);
+        // yy.log.w("t", t);
         return t;
     }
 }
