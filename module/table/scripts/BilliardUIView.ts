@@ -1,4 +1,4 @@
-import { _decorator, Button, Canvas, Component, EventTouch, find, Node, physics, quat, Quat, UITransform, Vec3 } from 'cc';
+import { _decorator, Button, Canvas, Component, EventTouch, find, Node, physics, quat, Quat, Sprite, UITransform, Vec3 } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
@@ -104,6 +104,7 @@ export class BilliardUIView extends BaseCommonScript {
         
                 // 计算母球方向
                 let dirOD = b2dPos.clone().subtract(cue2dWp).normalize();
+                let dvAngle = dirOD.angleTo(v1);
                 if (dirOD.y > v1.y) {
                     cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), dirOD.x > 0 ? tmpBallAngle + 90 : tmpBallAngle -90);
                 }
@@ -111,9 +112,18 @@ export class BilliardUIView extends BaseCommonScript {
                     cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), dirOD.x > 0 ? tmpBallAngle - 90 : tmpBallAngle + 90);
                 }
 
-                yy.log.w( "v1", v1 );
-                yy.log.w( "dirOD", dirOD );
-                yy.log.w( "ballArrow", ballArrow.angle );
+                let maxLength = 60;
+                let cosValue = Math.pow(Math.cos(dvAngle), 2);
+                let ballLength = 60 * cosValue;
+                let bTrans = ballArrow.getChildByName("Sprite").getComponent(UITransform);
+                bTrans.setContentSize(ballLength, bTrans.contentSize.y);
+                let cueTrans = cueArrow.getChildByName("Sprite").getComponent(UITransform);
+                cueTrans.setContentSize(maxLength - ballLength, cueTrans.contentSize.y);
+
+                // yy.log.w( "dvAngle", dvAngle * Rtd,  Math.pow(Math.cos(dvAngle), 2), ballLength);
+                // yy.log.w( "v1", v1 );
+                // yy.log.w( "dirOD", dirOD );
+                // yy.log.w( "ballArrow", ballArrow.angle );
             }, 0);
 
         }
