@@ -58,7 +58,8 @@ export class BilliardUIView extends BaseCommonScript {
         let nodeArrow = this.node.getChildByName("SpriteSplash");
         let cueBall = BilliardData.instance.getCueBall();
         let camera3DToCamera2DWPos = BilliardTools.instance.camera3DToCamera2DWPos.bind(BilliardTools.instance);
-        nodeArrow.worldPosition = camera3DToCamera2DWPos(cueBall.node.worldPosition);
+        let cue2dWp = camera3DToCamera2DWPos(cueBall.node.worldPosition);
+        nodeArrow.worldPosition = cue2dWp;
         let wp = BilliardData.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
 
         let wp2d = BilliardData.instance.camera2d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
@@ -91,12 +92,25 @@ export class BilliardUIView extends BaseCommonScript {
                 let v1 = b2dPos.clone().subtract(furCueNode.worldPosition).normalize();
                 let ballAngle = v1.angleTo(Vec3.RIGHT);;
                 let ballArrow = nodeArrow.getChildByPath("Sprite/ballArrow");
-                if (furCueNode.worldPosition.y < b2dPos.y) {
-                    ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), ballAngle * Rtd);
+                let cueArrow = nodeArrow.getChildByPath("Sprite/cueArrow");
+                let tmpBallAngle = ballAngle * Rtd;
+                if (furCueNode.worldPosition.y < b2dPos.y) {// 预判被撞球的运动方向
+                    ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle);
                 }
                 else {
-                    ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), -ballAngle * Rtd);
+                    tmpBallAngle = - tmpBallAngle;
+                    ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle);
                 }
+
+                // 计算母球方向
+                let dirOD = b2dPos.clone().subtract(cue2dWp).normalize();
+                if (dirOD.y > v1.y) {
+                    cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle + 90);
+                }
+                else {
+                    cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle - 90);
+                }
+
                 yy.log.w( "ballArrow", ballArrow.angle);
             }, 0);
 
