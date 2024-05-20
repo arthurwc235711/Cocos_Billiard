@@ -60,8 +60,10 @@ export class BilliardTools {
         let f = Math.sqrt(sphereRadius * sphereRadius - e*e + a*a);
         let t = a - f;
         // yy.log.w("t", t);
-        return t;
+        return t - 5; //减少5像素贴图的误差
     }
+
+
 }
 
 

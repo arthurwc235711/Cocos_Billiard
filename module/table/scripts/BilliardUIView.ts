@@ -1,4 +1,4 @@
-import { _decorator, Button, Canvas, Component, EventTouch, find, Node, physics, UITransform, Vec3 } from 'cc';
+import { _decorator, Button, Canvas, Component, EventTouch, find, Node, physics, quat, Quat, UITransform, Vec3 } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
@@ -85,6 +85,21 @@ export class BilliardUIView extends BaseCommonScript {
             // yy.log.w("hit sucess", nodes[0].name);
             let uiTran = nodeArrow.getComponent(UITransform);
             uiTran.setContentSize(BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction, wp2d), uiTran.contentSize.y);
+            this.scheduleOnce(() => {
+                let b2dPos = camera3DToCamera2DWPos(nodes[0].worldPosition);
+                let furCueNode = nodeArrow.getChildByPath("Sprite");
+                let v1 = b2dPos.clone().subtract(furCueNode.worldPosition).normalize();
+                let ballAngle = v1.angleTo(Vec3.RIGHT);;
+                let ballArrow = nodeArrow.getChildByPath("Sprite/ballArrow");
+                if (furCueNode.worldPosition.y < b2dPos.y) {
+                    ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), ballAngle * Rtd);
+                }
+                else {
+                    ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), -ballAngle * Rtd);
+                }
+                yy.log.w( "ballArrow", ballArrow.angle);
+            }, 0);
+
         }
         else {
             uiTran.setContentSize(100, uiTran.contentSize.y);
