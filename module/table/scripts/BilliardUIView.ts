@@ -1,4 +1,4 @@
-import { _decorator, Button, Canvas, Component, EventTouch, find, Node, physics, quat, Quat, Sprite, UITransform, Vec3 } from 'cc';
+import { _decorator, Button, Canvas, Component, EventTouch, find, Node, physics, quat, Quat, Sprite, UITransform, Vec3, Widget } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
@@ -86,46 +86,45 @@ export class BilliardUIView extends BaseCommonScript {
             // yy.log.w("hit sucess", nodes[0].name);
             let uiTran = nodeArrow.getComponent(UITransform);
             uiTran.setContentSize(BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction, wp2d), uiTran.contentSize.y);
-            this.scheduleOnce(() => {
-                let b2dPos = camera3DToCamera2DWPos(nodes[0].worldPosition);
-                let furCueNode = nodeArrow.getChildByPath("Sprite");
-                let v1 = b2dPos.clone().subtract(furCueNode.worldPosition).normalize();
-                let ballAngle = v1.angleTo(Vec3.RIGHT);;
-                let ballArrow = nodeArrow.getChildByPath("Sprite/ballArrow");
-                let cueArrow = nodeArrow.getChildByPath("Sprite/cueArrow");
-                let tmpBallAngle = ballAngle * Rtd;
-                if (furCueNode.worldPosition.y < b2dPos.y) {// 预判被撞球的运动方向
-                    ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle);
-                }
-                else {
-                    tmpBallAngle = 360 - tmpBallAngle;
-                    ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle);
-                }
-        
-                // 计算母球方向
-                let dirOD = b2dPos.clone().subtract(cue2dWp).normalize();
-                let dvAngle = dirOD.angleTo(v1);
-                if (dirOD.y > v1.y) {
-                    cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), dirOD.x > 0 ? tmpBallAngle + 90 : tmpBallAngle -90);
-                }
-                else {
-                    cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), dirOD.x > 0 ? tmpBallAngle - 90 : tmpBallAngle + 90);
-                }
+            
+            let b2dPos = camera3DToCamera2DWPos(nodes[0].worldPosition);
+            let furCueNode = nodeArrow.getChildByPath("Sprite");
+            furCueNode.getComponent(Widget).updateAlignment(); // 强制更新节点位置，不然当前帧数据会异常，需要等待下一帧计算才行
+            let v1 = b2dPos.clone().subtract(furCueNode.worldPosition).normalize();
+            let ballAngle = v1.angleTo(Vec3.RIGHT);;
+            let ballArrow = nodeArrow.getChildByPath("Sprite/ballArrow");
+            let cueArrow = nodeArrow.getChildByPath("Sprite/cueArrow");
+            let tmpBallAngle = ballAngle * Rtd;
+            if (furCueNode.worldPosition.y < b2dPos.y) {// 预判被撞球的运动方向
+                ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle);
+            }
+            else {
+                tmpBallAngle = 360 - tmpBallAngle;
+                ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle);
+            }
+    
+            // 计算母球方向
+            let dirOD = b2dPos.clone().subtract(cue2dWp).normalize();
+            let dvAngle = dirOD.angleTo(v1);
+            if (dirOD.y > v1.y) {
+                cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), dirOD.x > 0 ? tmpBallAngle + 90 : tmpBallAngle -90);
+            }
+            else {
+                cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), dirOD.x > 0 ? tmpBallAngle - 90 : tmpBallAngle + 90);
+            }
 
-                let maxLength = 60;
-                let cosValue = Math.pow(Math.cos(dvAngle), 2);
-                let ballLength = 60 * cosValue;
-                let bTrans = ballArrow.getChildByName("Sprite").getComponent(UITransform);
-                bTrans.setContentSize(ballLength, bTrans.contentSize.y);
-                let cueTrans = cueArrow.getChildByName("Sprite").getComponent(UITransform);
-                cueTrans.setContentSize(maxLength - ballLength, cueTrans.contentSize.y);
+            let maxLength = 60;
+            let cosValue = Math.pow(Math.cos(dvAngle), 2);
+            let ballLength = 60 * cosValue;
+            let bTrans = ballArrow.getChildByName("Sprite").getComponent(UITransform);
+            bTrans.setContentSize(ballLength, bTrans.contentSize.y);
+            let cueTrans = cueArrow.getChildByName("Sprite").getComponent(UITransform);
+            cueTrans.setContentSize(maxLength - ballLength, cueTrans.contentSize.y);
 
-                // yy.log.w( "dvAngle", dvAngle * Rtd,  Math.pow(Math.cos(dvAngle), 2), ballLength);
-                // yy.log.w( "v1", v1 );
-                // yy.log.w( "dirOD", dirOD );
-                // yy.log.w( "ballArrow", ballArrow.angle );
-            }, 0);
-
+            // yy.log.w( "dvAngle", dvAngle * Rtd,  Math.pow(Math.cos(dvAngle), 2), ballLength);
+            // yy.log.w( "v1", v1 );
+            // yy.log.w( "dirOD", dirOD );
+            // yy.log.w( "ballArrow", ballArrow.angle );
         }
         else {
             uiTran.setContentSize(100, uiTran.contentSize.y);
