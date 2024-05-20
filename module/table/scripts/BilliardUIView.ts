@@ -105,10 +105,10 @@ export class BilliardUIView extends BaseCommonScript {
                 // 计算母球方向
                 let dirOD = b2dPos.clone().subtract(cue2dWp).normalize();
                 if (dirOD.y > v1.y) {
-                    cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle + 90);
+                    cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), v1.x > 0 ? tmpBallAngle + 90 : tmpBallAngle -90);
                 }
                 else {
-                    cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle - 90);
+                    cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), v1.x > 0 ? tmpBallAngle - 90 : tmpBallAngle + 90);
                 }
 
                 yy.log.w( "ballArrow", ballArrow.angle);
