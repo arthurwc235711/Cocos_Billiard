@@ -2,6 +2,7 @@
 import { yy } from "../../../../../yy"
 import { norm, up, upCross } from "../utils"
 import { BaseRayCollision } from "./component/BaseRayCollision"
+import { RayRectangleCollision } from "./component/RayRectangleCollision"
 import { RaySphereCollision } from "./component/RaySphereCollision"
 import { muS, muC, g, m, Mz, Mxy, R, I, e } from "./constants"
 import { Vec3, Node } from "cc"
@@ -207,13 +208,24 @@ export function cueToSpin(offset: Vec3, v: Vec3) {
 export function rayHit(origin: Vec3, direction: Vec3) {
   let nodes: Node[] = [];
   let sortNode: BaseRayCollision[] = [];
-  RaySphereCollision.sRaySphereCollisions.forEach((s, i)=>{
-    if(raySphere(origin, direction, s)) {
-      s.sqrDeep = origin.distanceToSquared(s.node.worldPosition);
-      // yy.log.w('rayHit', s.sqrDeep, s.node.name)
-      sortNode.push(s);
+  RaySphereCollision.sRaySphereCollisions.forEach((c, i)=>{
+    if(raySphere(origin, direction, c)) {
+      c.sqrDeep = origin.distanceToSquared(c.node.worldPosition);
+      // yy.log.w('rayHit RaySphereCollision', c.sqrDeep, c.node.name, c.node.worldPosition)
+      sortNode.push(c);
     }
   });
+
+  RayRectangleCollision.sRayRectangleCollisions.forEach((c, i)=>{
+    let point = rayRectangle3(origin, direction, c)
+    if(point) {
+      // c.sqrDeep = origin.distanceToSquared(new Vec3(point.x, point.y, c.node.worldPosition.z))
+      // yy.log.w('rayHit RayRectangleCollision' + c.node.name, c.sqrDeep, c.node.name, new Vec3(point.x, point.y, c.node.worldPosition.z))
+      yy.log.w('rayHit RayRectangleCollision' + c.node.name, c.sqrDeep, c.node.name)
+      sortNode.push(c);
+    }
+  });
+
 
   sortNode.sort((a, b) => a.sqrDeep - b.sqrDeep);
   sortNode.forEach((s, i)=>{
@@ -240,3 +252,168 @@ function raySphere(origin: Vec3, direction: Vec3, raySphere: RaySphereCollision)
   return true;
 }
 
+function rayRectangle(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision){
+  const ox = origin.x, oy = origin.y;
+  const dx = direction.x, dy = direction.y;
+  const rx = rectangle.node.worldPosition.x, ry = rectangle.node.worldPosition.y;
+  const rw = rectangle.width, rl = rectangle.length;
+
+  const txmin = (rx - ox) / dx;
+  const txmax = (rx + rw - ox) / dx;
+  const tymin = (ry - oy) / dy;
+  const tymax = (ry + rl - oy) / dy;
+
+  const tmin = Math.max(Math.min(txmin, txmax), Math.min(tymin, tymax));
+  const tmax = Math.min(Math.max(txmin, txmax), Math.max(tymin, tymax));
+
+  if (tmin > tmax) {
+    return null;
+  }
+  const collisionT = tmin;
+  const collisionX = ox + collisionT * dx;
+  const collisionY = oy + collisionT * dy;
+
+  return {x: collisionX, y: collisionY};
+}
+
+
+function rayRectangle1(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision){
+  const ox = origin.x, oy = origin.y;
+  const dx = direction.x, dy = direction.y;
+  const rx = rectangle.node.worldPosition.x, ry = rectangle.node.worldPosition.y;
+  const hrw = rectangle.halfWidth, hrl = rectangle.halfLength;
+
+  let tx = 0, ty = 0;
+  if (direction.x >= 0) {
+    tx = (rx + hrw - ox) / dx
+  }
+  else {
+    tx = (rx - hrw - ox) / dx
+  }
+  if (direction.y >= 0) {
+    ty = (ry + hrl - oy) / dy
+  }
+  else {
+    ty = (ry - hrl - oy) / dy
+  }
+
+  const txmin = (rx - hrw - ox) / dx//Math.abs((rx - hrw - ox) / dx);
+  const txmax = (rx + hrw - ox) / dx//Math.abs((rx + hrw - ox) / dx);
+  const tymin = (ry - hrl - oy) / dy//Math.abs((ry - hrl - oy) / dy);
+  const tymax = (ry + hrl - oy) / dy//Math.abs((ry + hrl - oy) / dy);
+
+  yy.log.w("pos time: ", txmin, txmax, tymin, tymax);
+
+  yy.log.w("pos：" + rectangle.node.name , (rx - hrw - ox), (rx + hrw - ox), (ry - hrl - oy), (ry + hrl - oy))
+
+  const tmin = Math.max(Math.min(txmin, txmax), Math.min(tymin, tymax));
+  const tmax = Math.min(Math.max(txmin, txmax), Math.max(tymin, tymax));
+
+  yy.log.w("pos max", tmin, tmax);
+  if (tmin > tmax) {
+    return null;
+  }
+  const collisionT = tmin;
+  const collisionX = ox + collisionT * dx;
+  const collisionY = oy + collisionT * dy;
+
+  return {x: collisionX, y: collisionY};
+}
+
+function rayRectangle2(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision){
+  const ox = origin.x, oy = origin.y;
+  const dx = direction.x, dy = direction.y;
+  const rx1 = rectangle.node.worldPosition.x - rectangle.halfWidth, ry1 = rectangle.node.worldPosition.y ;
+  const rx2 = rectangle.node.worldPosition.x + rectangle.halfWidth, ry2 = rectangle.node.worldPosition.y ;
+
+  const t = (rx1 - ox) / dx;
+  const u = ((ry2 - ry1) * (rx1 - ox) - (rx2 - rx1) * (ry1 - oy)) / (dx * (ry2 - ry1) - dy * (rx2 - rx1));
+
+  if (t>= 0 && u >= 0 && u <=1) {
+    const intersectionX = ox + t * dx;
+    const intersectionY = oy + t * dy;
+    return { x: intersectionX, y: intersectionY };
+  }
+
+  return null;
+}
+
+
+function rayRectangle3(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision){
+  const ox = origin.x, oy = origin.y;
+  const dx = direction.x, dy = direction.y;
+  const rx = rectangle.node.worldPosition.x, ry = rectangle.node.worldPosition.y;
+  const hrw = rectangle.halfWidth, hrl = rectangle.halfLength;
+  let rx1 = rectangle.node.worldPosition.x - rectangle.halfWidth, ry1 = rectangle.node.worldPosition.y ;
+  let rx2 = rectangle.node.worldPosition.x + rectangle.halfWidth, ry2 = rectangle.node.worldPosition.y ;
+
+  if (rectangle.node.position.y > 0) {
+      if (direction.y >= 0) {
+        if (direction.x <= 0) {
+          let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
+          return  Math.abs(maxDir.x/maxDir.y) >= Math.abs(dx/dy); //  ture相交
+        }
+        else {
+          let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
+          return Math.abs(maxDir.x/maxDir.y) >= Math.abs(dx/dy); //  ture相交
+        }
+    }
+  }
+  else if(rectangle.node.position.y < 0) {
+    if (direction.y <= 0) {
+      if (direction.x <= 0) {
+        let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
+        return  Math.abs(maxDir.x/maxDir.y) >= Math.abs(dx/dy); //  ture相交
+      }
+      else {
+        let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
+        return Math.abs(maxDir.x/maxDir.y) >= Math.abs(dx/dy); //  ture相交
+      }
+    }
+  }
+  else {
+    rx1 = rectangle.node.worldPosition.x, ry1 = rectangle.node.worldPosition.y - rectangle.halfLength ;
+    rx2 = rectangle.node.worldPosition.x, ry2 = rectangle.node.worldPosition.y + rectangle.halfLength ;   
+    if (rectangle.node.position.x > 0){
+      if (direction.x >= 0) {
+        if (direction.y >= 0) {
+          let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
+          return  Math.abs(maxDir.y/maxDir.x) >= Math.abs(dy/dx); //  ture相交
+        }
+        else {
+          let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
+          return Math.abs(maxDir.y/maxDir.x) >= Math.abs(dy/dx); //  ture相交
+        }
+      }
+    }
+    else if (rectangle.node.position.x < 0) {
+      if (direction.x <= 0) {
+        if (direction.y >= 0) {
+          let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
+          return  Math.abs(maxDir.y/maxDir.x) >= Math.abs(dy/dx); //  ture相交
+        }
+        else {
+          let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
+          return Math.abs(maxDir.y/maxDir.x) >= Math.abs(dy/dx); //  ture相交
+        }
+      }
+    }
+  }
+  
+
+
+
+  // if (direction.x >= 0) {
+  //   tx = (rx + hrw - ox) / dx
+  // }
+  // else {
+  //   tx = (rx - hrw - ox) / dx
+  // }
+  // if (direction.y >= 0) {
+  //   ty = (ry + hrl - oy) / dy
+  // }
+  // else {
+  //   ty = (ry - hrl - oy) / dy
+  // }
+
+}

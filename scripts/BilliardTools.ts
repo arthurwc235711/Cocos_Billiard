@@ -43,7 +43,7 @@ export class BilliardTools {
     }
 
 
-    getDisanceBy2dCamera(org: Node, dis: Node, dir: Vec3, wp2d: Vec3) {
+    getDisanceBy2dCamera(org: Node, dis: Node, dir: Vec3) {
         let source = this.get3dTo2dSize(org.worldPosition);
         let sphereCenter = this.get3dTo2dSize(dis.worldPosition);
         let rayDirection = dir;
@@ -63,6 +63,26 @@ export class BilliardTools {
         return t - 5; //减少5像素贴图的误差
     }
 
+    getRectangleDisanceBy2dCamera(org: Node, cushion:Node, dir: Vec3 ) {
+        let source = this.get3dTo2dSize(org.worldPosition);
+        let target = this.get3dTo2dSize(cushion.worldPosition);
+        let tmp1 = new Vec3(0, 0, 0);
+        let tmp2 = new Vec3(0.025 + R, 0, 0);
+        let cp1 = this.get3dTo2dSize(tmp1)//camera2d.screenToWorld(srcTmp);
+        let cp2 = this.get3dTo2dSize(tmp2)//camera2d.screenToWorld(disTmp);
+        let inc = Math.abs(cp1.x - cp2.x);
+
+        if (cushion.position.y !== 0) {
+            let h = Math.abs(target.y - source.y) - inc;
+            let w = dir.x/dir.y * h;
+            return Math.sqrt(h*h + w*w);
+        }
+        else {
+            let w = Math.abs(target.x - source.x) - inc;
+            let h = dir.y/dir.x * w;
+            return Math.sqrt(h*h + w*w);
+        }
+    }
 
 }
 
