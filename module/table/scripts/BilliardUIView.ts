@@ -1,9 +1,9 @@
-import { _decorator, Button, Canvas, Component, EventTouch, find, Node, physics, quat, Quat, Sprite, UITransform, Vec3, Widget } from 'cc';
+import { _decorator, Button, Canvas, Component, EventTouch, find, Label, Node, physics, quat, Quat, Slider, Sprite, UITransform, Vec3, Widget } from 'cc';
 import { BaseCommonScript, BaseCommonSocketReader } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
 import { BilliardTools } from '../../../scripts/BilliardTools';
-import { Rtd } from '../../../scripts/physics/constants';
+import { R, Rtd } from '../../../scripts/physics/constants';
 import { rayHit } from '../../../scripts/physics/physics';
 import { BaseRayCollision } from '../../../scripts/physics/component/BaseRayCollision';
 import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
@@ -23,6 +23,26 @@ export class BilliardUIView extends BaseCommonScript {
     public on_init(): void {
         let btn = this.node.getChildByName("ButtonTable").getComponent(Button);
         btn.setSchTime(0.01);
+
+        let buttonNode = this.node.getChildByPath("NodePower/TouchPower/Slider");
+        buttonNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
+            let slider = event.target.getComponent(Slider);
+            let progress = 1 - slider.progress;
+            if (progress > 0) {
+                BilliardData.instance.setPower(progress * R * 150);
+                this.onClickHit();
+
+            }
+        });
+
+        buttonNode.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
+            let slider = event.target.getComponent(Slider);
+            let progress = 1 - slider.progress;
+            if (progress > 0) {
+                BilliardData.instance.setPower(progress * R * 150);
+                this.onClickHit();
+            }
+        });
     }
 
     initBtnTable(node3d:Node) {
@@ -58,6 +78,7 @@ export class BilliardUIView extends BaseCommonScript {
         let nodeArrow = this.node.getChildByName("SpriteSplash")
         nodeArrow.active = false;
         this.node.getChildByName("ButtonTable").getComponent(Button).interactable = false;
+        this.node.getChildByPath("NodePower").active = false;
     }
 
     onClickTable(event:EventTouch) {       
@@ -169,7 +190,20 @@ export class BilliardUIView extends BaseCommonScript {
     onAllStationary() {
         yy.log.w("", "所有球都静止");
         this.node.getChildByName("ButtonTable").getComponent(Button).interactable = true;
+        let slider = this.node.getChildByPath("NodePower/TouchPower/Slider").getComponent(Slider);
+        slider.progress = 1;
+        this.node.getChildByPath("NodePower").active = true;
         // let nodeArrow = this.node.getChildByName("SpriteSplash")
+    }
+
+    onSlider(slider: Slider) {
+        let label = this.node.getChildByPath("NodePower/Label").getComponent(Label);
+        if (slider.progress == 1) {
+            label.string = "";
+        }
+        else {
+            label.string = Math.floor( (1 - slider.progress) * 150 ).toString();
+        }
     }
 }
 

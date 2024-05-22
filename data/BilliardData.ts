@@ -12,7 +12,7 @@ export class BilliardData {
     }
 
 
-    private _ballNums: number = 21;
+    private _ballNums: number = 0//21;
     private _camera3d: Camera
     get camera3d(): Camera {
         if (!this._camera3d) {
@@ -29,7 +29,7 @@ export class BilliardData {
     private _camera2d: Camera
     private _cueBall: Ball;
     private _angle: number = 0;
-
+    private _power: number = 0;
     private _table: Table;
 
     getAngle(): number {
@@ -38,6 +38,14 @@ export class BilliardData {
     setAngle(angle: number) {
         this._angle = angle;
     }
+
+    getPower(): number {
+        return this._power;
+    }
+    setPower(power: number) {
+        this._power = power;
+    }
+
 
 
     getCueBall(): Ball {
