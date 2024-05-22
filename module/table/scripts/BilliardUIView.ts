@@ -15,6 +15,7 @@ export class BilliardUIView extends BaseCommonScript {
         // 注册指定的监听方法，格式如下
         this.event_func_map = {
             [yy.Event_Name.billiard_table_init]: "initBtnTable",
+            [yy.Event_Name.billiard_allStationary]: "onAllStationary",
         };
         super.register_event();
     }
@@ -53,11 +54,16 @@ export class BilliardUIView extends BaseCommonScript {
 
     onClickHit() {
         yy.event.emit(yy.Event_Name.billiard_hit);
+
+        let nodeArrow = this.node.getChildByName("SpriteSplash")
+        nodeArrow.active = false;
+        this.node.getChildByName("ButtonTable").getComponent(Button).interactable = false;
     }
 
     onClickTable(event:EventTouch) {       
         let screenPos = event.getLocation();
         let nodeArrow = this.node.getChildByName("SpriteSplash");
+        nodeArrow.active = true;
         let cueBall = BilliardData.instance.getCueBall();
         let camera3DToCamera2DWPos = BilliardTools.instance.camera3DToCamera2DWPos.bind(BilliardTools.instance);
         let cue2dWp = camera3DToCamera2DWPos(cueBall.node.worldPosition);
@@ -157,6 +163,13 @@ export class BilliardUIView extends BaseCommonScript {
         }
 
 
+    }
+
+
+    onAllStationary() {
+        yy.log.w("", "所有球都静止");
+        this.node.getChildByName("ButtonTable").getComponent(Button).interactable = true;
+        // let nodeArrow = this.node.getChildByName("SpriteSplash")
     }
 }
 

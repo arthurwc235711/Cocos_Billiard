@@ -49,6 +49,7 @@ export class Table extends BaseCommonScript {
     }
 
     public on_init(): void {
+      BilliardData.instance.setTable(this);
       this.prepareBalls();
       this.initTable();
     }
@@ -178,42 +179,50 @@ export class Table extends BaseCommonScript {
     return true
   }
 
-    hit() {
-        this.cue.hit(this.cueBall);
-        // yy.log.w("hit");
-        // this.cueBall.pos.addScaledVector(new Vec3(3, 0, 0), 0.2);
-        // this.balls.forEach(ball => {
-            
-        // })
-    }
+  allStationary() {
+    return this.balls.every((b) => !b.inMotion())
+  }
+
+  inPockets(): number {
+    return this.balls.reduce((acc, b) => (b.onTable() ? acc : acc + 1), 0)
+  }
+
+  hit() {
+      this.cue.hit(this.cueBall);
+      // yy.log.w("hit");
+      // this.cueBall.pos.addScaledVector(new Vec3(3, 0, 0), 0.2);
+      // this.balls.forEach(ball => {
+          
+      // })
+  }
 
 
-    prepareBalls() {
-      let ballNums = BilliardData.instance.getBallNums();
-      let row = 1;
-      let cNum = 0;
-      let lNum = 0;
-      let x = TableGeometry.tableX;
-      for( let i = 0; i < ballNums; i++ ) {
-        let ball = instantiate(this.prefabBall).getComponent(Ball);
-        this.nodeBalls.addChild(ball.node);
-        if (row === 1) {
-          ball.pos = new Vec3(x/2, 0, 0);
-        }
-        else {
-          let space = R / 4;
-          let y = (lNum+1)%2 === 0 ?  (R + space/2) +  (2*R + space) * (Math.ceil((lNum+1)/2)-1) : (2*R + space) * (Math.ceil((lNum+1)/2)-1);
-          ball.pos = new Vec3(x/2 + (2 * R + space) * (row - 1), -y + (2 * R + space) * (lNum - cNum), 0);
-        }
+  prepareBalls() {
+    let ballNums = BilliardData.instance.getBallNums();
+    let row = 1;
+    let cNum = 0;
+    let lNum = 0;
+    let x = TableGeometry.tableX;
+    for( let i = 0; i < ballNums; i++ ) {
+      let ball = instantiate(this.prefabBall).getComponent(Ball);
+      this.nodeBalls.addChild(ball.node);
+      if (row === 1) {
+        ball.pos = new Vec3(x/2, 0, 0);
+      }
+      else {
+        let space = R / 4;
+        let y = (lNum+1)%2 === 0 ?  (R + space/2) +  (2*R + space) * (Math.ceil((lNum+1)/2)-1) : (2*R + space) * (Math.ceil((lNum+1)/2)-1);
+        ball.pos = new Vec3(x/2 + (2 * R + space) * (row - 1), -y + (2 * R + space) * (lNum - cNum), 0);
+      }
 
-        cNum += 1;
-        if (cNum - lNum === 1) {
-          row += 1;
-          lNum = cNum;
-          cNum = 0;
-        }
+      cNum += 1;
+      if (cNum - lNum === 1) {
+        row += 1;
+        lNum = cNum;
+        cNum = 0;
       }
     }
+  }
 
 }
 
