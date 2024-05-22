@@ -24,7 +24,7 @@ export class Cue extends Component {
     hit(ball: Ball) {
         this.t = 0;
         ball.setSliding();
-        ball.vel.copy(unitAtAngle(BilliardData.instance.getAngle()).multiplyScalar(this.maxPower));
+        ball.vel.copy(unitAtAngle(BilliardData.instance.getAngle()).multiplyScalar(R * 10));
         ball.rvel.copy(cueToSpin(Vec3.ZERO, ball.vel));
         
     }

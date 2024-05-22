@@ -5,6 +5,7 @@ import { Vec3 } from "cc"
 import { Ball } from "./Ball"
 import { TableGeometry } from "./TableGeometry"
 import { bounceHanBlend, rotateApplyUnrotate } from "../../../scripts/physics/physics"
+import { PocketGeometry } from "../../../scripts/pocketgeometry"
 
 export class Cushion {
   /**
@@ -43,11 +44,11 @@ export class Cushion {
         futurePosition
       )
     }
-    // return Cushion.willBounceShortSegment(
-    //   PocketGeometry.pockets.pocketNW.knuckleSW.pos.y,
-    //   PocketGeometry.pockets.pocketSW.knuckleNW.pos.y,
-    //   futurePosition
-    // )
+    return Cushion.willBounceShortSegment(
+      PocketGeometry.pockets.pocketNW.knuckleSW.pos.y,
+      PocketGeometry.pockets.pocketSW.knuckleNW.pos.y,
+      futurePosition
+    )
   }
 
   static willBounceLong(futurePosition, hasPockets) {
@@ -58,18 +59,18 @@ export class Cushion {
         futurePosition
       )
     }
-    // return (
-    //   Cushion.willBounceLongSegment(
-    //     PocketGeometry.pockets.pocketNW.knuckleNE.pos.x,
-    //     PocketGeometry.pockets.pocketN.knuckleNW.pos.x,
-    //     futurePosition
-    //   ) ||
-    //   Cushion.willBounceLongSegment(
-    //     PocketGeometry.pockets.pocketN.knuckleNE.pos.x,
-    //     PocketGeometry.pockets.pocketNE.knuckleNW.pos.x,
-    //     futurePosition
-    //   )
-    // )
+    return (
+      Cushion.willBounceLongSegment(
+        PocketGeometry.pockets.pocketNW.knuckleNE.pos.x,
+        PocketGeometry.pockets.pocketN.knuckleNW.pos.x,
+        futurePosition
+      ) ||
+      Cushion.willBounceLongSegment(
+        PocketGeometry.pockets.pocketN.knuckleNE.pos.x,
+        PocketGeometry.pockets.pocketNE.knuckleNW.pos.x,
+        futurePosition
+      )
+    )
   }
 
   /**

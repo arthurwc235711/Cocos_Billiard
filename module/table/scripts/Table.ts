@@ -11,6 +11,9 @@ import { R } from '../../../scripts/physics/constants';
 import { Outcome } from './Outcome';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { BilliardTools } from '../../../scripts/BilliardTools';
+import { Knuckle } from '../../../scripts/physics/knuckle';
+import { Pocket } from '../../../scripts/physics/pocket';
+import { PocketGeometry } from '../../../scripts/pocketgeometry';
 
 const { ccclass, property } = _decorator;
 
@@ -159,18 +162,18 @@ export class Table extends BaseCommonScript {
       return false
     }
 
-    // const k = Knuckle.findBouncing(a, t)
-    // if (k) {
-    //   const knuckleIncidentSpeed = k.bounce(a)
-    //   this.outcome.push(Outcome.cushion(a, knuckleIncidentSpeed))
-    //   return false
-    // }
-    // const p = Pocket.findPocket(PocketGeometry.pocketCenters, a, t)
-    // if (p) {
-    //   const pocketIncidentSpeed = p.fall(a, t)
-    //   this.outcome.push(Outcome.pot(a, pocketIncidentSpeed))
-    //   return false
-    // }
+    const k = Knuckle.findBouncing(a, t)
+    if (k) {
+      const knuckleIncidentSpeed = k.bounce(a)
+      this.outcome.push(Outcome.cushion(a, knuckleIncidentSpeed))
+      return false
+    }
+    const p = Pocket.findPocket(PocketGeometry.pocketCenters, a, t)
+    if (p) {
+      const pocketIncidentSpeed = p.fall(a, t)
+      this.outcome.push(Outcome.pot(a, pocketIncidentSpeed))
+      return false
+    }
 
     return true
   }
