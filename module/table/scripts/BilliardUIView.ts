@@ -175,7 +175,7 @@ export class BilliardUIView extends BaseCommonScript {
                 ballArrow.active = false;
                 cueArrow.active = false;
                 uiTran.setContentSize(BilliardTools.instance.getRectangleDisanceBy2dCamera(cueBall.node, nodes[0], direction), uiTran.contentSize.y);
-                yy.log.w("", "未检测出碰撞点");
+                // yy.log.w("", "未检测出碰撞点");
             }
 
         }
@@ -193,6 +193,7 @@ export class BilliardUIView extends BaseCommonScript {
         let slider = this.node.getChildByPath("NodePower/TouchPower/Slider").getComponent(Slider);
         slider.progress = 1;
         this.node.getChildByPath("NodePower").active = true;
+        this.node.getChildByPath("NodePower/Label").getComponent(Label).string = "";
         // let nodeArrow = this.node.getChildByName("SpriteSplash")
     }
 
