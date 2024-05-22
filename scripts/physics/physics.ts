@@ -407,11 +407,11 @@ function rayRectangle3(origin: Vec3, direction: Vec3, rectangle: RayRectangleCol
     if (rectangle.node.position.x > 0){
       if (direction.x >= 0) {
         if (direction.y >= 0) {
-          let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
+          let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
           return  Math.abs(maxDir.y/maxDir.x) >= Math.abs(dy/dx); //  ture相交
         }
         else {
-          let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
+          let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
           return Math.abs(maxDir.y/maxDir.x) >= Math.abs(dy/dx); //  ture相交
         }
       }
@@ -419,11 +419,11 @@ function rayRectangle3(origin: Vec3, direction: Vec3, rectangle: RayRectangleCol
     else if (rectangle.node.position.x < 0) {
       if (direction.x <= 0) {
         if (direction.y >= 0) {
-          let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
+          let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
           return  Math.abs(maxDir.y/maxDir.x) >= Math.abs(dy/dx); //  ture相交
         }
         else {
-          let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
+          let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
           return Math.abs(maxDir.y/maxDir.x) >= Math.abs(dy/dx); //  ture相交
         }
       }
