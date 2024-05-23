@@ -12,6 +12,8 @@ const { ccclass, property } = _decorator;
 
 @ccclass('BilliardUIView')
 export class BilliardUIView extends BaseCommonScript {
+    private interactable: boolean = true;
+
     public register_event() {
         // 注册指定的监听方法，格式如下
         this.event_func_map = {
@@ -24,11 +26,19 @@ export class BilliardUIView extends BaseCommonScript {
     public on_init(): void {
         BilliardManager.instance.setView(this);
 
-        let btn = this.node.getChildByName("ButtonTable").getComponent(Button);
-        btn.setSchTime(0.01);
+        let btn = this.node.getChildByName("ButtonTable");
+        btn.on(Node.EventType.TOUCH_START, (event: EventTouch) => {
+            
+        })
+        btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
+            if (this.interactable) {
+                this.onClickTable(event);
+            }
+        })
 
-        let buttonNode = this.node.getChildByPath("NodePower/TouchPower/Slider");
-        buttonNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
+
+        let sliderNode = this.node.getChildByPath("NodePower/TouchPower/Slider");
+        sliderNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
             let slider = event.target.getComponent(Slider);
             let progress = 1 - slider.progress;
             if (progress > 0) {
@@ -37,8 +47,7 @@ export class BilliardUIView extends BaseCommonScript {
 
             }
         });
-
-        buttonNode.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
+        sliderNode.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
             let slider = event.target.getComponent(Slider);
             let progress = 1 - slider.progress;
             if (progress > 0) {
@@ -80,7 +89,7 @@ export class BilliardUIView extends BaseCommonScript {
 
         let nodeArrow = this.node.getChildByName("SpriteSplash")
         nodeArrow.active = false;
-        this.node.getChildByName("ButtonTable").getComponent(Button).interactable = false;
+        this.interactable = false;
         this.node.getChildByPath("NodePower").active = false;
     }
 
@@ -187,7 +196,7 @@ export class BilliardUIView extends BaseCommonScript {
 
     onAllStationary() {
         yy.log.w("", "所有球都静止");
-        this.node.getChildByName("ButtonTable").getComponent(Button).interactable = true;
+        this.interactable = true;
         let slider = this.node.getChildByPath("NodePower/TouchPower/Slider").getComponent(Slider);
         slider.progress = 1;
         this.node.getChildByPath("NodePower").active = true;

@@ -222,7 +222,7 @@ export function rayHit(origin: Vec3, direction: Vec3) {
       if(point) {
         // c.sqrDeep = origin.distanceToSquared(new Vec3(point.x, point.y, c.node.worldPosition.z))
         // yy.log.w('rayHit RayRectangleCollision' + c.node.name, c.sqrDeep, c.node.name, new Vec3(point.x, point.y, c.node.worldPosition.z))
-        yy.log.w('rayHit RayRectangleCollision' + c.node.name, c.sqrDeep, c.node.name)
+        // yy.log.w('rayHit RayRectangleCollision' + c.node.name, c.sqrDeep, c.node.name)
         sortNode.push(c);
       }
     });
