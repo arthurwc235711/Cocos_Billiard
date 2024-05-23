@@ -1,9 +1,10 @@
-import { Vec3 } from "cc";
+import { Camera, find, Vec3 } from "cc";
 import { BaseCommonInstance } from "../../../../main/base/BaseCommonScript";
 import { yy } from "../../../../yy";
 import { BilliardUIView } from "../module/table/scripts/BilliardUIView";
 import { Outcome } from "../module/table/scripts/Outcome";
 import { Table } from "../module/table/scripts/Table";
+import { Ball } from "../module/table/scripts/Ball";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -12,6 +13,21 @@ export class BilliardManager extends BaseCommonInstance{
             this.__instance__ = new BilliardManager();
         }
         return this.__instance__;
+    }
+
+    private _camera3d: Camera
+    get camera3d(): Camera {
+        if (!this._camera3d) {
+            this._camera3d = find("p_billiard_3d/Main Camera").getComponent(Camera);
+        }
+        return this._camera3d;
+    }
+    private _camera2d: Camera
+    get camera2d(): Camera {
+        if (!this._camera2d) {
+            this._camera2d = find("Canvas/Camera").getComponent(Camera);
+        }
+        return this._camera2d;
     }
 
     private _table: Table;
@@ -29,6 +45,10 @@ export class BilliardManager extends BaseCommonInstance{
     }
     getView(): BilliardUIView {
         return this._view;
+    }
+
+    getCueBall(): Ball {
+        return this.getTable().cueBall;
     }
 
 

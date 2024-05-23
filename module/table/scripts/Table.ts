@@ -65,7 +65,6 @@ export class Table extends BaseCommonScript {
     initTable() {
       this.initialiseBalls(director.getScene().getChildByPath("p_billiard_3d/NodeBalls").getComponentsInChildren(Ball));
       this.cueBall = this.balls.find(ball => ball.node.name === "CueBall");
-      BilliardData.instance.setCueBall(this.cueBall);
       // yy.log.w("initialiseBalls", this.balls, this.cueBall, this.balls[0].node.name)
       // yy.log.w("balls:", this.cueBall.node.worldPosition, this.cueBall.node.position);
       // yy.log.w("nodeBalls", this.nodeBalls.worldPosition, this.nodeBalls.position);

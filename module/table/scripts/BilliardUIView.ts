@@ -55,8 +55,8 @@ export class BilliardUIView extends BaseCommonScript {
             // this.node.getChildByName("SpriteSplash").worldPosition = BilliardTools.instance.camera3DToCamera2DWPos(worldPosition);
             let worldPosition = node3d.worldPosition;
             let worldScale = node3d.worldScale;
-            let leftScreenPos = BilliardData.instance.camera3d.worldToScreen(worldPosition.clone().setX(worldPosition.x - worldScale.x/2));
-            let rightScreenPos = BilliardData.instance.camera3d.worldToScreen(worldPosition.clone().setX(worldPosition.x + worldScale.x/2));
+            let leftScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setX(worldPosition.x - worldScale.x/2));
+            let rightScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setX(worldPosition.x + worldScale.x/2));
             let canvas = find("Canvas").getComponent(Canvas);
             let lWp = canvas.cameraComponent.screenToWorld(leftScreenPos);
             let rWp = canvas.cameraComponent.screenToWorld(rightScreenPos);
@@ -64,8 +64,8 @@ export class BilliardUIView extends BaseCommonScript {
             let rCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(rWp);
             let tran = this.node.getChildByName("ButtonTable").getComponent(UITransform)
             tran.width = Math.abs(rCanvasPos.x - lCanvasPos.x);
-            let topScreenPos = BilliardData.instance.camera3d.worldToScreen(worldPosition.clone().setY(worldPosition.y - worldScale.y/2));
-            let bottomScreenPos = BilliardData.instance.camera3d.worldToScreen(worldPosition.clone().setY(worldPosition.y + worldScale.y/2));
+            let topScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setY(worldPosition.y - worldScale.y/2));
+            let bottomScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setY(worldPosition.y + worldScale.y/2));
             let tWp = canvas.cameraComponent.screenToWorld(topScreenPos);
             let bWp = canvas.cameraComponent.screenToWorld(bottomScreenPos);
             let tCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(tWp);
@@ -88,13 +88,11 @@ export class BilliardUIView extends BaseCommonScript {
         let screenPos = event.getLocation();
         let nodeArrow = this.node.getChildByName("SpriteSplash");
         nodeArrow.active = true;
-        let cueBall = BilliardData.instance.getCueBall();
+        let cueBall = BilliardManager.instance.getCueBall();
         let camera3DToCamera2DWPos = BilliardTools.instance.camera3DToCamera2DWPos.bind(BilliardTools.instance);
         let cue2dWp = camera3DToCamera2DWPos(cueBall.node.worldPosition);
         nodeArrow.worldPosition = cue2dWp;
-        let wp = BilliardData.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
-
-        let wp2d = BilliardData.instance.camera2d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
+        let wp = BilliardManager.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
 
         // yy.log.w("screenPos", screenPos, "wp", wp, "cueBall", cueBall.node.worldPosition);
         let direction = wp.clone().subtract(cueBall.node.worldPosition).normalize();
@@ -115,7 +113,7 @@ export class BilliardUIView extends BaseCommonScript {
         let nodes = rayHit(cueBall.node.worldPosition, direction);
         let uiTran = nodeArrow.getComponent(UITransform);
         if (nodes.length > 0) {
-            yy.log.w("hit sucess", nodes[0].name);
+            // yy.log.w("hit sucess", nodes[0].name);
             let collision = nodes[0].getComponent(BaseRayCollision);
             let uiTran = nodeArrow.getComponent(UITransform);
             let ballArrow = nodeArrow.getChildByPath("Sprite/ballArrow");

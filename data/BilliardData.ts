@@ -1,6 +1,4 @@
 import { Camera, find } from "cc";
-import { Ball } from "../module/table/scripts/Ball";
-import { Table } from "../module/table/scripts/Table";
 
 export class BilliardData {
     private static __instance__: BilliardData;
@@ -20,14 +18,14 @@ export class BilliardData {
         }
         return this._camera3d;
     }
+    private _camera2d: Camera
     get camera2d(): Camera {
         if (!this._camera2d) {
             this._camera2d = find("Canvas/Camera").getComponent(Camera);
         }
         return this._camera2d;
     }
-    private _camera2d: Camera
-    private _cueBall: Ball;
+
     private _angle: number = 0;
     private _power: number = 0;
 
@@ -46,13 +44,6 @@ export class BilliardData {
     }
 
 
-
-    getCueBall(): Ball {
-        return this._cueBall;
-    }
-    setCueBall(node: Ball) {
-        this._cueBall = node;
-    }
 
     getBallNums(): number {
         return this._ballNums;
