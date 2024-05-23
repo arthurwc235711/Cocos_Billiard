@@ -15,7 +15,7 @@ export class BilliardUIView extends BaseCommonScript {
     public register_event() {
         // 注册指定的监听方法，格式如下
         this.event_func_map = {
-            [yy.Event_Name.billiard_table_init]: "initBtnTable",
+            // [yy.Event_Name.billiard_table_init]: "initBtnTable",
             // [yy.Event_Name.billiard_allStationary]: "onAllStationary",
         };
         super.register_event();
@@ -51,7 +51,7 @@ export class BilliardUIView extends BaseCommonScript {
     initBtnTable(node3d:Node) {
         // this.scheduleOnce(()=>this.node.getChildByName("SpriteSplash").worldPosition = BilliardTools.instance.camera3DToCamera2DWPos(worldPosition), 0);
 
-        this.scheduleOnce(()=>{
+        // this.scheduleOnce(()=>{
             // this.node.getChildByName("SpriteSplash").worldPosition = BilliardTools.instance.camera3DToCamera2DWPos(worldPosition);
             let worldPosition = node3d.worldPosition;
             let worldScale = node3d.worldScale;
@@ -71,7 +71,7 @@ export class BilliardUIView extends BaseCommonScript {
             let tCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(tWp);
             let bCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(bWp);
             tran.height = Math.abs(bCanvasPos.y - tCanvasPos.y);
-        }, 0)
+        // }, 0)
 
     }
 
@@ -86,20 +86,19 @@ export class BilliardUIView extends BaseCommonScript {
 
     onClickTable(event:EventTouch) {       
         let screenPos = event.getLocation();
-        let nodeArrow = this.node.getChildByName("SpriteSplash");
-        nodeArrow.active = true;
+        let wp = BilliardManager.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
+        this.onShotAt(wp);
+    }
+
+    onShotAt(wp: Vec3) {
         let cueBall = BilliardManager.instance.getCueBall();
+        let nodeArrow = this.node.getChildByName("SpriteSplash");
         let camera3DToCamera2DWPos = BilliardTools.instance.camera3DToCamera2DWPos.bind(BilliardTools.instance);
         let cue2dWp = camera3DToCamera2DWPos(cueBall.node.worldPosition);
         nodeArrow.worldPosition = cue2dWp;
-        let wp = BilliardManager.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
-
-        // yy.log.w("screenPos", screenPos, "wp", wp, "cueBall", cueBall.node.worldPosition);
+        nodeArrow.active = true;
         let direction = wp.clone().subtract(cueBall.node.worldPosition).normalize();
         let angle = direction.angleTo(Vec3.RIGHT);// 返回弧度
-        // yy.log.w("screenPos", screenPos, "wp", wp, "cueBall", cueBall.node.worldPosition);
-        // yy.log.w("angle", angle, direction,  hDir);
-
         if (wp.y > cueBall.node.worldPosition.y) {
             nodeArrow.angle = angle * Rtd;// 返回角度
         }
@@ -183,8 +182,6 @@ export class BilliardUIView extends BaseCommonScript {
         else {
             uiTran.setContentSize(100, uiTran.contentSize.y);
         }
-
-
     }
 
 

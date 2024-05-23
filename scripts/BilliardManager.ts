@@ -1,4 +1,4 @@
-import { Camera, find, Vec3 } from "cc";
+import { Camera, director, find, Vec3, Node } from "cc";
 import { BaseCommonInstance } from "../../../../main/base/BaseCommonScript";
 import { yy } from "../../../../yy";
 import { BilliardUIView } from "../module/table/scripts/BilliardUIView";
@@ -54,16 +54,37 @@ export class BilliardManager extends BaseCommonInstance{
 
     register_event() {
         this.event_func_map = {
+            [yy.Event_Name.billiard_table_init]: "onInitGame",
             [yy.Event_Name.billiard_allStationary] : 'onAllStationary',
         }
 
         super.register_event();
     }
 
-    onAllStationary() {
-        this.getView().onAllStationary();
 
+    onInitGame(node3d:Node) {
+        let view = this.getView();
+        let table = this.getTable();
+        view.scheduleOnce(()=>{
+            view.initBtnTable(node3d);
+            let ball = table.recentlyBall();
+            if (ball) {
+                view.onShotAt(ball.node.worldPosition);
+            }
+        }, 0);
+
+    }
+
+
+    onAllStationary() {
+        let view = this.getView();
+        let table = this.getTable();
+        this.getView().onAllStationary();
         this.onUpdate();
+        let ball = table.recentlyBall();
+        if (ball) {
+            view.onShotAt(ball.node.worldPosition);
+        }
     }
 
     onUpdate() {

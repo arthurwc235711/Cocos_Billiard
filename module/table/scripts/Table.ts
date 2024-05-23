@@ -187,6 +187,20 @@ export class Table extends BaseCommonScript {
     return this.balls.reduce((acc, b) => (b.onTable() ? acc : acc + 1), 0)
   }
 
+  recentlyBall() {
+    let lengths = [];
+    for (let i = 1; i < this.balls.length; i++) {
+      lengths.push({ squared: this.cueBall.pos.distanceToSquared(this.balls[i].pos), index: i });
+    }
+    if (lengths.length > 0) {
+      lengths.sort((a, b) => a.squared - b.squared);
+      return this.balls[lengths[0].index];
+    }
+    else {
+      return null;
+    }
+  }
+
   hit() {
     this.outcome = [
       Outcome.hit(this.cueBall, BilliardData.instance.getPower())
