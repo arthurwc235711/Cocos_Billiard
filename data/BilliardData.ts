@@ -12,7 +12,7 @@ export class BilliardData {
     }
 
 
-    private _ballNums: number = 0//21;
+    private _ballNums: number = 21;
     private _camera3d: Camera
     get camera3d(): Camera {
         if (!this._camera3d) {
