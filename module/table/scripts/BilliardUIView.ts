@@ -7,6 +7,7 @@ import { R, Rtd } from '../../../scripts/physics/constants';
 import { rayHit } from '../../../scripts/physics/physics';
 import { BaseRayCollision } from '../../../scripts/physics/component/BaseRayCollision';
 import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
+import { BilliardManager } from '../../../scripts/BilliardManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardUIView')
@@ -15,12 +16,14 @@ export class BilliardUIView extends BaseCommonScript {
         // 注册指定的监听方法，格式如下
         this.event_func_map = {
             [yy.Event_Name.billiard_table_init]: "initBtnTable",
-            [yy.Event_Name.billiard_allStationary]: "onAllStationary",
+            // [yy.Event_Name.billiard_allStationary]: "onAllStationary",
         };
         super.register_event();
     }
 
     public on_init(): void {
+        BilliardManager.instance.setView(this);
+
         let btn = this.node.getChildByName("ButtonTable").getComponent(Button);
         btn.setSchTime(0.01);
 

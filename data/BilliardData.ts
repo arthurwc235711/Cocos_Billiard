@@ -30,7 +30,6 @@ export class BilliardData {
     private _cueBall: Ball;
     private _angle: number = 0;
     private _power: number = 0;
-    private _table: Table;
 
     getAngle(): number {
         return this._angle;
@@ -57,13 +56,6 @@ export class BilliardData {
 
     getBallNums(): number {
         return this._ballNums;
-    }
-
-    setTable(table: Table) {
-        this._table = table;
-    }
-    getTable(): Table {
-        return this._table;
     }
 }
 

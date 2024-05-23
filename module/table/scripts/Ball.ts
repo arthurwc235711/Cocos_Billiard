@@ -2,7 +2,8 @@ import { _decorator, Component, director, macro, Node, Vec3 } from 'cc';
 import { yy } from '../../../../../../yy';
 import { forceRoll, rollingFull, sliding, surfaceVelocityFull } from '../../../scripts/physics/physics';
 import { passesThroughZero } from '../../../scripts/utils';
-import { BilliardData } from '../../../data/BilliardData';
+import { Pocket } from '../../../scripts/physics/pocket';
+import { BilliardManager } from '../../../scripts/BilliardManager';
 const { ccclass, property } = _decorator;
 
 
@@ -21,6 +22,7 @@ export class Ball extends Component {
     readonly rvel: Vec3 = Vec3.ZERO.clone();
     readonly futurePos: Vec3 = Vec3.ZERO.clone();
     state: State = State.Stationary
+    pocket: Pocket
 
     private static id = 0;
     readonly id = Ball.id++;
@@ -37,7 +39,7 @@ export class Ball extends Component {
     fixedUpdate(dt: number) {
       this.updatePosition(dt);
       if (this.state == State.Falling) {
-          // this.pocket.updateFall(this, t)
+          this.pocket.updateFall(this, dt)
         } else {
           this.updateVelocity(dt)
         }
@@ -94,7 +96,7 @@ export class Ball extends Component {
         this.rvel.copy(Vec3.ZERO)
         this.state = State.Stationary
 
-        if (BilliardData.instance.getTable().allStationary()) {
+        if (BilliardManager.instance.getTable().allStationary()) {
           yy.event.emit(yy.Event_Name.billiard_allStationary);
         }
     }

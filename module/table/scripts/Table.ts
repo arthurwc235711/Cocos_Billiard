@@ -14,6 +14,7 @@ import { BilliardTools } from '../../../scripts/BilliardTools';
 import { Knuckle } from '../../../scripts/physics/knuckle';
 import { Pocket } from '../../../scripts/physics/pocket';
 import { PocketGeometry } from '../../../scripts/pocketgeometry';
+import { BilliardManager } from '../../../scripts/BilliardManager';
 
 const { ccclass, property } = _decorator;
 
@@ -49,7 +50,7 @@ export class Table extends BaseCommonScript {
     }
 
     public on_init(): void {
-      BilliardData.instance.setTable(this);
+      BilliardManager.instance.setTable(this);
       this.prepareBalls();
       this.initTable();
     }
@@ -188,12 +189,10 @@ export class Table extends BaseCommonScript {
   }
 
   hit() {
-      this.cue.hit(this.cueBall);
-      // yy.log.w("hit");
-      // this.cueBall.pos.addScaledVector(new Vec3(3, 0, 0), 0.2);
-      // this.balls.forEach(ball => {
-          
-      // })
+    this.outcome = [
+      Outcome.hit(this.cueBall, BilliardData.instance.getPower())
+    ];
+    this.cue.hit(this.cueBall);
   }
 
 
