@@ -1,4 +1,4 @@
-import { _decorator, Button, Canvas, Component, EventTouch, find, Label, Node, physics, quat, Quat, Slider, Sprite, UITransform, Vec2, Vec3, Widget } from 'cc';
+import { _decorator, Button, Canvas, Component, EventTouch, find, Label, Node, physics, quat, Quat, Size, Slider, Sprite, UITransform, Vec2, Vec3, Widget } from 'cc';
 import { BaseCommonScript, BaseCommonSocketReader } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
@@ -52,6 +52,26 @@ export class BilliardUIView extends BaseCommonScript {
             this.touchMove = false;
         });
 
+        let angleSlider = this.node.getChildByPath("NodeAngle/SpriteShader/Mask/TouchSprite");
+        let uiTransform = angleSlider.getComponent(UITransform);
+        let min = uiTransform.contentSize.y;
+        let max = min * 2;
+        angleSlider.on(Node.EventType.TOUCH_MOVE, (event: EventTouch) => {
+            let touch = event.touch;
+            let local = touch.getLocation();
+            let perLocal = touch.getPreviousLocation();
+            let inc = local.y - perLocal.y;
+            if (inc < 0) {
+                let y = uiTransform.contentSize.y - inc > max ? uiTransform.contentSize.y - inc - max + min : uiTransform.contentSize.y - inc;
+                uiTransform.setContentSize(new Size(uiTransform.contentSize.width, y));
+            }
+            else {
+                let y = uiTransform.contentSize.y - inc < min ? max - uiTransform.contentSize.y - inc + min : uiTransform.contentSize.y - inc;
+                uiTransform.setContentSize(new Size(uiTransform.contentSize.width, y));
+            }
+            this.preTouchLocation.add2f(0, -inc / 50 );
+            this.onClickTable(this.preTouchLocation);
+        });
 
         let sliderNode = this.node.getChildByPath("NodePower/TouchPower/Slider");
         sliderNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
