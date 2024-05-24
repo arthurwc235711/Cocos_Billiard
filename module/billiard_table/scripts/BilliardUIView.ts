@@ -150,26 +150,12 @@ export class BilliardUIView extends BaseCommonScript {
         let screenPos = local;
         let wp = BilliardManager.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
         this.onShotAt(wp);
-
-
-        let cueBall = BilliardManager.instance.getCueBall();
-        let nodeArrow = this.node.getChildByName("SpriteSplash");
-        let camera3DToCamera2DWPos = BilliardTools.instance.camera3DToCamera2DWPos.bind(BilliardTools.instance);
-        let cue2dWp = camera3DToCamera2DWPos(cueBall.node.worldPosition);
-        nodeArrow.worldPosition = cue2dWp;
-        nodeArrow.active = true;
-        let direction = wp.clone().subtract(cueBall.node.worldPosition).normalize();
-        let angle = direction.angleTo(Vec3.RIGHT);// 返回弧度
-        if (wp.y > cueBall.node.worldPosition.y) {
-            nodeArrow.angle = angle * Rtd;// 返回角度
-        }
-        else {
-            nodeArrow.angle = 360 - angle * Rtd;// 返回角度
-            angle = - angle;
-        }
     }
 
     onShotAt(wp: Vec3) {
+        let cueNode =this.node.getChildByPath("SpriteSplash/Cue");
+        cueNode.setPosition(-300, 0, 0);
+
         let cueBall = BilliardManager.instance.getCueBall();
         let nodeArrow = this.node.getChildByName("SpriteSplash");
         let camera3DToCamera2DWPos = BilliardTools.instance.camera3DToCamera2DWPos.bind(BilliardTools.instance);
@@ -283,12 +269,16 @@ export class BilliardUIView extends BaseCommonScript {
 
     onSlider(slider: Slider) {
         let label = this.node.getChildByPath("NodePower/Label").getComponent(Label);
-        if (slider.progress == 1) {
+        let progress = 1 - slider.progress;
+        if (progress === 0) {
             label.string = "";
         }
         else {
-            label.string = Math.floor( (1 - slider.progress) * 150 ).toString();
+            label.string = Math.floor( progress * 150 ).toString();
         }
+
+        let cueNode =this.node.getChildByPath("SpriteSplash/Cue");
+        cueNode.setPosition((progress + 1)* -300, 0, 0);
     }
 }
 
