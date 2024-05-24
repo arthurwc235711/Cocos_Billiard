@@ -1,4 +1,4 @@
-import { _decorator, Button, Canvas, Component, EventTouch, find, Label, Node, physics, quat, Quat, Slider, Sprite, UITransform, Vec3, Widget } from 'cc';
+import { _decorator, Button, Canvas, Component, EventTouch, find, Label, Node, physics, quat, Quat, Slider, Sprite, UITransform, Vec2, Vec3, Widget } from 'cc';
 import { BaseCommonScript, BaseCommonSocketReader } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
@@ -12,8 +12,10 @@ const { ccclass, property } = _decorator;
 
 @ccclass('BilliardUIView')
 export class BilliardUIView extends BaseCommonScript {
-    private interactable: boolean = true;
-
+    private interactableTableTouch: boolean = true;
+    private touchMove: boolean = false;
+    private preTouchLocation: Vec2 = new Vec2();
+    
     public register_event() {
         // 注册指定的监听方法，格式如下
         this.event_func_map = {
@@ -28,13 +30,27 @@ export class BilliardUIView extends BaseCommonScript {
 
         let btn = this.node.getChildByName("ButtonTable");
         btn.on(Node.EventType.TOUCH_START, (event: EventTouch) => {
-            
-        })
-        btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
-            if (this.interactable) {
-                this.onClickTable(event);
+            this.touchMove = false;
+        });
+        btn.on(Node.EventType.TOUCH_MOVE, (event: EventTouch) => {
+            let touch = event.touch;
+            let local = touch.getLocation();
+            let perLocal = touch.getPreviousLocation();
+            if (this.touchMove ||  Math.abs(local.x - perLocal.x) > 2 || Math.abs(local.y - perLocal.y) > 2 ) {
+                this.touchMove = true;
+                let x = local.x - perLocal.x;
+                let y = local.y - perLocal.y;
+                this.preTouchLocation.add2f(x, y);
+                this.onClickTable(this.preTouchLocation);
             }
-        })
+        });
+        btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
+            if (this.interactableTableTouch && !this.touchMove) {
+                this.onClickTable(event.getLocation());
+                this.preTouchLocation = event.getLocation();
+            }
+            this.touchMove = false;
+        });
 
 
         let sliderNode = this.node.getChildByPath("NodePower/TouchPower/Slider");
@@ -89,12 +105,12 @@ export class BilliardUIView extends BaseCommonScript {
 
         let nodeArrow = this.node.getChildByName("SpriteSplash")
         nodeArrow.active = false;
-        this.interactable = false;
+        this.interactableTableTouch = false;
         this.node.getChildByPath("NodePower").active = false;
     }
 
-    onClickTable(event:EventTouch) {       
-        let screenPos = event.getLocation();
+    onClickTable(local: Vec2) {       
+        let screenPos = local;
         let wp = BilliardManager.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
         this.onShotAt(wp);
     }
@@ -193,10 +209,15 @@ export class BilliardUIView extends BaseCommonScript {
         }
     }
 
+    autoShotAt(node: Node) {
+        let screenPos = BilliardManager.instance.camera3d.worldToScreen(node.worldPosition);
+        this.preTouchLocation.set(screenPos.x, screenPos.y);
+        this.onShotAt(node.worldPosition);
+    }
 
     onAllStationary() {
         yy.log.w("", "所有球都静止");
-        this.interactable = true;
+        this.interactableTableTouch = true;
         let slider = this.node.getChildByPath("NodePower/TouchPower/Slider").getComponent(Slider);
         slider.progress = 1;
         this.node.getChildByPath("NodePower").active = true;

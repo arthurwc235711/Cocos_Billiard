@@ -69,7 +69,7 @@ export class BilliardManager extends BaseCommonInstance{
             view.initBtnTable(node3d);
             let ball = table.recentlyBall();
             if (ball) {
-                view.onShotAt(ball.node.worldPosition);
+                view.autoShotAt(ball.node);
             }
         }, 0);
 
@@ -83,7 +83,7 @@ export class BilliardManager extends BaseCommonInstance{
         this.onUpdate();
         let ball = table.recentlyBall();
         if (ball) {
-            view.onShotAt(ball.node.worldPosition);
+            view.autoShotAt(ball.node);
         }
     }
 
