@@ -5,6 +5,7 @@ import { BilliardUIView } from "../module/billiard_table/scripts/BilliardUIView"
 import { Outcome } from "../module/billiard_table/scripts/Outcome";
 import { Table } from "../module/billiard_table/scripts/Table";
 import { Ball } from "../module/billiard_table/scripts/Ball";
+import { BilliardData } from "../data/BilliardData";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -13,6 +14,10 @@ export class BilliardManager extends BaseCommonInstance{
             this.__instance__ = new BilliardManager();
         }
         return this.__instance__;
+    }
+
+    delete(){
+        delete BilliardManager.__instance__
     }
 
     private _camera3d: Camera
@@ -61,6 +66,10 @@ export class BilliardManager extends BaseCommonInstance{
         super.register_event();
     }
 
+    reset_data () {
+        this.delete();
+        BilliardData.instance.delete();
+    }
 
     onInitGame(node3d:Node) {
         let view = this.getView();

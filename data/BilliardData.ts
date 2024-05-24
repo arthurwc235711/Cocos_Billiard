@@ -8,6 +8,9 @@ export class BilliardData {
         }
         return this.__instance__;
     }
+    delete(){
+        delete BilliardData.__instance__
+    }
 
 
     private _ballNums: number = 21;
