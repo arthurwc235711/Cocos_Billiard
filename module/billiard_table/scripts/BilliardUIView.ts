@@ -63,15 +63,28 @@ export class BilliardUIView extends BaseCommonScript {
             let local = touch.getLocation();
             let perLocal = touch.getPreviousLocation();
             let inc = local.y - perLocal.y;
+            let angleInRadians;
             if (inc < 0) {
                 let y = uiTransform.contentSize.y - inc > max ? uiTransform.contentSize.y - inc - max + min : uiTransform.contentSize.y - inc;
                 uiTransform.setContentSize(new Size(uiTransform.contentSize.width, y));
+                angleInRadians = (0.01 * Math.PI) / 180
             }
             else {
                 let y = uiTransform.contentSize.y - inc < min ? max - uiTransform.contentSize.y - inc + min : uiTransform.contentSize.y - inc;
                 uiTransform.setContentSize(new Size(uiTransform.contentSize.width, y));
+                angleInRadians = (-0.01 * Math.PI) / 180  
             }
-            this.preTouchLocation.add2f(0, -inc / 50 );
+
+            // yy.log.w("MoveTouch", this.preTouchLocation, -inc / 50);
+            // this.preTouchLocation.add2f(0, -inc / 50 );
+            // this.onClickTable(this.preTouchLocation);
+            // yy.log.e("MoveTouch", this.preTouchLocation, -inc / 50);
+            // const angleInRadians = (1 * Math.PI) / 180; // 将角度转换为弧度
+            const newX = this.preTouchLocation.x * Math.cos(angleInRadians) - this.preTouchLocation.y * Math.sin(angleInRadians);
+            const newY = this.preTouchLocation.x * Math.sin(angleInRadians) + this.preTouchLocation.y * Math.cos(angleInRadians);
+            this.preTouchLocation.x = newX;
+            this.preTouchLocation.y = newY;
+            // yy.log.e("MoveTouch", this.preTouchLocation);
             this.onClickTable(this.preTouchLocation);
         });
 
@@ -137,6 +150,23 @@ export class BilliardUIView extends BaseCommonScript {
         let screenPos = local;
         let wp = BilliardManager.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
         this.onShotAt(wp);
+
+
+        let cueBall = BilliardManager.instance.getCueBall();
+        let nodeArrow = this.node.getChildByName("SpriteSplash");
+        let camera3DToCamera2DWPos = BilliardTools.instance.camera3DToCamera2DWPos.bind(BilliardTools.instance);
+        let cue2dWp = camera3DToCamera2DWPos(cueBall.node.worldPosition);
+        nodeArrow.worldPosition = cue2dWp;
+        nodeArrow.active = true;
+        let direction = wp.clone().subtract(cueBall.node.worldPosition).normalize();
+        let angle = direction.angleTo(Vec3.RIGHT);// 返回弧度
+        if (wp.y > cueBall.node.worldPosition.y) {
+            nodeArrow.angle = angle * Rtd;// 返回角度
+        }
+        else {
+            nodeArrow.angle = 360 - angle * Rtd;// 返回角度
+            angle = - angle;
+        }
     }
 
     onShotAt(wp: Vec3) {
