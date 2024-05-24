@@ -33,15 +33,17 @@ export class BilliardUIView extends BaseCommonScript {
             this.touchMove = false;
         });
         btn.on(Node.EventType.TOUCH_MOVE, (event: EventTouch) => {
-            let touch = event.touch;
-            let local = touch.getLocation();
-            let perLocal = touch.getPreviousLocation();
-            if (this.touchMove ||  Math.abs(local.x - perLocal.x) > 2 || Math.abs(local.y - perLocal.y) > 2 ) {
-                this.touchMove = true;
-                let x = local.x - perLocal.x;
-                let y = local.y - perLocal.y;
-                this.preTouchLocation.add2f(x, y);
-                this.onClickTable(this.preTouchLocation);
+            if (this.interactableTableTouch) {
+                let touch = event.touch;
+                let local = touch.getLocation();
+                let perLocal = touch.getPreviousLocation();
+                if ((this.touchMove ||  Math.abs(local.x - perLocal.x) > 2 || Math.abs(local.y - perLocal.y) > 2)) {
+                    this.touchMove = true;
+                    let x = local.x - perLocal.x;
+                    let y = local.y - perLocal.y;
+                    this.preTouchLocation.add2f(x, y);
+                    this.onClickTable(this.preTouchLocation);
+                }
             }
         });
         btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
@@ -125,6 +127,8 @@ export class BilliardUIView extends BaseCommonScript {
 
         let nodeArrow = this.node.getChildByName("SpriteSplash")
         nodeArrow.active = false;
+        let nodeAngle = this.node.getChildByName("NodeAngle");
+        nodeAngle.active = false;
         this.interactableTableTouch = false;
         this.node.getChildByPath("NodePower").active = false;
     }
@@ -242,6 +246,8 @@ export class BilliardUIView extends BaseCommonScript {
         slider.progress = 1;
         this.node.getChildByPath("NodePower").active = true;
         this.node.getChildByPath("NodePower/Label").getComponent(Label).string = "";
+        let nodeAngle = this.node.getChildByName("NodeAngle");
+        nodeAngle.active = true;
         // let nodeArrow = this.node.getChildByName("SpriteSplash")
     }
 

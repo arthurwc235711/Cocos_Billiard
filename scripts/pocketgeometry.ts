@@ -1,7 +1,7 @@
 import { Vec3 } from "cc"
 
 import { Knuckle } from "./physics/knuckle"
-import { TableGeometry } from "../module/table/scripts/TableGeometry"
+import { TableGeometry } from "../module/billiard_table/scripts/TableGeometry"
 import { R } from "./physics/constants"
 import { Pocket } from "./physics/pocket"
 

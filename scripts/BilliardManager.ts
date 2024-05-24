@@ -1,10 +1,10 @@
 import { Camera, director, find, Vec3, Node } from "cc";
 import { BaseCommonInstance } from "../../../../main/base/BaseCommonScript";
 import { yy } from "../../../../yy";
-import { BilliardUIView } from "../module/table/scripts/BilliardUIView";
-import { Outcome } from "../module/table/scripts/Outcome";
-import { Table } from "../module/table/scripts/Table";
-import { Ball } from "../module/table/scripts/Ball";
+import { BilliardUIView } from "../module/billiard_table/scripts/BilliardUIView";
+import { Outcome } from "../module/billiard_table/scripts/Outcome";
+import { Table } from "../module/billiard_table/scripts/Table";
+import { Ball } from "../module/billiard_table/scripts/Ball";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;

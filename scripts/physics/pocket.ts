@@ -1,7 +1,7 @@
 
 import { R, g } from "./constants"
 import { Vec3 } from "cc"
-import { Ball, State } from "../../module/table/scripts/Ball"
+import { Ball, State } from "../../module/billiard_table/scripts/Ball"
 import { up, zero } from "../utils"
 
 export class Pocket {
