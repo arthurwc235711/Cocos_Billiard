@@ -286,6 +286,10 @@
       }
     ],
     "rootNode": null,
+    "pLoading": {
+      "__uuid__": "5a7121bf-54f9-4283-8fa0-3360f7382c17",
+      "__expectedType__": "cc.Prefab"
+    },
     "prefabBilliard3D": {
       "__uuid__": "7fb48d1d-322b-42f6-bbe4-f774aa9ee195",
       "__expectedType__": "cc.Prefab"
