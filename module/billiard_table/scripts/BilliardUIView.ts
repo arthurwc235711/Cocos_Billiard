@@ -1,4 +1,4 @@
-import { _decorator, Button, Canvas, Component, EventTouch, find, Label, Node, physics, quat, Quat, Size, Slider, Sprite, UITransform, Vec2, Vec3, Widget } from 'cc';
+import { _decorator, Button, Canvas, Component, EventTouch, find, game, Label, Node, physics, quat, Quat, Size, Slider, Sprite, UITransform, Vec2, Vec3, Widget } from 'cc';
 import { BaseCommonScript, BaseCommonSocketReader } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
@@ -12,6 +12,9 @@ const { ccclass, property } = _decorator;
 
 @ccclass('BilliardUIView')
 export class BilliardUIView extends BaseCommonScript {
+    @property(Label)
+    labelTestInfo: Label = null;
+
     private interactableTableTouch: boolean = true;
     private touchMove: boolean = false;
     private preTouchLocation: Vec2 = new Vec2();
@@ -279,6 +282,23 @@ export class BilliardUIView extends BaseCommonScript {
 
         let cueNode =this.node.getChildByPath("SpriteSplash/Cue");
         cueNode.setPosition((progress + 1)* -300, 0, 0);
+    }
+
+    private frameCount: number = 0;
+    private dt: number = 0;
+    private fps: number = 0;
+
+    protected update(dt: number): void {
+        this.dt += dt;
+        this.frameCount++;
+
+        if (this.dt > 1) {
+            this.fps = this.frameCount / this.dt;
+            this.labelTestInfo.string = `FPS: ${this.fps.toFixed(2)}  DT: ${(this.dt/this.frameCount).toFixed(3)}`;
+            this.dt = 0;
+            this.frameCount = 0;
+        }
+
     }
 }
 
