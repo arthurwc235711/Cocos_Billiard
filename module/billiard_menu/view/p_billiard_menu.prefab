@@ -2418,13 +2418,13 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 31,
+      "g": 30,
+      "b": 30,
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "1137db31-1774-49b6-9f87-71b8a4a2f315@f9941",
+      "__uuid__": "20835ba4-6145-4fbc-a58a-051ce700aa3e@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 1,
