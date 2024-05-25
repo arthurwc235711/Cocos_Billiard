@@ -294,7 +294,7 @@ export class BilliardUIView extends BaseCommonScript {
 
         if (this.dt > 1) {
             this.fps = this.frameCount / this.dt;
-            this.labelTestInfo.string = `FPS: ${this.fps.toFixed(2)}  DT: ${(this.dt/this.frameCount).toFixed(3)}`;
+            this.labelTestInfo.string = `FPS: ${this.fps.toFixed(2)}  DT: ${(this.dt/this.frameCount).toFixed(3)}  fps:${(1/dt).toFixed(2)}`;
             this.dt = 0;
             this.frameCount = 0;
         }
