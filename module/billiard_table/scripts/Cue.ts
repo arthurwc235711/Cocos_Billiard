@@ -20,16 +20,13 @@ export class Cue extends Component {
         // this.node.scale = new Vec3(0.02, TableGeometry.tableX * 1, 0.02);
     }
 
-
     hit(ball: Ball) {
         this.t = 0;
         let billiardData = BilliardData.instance;
         ball.setSliding();
         ball.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(billiardData.getPower()));
         ball.rvel.copy(cueToSpin(Vec3.ZERO, ball.vel));
-        
     }
-
 }
 
 
