@@ -75,7 +75,7 @@
       "__id__": 1
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 3
@@ -5836,7 +5836,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "a6415d1d-42cc-452a-a30f-9681ac8ab072",
+        "__uuid__": "620b6bf3-0369-4560-837f-2a2c00b73c26",
         "__expectedType__": "cc.Material"
       }
     ],
