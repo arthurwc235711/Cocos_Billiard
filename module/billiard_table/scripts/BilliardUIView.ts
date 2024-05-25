@@ -93,7 +93,7 @@ export class BilliardUIView extends BaseCommonScript {
             let slider = event.target.getComponent(Slider);
             let progress = 1 - slider.progress;
             if (progress > 0) {
-                BilliardData.instance.setPower(progress * R * 150);
+                BilliardData.instance.setPower( Math.floor( progress * 150 ) * R );
                 this.onClickHit();
 
             }
@@ -102,7 +102,7 @@ export class BilliardUIView extends BaseCommonScript {
             let slider = event.target.getComponent(Slider);
             let progress = 1 - slider.progress;
             if (progress > 0) {
-                BilliardData.instance.setPower(progress * R * 150);
+                BilliardData.instance.setPower( Math.floor( progress * 150 ) * R );
                 this.onClickHit();
             }
         });
