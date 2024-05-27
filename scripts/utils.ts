@@ -1,4 +1,4 @@
-import { Vec3 } from "cc"
+import { Quat, Vec3 } from "cc"
 
 export const zero = new Vec3(0, 0, 0)
 export const up = new Vec3(0, 0, 1)
@@ -14,6 +14,11 @@ export function upCross(v) {
 const normVec = new Vec3()
 export function norm(v) {
   return normVec.copy(v).normalize()
+}
+
+const axisQuat = new Quat();
+export function rotateAxisAngle(nor: Vec3, angle: number) {
+  return Quat.fromAxisAngle(axisQuat, nor, angle);
 }
 
 const vc = new Vec3()

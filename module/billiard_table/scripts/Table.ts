@@ -15,6 +15,7 @@ import { Knuckle } from '../../../scripts/physics/knuckle';
 import { Pocket } from '../../../scripts/physics/pocket';
 import { PocketGeometry } from '../../../scripts/pocketgeometry';
 import { BilliardManager } from '../../../scripts/BilliardManager';
+import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
 
 const { ccclass, property } = _decorator;
 
@@ -64,7 +65,7 @@ export class Table extends BaseCommonScript {
 
     initTable() {
       this.initialiseBalls(director.getScene().getChildByPath("p_billiard_3d/NodeBalls").getComponentsInChildren(Ball));
-      this.cueBall = this.balls.find(ball => ball.node.name === "CueBall");
+      this.cueBall = this.balls[0];//this.balls.find(ball => ball.node.name === "CueBall");
       // yy.log.w("initialiseBalls", this.balls, this.cueBall, this.balls[0].node.name)
       // yy.log.w("balls:", this.cueBall.node.worldPosition, this.cueBall.node.position);
       // yy.log.w("nodeBalls", this.nodeBalls.worldPosition, this.nodeBalls.position);
@@ -215,24 +216,35 @@ export class Table extends BaseCommonScript {
     let cNum = 0;
     let lNum = 0;
     let x = TableGeometry.tableX;
+
+
+
     for( let i = 0; i < ballNums; i++ ) {
       let ball = instantiate(this.prefabBall).getComponent(Ball);
       this.nodeBalls.addChild(ball.node);
-      if (row === 1) {
-        ball.pos = new Vec3(x/2, 0, 0);
+      if (i === 0) {// 母球
+        ball.pos = new Vec3(-0.85, 0, 0);
+        ball.getComponent(RaySphereCollision).destroy();
       }
       else {
-        let space = R / 4;
-        let y = (lNum+1)%2 === 0 ?  (R + space/2) +  (2*R + space) * (Math.ceil((lNum+1)/2)-1) : (2*R + space) * (Math.ceil((lNum+1)/2)-1);
-        ball.pos = new Vec3(x/2 + (2 * R + space) * (row - 1), -y + (2 * R + space) * (lNum - cNum), 0);
+        if (row === 1) {
+          ball.pos = new Vec3(x/2, 0, 0);
+        }
+        else {
+          let space = R / 4;
+          let y = (lNum+1)%2 === 0 ?  (R + space/2) +  (2*R + space) * (Math.ceil((lNum+1)/2)-1) : (2*R + space) * (Math.ceil((lNum+1)/2)-1);
+          ball.pos = new Vec3(x/2 + (2 * R + space) * (row - 1), -y + (2 * R + space) * (lNum - cNum), 0);
+        }
+  
+        cNum += 1;
+        if (cNum - lNum === 1) {
+          row += 1;
+          lNum = cNum;
+          cNum = 0;
+        }
       }
 
-      cNum += 1;
-      if (cNum - lNum === 1) {
-        row += 1;
-        lNum = cNum;
-        cNum = 0;
-      }
+
     }
   }
 

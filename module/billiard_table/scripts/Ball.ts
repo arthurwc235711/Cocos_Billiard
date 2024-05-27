@@ -1,7 +1,7 @@
-import { _decorator, Component, director, macro, Node, Vec3 } from 'cc';
+import { _decorator, Component, director, macro, Material, MeshRenderer, misc, Node, quat, Quat, Vec3 } from 'cc';
 import { yy } from '../../../../../../yy';
 import { forceRoll, rollingFull, sliding, surfaceVelocityFull } from '../../../scripts/physics/physics';
-import { passesThroughZero } from '../../../scripts/utils';
+import { norm, passesThroughZero, rotateAxisAngle } from '../../../scripts/utils';
 import { Pocket } from '../../../scripts/physics/pocket';
 import { BilliardManager } from '../../../scripts/BilliardManager';
 const { ccclass, property } = _decorator;
@@ -17,23 +17,32 @@ export enum State {
 
 @ccclass('Ball')
 export class Ball extends Component {
+  @property([Material])
+  materials: Material[] = [];
+
     pos: Vec3;
     readonly vel: Vec3 = Vec3.ZERO.clone();
     readonly rvel: Vec3 = Vec3.ZERO.clone();
     readonly futurePos: Vec3 = Vec3.ZERO.clone();
-    state: State = State.Stationary
-    pocket: Pocket
+    state: State = State.Stationary;
+    pocket: Pocket;
+    ballMesh: MeshRenderer;
 
     private static id = 0;
-    readonly id = Ball.id++;
+    id: number; //= Ball.id++;
+    
     static readonly transition = 0.05;
 
 
     protected onLoad(): void {
+        this.id = Ball.id++;
         this.pos = this.node.position.clone();
-        if (this.id !== 0) {
-          this.node.name = "ball_" + this.id;
-        }
+        this.node.name = "ball_" + this.id;
+
+        this.ballMesh = this.node.getComponent(MeshRenderer);
+        this.ballMesh.material = this.materials[this.id];
+
+        // yy.log.w("balls onLoad", this.node.name)
     }
 
     fixedUpdate(dt: number) {
@@ -48,7 +57,21 @@ export class Ball extends Component {
     protected update(dt: number): void {
       if (!this.pos.vec3Equals(this.node.position)) {
           this.node.position = this.pos; // 更新球的位置
+          const angle = this.rvel.length() * dt;
+          // yy.log.w("update", angle)
+          // let q = new Quat()
+          // Quat.fromAxisAngle(q, norm(this.rvel), angle);
+          // const currentRotation = this.node.getRotation();
+          // let q1 = new Quat();
+          // const qq = Quat.multiply(q1, q, currentRotation);
+          // this.node.setRotation(q1);
+
+          let q = rotateAxisAngle(norm(this.rvel), angle);
+          const currentRotation = this.node.getRotation();
+          this.node.setRotation(Quat.multiply(currentRotation, q, currentRotation));
       }
+
+
     }
 
     private updatePosition(t: number) {
@@ -85,7 +108,7 @@ export class Ball extends Component {
         const vz = passesThroughZero(this.vel, delta.v)
         const wz = passesThroughZero(this.rvel, delta.w)
         const halts = this.state === State.Rolling ? vz || wz : vz && wz
-        if (halts){ //&& Math.abs(this.rvel.z) < 0.01) {
+        if (halts && Math.abs(this.rvel.z) < 0.01) {
           this.setStationary()
           return true
         }
@@ -131,5 +154,6 @@ export class Ball extends Component {
         return this.futurePos
     }
 }
+
 
 

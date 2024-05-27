@@ -47,9 +47,9 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.0655,
-      "y": 0.0655,
-      "z": 0.0655
+      "x": 1,
+      "y": 1,
+      "z": 1
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -74,7 +74,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "3fc3866d-12e6-4411-a7a6-117a9188555e",
+        "__uuid__": "d95768d3-65c4-4491-9770-d82e769a0949",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -83,11 +83,11 @@
       "__id__": 4
     },
     "_mesh": {
-      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@17020",
+      "__uuid__": "e72f98ec-f594-4d14-85b3-6fb6d62d2912@fd456",
       "__expectedType__": "cc.Mesh"
     },
-    "_shadowCastingMode": 0,
-    "_shadowReceivingMode": 1,
+    "_shadowCastingMode": 1,
+    "_shadowReceivingMode": 0,
     "_shadowBias": 0,
     "_shadowNormalBias": 0,
     "_reflectionProbeId": -1,
@@ -130,6 +130,72 @@
     "__prefab": {
       "__id__": 6
     },
+    "materials": [
+      {
+        "__uuid__": "b42ba349-2ec3-4f70-8deb-555d5ca5001e",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "6c7e71b3-48f0-4d4e-9486-83a2c783ebcf",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "3a298b44-5cc8-4e3b-8570-720e1298fcb4",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "d95768d3-65c4-4491-9770-d82e769a0949",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "8157588c-73c6-41e7-bad5-ca5ecb77e6bb",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "73804330-9cf4-4f52-b568-2890a17b1155",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "57d86a0a-2139-4f92-800e-c1c28eff8366",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "8c41b7b3-cac7-4e00-b54e-2003465c77a2",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "c5772c82-ab7d-4763-a0c6-29e71ef45319",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "011a9c6c-abd1-4f20-89b1-7660c0031f41",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "a01a412f-5f00-48e7-929e-a3b4821ce3d8",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "40df7065-9fa3-4050-930b-cfe31cfc924a",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "be426ce9-c85b-4a2f-966e-2a8ea1649f64",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "085ed06e-36df-4985-af24-a3b36a24217a",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "9dc04884-3ba5-4c6f-bf20-3834dd23e857",
+        "__expectedType__": "cc.Material"
+      },
+      {
+        "__uuid__": "6fc10a4c-5e50-42cc-9b3d-b85c17637697",
+        "__expectedType__": "cc.Material"
+      }
+    ],
     "_id": ""
   },
   {

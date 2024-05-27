@@ -13,7 +13,7 @@ export class BilliardData {
     }
 
 
-    private _ballNums: number = 21;
+    private _ballNums: number = 15 + 1; // 母球 + 1
 
     private _angle: number = 0;
     private _power: number = 0;
