@@ -183,6 +183,10 @@ export class Table extends BaseCommonScript {
   allStationary() {
     return this.balls.every((b) => !b.inMotion())
   }
+  
+  allMotingNotTuring() {
+    return this.balls.every((b) => !b.inMotingNotTuring())
+  }
 
   inPockets(): number {
     return this.balls.reduce((acc, b) => (b.onTable() ? acc : acc + 1), 0)

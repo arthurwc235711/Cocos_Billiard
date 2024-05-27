@@ -13,6 +13,7 @@ export enum State {
     Sliding = "Sliding",
     Falling = "Falling",
     InPocket = "InPocket",
+    Turning = "Turning",
   }
 
 @ccclass('Ball')
@@ -29,7 +30,7 @@ export class Ball extends Component {
     ballMesh: MeshRenderer;
 
     private static id = 0;
-    id: number; //= Ball.id++;
+    id: number; 
     
     static readonly transition = 0.05;
 
@@ -41,6 +42,10 @@ export class Ball extends Component {
 
         this.ballMesh = this.node.getComponent(MeshRenderer);
         this.ballMesh.material = this.materials[this.id];
+
+        if (this.id === 15) {
+          this.rvel.add(new Vec3(0, 0, 1000));
+        }
 
         // yy.log.w("balls onLoad", this.node.name)
     }
@@ -58,14 +63,6 @@ export class Ball extends Component {
       if (!this.pos.vec3Equals(this.node.position)) {
           this.node.position = this.pos; // 更新球的位置
           const angle = this.rvel.length() * dt;
-          // yy.log.w("update", angle)
-          // let q = new Quat()
-          // Quat.fromAxisAngle(q, norm(this.rvel), angle);
-          // const currentRotation = this.node.getRotation();
-          // let q1 = new Quat();
-          // const qq = Quat.multiply(q1, q, currentRotation);
-          // this.node.setRotation(q1);
-
           let q = rotateAxisAngle(norm(this.rvel), angle);
           const currentRotation = this.node.getRotation();
           this.node.setRotation(Quat.multiply(currentRotation, q, currentRotation));
@@ -108,10 +105,20 @@ export class Ball extends Component {
         const vz = passesThroughZero(this.vel, delta.v)
         const wz = passesThroughZero(this.rvel, delta.w)
         const halts = this.state === State.Rolling ? vz || wz : vz && wz
-        if (halts && Math.abs(this.rvel.z) < 0.01) {
-          this.setStationary()
-          return true
+        if (halts) {
+          if (Math.abs(this.rvel.z) < 0.01) {
+            this.setStationary()
+            return true
+          }
+
+          this.state = State.Turning;
+          this.vel.copy(Vec3.ZERO)
+          if (BilliardManager.instance.getTable().allMotingNotTuring()) {// 所有球停止移动则强制停止旋转
+            this.setStationary();
+            return true;
+          }
         }
+
         return false
     }
     setStationary() {
@@ -120,6 +127,7 @@ export class Ball extends Component {
         this.state = State.Stationary
 
         if (BilliardManager.instance.getTable().allStationary()) {
+
           yy.event.emit(yy.Event_Name.billiard_allStationary);
         }
     }
@@ -127,15 +135,28 @@ export class Ball extends Component {
         this.state = State.Sliding
     }
 
-    inMotion() {
+    inMotingNotTuring() {
+      return (
+        this.state === State.Rolling ||
+        this.state === State.Sliding ||
+        // this.state === State.Turning ||
+        this.isFalling()
+      )
+    }
+
+    inMotion() {// 单纯旋转不算 移动
         return (
           this.state === State.Rolling ||
           this.state === State.Sliding ||
+          this.state === State.Turning ||
           this.isFalling()
         )
     }
     isFalling() {
         return this.state === State.Falling
+    }
+    isTurning() {
+        return this.state === State.Turning
     }
 
     isRolling() {
