@@ -5,23 +5,6 @@
   "uuid": "e72f98ec-f594-4d14-85b3-6fb6d62d2912",
   "files": [],
   "subMetas": {
-    "fd456": {
-      "importer": "gltf-mesh",
-      "uuid": "e72f98ec-f594-4d14-85b3-6fb6d62d2912@fd456",
-      "displayName": "",
-      "id": "fd456",
-      "name": "pSphere1.mesh",
-      "userData": {
-        "gltfIndex": 0
-      },
-      "ver": "1.1.0",
-      "imported": true,
-      "files": [
-        ".bin",
-        ".json"
-      ],
-      "subMetas": {}
-    },
     "43c71": {
       "importer": "gltf-embeded-image",
       "uuid": "e72f98ec-f594-4d14-85b3-6fb6d62d2912@43c71",
@@ -39,6 +22,23 @@
       ],
       "subMetas": {}
     },
+    "fd456": {
+      "importer": "gltf-mesh",
+      "uuid": "e72f98ec-f594-4d14-85b3-6fb6d62d2912@fd456",
+      "displayName": "",
+      "id": "fd456",
+      "name": "pSphere1.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
     "d20e9": {
       "importer": "texture",
       "uuid": "e72f98ec-f594-4d14-85b3-6fb6d62d2912@d20e9",
@@ -52,8 +52,8 @@
         "magfilter": "linear",
         "mipfilter": "none",
         "anisotropy": 0,
-        "isUuid": true,
-        "imageUuidOrDatabaseUri": "e72f98ec-f594-4d14-85b3-6fb6d62d2912@43c71"
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/app/games/casual_games/billiard/module/billiard_table/balls/textures/Ball_10.png"
       },
       "ver": "1.0.22",
       "imported": true,
@@ -99,7 +99,7 @@
     "imageMetas": [
       {
         "name": "file1",
-        "uri": "e72f98ec-f594-4d14-85b3-6fb6d62d2912@43c71"
+        "uri": "db://assets/app/games/casual_games/billiard/module/billiard_table/balls/textures/Ball_10.png"
       }
     ],
     "fbx": {
