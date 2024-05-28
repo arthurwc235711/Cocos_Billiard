@@ -41,27 +41,29 @@ export class BilliardUIView extends BaseCommonScript {
 
     onClickStroke() {
         yy.log.w("onClickStroke");
+
+        yy.popup.show_popup("app_billiard", "module/billiard_hitpoint/view/p_billiard_hit_point", null);
     }
 
     initBtnTable(node3d:Node) {
-            let worldPosition = node3d.worldPosition;
-            let worldScale = node3d.worldScale;
-            let leftScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setX(worldPosition.x - worldScale.x/2));
-            let rightScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setX(worldPosition.x + worldScale.x/2));
-            let canvas = find("Canvas").getComponent(Canvas);
-            let lWp = canvas.cameraComponent.screenToWorld(leftScreenPos);
-            let rWp = canvas.cameraComponent.screenToWorld(rightScreenPos);
-            let lCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(lWp);
-            let rCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(rWp);
-            let tran = this.node.getChildByName("ButtonTable").getComponent(UITransform)
-            tran.width = Math.abs(rCanvasPos.x - lCanvasPos.x);
-            let topScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setY(worldPosition.y - worldScale.y/2));
-            let bottomScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setY(worldPosition.y + worldScale.y/2));
-            let tWp = canvas.cameraComponent.screenToWorld(topScreenPos);
-            let bWp = canvas.cameraComponent.screenToWorld(bottomScreenPos);
-            let tCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(tWp);
-            let bCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(bWp);
-            tran.height = Math.abs(bCanvasPos.y - tCanvasPos.y);
+        let worldPosition = node3d.worldPosition;
+        let worldScale = node3d.worldScale;
+        let leftScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setX(worldPosition.x - worldScale.x/2));
+        let rightScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setX(worldPosition.x + worldScale.x/2));
+        let canvas = find("Canvas").getComponent(Canvas);
+        let lWp = canvas.cameraComponent.screenToWorld(leftScreenPos);
+        let rWp = canvas.cameraComponent.screenToWorld(rightScreenPos);
+        let lCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(lWp);
+        let rCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(rWp);
+        let tran = this.node.getChildByName("ButtonTable").getComponent(UITransform)
+        tran.width = Math.abs(rCanvasPos.x - lCanvasPos.x);
+        let topScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setY(worldPosition.y - worldScale.y/2));
+        let bottomScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setY(worldPosition.y + worldScale.y/2));
+        let tWp = canvas.cameraComponent.screenToWorld(topScreenPos);
+        let bWp = canvas.cameraComponent.screenToWorld(bottomScreenPos);
+        let tCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(tWp);
+        let bCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(bWp);
+        tran.height = Math.abs(bCanvasPos.y - tCanvasPos.y);
     }
 
     initBtnTableClick() {
