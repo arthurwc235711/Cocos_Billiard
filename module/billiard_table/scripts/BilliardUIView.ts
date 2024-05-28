@@ -24,6 +24,7 @@ export class BilliardUIView extends BaseCommonScript {
         this.event_func_map = {
             // [yy.Event_Name.billiard_table_init]: "initBtnTable",
             // [yy.Event_Name.billiard_allStationary]: "onAllStationary",
+            [yy.Event_Name.billiard_hit_point]: "onHitPoint",
         };
         super.register_event();
     }
@@ -289,6 +290,16 @@ export class BilliardUIView extends BaseCommonScript {
 
         let cueNode =this.node.getChildByPath("SpriteSplash/Cue");
         cueNode.setPosition((progress + 1)* -300, 0, 0);
+    }
+
+
+    onHitPoint(nor: Vec3, per: number) {
+        let dot = this.node.getChildByPath("NodeRight/NodeHitPoint/ButtonBall/Node/Dot");
+        let radius = dot.parent.getComponent(UITransform).width / 2;
+        let length = radius * per;
+        let dis = nor.multiplyScalar(length)
+        let pos = dot.parent.worldPosition.clone().add(dis);
+        dot.worldPosition = pos;
     }
 
     private frameCount: number = 0;
