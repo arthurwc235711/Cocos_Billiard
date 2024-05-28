@@ -29,7 +29,6 @@ export class BilliardHitPointView extends BaseCommonPopup {
                 let length = dis.copy(touchWpos).subtract(this.nodeDot.parent.worldPosition).length();
                 if (length <= radius) {// 圆内
                     this.nodeDot.worldPosition = touchWpos;
-
                     yy.event.emit(yy.Event_Name.billiard_hit_point, dis.normalize(), length/radius);
                 }
             }
@@ -41,6 +40,7 @@ export class BilliardHitPointView extends BaseCommonPopup {
                 let length = dis.copy(touchWpos).subtract(this.nodeDot.parent.worldPosition).length();
                 if (length <= radius) {// 圆内
                     this.nodeDot.worldPosition = touchWpos;
+                    yy.event.emit(yy.Event_Name.billiard_hit_point, dis.normalize(), length/radius);
                 }
                 else {
                     this.close();
