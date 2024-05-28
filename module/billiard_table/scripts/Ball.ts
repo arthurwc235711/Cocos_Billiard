@@ -43,9 +43,9 @@ export class Ball extends Component {
         this.ballMesh = this.node.getComponent(MeshRenderer);
         this.ballMesh.material = this.materials[this.id];
 
-        if (this.id === 15) {
-          this.rvel.add(new Vec3(0, 0, 1000));
-        }
+        // if (this.id === 15) {
+        //   this.rvel.add(new Vec3(0, 0, 1000));
+        // }
 
         // yy.log.w("balls onLoad", this.node.name)
     }
