@@ -1,6 +1,8 @@
 import { _decorator, Camera, Component, EventTouch, find, Node, UITransform, Vec3 } from 'cc';
 import { BaseCommonPopup } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
+import { BilliardData } from '../../../data/BilliardData';
+import { roundVec2 } from '../../../scripts/utils';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardHitPointView')
@@ -28,8 +30,7 @@ export class BilliardHitPointView extends BaseCommonPopup {
                 let touchWpos = camera.screenToWorld(v3.set(local.x, local.y, 0)).setZ(0);
                 let length = dis.copy(touchWpos).subtract(this.nodeDot.parent.worldPosition).length();
                 if (length <= radius) {// 圆内
-                    this.nodeDot.worldPosition = touchWpos;
-                    yy.event.emit(yy.Event_Name.billiard_hit_point, dis.normalize(), length/radius);
+                    this.onTouch(touchWpos, dis, radius, length);
                 }
             }
         });
@@ -37,10 +38,11 @@ export class BilliardHitPointView extends BaseCommonPopup {
             if (!this.touchMove) {
                 const local = event.getLocation();
                 let touchWpos = camera.screenToWorld(v3.set(local.x, local.y, 0)).setZ(0);
+
+                // this.onTouch(touchWpos, dis, radius);
                 let length = dis.copy(touchWpos).subtract(this.nodeDot.parent.worldPosition).length();
                 if (length <= radius) {// 圆内
-                    this.nodeDot.worldPosition = touchWpos;
-                    yy.event.emit(yy.Event_Name.billiard_hit_point, dis.normalize(), length/radius);
+                    this.onTouch(touchWpos, dis, radius, length);
                 }
                 else {
                     this.close();
@@ -51,6 +53,15 @@ export class BilliardHitPointView extends BaseCommonPopup {
         });
 
         super.on_init();
+    }
+
+    onTouch(touchWpos: Vec3, dis: Vec3, radius: number, length: number) {
+        this.nodeDot.worldPosition = touchWpos;
+        let offset = BilliardData.instance.getOffset();
+        offset.set(-dis.x / (radius*2), dis.y / (radius*2), 0);
+        roundVec2(offset);
+        yy.event.emit(yy.Event_Name.billiard_hit_point, dis.normalize(), length/radius);
+        // yy.log.w("offset", offset);
     }
     
 }

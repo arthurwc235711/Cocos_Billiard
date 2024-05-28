@@ -275,6 +275,10 @@ export class BilliardUIView extends BaseCommonScript {
         this.node.getChildByPath("NodePower/Label").getComponent(Label).string = "";
         let nodeAngle = this.node.getChildByPath("NodeRight/NodeAngle");
         nodeAngle.active = true;
+
+        BilliardData.instance.getOffset().copy(Vec3.ZERO);
+        let dot = this.node.getChildByPath("NodeRight/NodeHitPoint/ButtonBall/Node/Dot");
+        dot.position = Vec3.ZERO;
         // let nodeArrow = this.node.getChildByName("SpriteSplash")
     }
 

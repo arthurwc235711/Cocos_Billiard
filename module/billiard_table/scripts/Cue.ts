@@ -25,7 +25,7 @@ export class Cue extends Component {
         let billiardData = BilliardData.instance;
         ball.setSliding();
         ball.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(billiardData.getPower()));
-        ball.rvel.copy(cueToSpin(Vec3.ZERO, ball.vel));
+        ball.rvel.copy(cueToSpin(billiardData.getOffset(), ball.vel));
     }
 }
 
