@@ -31,6 +31,40 @@ export class BilliardUIView extends BaseCommonScript {
     public on_init(): void {
         BilliardManager.instance.setView(this);
 
+        this.initBtnTableClick();
+        this.initAngleSliderClick();
+        this.initPowerSliderClick();
+
+        let btnBall = this.node.getChildByPath("NodeRight/NodeBall/ButtonBall");
+        btnBall.on("click", this.onClickStroke, this);
+    }
+
+    onClickStroke() {
+        yy.log.w("onClickStroke");
+    }
+
+    initBtnTable(node3d:Node) {
+            let worldPosition = node3d.worldPosition;
+            let worldScale = node3d.worldScale;
+            let leftScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setX(worldPosition.x - worldScale.x/2));
+            let rightScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setX(worldPosition.x + worldScale.x/2));
+            let canvas = find("Canvas").getComponent(Canvas);
+            let lWp = canvas.cameraComponent.screenToWorld(leftScreenPos);
+            let rWp = canvas.cameraComponent.screenToWorld(rightScreenPos);
+            let lCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(lWp);
+            let rCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(rWp);
+            let tran = this.node.getChildByName("ButtonTable").getComponent(UITransform)
+            tran.width = Math.abs(rCanvasPos.x - lCanvasPos.x);
+            let topScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setY(worldPosition.y - worldScale.y/2));
+            let bottomScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setY(worldPosition.y + worldScale.y/2));
+            let tWp = canvas.cameraComponent.screenToWorld(topScreenPos);
+            let bWp = canvas.cameraComponent.screenToWorld(bottomScreenPos);
+            let tCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(tWp);
+            let bCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(bWp);
+            tran.height = Math.abs(bCanvasPos.y - tCanvasPos.y);
+    }
+
+    initBtnTableClick() {
         let btn = this.node.getChildByName("ButtonTable");
         btn.on(Node.EventType.TOUCH_START, (event: EventTouch) => {
             this.touchMove = false;
@@ -56,8 +90,10 @@ export class BilliardUIView extends BaseCommonScript {
             }
             this.touchMove = false;
         });
+    }
 
-        let angleSlider = this.node.getChildByPath("NodeAngle/SpriteShader/Mask/TouchSprite");
+    initAngleSliderClick() {
+        let angleSlider = this.node.getChildByPath("NodeRight/NodeAngle/SpriteShader/Mask/TouchSprite");
         let uiTransform = angleSlider.getComponent(UITransform);
         let min = uiTransform.contentSize.y;
         let max = min * 2;
@@ -78,19 +114,15 @@ export class BilliardUIView extends BaseCommonScript {
                 angleInRadians = (-0.01 * Math.PI) / 180  
             }
 
-            // yy.log.w("MoveTouch", this.preTouchLocation, -inc / 50);
-            // this.preTouchLocation.add2f(0, -inc / 50 );
-            // this.onClickTable(this.preTouchLocation);
-            // yy.log.e("MoveTouch", this.preTouchLocation, -inc / 50);
-            // const angleInRadians = (1 * Math.PI) / 180; // 将角度转换为弧度
             const newX = this.preTouchLocation.x * Math.cos(angleInRadians) - this.preTouchLocation.y * Math.sin(angleInRadians);
             const newY = this.preTouchLocation.x * Math.sin(angleInRadians) + this.preTouchLocation.y * Math.cos(angleInRadians);
             this.preTouchLocation.x = newX;
             this.preTouchLocation.y = newY;
-            // yy.log.e("MoveTouch", this.preTouchLocation);
             this.onClickTable(this.preTouchLocation);
         });
+    }
 
+    initPowerSliderClick() {
         let sliderNode = this.node.getChildByPath("NodePower/TouchPower/Slider");
         sliderNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
             let slider = event.target.getComponent(Slider);
@@ -111,39 +143,12 @@ export class BilliardUIView extends BaseCommonScript {
         });
     }
 
-    initBtnTable(node3d:Node) {
-        // this.scheduleOnce(()=>this.node.getChildByName("SpriteSplash").worldPosition = BilliardTools.instance.camera3DToCamera2DWPos(worldPosition), 0);
-
-        // this.scheduleOnce(()=>{
-            // this.node.getChildByName("SpriteSplash").worldPosition = BilliardTools.instance.camera3DToCamera2DWPos(worldPosition);
-            let worldPosition = node3d.worldPosition;
-            let worldScale = node3d.worldScale;
-            let leftScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setX(worldPosition.x - worldScale.x/2));
-            let rightScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setX(worldPosition.x + worldScale.x/2));
-            let canvas = find("Canvas").getComponent(Canvas);
-            let lWp = canvas.cameraComponent.screenToWorld(leftScreenPos);
-            let rWp = canvas.cameraComponent.screenToWorld(rightScreenPos);
-            let lCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(lWp);
-            let rCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(rWp);
-            let tran = this.node.getChildByName("ButtonTable").getComponent(UITransform)
-            tran.width = Math.abs(rCanvasPos.x - lCanvasPos.x);
-            let topScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setY(worldPosition.y - worldScale.y/2));
-            let bottomScreenPos = BilliardManager.instance.camera3d.worldToScreen(worldPosition.clone().setY(worldPosition.y + worldScale.y/2));
-            let tWp = canvas.cameraComponent.screenToWorld(topScreenPos);
-            let bWp = canvas.cameraComponent.screenToWorld(bottomScreenPos);
-            let tCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(tWp);
-            let bCanvasPos = canvas.node.getComponent(UITransform).convertToNodeSpaceAR(bWp);
-            tran.height = Math.abs(bCanvasPos.y - tCanvasPos.y);
-        // }, 0)
-
-    }
-
     onClickHit() {
         yy.event.emit(yy.Event_Name.billiard_hit);
 
         let nodeArrow = this.node.getChildByName("SpriteSplash")
         nodeArrow.active = false;
-        let nodeAngle = this.node.getChildByName("NodeAngle");
+        let nodeAngle = this.node.getChildByPath("NodeRight/NodeAngle");
         nodeAngle.active = false;
         this.interactableTableTouch = false;
         this.node.getChildByPath("NodePower").active = false;
@@ -265,7 +270,7 @@ export class BilliardUIView extends BaseCommonScript {
         slider.progress = 1;
         this.node.getChildByPath("NodePower").active = true;
         this.node.getChildByPath("NodePower/Label").getComponent(Label).string = "";
-        let nodeAngle = this.node.getChildByName("NodeAngle");
+        let nodeAngle = this.node.getChildByPath("NodeRight/NodeAngle");
         nodeAngle.active = true;
         // let nodeArrow = this.node.getChildByName("SpriteSplash")
     }
