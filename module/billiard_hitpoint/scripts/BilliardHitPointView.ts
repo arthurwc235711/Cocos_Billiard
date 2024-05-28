@@ -52,6 +52,12 @@ export class BilliardHitPointView extends BaseCommonPopup {
             this.touchMove = false;
         });
 
+
+        let offset = BilliardData.instance.getOffset();
+        dis.set(-offset.x * radius * 2, offset.y * radius * 2, 0);
+        let pos = this.nodeDot.parent.worldPosition.clone().add(dis);
+        this.nodeDot.worldPosition = pos;
+
         super.on_init();
     }
 

@@ -41,7 +41,7 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     onClickStroke() {
-        yy.log.w("onClickStroke");
+        // yy.log.w("onClickStroke");
 
         yy.popup.show_popup("app_billiard", "module/billiard_hitpoint/view/p_billiard_hit_point", null);
     }
@@ -151,7 +151,7 @@ export class BilliardUIView extends BaseCommonScript {
 
         let nodeArrow = this.node.getChildByName("SpriteSplash")
         nodeArrow.active = false;
-        let nodeAngle = this.node.getChildByPath("NodeRight/NodeAngle");
+        let nodeAngle = this.node.getChildByName("NodeRight");
         nodeAngle.active = false;
         this.interactableTableTouch = false;
         this.node.getChildByPath("NodePower").active = false;
@@ -267,13 +267,13 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     onAllStationary() {
-        yy.log.w("", "所有球都静止");
+        // yy.log.w("", "所有球都静止");
         this.interactableTableTouch = true;
         let slider = this.node.getChildByPath("NodePower/TouchPower/Slider").getComponent(Slider);
         slider.progress = 1;
         this.node.getChildByPath("NodePower").active = true;
         this.node.getChildByPath("NodePower/Label").getComponent(Label).string = "";
-        let nodeAngle = this.node.getChildByPath("NodeRight/NodeAngle");
+        let nodeAngle = this.node.getChildByName("NodeRight");
         nodeAngle.active = true;
 
         BilliardData.instance.getOffset().copy(Vec3.ZERO);
