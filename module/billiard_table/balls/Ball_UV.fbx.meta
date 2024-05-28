@@ -5,23 +5,6 @@
   "uuid": "e72f98ec-f594-4d14-85b3-6fb6d62d2912",
   "files": [],
   "subMetas": {
-    "43c71": {
-      "importer": "gltf-embeded-image",
-      "uuid": "e72f98ec-f594-4d14-85b3-6fb6d62d2912@43c71",
-      "displayName": "",
-      "id": "43c71",
-      "name": "file1.image",
-      "userData": {
-        "gltfIndex": 0
-      },
-      "ver": "1.0.3",
-      "imported": true,
-      "files": [
-        ".json",
-        ".png"
-      ],
-      "subMetas": {}
-    },
     "fd456": {
       "importer": "gltf-mesh",
       "uuid": "e72f98ec-f594-4d14-85b3-6fb6d62d2912@fd456",
