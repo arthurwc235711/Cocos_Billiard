@@ -3598,7 +3598,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "NodeBall",
+    "_name": "NodeHitPoint",
     "_objFlags": 0,
     "_parent": {
       "__id__": 123

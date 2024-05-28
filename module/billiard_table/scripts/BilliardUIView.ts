@@ -35,7 +35,7 @@ export class BilliardUIView extends BaseCommonScript {
         this.initAngleSliderClick();
         this.initPowerSliderClick();
 
-        let btnBall = this.node.getChildByPath("NodeRight/NodeBall/ButtonBall");
+        let btnBall = this.node.getChildByPath("NodeRight/NodeHitPoint/ButtonBall");
         btnBall.on("click", this.onClickStroke, this);
     }
 
