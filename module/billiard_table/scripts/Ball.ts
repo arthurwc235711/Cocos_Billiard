@@ -43,6 +43,8 @@ export class Ball extends Component {
         this.ballMesh = this.node.getComponent(MeshRenderer);
         this.ballMesh.material = this.materials[this.id];
 
+        // this.node.setRotation(0.293, -0.491, 0.040, -0.818);
+
         // if (this.id === 15) {
         //   this.rvel.add(new Vec3(0, 0, 1000));
         // }
@@ -66,6 +68,9 @@ export class Ball extends Component {
           let q = rotateAxisAngle(norm(this.rvel), angle);
           const currentRotation = this.node.getRotation();
           this.node.setRotation(Quat.multiply(currentRotation, q, currentRotation));
+
+          // yy.log.w(this.node.position, this.node.rotation, this.id);
+
       }
 
 

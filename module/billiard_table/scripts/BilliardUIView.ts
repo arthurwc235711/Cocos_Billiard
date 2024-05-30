@@ -15,6 +15,13 @@ export class BilliardUIView extends BaseCommonScript {
     @property(Label)
     labelTestInfo: Label = null;
 
+    @property(Node)
+    nodeCueArrow: Node = null;
+    @property(Node)
+    nodeArrow: Node = null;
+    @property(Node)
+    nodeCue:Node = null;
+
     private interactableTableTouch: boolean = true;
     private touchMove: boolean = false;
     private preTouchLocation: Vec2 = new Vec2();
@@ -149,8 +156,7 @@ export class BilliardUIView extends BaseCommonScript {
     onClickHit() {
         yy.event.emit(yy.Event_Name.billiard_hit);
 
-        let nodeArrow = this.node.getChildByName("SpriteSplash")
-        nodeArrow.active = false;
+        this.nodeCueArrow.active = false;
         let nodeAngle = this.node.getChildByName("NodeRight");
         nodeAngle.active = false;
         this.interactableTableTouch = false;
@@ -164,22 +170,22 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     onShotAt(wp: Vec3) {
-        let cueNode =this.node.getChildByPath("SpriteSplash/Cue");
-        cueNode.setPosition(-300, 0, 0);
 
+        this.nodeCue.setPosition(-300, 0, 0);
+        let nodeCueArrow = this.nodeCueArrow;
         let cueBall = BilliardManager.instance.getCueBall();
-        let nodeArrow = this.node.getChildByName("SpriteSplash");
+        let nodeArrow = this.nodeArrow;
         let camera3DToCamera2DWPos = BilliardTools.instance.camera3DToCamera2DWPos.bind(BilliardTools.instance);
         let cue2dWp = camera3DToCamera2DWPos(cueBall.node.worldPosition);
-        nodeArrow.worldPosition = cue2dWp;
-        nodeArrow.active = true;
+        nodeCueArrow.worldPosition = cue2dWp;
+        nodeCueArrow.active = true;
         let direction = wp.clone().subtract(cueBall.node.worldPosition).normalize();
         let angle = direction.angleTo(Vec3.RIGHT);// 返回弧度
         if (wp.y > cueBall.node.worldPosition.y) {
-            nodeArrow.angle = angle * Rtd;// 返回角度
+            nodeCueArrow.angle = angle * Rtd;// 返回角度
         }
         else {
-            nodeArrow.angle = 360 - angle * Rtd;// 返回角度
+            nodeCueArrow.angle = 360 - angle * Rtd;// 返回角度
             angle = - angle;
         }
         // yy.log.w("setAngle angle", angle, nodeArrow.angle);
@@ -292,8 +298,8 @@ export class BilliardUIView extends BaseCommonScript {
             label.string = Math.floor( progress * 150 ).toString();
         }
 
-        let cueNode =this.node.getChildByPath("SpriteSplash/Cue");
-        cueNode.setPosition((progress + 1)* -300, 0, 0);
+
+        this.nodeCue.setPosition((progress + 1)* -300, 0, 0);
     }
 
 

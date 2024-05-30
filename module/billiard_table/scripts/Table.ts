@@ -220,7 +220,8 @@ export class Table extends BaseCommonScript {
     let cNum = 0;
     let lNum = 0;
     let x = TableGeometry.tableX;
-
+    let r = R //* 1.4;
+    let acos25 = Math.acos(22.5 * Math.PI / 180 );
 
 
     for( let i = 0; i < ballNums; i++ ) {
@@ -235,9 +236,9 @@ export class Table extends BaseCommonScript {
           ball.pos = new Vec3(x/2, 0, 0);
         }
         else {
-          let space = R / 4;
-          let y = (lNum+1)%2 === 0 ?  (R + space/2) +  (2*R + space) * (Math.ceil((lNum+1)/2)-1) : (2*R + space) * (Math.ceil((lNum+1)/2)-1);
-          ball.pos = new Vec3(x/2 + (2 * R + space) * (row - 1), -y + (2 * R + space) * (lNum - cNum), 0);
+          let space = 0//0.001 ;
+          let y = (lNum+1)%2 === 0 ?  (r + space/2) +  (2*r + space) * (Math.ceil((lNum+1)/2)-1) : (2*r + space) * (Math.ceil((lNum+1)/2)-1);
+          ball.pos = new Vec3(x/2 + (2 * r / acos25  +  0.001) * (row - 1), -y + (2 * r + space) * (lNum - cNum), 0);
         }
   
         cNum += 1;

@@ -1,10 +1,10 @@
 import { Ball } from "./Ball"
 
 export enum OutcomeType {
-  Pot = "Pot",
-  Cushion = "Cushion",
-  Collision = "Collision",
-  Hit = "Hit",
+  Pot = "Pot",   // 进洞
+  Cushion = "Cushion", // 撞库
+  Collision = "Collision", // 球之间碰撞
+  Hit = "Hit", // 球杆击打白球
 }
 
 export class Outcome {

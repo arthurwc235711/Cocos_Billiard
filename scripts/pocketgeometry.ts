@@ -27,6 +27,7 @@ export class PocketGeometry {
   }
 
   static scaleToRadius(R) {
+    R = 0.03275
     PocketGeometry.PX = TableGeometry.tableX + R * (0.8 / 0.5)
     PocketGeometry.PY = TableGeometry.tableY + R * (0.8 / 0.5)
     PocketGeometry.knuckleInset = (R * 1.6) / 0.5
@@ -73,6 +74,7 @@ export class PocketGeometry {
   }
 
   static pocketLayout(R) {
+    R = 0.03275
     PocketGeometry.pockets = {
       pocketNW: {
         pocket: new Pocket(

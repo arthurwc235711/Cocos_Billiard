@@ -61,7 +61,7 @@ export class BilliardTools {
         let f = Math.sqrt(sphereRadius * sphereRadius - e*e + a*a);
         let t = a - f;
         // yy.log.w("t", t);
-        return t - 5; //减少5像素贴图的误差
+        return t - 30; //减少5像素贴图的误差
     }
 
     getRectangleDisanceBy2dCamera(org: Node, cushion:Node, dir: Vec3 ) {
