@@ -34,16 +34,19 @@
       },
       {
         "__id__": 259
+      },
+      {
+        "__id__": 263
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 263
+        "__id__": 267
       }
     ],
     "_prefab": {
-      "__id__": 265
+      "__id__": 269
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -5907,6 +5910,107 @@
     "nestedPrefabInstanceRoots": null
   },
   {
+    "__type__": "cc.Node",
+    "_name": "SpriteRenderer-001",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 264
+      }
+    ],
+    "_prefab": {
+      "__id__": 266
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": -1.7,
+      "y": -0.18,
+      "z": -1
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 0.195,
+      "y": 0.195,
+      "z": 0.195
+    },
+    "_mobility": 0,
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.SpriteRenderer",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 263
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 265
+    },
+    "_materials": [
+      {
+        "__uuid__": "ade8a15a-dcca-4b3c-84c6-f6476ac875bb",
+        "__expectedType__": "cc.Material"
+      }
+    ],
+    "_visFlags": 0,
+    "_spriteFrame": {
+      "__uuid__": "60de963d-4336-47db-bbfe-a197eed422c2@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
+    "_mode": 0,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_flipX": false,
+    "_flipY": false,
+    "_size": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "f2bNYsUn9Ky729bM2RrWOz"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "ccONOCkTVGbaoWhqQ8cBgu",
+    "nestedPrefabInstanceRoots": null
+  },
+  {
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
@@ -5915,7 +6019,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 264
+      "__id__": 268
     },
     "_contentSize": {
       "__type__": "cc.Size",
