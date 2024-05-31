@@ -100,7 +100,7 @@
       "__type__": "cc.Vec3",
       "x": 0.19,
       "y": 0.19,
-      "z": 0.19
+      "z": 1
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -399,6 +399,7 @@
       "__id__": 0
     },
     "fileId": "adH/+CCklPDrEiJUaBL+s7",
+    "instance": null,
     "targetOverrides": []
   }
 ]
