@@ -1,5 +1,6 @@
 
-import { Ball } from "../../module/table/scripts/Ball"
+// import { Ball } from "../../module/table/scripts/Ball"
+import { Ball } from "../../module/billiard_table/scripts/Ball"
 import { R } from "./constants"
 
 export class Collision {

@@ -57,11 +57,20 @@ export class BilliardTools {
         let offset = sphereCenter.clone().subtract(source);
         let e = offset.length();
         let a = offset.dot(rayDirection);
+        // let c = rayDirection.length();
+        // let cos = a/e/c;
+        // let sin = Math.sqrt(1 - cos*cos);
+        // let y = sphereRadius * cos;
+        // let x = sphereRadius * sin;
+        // let vx = dis.worldRotation.x - x;
+        // let vy = dis.worldRotation.y + y;
+
+        
 
         let f = Math.sqrt(sphereRadius * sphereRadius - e*e + a*a);
         let t = a - f;
         // yy.log.w("t", t);
-        return t - 30; //减少30像素贴图的误差
+        return t; 
     }
 
     getRectangleDisanceBy2dCamera(org: Node, cushion:Node, dir: Vec3 ) {
