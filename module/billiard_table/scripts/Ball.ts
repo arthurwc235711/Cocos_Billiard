@@ -21,13 +21,13 @@ export enum State {
 export class Ball extends Component {
   @property([Material])
   materials: Material[] = [];
-
     pos: Vec3;
     readonly vel: Vec3 = Vec3.ZERO.clone();
     readonly rvel: Vec3 = Vec3.ZERO.clone();
     readonly futurePos: Vec3 = Vec3.ZERO.clone();
     state: State = State.Stationary;
     pocket: Pocket;
+    @property(MeshRenderer)
     ballMesh: MeshRenderer;
 
     id: number; 
@@ -39,8 +39,6 @@ export class Ball extends Component {
         this.id = BilliardData.ballId++;
         this.pos = this.node.position.clone();
         this.node.name = "ball_" + this.id;
-
-        this.ballMesh = this.node.getComponent(MeshRenderer);
         this.ballMesh.material = this.materials[this.id];
 
         // this.node.setRotation(0.293, -0.491, 0.040, -0.818);
@@ -66,8 +64,8 @@ export class Ball extends Component {
           this.node.position = this.pos; // 更新球的位置
           const angle = this.rvel.length() * dt;
           let q = rotateAxisAngle(norm(this.rvel), angle);
-          const currentRotation = this.node.getRotation();
-          this.node.setRotation(Quat.multiply(currentRotation, q, currentRotation));
+          const currentRotation = this.ballMesh.node.getRotation();
+          this.ballMesh.node.setRotation(Quat.multiply(currentRotation, q, currentRotation));
           // yy.log.w(this.node.position, this.node.rotation, this.id);
       }
     }
