@@ -1,8 +1,9 @@
 
 import { R, e } from "./constants"
 import { Vec3 } from "cc"
-import { Ball } from "../../module/table/scripts/Ball"
+import { Ball } from "../../module/billiard_table/scripts/Ball"
 import { PocketGeometry } from "../pocketgeometry"
+
 
 export class Knuckle {
   pos: Vec3

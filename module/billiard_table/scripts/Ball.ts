@@ -4,6 +4,7 @@ import { forceRoll, rollingFull, sliding, surfaceVelocityFull } from '../../../s
 import { norm, passesThroughZero, rotateAxisAngle } from '../../../scripts/utils';
 import { Pocket } from '../../../scripts/physics/pocket';
 import { BilliardManager } from '../../../scripts/BilliardManager';
+import { BilliardData } from '../../../data/BilliardData';
 const { ccclass, property } = _decorator;
 
 
@@ -29,14 +30,13 @@ export class Ball extends Component {
     pocket: Pocket;
     ballMesh: MeshRenderer;
 
-    private static id = 0;
     id: number; 
     
     static readonly transition = 0.05;
 
 
     protected onLoad(): void {
-        this.id = Ball.id++;
+        this.id = BilliardData.ballId++;
         this.pos = this.node.position.clone();
         this.node.name = "ball_" + this.id;
 
@@ -68,12 +68,8 @@ export class Ball extends Component {
           let q = rotateAxisAngle(norm(this.rvel), angle);
           const currentRotation = this.node.getRotation();
           this.node.setRotation(Quat.multiply(currentRotation, q, currentRotation));
-
           // yy.log.w(this.node.position, this.node.rotation, this.id);
-
       }
-
-
     }
 
     private updatePosition(t: number) {

@@ -104,8 +104,6 @@ export class BilliardManager extends BaseCommonInstance{
         }
     }
     
-
-
 }
 
 

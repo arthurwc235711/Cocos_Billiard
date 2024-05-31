@@ -9,14 +9,17 @@ export class BilliardData {
         return this.__instance__;
     }
     delete(){
-        delete BilliardData.__instance__
+        delete BilliardData.__instance__;
+        BilliardData.ballId = 0;
     }
 
 
+    static ballId: number = 0;
     private _ballNums: number = 15 + 1; // 母球 + 1
     private _angle: number = 0;
     private _power: number = 0;
     private readonly _offset: Vec3 = Vec3.ZERO.clone();
+
 
     getAngle(): number {
         return this._angle;
