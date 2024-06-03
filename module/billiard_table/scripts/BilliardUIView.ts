@@ -1,5 +1,5 @@
 import { _decorator, Button, Canvas, Component, EventTouch, find, game, Label, Node, physics, quat, Quat, Size, Slider, Sprite, UITransform, Vec2, Vec3, Widget } from 'cc';
-import { BaseCommonScript, BaseCommonSocketReader } from '../../../../../../main/base/BaseCommonScript';
+import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
 import { BilliardTools } from '../../../scripts/BilliardTools';
@@ -206,7 +206,9 @@ export class BilliardUIView extends BaseCommonScript {
                 
                 let b2dPos = camera3DToCamera2DWPos(nodes[0].worldPosition);
                 let furCueNode = nodeArrow.getChildByPath("Sprite");
+
                 furCueNode.getComponent(Widget).updateAlignment(); // 强制更新节点位置，不然当前帧数据会异常，需要等待下一帧计算才行
+                // yy.log.w("furCueNode", furCueNode.worldPosition)
                 let v1 = b2dPos.clone().subtract(furCueNode.worldPosition).normalize();
                 let ballAngle = v1.angleTo(Vec3.RIGHT);;
 
@@ -315,17 +317,20 @@ export class BilliardUIView extends BaseCommonScript {
     private frameCount: number = 0;
     private dt: number = 0;
     private fps: number = 0;
-
+    private tmpString: string = null;
     protected update(dt: number): void {
         this.dt += dt;
         this.frameCount++;
 
         if (this.dt > 1) {
             this.fps = this.frameCount / this.dt;
-            this.labelTestInfo.string = `FPS: ${this.fps.toFixed(2)}  DT: ${(this.dt/this.frameCount).toFixed(3)}  fps: ${(1/dt).toFixed(3)}`;
+            this.tmpString = `FPS: ${this.fps.toFixed(2)}  DT: ${(this.dt/this.frameCount).toFixed(3)} `;
+            this.labelTestInfo.string = this.tmpString;
             this.dt = 0;
             this.frameCount = 0;
         }
+
+        this.labelTestInfo.string = this.tmpString +  ` fps: ${(1/dt).toFixed(3)}`
     }
 }
 
