@@ -318,19 +318,26 @@ export class BilliardUIView extends BaseCommonScript {
     private dt: number = 0;
     private fps: number = 0;
     private tmpString: string = null;
+    private minFps = 100000;
+    private maxFps = 0;
     protected update(dt: number): void {
         this.dt += dt;
         this.frameCount++;
-
+        let cfps = 1/dt;
         if (this.dt > 1) {
             this.fps = this.frameCount / this.dt;
-            this.tmpString = `FPS: ${this.fps.toFixed(2)}  DT: ${(this.dt/this.frameCount).toFixed(3)} `;
+            this.tmpString = `FPS: ${this.fps.toFixed(2)}  DT: ${(this.dt/this.frameCount).toFixed(3)}  minFps: ${this.minFps.toFixed(3)},  maxFps: ${this.maxFps.toFixed(3)}`;
             this.labelTestInfo.string = this.tmpString;
             this.dt = 0;
             this.frameCount = 0;
+            this.minFps = 100000;
+            this.maxFps = 0;
         }
+        this.minFps = Math.min(this.minFps, cfps);
+        this.maxFps = Math.max(this.maxFps, cfps);
 
-        this.labelTestInfo.string = this.tmpString +  ` fps: ${(1/dt).toFixed(3)}`
+
+        // this.labelTestInfo.string = this.tmpString +  ` fps: ${(1/dt).toFixed(3)}`
     }
 }
 
