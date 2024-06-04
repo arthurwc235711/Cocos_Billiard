@@ -81,6 +81,7 @@ export class BilliardManager extends BaseCommonInstance{
             let ball = table.recentlyBall();
             if (ball) {
                 view.autoShotAt(ball.node);
+                view.onFreeBall();
             }
         }, 0);
 
@@ -103,6 +104,11 @@ export class BilliardManager extends BaseCommonInstance{
         // 母球进洞
         if (Outcome.isCueBallPotted(table.cueBall, table.outcome)) {
             table.cueBall.pos = new Vec3(-0.85, 0, 0);
+            let view =this.getView();
+            view.freeBall.node.active = true;
+            view.onFreeBallMove(!table.isValidFreeBall());
+            view.onFreeBall();
+
         }
     }
     

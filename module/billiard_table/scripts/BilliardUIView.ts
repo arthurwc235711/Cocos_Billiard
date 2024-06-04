@@ -8,6 +8,7 @@ import { rayHit } from '../../../scripts/physics/physics';
 import { BaseRayCollision } from '../../../scripts/physics/component/BaseRayCollision';
 import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
 import { BilliardManager } from '../../../scripts/BilliardManager';
+import { BilliardFree } from './BilliardFree';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardUIView')
@@ -21,10 +22,13 @@ export class BilliardUIView extends BaseCommonScript {
     nodeArrow: Node = null;
     @property(Node)
     nodeCue:Node = null;
+    @property(BilliardFree)
+    freeBall: BilliardFree;
 
     private interactableTableTouch: boolean = true;
     private touchMove: boolean = false;
     private preTouchLocation: Vec2 = new Vec2();
+
     
     public register_event() {
         // 注册指定的监听方法，格式如下
@@ -32,6 +36,7 @@ export class BilliardUIView extends BaseCommonScript {
             // [yy.Event_Name.billiard_table_init]: "initBtnTable",
             // [yy.Event_Name.billiard_allStationary]: "onAllStationary",
             [yy.Event_Name.billiard_hit_point]: "onHitPoint",
+            [yy.Event_Name.billiard_free_ball_move]: "onFreeBallMove",
         };
         super.register_event();
     }
@@ -80,11 +85,12 @@ export class BilliardUIView extends BaseCommonScript {
 
     initBtnTableClick() {
         let btn = this.node.getChildByName("ButtonTable");
+        let isFreeBallMove = false;
         btn.on(Node.EventType.TOUCH_START, (event: EventTouch) => {
             this.touchMove = false;
         });
         btn.on(Node.EventType.TOUCH_MOVE, (event: EventTouch) => {
-            if (this.interactableTableTouch) {
+            if (this.interactableTableTouch && !this.freeBall.touchMove) {
                 let touch = event.touch;
                 let local = touch.getLocation();
                 let perLocal = touch.getPreviousLocation();
@@ -96,9 +102,10 @@ export class BilliardUIView extends BaseCommonScript {
                     this.onClickTable(this.preTouchLocation);
                 }
             }
+            isFreeBallMove = this.freeBall.touchMove;
         });
         btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
-            if (this.interactableTableTouch && !this.touchMove) {
+            if (this.interactableTableTouch && !isFreeBallMove) {
                 this.onClickTable(event.getLocation());
                 this.preTouchLocation = event.getLocation();
             }
@@ -165,6 +172,8 @@ export class BilliardUIView extends BaseCommonScript {
         nodeAngle.active = false;
         this.interactableTableTouch = false;
         this.node.getChildByPath("NodePower").active = false;
+
+        this.freeBall.node.active = false;
     }
 
     onClickTable(local: Vec2) {       
@@ -342,6 +351,27 @@ export class BilliardUIView extends BaseCommonScript {
 
 
         // this.labelTestInfo.string = this.tmpString +  ` fps: ${(1/dt).toFixed(3)}`
+    }
+
+    onFreeBall() {
+        this.freeBall.setFreeBall();
+    }
+
+    onFreeBallMove(isMove: boolean) {
+        if (isMove) {
+            this.nodeCueArrow.active = false;
+            this.node.getChildByName("NodeRight").active = false;
+            this.node.getChildByPath("NodePower").active = false;
+        }else {
+            this.nodeCueArrow.active = true;
+            this.node.getChildByName("NodeRight").active = true;
+            this.node.getChildByPath("NodePower").active = true;
+            let table = BilliardManager.instance.getTable();
+            let ball = table.recentlyBall();
+            if (ball) {
+                this.autoShotAt(ball.node);
+            }
+        }
     }
 }
 

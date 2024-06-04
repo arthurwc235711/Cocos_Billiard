@@ -258,6 +258,16 @@ export class Table extends BaseCommonScript {
     track.updateInTrack(dt);
   }
 
+
+  isValidFreeBall() {
+    let length = 4 * R * R;
+    for(let i = 1; i < this.balls.length; i++){
+      if((this.cueBall.pos.distanceToSquared(this.balls[i].pos) < length)) {
+        return false;
+      }
+    }
+    return true
+  }
 }
 
 
