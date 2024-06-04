@@ -6,6 +6,7 @@ import { Outcome } from "../module/billiard_table/scripts/Outcome";
 import { Table } from "../module/billiard_table/scripts/Table";
 import { Ball } from "../module/billiard_table/scripts/Ball";
 import { BilliardData } from "../data/BilliardData";
+import { track } from "./physics/track";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -69,6 +70,7 @@ export class BilliardManager extends BaseCommonInstance{
     reset_data () {
         this.delete();
         BilliardData.instance.delete();
+        track.clear();
     }
 
     onInitGame(node3d:Node) {

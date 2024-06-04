@@ -5,6 +5,8 @@ import { norm, passesThroughZero, rotateAxisAngle } from '../../../scripts/utils
 import { Pocket } from '../../../scripts/physics/pocket';
 import { BilliardManager } from '../../../scripts/BilliardManager';
 import { BilliardData } from '../../../data/BilliardData';
+import { trace } from 'node:console';
+import { track } from '../../../scripts/physics/track';
 const { ccclass, property } = _decorator;
 
 
@@ -15,6 +17,7 @@ export enum State {
     Falling = "Falling",
     InPocket = "InPocket",
     Turning = "Turning",
+    // InTrack = "InTrack",
   }
 
 @ccclass('Ball')
@@ -52,11 +55,12 @@ export class Ball extends Component {
 
     fixedUpdate(dt: number) {
       this.updatePosition(dt);
-      if (this.state == State.Falling) {
+      if (this.state === State.Falling) {
           this.pocket.updateFall(this, dt)
-        } else {
-          this.updateVelocity(dt)
-        }
+      }
+      else {
+        this.updateVelocity(dt)
+      }
     }
 
     protected update(dt: number): void {
@@ -172,6 +176,11 @@ export class Ball extends Component {
     futurePosition(t) {
         this.futurePos.copy(this.pos).addScaledVector(this.vel, t)
         return this.futurePos
+    }
+
+    setTrack() {
+      this.pos = new Vec3(-1.5, 0.74, -0.5);
+      this.node.getChildByName("SpriteRenderer").active = false;
     }
 }
 

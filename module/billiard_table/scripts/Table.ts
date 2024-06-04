@@ -16,6 +16,7 @@ import { Pocket } from '../../../scripts/physics/pocket';
 import { PocketGeometry } from '../../../scripts/pocketgeometry';
 import { BilliardManager } from '../../../scripts/BilliardManager';
 import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
+import { track } from '../../../scripts/physics/track';
 
 const { ccclass, property } = _decorator;
 
@@ -251,6 +252,10 @@ export class Table extends BaseCommonScript {
 
 
     }
+  }
+
+  protected update(dt: number): void {
+    track.updateInTrack(dt);
   }
 
 }
