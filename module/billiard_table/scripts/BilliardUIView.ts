@@ -105,7 +105,7 @@ export class BilliardUIView extends BaseCommonScript {
             isFreeBallMove = this.freeBall.touchMove;
         });
         btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
-            if (this.interactableTableTouch && !isFreeBallMove) {
+            if (this.interactableTableTouch && !isFreeBallMove && !this.touchMove) {
                 this.onClickTable(event.getLocation());
                 this.preTouchLocation = event.getLocation();
             }
