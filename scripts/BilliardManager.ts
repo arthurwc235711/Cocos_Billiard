@@ -103,7 +103,7 @@ export class BilliardManager extends BaseCommonInstance{
         let table = this.getTable();
         // 母球进洞
         if (Outcome.isCueBallPotted(table.cueBall, table.outcome)) {
-            table.cueBall.pos = new Vec3(-0.85, 0, 0);
+            table.cueBall.pos.copy(Vec3.ZERO);
             let view =this.getView();
             view.freeBall.node.active = true;
             view.onFreeBallMove(!table.isValidFreeBall());

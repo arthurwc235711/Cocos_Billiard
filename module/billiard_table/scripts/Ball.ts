@@ -24,10 +24,10 @@ export enum State {
 export class Ball extends Component {
   @property([Material])
   materials: Material[] = [];
-    pos: Vec3;
-    readonly vel: Vec3 = Vec3.ZERO.clone();
-    readonly rvel: Vec3 = Vec3.ZERO.clone();
-    readonly futurePos: Vec3 = Vec3.ZERO.clone();
+    readonly pos: Vec3 = new Vec3();
+    readonly vel: Vec3 = new Vec3();
+    readonly rvel: Vec3 = new Vec3();
+    readonly futurePos: Vec3 = new Vec3();
     state: State = State.Stationary;
     pocket: Pocket;
     @property(MeshRenderer)
@@ -40,7 +40,7 @@ export class Ball extends Component {
 
     protected onLoad(): void {
         this.id = BilliardData.ballId++;
-        this.pos = this.node.position.clone();
+        this.pos.copy(this.node.position);
         this.node.name = "ball_" + this.id;
         this.ballMesh.material = this.materials[this.id];
 
@@ -62,6 +62,7 @@ export class Ball extends Component {
         this.updateVelocity(dt)
       }
     }
+
 
     protected update(dt: number): void {
       if (!this.pos.vec3Equals(this.node.position)) {
@@ -179,7 +180,7 @@ export class Ball extends Component {
     }
 
     setTrack() {
-      this.pos = new Vec3(-1.5, 0.74, -0.5);
+      this.pos.set(-1.5, 0.74, -0.5);
       this.node.getChildByName("SpriteRenderer").active = false;
     }
 }
