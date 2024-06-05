@@ -75,6 +75,11 @@ export class Ball extends Component {
       }
     }
 
+    updatePosImmediately(pos: Vec3) {
+        this.pos.copy(pos);
+        this.node.position = this.pos;
+    }
+
     private updatePosition(t: number) {
         this.pos.addScaledVector(this.vel, t)
         // this.node.position = this.pos;

@@ -104,10 +104,10 @@ export class BilliardManager extends BaseCommonInstance{
         let view =this.getView();
         let freeBall = function() {
             yy.toast.addNow("你犯规了");
-            table.cueBall.pos.copy(Vec3.ZERO);
+            table.cueBall.updatePosImmediately(Vec3.ZERO);
             view.freeBall.node.active = true;
-            view.onFreeBallMove(!table.isValidFreeBall());
             view.onFreeBall();
+            view.onFreeBallMove(!table.isValidFreeBall());
         }
         // 母球进洞
         if (Outcome.isCueBallPotted(table.cueBall, table.outcome) ) {
