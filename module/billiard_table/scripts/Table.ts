@@ -40,7 +40,7 @@ export class Table extends BaseCommonScript {
     cushionModel = bounceHanBlend
     cueBall:Ball = null;
 
-    readonly fixedTimeStep = 1.0 / 128.0;// 物理模拟的固定时间步长
+    readonly fixedTimeStep = 1.0 / 512.0;// 物理模拟的固定时间步长
 
 
     public register_event(): void {
@@ -74,19 +74,23 @@ export class Table extends BaseCommonScript {
     }
 
 
+    decimal: number = 0;
     // loopUpdate  fixedUpdate 会在所有update之后调用
     loopUpdate(dt: number) {
-      let loopTimes = dt/this.fixedTimeStep;
+      let tmp = dt/this.fixedTimeStep + this.decimal;
+      let loopTimes = Math.floor(tmp)
+      this.decimal = tmp - loopTimes;
+      // this.records[loopTimes]++;
+      // yy.log.w("loopUpdate", this.records);
       for (let i = 0; i < loopTimes; i++) {
         this.fixedUpdate(this.fixedTimeStep);
       }
+
+  
     }
     // 模拟物理
     fixedUpdate(dt: number) {
-      let loopTimes = dt/this.fixedTimeStep;
-      for (let i = 0; i < loopTimes; i++) {
-        this.advance(this.fixedTimeStep);
-      }
+      this.advance(dt);
     }
 
     initialiseBalls(balls: Ball[]) {
@@ -229,17 +233,17 @@ export class Table extends BaseCommonScript {
       let ball = instantiate(this.prefabBall).getComponent(Ball);
       this.nodeBalls.addChild(ball.node);
       if (i === 0) {// 母球
-        ball.pos = new Vec3(-0.85, 0, 0);
+        ball.pos.set(-0.85, 0, 0);
         ball.getComponent(RaySphereCollision).destroy();
       }
       else {
         if (row === 1) {
-          ball.pos = new Vec3(x/2, 0, 0);
+          ball.pos.set(x/2, 0, 0);
         }
         else {
           let space = 0//0.001 ;
           let y = (lNum+1)%2 === 0 ?  (r + space/2) +  (2*r + space) * (Math.ceil((lNum+1)/2)-1) : (2*r + space) * (Math.ceil((lNum+1)/2)-1);
-          ball.pos = new Vec3(x/2 + (2 * r / acos25  +  0.001) * (row - 1), -y + (2 * r + space) * (lNum - cNum), 0);
+          ball.pos.set(x/2 + (2 * r / acos25  +  0.001) * (row - 1), -y + (2 * r + space) * (lNum - cNum), 0);
         }
   
         cNum += 1;
@@ -249,8 +253,6 @@ export class Table extends BaseCommonScript {
           cNum = 0;
         }
       }
-
-
     }
   }
 
