@@ -92,24 +92,51 @@ export class BilliardManager extends BaseCommonInstance{
         let view = this.getView();
         let table = this.getTable();
         this.getView().onAllStationary();
-        this.onUpdate();
+        this.onResult();
         let ball = table.recentlyBall();
         if (ball) {
             view.autoShotAt(ball.node);
         }
     }
 
-    onUpdate() {
+    onResult() {
         let table = this.getTable();
-        // 母球进洞
-        if (Outcome.isCueBallPotted(table.cueBall, table.outcome)) {
+        let view =this.getView();
+        let freeBall = function() {
+            yy.toast.addNow("你犯规了");
             table.cueBall.pos.copy(Vec3.ZERO);
-            let view =this.getView();
             view.freeBall.node.active = true;
             view.onFreeBallMove(!table.isValidFreeBall());
             view.onFreeBall();
-
         }
+        // 母球进洞
+        if (Outcome.isCueBallPotted(table.cueBall, table.outcome) ) {
+            yy.log.w("打进母球");
+            if (Outcome.is8BallPotted(table.outcome)) {
+                yy.toast.addNow("你输了");
+                // yy.log.w("打进8号球， 你输了");
+            }
+            else {
+                freeBall();
+            }
+        }
+        else if (Outcome.isFirstCushion(table.outcome)) {// 先撞库
+            yy.log.w("先撞库");
+            freeBall();
+        }
+        else if (Outcome.firstCollision(table.outcome) === undefined) {// 没有撞球
+            yy.log.w("没有撞球");
+            freeBall();
+        }
+        else if (Outcome.isCollisionNoCushion(table.outcome)) { // 撞球后没有撞库
+            yy.log.w("撞球后没有撞库");
+            freeBall();
+        }
+
+    
+
+
+
     }
     
 }

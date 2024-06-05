@@ -25,6 +25,7 @@ export class BilliardScene extends CasualCommonSceneBase {
     protected start(): void {
         let clone = instantiate(this.prefabBilliard3D);
         director.getScene().addChild(clone);
+        yy.toast.setToastRes('app_common', 'toast/view/toast_view');
     }
 
 

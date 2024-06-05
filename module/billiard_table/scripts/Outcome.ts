@@ -103,4 +103,18 @@ export class Outcome {
     })
     return outcomes
   }
+
+
+  static is8BallPotted(outcomes: Outcome[]) {
+    return outcomes.some((o) => o.type == OutcomeType.Pot && o.ballA!.id === 8)
+  }
+
+  static isFirstCushion(outcomes: Outcome[]) {
+    return outcomes.length > 1 ? outcomes[1].type === OutcomeType.Cushion : false
+  }
+
+  static isCollisionNoCushion(outcomes: Outcome[]) {
+    return (outcomes.length > 1 ? outcomes[1].type === OutcomeType.Collision : false) &&
+    !outcomes.some(o=>o.type === OutcomeType.Cushion)
+  }
 }
