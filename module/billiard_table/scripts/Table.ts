@@ -83,7 +83,7 @@ export class Table extends BaseCommonScript {
       // this.records[loopTimes]++;
       // yy.log.w("loopUpdate", this.records);
       for (let i = 0; i < loopTimes; i++) {
-        this.fixedUpdate(this.fixedTimeStep);
+        this.fixedUpdate(dt);
       }
 
   
@@ -105,15 +105,15 @@ export class Table extends BaseCommonScript {
         }
     }
 
-    advance(t: number) {
+    advance(dt: number) {
         let depth = 0
-        while (!this.prepareAdvanceAll(t)) {
+        while (!this.prepareAdvanceAll(this.fixedTimeStep)) {
           if (depth++ > 100) {
             throw new Error("Depth exceeded resolving collisions")
           }
         }
         this.balls.forEach((a) => {
-          a.fixedUpdate(t)
+          a.fixedUpdate(this.fixedTimeStep, dt)
         })
     }
   /**

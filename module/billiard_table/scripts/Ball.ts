@@ -53,21 +53,23 @@ export class Ball extends Component {
         // yy.log.w("balls onLoad", this.node.name)
     }
 
-    fixedUpdate(dt: number) {
-      this.updatePosition(dt);
+    delateTime: number = 0;
+    fixedUpdate(ft: number, dt: number) {
+      this.delateTime = dt;
+      this.updatePosition(ft);
       if (this.state === State.Falling) {
-          this.pocket.updateFall(this, dt)
+          this.pocket.updateFall(this, ft)
       }
       else {
-        this.updateVelocity(dt)
+        this.updateVelocity(ft)
       }
     }
 
 
     protected update(dt: number): void {
       if (!this.pos.vec3Equals(this.node.position)) {
-          this.node.position = this.pos; // 更新球的位置
-          const angle = this.rvel.length() * dt;
+          this.node.position = this.node.position.lerp(this.pos, 0.5); // 更新球的位置
+          const angle = this.rvel.length() * this.delateTime;
           let q = rotateAxisAngle(norm(this.rvel), angle);
           const currentRotation = this.ballMesh.node.getRotation();
           this.ballMesh.node.setRotation(Quat.multiply(currentRotation, q, currentRotation));
