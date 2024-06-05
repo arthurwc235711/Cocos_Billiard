@@ -128,7 +128,7 @@ export class BilliardManager extends BaseCommonInstance{
             yy.log.w("没有撞球");
             freeBall();
         }
-        else if (Outcome.isCollisionNoCushion(table.outcome)) { // 撞球后没有撞库
+        else if (Outcome.isCollisionNoCushion(table.outcome) && Outcome.potCount(table.outcome) ===0) { // 撞球后没有撞库
             yy.log.w("撞球后没有撞库");
             freeBall();
         }
