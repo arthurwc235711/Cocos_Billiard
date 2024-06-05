@@ -40,7 +40,7 @@ export class Table extends BaseCommonScript {
     cushionModel = bounceHanBlend
     cueBall:Ball = null;
 
-    readonly fixedTimeStep = 1.0 / 256.0;// 物理模拟的固定时间步长
+    readonly fixedTimeStep = 1.0 / 128.0;// 物理模拟的固定时间步长
 
 
     public register_event(): void {
