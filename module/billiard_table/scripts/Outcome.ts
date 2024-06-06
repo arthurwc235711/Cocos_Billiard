@@ -117,4 +117,8 @@ export class Outcome {
     return (outcomes.length > 1 ? outcomes[1].type === OutcomeType.Collision : false) &&
     !outcomes.some(o=>o.type === OutcomeType.Cushion)
   }
+
+  static isIncludeValidPotted(outcome: Outcome[], ballsNum: number[]) {
+    return outcome.some((o) => o.type == OutcomeType.Pot && ballsNum.includes(o.ballA!.id))
+  }
 }

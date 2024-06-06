@@ -53,8 +53,6 @@ export class Table extends BaseCommonScript {
 
     public on_init(): void {
       BilliardManager.instance.setTable(this);
-      this.prepareBalls();
-      this.initTable();
     }
 
     protected start(): void {
@@ -219,7 +217,7 @@ export class Table extends BaseCommonScript {
   }
 
 
-  prepareBalls() {
+  prepareBalls(startPos: Vec3) {
     let ballNums = BilliardData.instance.getBallNums();
     let row = 1;
     let cNum = 0;
@@ -233,7 +231,7 @@ export class Table extends BaseCommonScript {
       let ball = instantiate(this.prefabBall).getComponent(Ball);
       this.nodeBalls.addChild(ball.node);
       if (i === 0) {// 母球
-        ball.updatePosImmediately(new Vec3(-0.85, 0, 0));
+        ball.updatePosImmediately(startPos);
         ball.getComponent(RaySphereCollision).destroy();
       }
       else {

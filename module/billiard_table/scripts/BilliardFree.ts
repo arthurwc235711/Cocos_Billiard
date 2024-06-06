@@ -127,6 +127,10 @@ export class BilliardFree extends BaseCommonScript {
         BilliardManager.instance.camera2d.screenToWorld(vec3, outV3);
         this.nodeHand.setWorldPosition(outV3);
     }
+
+    setStartAreaShow() {
+        this.nodeStart.active = true;
+    }
 }
 
 

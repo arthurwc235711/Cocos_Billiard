@@ -7,6 +7,9 @@ import { Table } from "../module/billiard_table/scripts/Table";
 import { Ball } from "../module/billiard_table/scripts/Ball";
 import { BilliardData } from "../data/BilliardData";
 import { track } from "./physics/track";
+import { IBilliardRules } from "../module/billiard_table/scripts/rules/IBilliardRules";
+import { eOutcomeType, eRuleType } from "../config/BilliardConst";
+import { BilliardEightBall } from "../module/billiard_table/scripts/rules/BilliardEightBall";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -38,6 +41,7 @@ export class BilliardManager extends BaseCommonInstance{
 
     private _table: Table;
     private _view: BilliardUIView;
+    private _rules: IBilliardRules;
 
     setTable(table: Table) {
         this._table = table;
@@ -55,6 +59,23 @@ export class BilliardManager extends BaseCommonInstance{
 
     getCueBall(): Ball {
         return this.getTable().cueBall;
+    }
+
+    setRules(rules: eRuleType) {
+        switch (rules) {
+            case eRuleType.EightBall:
+                this._rules = new BilliardEightBall();
+                break;
+            case eRuleType.NineBall:
+                break;
+
+            default: 
+                yy.log.e("error eRuleType:", rules);
+        }
+    }
+
+    getRules() {        
+        return this._rules;
     }
 
 
@@ -76,15 +97,13 @@ export class BilliardManager extends BaseCommonInstance{
     onInitGame(node3d:Node) {
         let view = this.getView();
         let table = this.getTable();
+        let rules = this.getRules();
+
+        rules.placeBalls();
         view.scheduleOnce(()=>{
             view.initBtnTable(node3d);
-            let ball = table.recentlyBall();
-            if (ball) {
-                view.autoShotAt(ball.node);
-                view.onFreeBall();
-            }
+            rules.startTurn();
         }, 0);
-
     }
 
 
@@ -101,42 +120,21 @@ export class BilliardManager extends BaseCommonInstance{
 
     onResult() {
         let table = this.getTable();
-        let view =this.getView();
-        let freeBall = function() {
-            yy.toast.addNow("你犯规了");
-            table.cueBall.updatePosImmediately(Vec3.ZERO);
-            view.freeBall.node.active = true;
-            view.onFreeBall();
-            view.onFreeBallMove(!table.isValidFreeBall());
-        }
-        // 母球进洞
-        if (Outcome.isCueBallPotted(table.cueBall, table.outcome) ) {
-            yy.log.w("打进母球");
-            if (Outcome.is8BallPotted(table.outcome)) {
-                yy.toast.addNow("你输了");
-                // yy.log.w("打进8号球， 你输了");
-            }
-            else {
-                freeBall();
+        let rules = this.getRules();
+        let result: { type: eOutcomeType } = { type: eOutcomeType.None };
+        if (rules.isFoul(table.outcome)) {
+            result.type = eOutcomeType.FreeBall;
+            if (rules.isGameEnd(table.outcome, result)) {
+                yy.log.w("游戏结束");
+                return;
             }
         }
-        else if (Outcome.isFirstCushion(table.outcome)) {// 先撞库
-            yy.log.w("先撞库");
-            freeBall();
-        }
-        else if (Outcome.firstCollision(table.outcome) === undefined) {// 没有撞球
-            yy.log.w("没有撞球");
-            freeBall();
-        }
-        else if (Outcome.isCollisionNoCushion(table.outcome) && Outcome.potCount(table.outcome) ===0) { // 撞球后没有撞库
-            yy.log.w("撞球后没有撞库");
-            freeBall();
-        }
+        else if (rules.isGameEnd(table.outcome, result)) {
+            yy.log.w("游戏结束");
+            return;
+        } 
 
-    
-
-
-
+        rules.nextTurn(result.type);
     }
     
 }
