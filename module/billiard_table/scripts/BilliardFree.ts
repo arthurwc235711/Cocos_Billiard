@@ -116,7 +116,7 @@ export class BilliardFree extends BaseCommonScript {
         });
     }
 
-    setFreeBall() {
+    setFreeBallHand() {
         let table = BilliardManager.instance.getTable();
         let outV3 = table.cueBall.pos.clone();
         let vec3 = new Vec3();

@@ -233,17 +233,17 @@ export class Table extends BaseCommonScript {
       let ball = instantiate(this.prefabBall).getComponent(Ball);
       this.nodeBalls.addChild(ball.node);
       if (i === 0) {// 母球
-        ball.pos.set(-0.85, 0, 0);
+        ball.updatePosImmediately(new Vec3(-0.85, 0, 0));
         ball.getComponent(RaySphereCollision).destroy();
       }
       else {
         if (row === 1) {
-          ball.pos.set(x/2, 0, 0);
+          ball.updatePosImmediately(new Vec3(x/2, 0, 0));
         }
         else {
           let space = 0//0.001 ;
           let y = (lNum+1)%2 === 0 ?  (r + space/2) +  (2*r + space) * (Math.ceil((lNum+1)/2)-1) : (2*r + space) * (Math.ceil((lNum+1)/2)-1);
-          ball.pos.set(x/2 + (2 * r / acos25  +  0.001) * (row - 1), -y + (2 * r + space) * (lNum - cNum), 0);
+          ball.updatePosImmediately(new Vec3(x/2 + (2 * r / acos25  +  0.001) * (row - 1), -y + (2 * r + space) * (lNum - cNum), 0));
         }
   
         cNum += 1;

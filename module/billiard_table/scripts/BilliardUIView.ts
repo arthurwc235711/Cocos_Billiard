@@ -355,7 +355,7 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     onFreeBall() {
-        this.freeBall.setFreeBall();
+        this.freeBall.setFreeBallHand();
     }
 
     onFreeBallMove(isMove: boolean) {
