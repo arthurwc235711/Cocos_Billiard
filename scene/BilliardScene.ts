@@ -3,6 +3,7 @@ import { CasualCommonSceneBase } from '../../../casual_common/scripts/base/Casua
 import { yy } from '../../../../yy';
 import BilliardEventConfig from '../config/BilliardEventConfig';
 import { BilliardManager } from '../scripts/BilliardManager';
+import { eRuleType } from '../config/BilliardConst';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardScene')
@@ -26,6 +27,7 @@ export class BilliardScene extends CasualCommonSceneBase {
         let clone = instantiate(this.prefabBilliard3D);
         director.getScene().addChild(clone);
         yy.toast.setToastRes('app_common', 'toast/view/toast_view');
+        BilliardManager.instance.setRules(eRuleType.EightBall);
     }
 
 

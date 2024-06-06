@@ -72,7 +72,13 @@ export class BilliardEightBall implements IBilliardRules {
             }
             else {// 未定色
                 if (Outcome.potCount(outcome) > 0) {// 开球进球不定色
-                    resultType.type = eOutcomeType.Continue;
+                    if (Outcome.is8BallPotted(outcome)) {
+                        resultType.type = eOutcomeType.Failed;
+                        result = true;
+                    }
+                    else {
+                        resultType.type = eOutcomeType.Continue;
+                    }
                 }
                 else {
                     resultType.type = eOutcomeType.Turn;
@@ -87,11 +93,13 @@ export class BilliardEightBall implements IBilliardRules {
         ++ this.round
         switch(type) {
             case eOutcomeType.Continue:
+                yy.toast.addNow("继续击球");
                 break;
             case eOutcomeType.Turn:
+                yy.toast.addNow("正常击球，交换击球权");
                 break;
             case eOutcomeType.FreeBall:
-                yy.toast.addNow("你犯规了");
+                yy.toast.addNow("击球犯规，下家放置自由球");
                 let view = BilliardManager.instance.getView();
                 let table = BilliardManager.instance.getTable();
                 if (this.round === 2) {// 开局犯规后对方 限定发球区域摆球
