@@ -64,7 +64,9 @@ export class BilliardFree extends BaseCommonScript {
                             outV3.x = -TableGeometry.tableX;
                         }
                         else {
-                            outV3.x = -0.75;
+                            if (outV3.x > -0.75) {
+                                outV3.x = -0.75;
+                            }
                         }
                         table.cueBall.pos.copy(outV3);
                         outV3.setZ(0).setY(outV3.y - 4 * R).setX(outV3.x + R)
