@@ -13,7 +13,7 @@ const { ccclass, property } = _decorator;
 export class Cue extends Component {
     readonly offCenterLimit = 0.3
     readonly maxPower = 150 * R
-    t = 0;
+
 
 
     protected onLoad(): void {
@@ -21,7 +21,6 @@ export class Cue extends Component {
     }
 
     hit(ball: Ball) {
-        this.t = 0;
         let billiardData = BilliardData.instance;
         ball.setSliding();
         ball.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(billiardData.getPower()));

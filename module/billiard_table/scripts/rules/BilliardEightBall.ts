@@ -6,6 +6,8 @@ import { Outcome } from "../Outcome";
 import { IBilliardRules } from "./IBilliardRules";
 import { BilliardData } from "../../../../data/BilliardData";
 import { Ball } from "../Ball";
+import { BilliardTools } from "../../../../scripts/BilliardTools";
+import { BilliardAI } from "../BilliardAI";
 
 
 enum eBallType {
@@ -158,6 +160,17 @@ export class BilliardEightBall implements IBilliardRules {
                 yy.log.e("未处理类型eOutcomeType", type);
         }
 
+        if (type === eOutcomeType.FreeBall) {
+            if (!BilliardTools.instance.isMyAction()) {
+                BilliardAI.instance.freeball();
+            }
+        }
+        else {
+            if (!BilliardTools.instance.isMyAction()) {
+                BilliardAI.instance.hitBall();
+            }
+        }
+
         yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
         // throw new Error("Method not implemented.");
     }
@@ -174,6 +187,41 @@ export class BilliardEightBall implements IBilliardRules {
 
         BilliardData.instance.setActionUid( Math.random() < 0.5 ? 1 : 2 );
         yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
+
+
+        if (!BilliardTools.instance.isMyAction()) {
+            BilliardAI.instance.MoveStartCueBall();
+        }
+        else {
+            view.controlShow();
+        }
+    }
+
+    onShotBall(): Ball {
+        let table = BilliardManager.instance.getTable();
+        if (this.isSureBall()) {
+            let balls = table.getOnTableBalls();
+            let lengths = [];
+            for (let i = 1; i < balls.length; i++) {
+                if (this.getBallType(balls[i]) === BilliardData.instance.getHitBallType()) {
+                    lengths.push({ squared: table.cueBall.pos.distanceToSquared(balls[i].pos), index: i });
+                }
+            }
+            if (lengths.length > 0) {
+              lengths.sort((a, b) => a.squared - b.squared);
+              return table.balls[lengths[0].index];
+            }
+            else {
+              let eightBall = table.balls.filter(ball=>ball.id === 8);
+              if (eightBall.length > 0) {
+                  return eightBall[0];
+              }
+            }
+        }
+        else {
+            return table.recentlyBall();
+        }
+
     }
 
     isSureBall() {

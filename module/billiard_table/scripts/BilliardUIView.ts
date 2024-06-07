@@ -25,10 +25,16 @@ export class BilliardUIView extends BaseCommonScript {
     @property(BilliardFree)
     freeBall: BilliardFree;
 
-    private interactableTableTouch: boolean = true;
+    private _interactableTableTouch: boolean = true;
     private touchMove: boolean = false;
     private preTouchLocation: Vec2 = new Vec2();
 
+    get interactableTableTouch() {
+        return this._interactableTableTouch && BilliardTools.instance.isMyAction();
+    }
+    set interactableTableTouch(value: boolean) {
+        this._interactableTableTouch = value;
+    }
     
     public register_event() {
         // 注册指定的监听方法，格式如下
@@ -168,6 +174,10 @@ export class BilliardUIView extends BaseCommonScript {
     onClickHit() {
         yy.event.emit(yy.Event_Name.billiard_hit);
 
+        this.controlHide();
+    }
+
+    controlHide() {
         this.nodeCueArrow.active = false;
         let nodeAngle = this.node.getChildByName("NodeRight");
         nodeAngle.active = false;
@@ -177,6 +187,24 @@ export class BilliardUIView extends BaseCommonScript {
         this.freeBall.node.active = false;
     }
 
+    controlShow() {
+        this.interactableTableTouch = true;
+        let slider = this.node.getChildByPath("NodePower/TouchPower/Slider").getComponent(Slider);
+        slider.progress = 1;
+        this.node.getChildByPath("NodePower").active = true && BilliardTools.instance.isMyAction();
+        this.node.getChildByPath("NodePower/Label").getComponent(Label).string = "";
+        let nodeAngle = this.node.getChildByName("NodeRight");
+        nodeAngle.active = true && BilliardTools.instance.isMyAction();
+
+        BilliardData.instance.getOffset().copy(Vec3.ZERO);
+        let dot = this.node.getChildByPath("NodeRight/NodeHitPoint/ButtonBall/Node/Dot");
+        dot.position = Vec3.ZERO;
+    }
+
+    cueHide() {
+        this.nodeCueArrow.active = false;
+    }
+
     onClickTable(local: Vec2) {       
         let screenPos = local;
         let wp = BilliardManager.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
@@ -184,7 +212,6 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     onShotAt(wp: Vec3) {
-
         this.nodeCue.setPosition(-300, 0, 0);
         let nodeCueArrow = this.nodeCueArrow;
         let cueBall = BilliardManager.instance.getCueBall();
@@ -290,18 +317,7 @@ export class BilliardUIView extends BaseCommonScript {
 
     onAllStationary() {
         // yy.log.w("", "所有球都静止");
-        this.interactableTableTouch = true;
-        let slider = this.node.getChildByPath("NodePower/TouchPower/Slider").getComponent(Slider);
-        slider.progress = 1;
-        this.node.getChildByPath("NodePower").active = true;
-        this.node.getChildByPath("NodePower/Label").getComponent(Label).string = "";
-        let nodeAngle = this.node.getChildByName("NodeRight");
-        nodeAngle.active = true;
-
-        BilliardData.instance.getOffset().copy(Vec3.ZERO);
-        let dot = this.node.getChildByPath("NodeRight/NodeHitPoint/ButtonBall/Node/Dot");
-        dot.position = Vec3.ZERO;
-        // let nodeArrow = this.node.getChildByName("SpriteSplash")
+        this.controlShow();
     }
 
     onSlider(slider: Slider) {
@@ -365,8 +381,8 @@ export class BilliardUIView extends BaseCommonScript {
             this.node.getChildByPath("NodePower").active = false;
         }else {
             this.nodeCueArrow.active = true;
-            this.node.getChildByName("NodeRight").active = true;
-            this.node.getChildByPath("NodePower").active = true;
+            this.node.getChildByName("NodeRight").active = true && BilliardTools.instance.isMyAction();
+            this.node.getChildByPath("NodePower").active = true && BilliardTools.instance.isMyAction();
             let table = BilliardManager.instance.getTable();
             let ball = table.recentlyBall();
             if (ball) {

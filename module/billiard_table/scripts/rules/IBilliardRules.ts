@@ -1,4 +1,5 @@
 import { eOutcomeType, eRuleType } from "../../../../config/BilliardConst";
+import { Ball } from "../Ball";
 import { Outcome } from "../Outcome";
 
 export interface IBilliardRules  {
@@ -12,6 +13,7 @@ export interface IBilliardRules  {
     isGameEnd(outcome: Outcome[], reslut:{ type: eOutcomeType }): boolean;
     nextTurn(type: eOutcomeType);
     startTurn();
+    onShotBall(): Ball;
 }
 
 

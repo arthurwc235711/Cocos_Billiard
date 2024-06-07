@@ -14,6 +14,9 @@ export class BilliardTools {
         return this.__instance__;
     }
 
+    isMyAction() {
+        return  BilliardData.instance.getActionUid() === 1;
+    }
 
     // 摄像头之间坐标转换
     cameraToCameraWPos(orgWPos:Vec3, orgCamera: Camera, disCamera: Camera) {
@@ -58,6 +61,12 @@ export class BilliardTools {
         let e = offset.length();
         let a = offset.dot(rayDirection);
         // let c = rayDirection.length();
+
+        // let length = a / (a / (e * c) )
+        // let oa = dir.multiplyScalar(length);
+
+
+
         // let cos = a/e/c;
         // let sin = Math.sqrt(1 - cos*cos);
         // let y = sphereRadius * cos;
@@ -65,10 +74,12 @@ export class BilliardTools {
         // let vx = dis.worldRotation.x - x;
         // let vy = dis.worldRotation.y + y;
 
+
         
 
         let f = Math.sqrt(sphereRadius * sphereRadius - e*e + a*a);
         let t = a - f;
+        // yy.log.w("getDisanceBy2dCamera", rayDirection, rayDirection.clone().multiplyScalar(t));
         // yy.log.w("t", t);
         return t - 15; //减少15像素贴图的误差
     }

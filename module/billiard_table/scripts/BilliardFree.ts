@@ -5,6 +5,7 @@ import { yy } from '../../../../../../yy';
 import { R } from '../../../scripts/physics/constants';
 import { TableGeometry } from './TableGeometry';
 import { table } from 'console';
+import { BilliardTools } from '../../../scripts/BilliardTools';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardFree')
@@ -39,7 +40,7 @@ export class BilliardFree extends BaseCommonScript {
             let touch = event.touch;
             let local = touch.getLocation();
             let perLocal = touch.getPreviousLocation();
-            if ((this.touchMove ||  Math.abs(local.x - perLocal.x) > 2 || Math.abs(local.y - perLocal.y) > 2)) {
+            if ( BilliardTools.instance.isMyAction() && (this.touchMove ||  Math.abs(local.x - perLocal.x) > 2 || Math.abs(local.y - perLocal.y) > 2)) {
                 if (!this.touchMove) yy.event.emit(yy.Event_Name.billiard_free_ball_move, true);
                 this.touchMove = true;
                 BilliardManager.instance.camera3d.screenToWorld(vec3.set(local.x, local.y, 0), outV3);
