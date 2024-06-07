@@ -1,9 +1,11 @@
 import { Camera, find, Vec3 } from "cc";
 
-interface IHitBalls {
-    type: number; // 0 未定色 1：1-7， 2: 9-15
-    fBalls: ()=>number[];
+
+interface BilliardPlayer {
+    uid: number;
+    hitType: number;
 }
+
 export class BilliardData {
     private static __instance__: BilliardData;
     static get instance(): BilliardData {
@@ -17,26 +19,68 @@ export class BilliardData {
         BilliardData.ballId = 0;
     }
 
+    constructor (){
+        this.addPlayer(1);
+        this.addPlayer(2);
+    }
+
 
     static ballId: number = 0;
     private _ballNums: number = 15 + 1; // 母球 + 1
     private _angle: number = 0;
     private _power: number = 0;
     private readonly _offset: Vec3 = Vec3.ZERO.clone();
-    readonly hitBalls: IHitBalls = {
-        type: 0,
-        fBalls: ()=>{
-            if(this.hitBalls.type === 1){
-                return [1,2,3,4,5,6,7];
-            }
-            else if(this.hitBalls.type === 2){
-                return [9,10,11,12,13,14,15];
-            }
-            else{
-                return [];
+
+
+    private actionUid: number = 0;
+    private players: BilliardPlayer[] = [];
+
+
+
+    getActionUid(): number {
+        return this.actionUid;
+    }
+    setActionUid(uid: number) {
+        this.actionUid = uid;
+    }
+
+    addPlayer(uid: number){
+        if (this.players.filter(p=>p.uid === uid).length === 0) {
+            this.players.push({uid:uid, hitType:0});
+        }
+    }
+
+    getHitBallType(): number {
+        for(let i = 0; i < this.players.length; i++){
+            if(this.players[i].uid === this.actionUid){
+                return this.players[i].hitType;
             }
         }
-    };
+    }
+    setHitBallType(type: number) {
+        for(let i = 0; i < this.players.length; i++){
+            if(this.players[i].uid === this.actionUid){
+                this.players[i].hitType = type;
+                this.players[i === 0 ? 1 : 0].hitType = type === 1 ? 2 : 1;
+            }
+        }
+    }
+    getHitBalls(): number[] {
+        for(let i = 0; i < this.players.length; i++){
+            if(this.players[i].uid === this.actionUid){
+                let type = this.players[i].hitType;
+                if(type === 1){
+                    return [1,2,3,4,5,6,7];
+                }
+                else if(type === 2){
+                    return [9,10,11,12,13,14,15];
+                }
+                else{
+                    return [];
+                }
+            }
+        }
+    }
 
     getAngle(): number {
         return this._angle;

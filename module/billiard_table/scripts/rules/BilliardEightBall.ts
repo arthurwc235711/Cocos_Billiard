@@ -12,6 +12,7 @@ enum eBallType {
     CueBall,
     SolidBall,
     StripedBall,
+    EightBall,
 }
 
 export class BilliardEightBall implements IBilliardRules {
@@ -44,10 +45,11 @@ export class BilliardEightBall implements IBilliardRules {
             freeBall();
         }
 
-        if (!result && this.isSureMyBall()) {
+        if (!result && this.isSureBall()) {
             let o = (Outcome.firstCollision(outcome)) 
             if (o) {
-                if (this.getBallType(o.ballB) !== BilliardData.instance.hitBalls.type){
+                let balls = BilliardManager.instance.getTable().getOnTableBalls();
+                if (this.hasBallType(balls, BilliardData.instance.getHitBallType()) && this.getBallType(o.ballB) !== BilliardData.instance.getHitBallType()){
                     freeBall();
                 }
             }
@@ -71,8 +73,8 @@ export class BilliardEightBall implements IBilliardRules {
             }
         }
         else {
-            if(this.isSureMyBall()) {// 定色
-                if (Outcome.isIncludeValidPotted(outcome, BilliardData.instance.hitBalls.fBalls())) {
+            if(this.isSureBall()) {// 定色
+                if (Outcome.isIncludeValidPotted(outcome, BilliardData.instance.getHitBalls())) {
                     resultType.type = eOutcomeType.Continue;
                 }
                 else {
@@ -102,7 +104,7 @@ export class BilliardEightBall implements IBilliardRules {
                             if(o) {
                                 let t = this.getBallType(o.ballB);
                                 if (this.hasBallType(potBalls, t)) {
-                                    BilliardData.instance.hitBalls.type = t;
+                                    BilliardData.instance.setHitBallType(t);
                                     resultType.type = eOutcomeType.Continue;
                                     yy.log.w(`定色成功${t}`);
                                 }
@@ -112,7 +114,6 @@ export class BilliardEightBall implements IBilliardRules {
                             }
                         }
                     }
-
                 }
                 else {
                     resultType.type = eOutcomeType.Turn;
@@ -131,9 +132,14 @@ export class BilliardEightBall implements IBilliardRules {
                 break;
             case eOutcomeType.Turn:
                 yy.toast.addNow("正常击球，交换击球权");
+                let uid = BilliardData.instance.getActionUid() === 1 ? 2 : 1;
+                BilliardData.instance.setActionUid(uid)
                 break;
             case eOutcomeType.FreeBall:
                 yy.toast.addNow("击球犯规，下家放置自由球");
+                uid = BilliardData.instance.getActionUid() === 1 ? 2 : 1;
+                BilliardData.instance.setActionUid(uid)
+
                 let view = BilliardManager.instance.getView();
                 let table = BilliardManager.instance.getTable();
                 if (this.round === 2) {// 开局犯规后对方 限定发球区域摆球
@@ -151,6 +157,8 @@ export class BilliardEightBall implements IBilliardRules {
             default:
                 yy.log.e("未处理类型eOutcomeType", type);
         }
+
+        yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
         // throw new Error("Method not implemented.");
     }
 
@@ -163,14 +171,17 @@ export class BilliardEightBall implements IBilliardRules {
             view.autoShotAt(ball.node);
             view.onFreeBall();
         }
+
+        BilliardData.instance.setActionUid( Math.random() < 0.5 ? 1 : 2 );
+        yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
     }
 
-    isSureMyBall() {
-        return BilliardData.instance.hitBalls.type !== 0;
+    isSureBall() {
+        return BilliardData.instance.getHitBallType() !== 0;
     }
     
     setMyBall(hitType: number) {
-        BilliardData.instance.hitBalls.type = hitType;
+        BilliardData.instance.setHitBallType(hitType);
     }
 
     getBallType(ball: Ball) {

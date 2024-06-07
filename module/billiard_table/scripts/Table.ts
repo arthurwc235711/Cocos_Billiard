@@ -209,6 +209,10 @@ export class Table extends BaseCommonScript {
     }
   }
 
+  getOnTableBalls() {
+    return this.balls.filter((b) => b.onTable());
+  }
+
   hit() {
     this.outcome = [
       Outcome.hit(this.cueBall, BilliardData.instance.getPower())
