@@ -5,8 +5,14 @@ import { BilliardManager } from "../../../../scripts/BilliardManager";
 import { Outcome } from "../Outcome";
 import { IBilliardRules } from "./IBilliardRules";
 import { BilliardData } from "../../../../data/BilliardData";
+import { Ball } from "../Ball";
 
 
+enum eBallType {
+    CueBall,
+    SolidBall,
+    StripedBall,
+}
 
 export class BilliardEightBall implements IBilliardRules {
     ruleType: eRuleType;
@@ -38,6 +44,15 @@ export class BilliardEightBall implements IBilliardRules {
             freeBall();
         }
 
+        if (!result && this.isSureMyBall()) {
+            let o = (Outcome.firstCollision(outcome)) 
+            if (o) {
+                if (this.getBallType(o.ballB) !== BilliardData.instance.hitBalls.type){
+                    freeBall();
+                }
+            }
+        }
+
         return result;
     }
     placeBalls() {
@@ -50,7 +65,7 @@ export class BilliardEightBall implements IBilliardRules {
         let result = false;
         if (resultType.type === eOutcomeType.FreeBall) {
             if (Outcome.is8BallPotted(outcome)) {
-            // 犯规 且打入8号球 
+                // 犯规 且打入8号球 
                 resultType.type = eOutcomeType.Failed;
                 result = true;
             }
@@ -71,14 +86,33 @@ export class BilliardEightBall implements IBilliardRules {
                 }
             }
             else {// 未定色
-                if (Outcome.potCount(outcome) > 0) {// 开球进球不定色
-                    if (Outcome.is8BallPotted(outcome)) {
-                        resultType.type = eOutcomeType.Failed;
-                        result = true;
+                let potBalls = Outcome.pots(outcome);
+                if (potBalls.length > 0) {
+                    if (this.round === 1) {// 开球进球不定色
+                        resultType.type = eOutcomeType.Continue;
+                        yy.log.w("开球进球不定色");
                     }
                     else {
-                        resultType.type = eOutcomeType.Continue;
+                        if (Outcome.is8BallPotted(outcome)) {
+                            resultType.type = eOutcomeType.Failed;
+                            result = true;
+                        }
+                        else {
+                            let o = (Outcome.firstCollision(outcome)) 
+                            if(o) {
+                                let t = this.getBallType(o.ballB);
+                                if (this.hasBallType(potBalls, t)) {
+                                    BilliardData.instance.hitBalls.type = t;
+                                    resultType.type = eOutcomeType.Continue;
+                                    yy.log.w(`定色成功${t}`);
+                                }
+                                else {//击打球色和打球色不相同不算定色，交换击球权
+                                    resultType.type = eOutcomeType.Turn;
+                                }
+                            }
+                        }
                     }
+
                 }
                 else {
                     resultType.type = eOutcomeType.Turn;
@@ -137,6 +171,27 @@ export class BilliardEightBall implements IBilliardRules {
     
     setMyBall(hitType: number) {
         BilliardData.instance.hitBalls.type = hitType;
+    }
+
+    getBallType(ball: Ball) {
+        if(ball.id > 8) {
+            return eBallType.StripedBall;
+        }
+        else if (ball.id === 0) {
+            return eBallType.CueBall;
+        }
+        else if (ball.id < 8) {
+            return eBallType.SolidBall;
+        }
+    }
+
+    hasBallType(balls: Ball[], type: eBallType){
+        for (let i = 0; i < balls.length; ++i) {
+            if (this.getBallType(balls[i]) === type) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
