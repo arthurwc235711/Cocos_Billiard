@@ -136,8 +136,11 @@ export class BilliardUIView extends BaseCommonScript {
                 angleInRadians = (-0.01 * Math.PI) / 180  
             }
 
-            const newX = this.preTouchLocation.x * Math.cos(angleInRadians) - this.preTouchLocation.y * Math.sin(angleInRadians);
-            const newY = this.preTouchLocation.x * Math.sin(angleInRadians) + this.preTouchLocation.y * Math.cos(angleInRadians);
+            let cos = this.preTouchLocation.dot(new Vec2(1, 0)) / this.preTouchLocation.length();
+            let ran = Math.acos(cos);
+
+            const newX = this.preTouchLocation.length() * Math.cos(ran + angleInRadians)// - this.preTouchLocation.y * Math.sin(angleInRadians);
+            const newY = this.preTouchLocation.length() * Math.sin(ran + angleInRadians)// + this.preTouchLocation.y * Math.cos(angleInRadians);
             this.preTouchLocation.x = newX;
             this.preTouchLocation.y = newY;
             this.onClickTable(this.preTouchLocation);
@@ -216,15 +219,17 @@ export class BilliardUIView extends BaseCommonScript {
             if (collision instanceof RaySphereCollision) {
                 ballArrow.active = true;
                 cueArrow.active = true;
-                uiTran.setContentSize(BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction), uiTran.contentSize.y);
+                let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction);
+                uiTran.setContentSize(k - 15, uiTran.contentSize.y);
                 
                 let b2dPos = camera3DToCamera2DWPos(nodes[0].worldPosition);
                 let furCueNode = nodeArrow.getChildByPath("Sprite");
 
                 furCueNode.getComponent(Widget).updateAlignment(); // 强制更新节点位置，不然当前帧数据会异常，需要等待下一帧计算才行
-                // yy.log.w("furCueNode", furCueNode.worldPosition)
-                let v1 = b2dPos.clone().subtract(furCueNode.worldPosition).normalize();
-                let ballAngle = v1.angleTo(Vec3.RIGHT);;
+                yy.log.w("furCueNode", furCueNode.worldPosition)
+                let v1 = b2dPos.clone().subtract(direction.multiplyScalar(k).add(cue2dWp)).normalize();
+                yy.log.e("furCueNode", direction)
+                let ballAngle = v1.angleTo(Vec3.RIGHT);
 
                 let tmpBallAngle = ballAngle * Rtd;
                 if (furCueNode.worldPosition.y < b2dPos.y) {// 预判被撞球的运动方向

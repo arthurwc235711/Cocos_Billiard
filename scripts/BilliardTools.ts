@@ -38,9 +38,9 @@ export class BilliardTools {
         let camera2d = BilliardManager.instance.camera2d;
         let srcX1 = camera3d.worldToScreen(v3d);//org.worldPosition.distanceTo(dis.worldPosition);
         let wp1 = camera2d.screenToWorld(srcX1);
-        let canvas = find("Canvas")
-        let canvasPos = canvas.getComponent(UITransform).convertToNodeSpaceAR(wp1);
-        return canvasPos;
+        // let canvas = find("Canvas")
+        // let canvasPos = canvas.getComponent(UITransform).convertToNodeSpaceAR(wp1);
+        return wp1//canvasPos;
     }
 
 
@@ -54,23 +54,15 @@ export class BilliardTools {
         let cp2 = this.get3dTo2dSize(tmp2)//camera2d.screenToWorld(disTmp);
         let sphereRadius = Math.abs(cp1.x - cp2.x);
 
-        let offset = sphereCenter.clone().subtract(source);
+        let offset = sphereCenter.clone().subtract(source.clone());
         let e = offset.length();
         let a = offset.dot(rayDirection);
-        // let c = rayDirection.length();
-        // let cos = a/e/c;
-        // let sin = Math.sqrt(1 - cos*cos);
-        // let y = sphereRadius * cos;
-        // let x = sphereRadius * sin;
-        // let vx = dis.worldRotation.x - x;
-        // let vy = dis.worldRotation.y + y;
-
-        
 
         let f = Math.sqrt(sphereRadius * sphereRadius - e*e + a*a);
         let t = a - f;
+        // yy.log.w("getDisanceBy2dCamera",source, dir.x*t + source.x, dir.y *t + source.y);
         // yy.log.w("t", t);
-        return t - 15; //减少15像素贴图的误差
+        return t; //减少15像素贴图的误差
     }
 
     getRectangleDisanceBy2dCamera(org: Node, cushion:Node, dir: Vec3 ) {
