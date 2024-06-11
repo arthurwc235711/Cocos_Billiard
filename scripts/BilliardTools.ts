@@ -81,7 +81,7 @@ export class BilliardTools {
         let t = a - f;
         // yy.log.w("getDisanceBy2dCamera", rayDirection, rayDirection.clone().multiplyScalar(t));
         // yy.log.w("t", t);
-        return t - 15; //减少15像素贴图的误差
+        return t; //减少15像素贴图的误差
     }
 
     getRectangleDisanceBy2dCamera(org: Node, cushion:Node, dir: Vec3 ) {
