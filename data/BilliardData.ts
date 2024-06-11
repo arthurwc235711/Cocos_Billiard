@@ -1,7 +1,10 @@
 import { Camera, find, Vec3 } from "cc";
+import { yy } from "../../../../yy";
 
 
 interface BilliardPlayer {
+    name: string;
+    url: string;
     uid: number;
     hitType: number;
 }
@@ -20,8 +23,8 @@ export class BilliardData {
     }
 
     constructor (){
-        this.addPlayer(1);
-        this.addPlayer(2);
+        this.addPlayer(1, "Player", "");
+        this.addPlayer(2, "AI", "");
     }
 
 
@@ -44,9 +47,13 @@ export class BilliardData {
         this.actionUid = uid;
     }
 
-    addPlayer(uid: number){
+    getAllPlayers(): BilliardPlayer[] {
+        return this.players;
+    }
+
+    addPlayer(uid: number, name: string, url: string){
         if (this.players.filter(p=>p.uid === uid).length === 0) {
-            this.players.push({uid:uid, hitType:0});
+            this.players.push({uid:uid, hitType:0, name:name, url:url});
         }
     }
 
@@ -65,14 +72,17 @@ export class BilliardData {
             }
         }
     }
-    getHitBalls(): number[] {
+    getHitBalls(uid = 0): number[] {
+        if(uid === 0) uid = this.actionUid;
         for(let i = 0; i < this.players.length; i++){
-            if(this.players[i].uid === this.actionUid){
+            if(this.players[i].uid === uid){
                 let type = this.players[i].hitType;
                 if(type === 1){
+                    // yy.log.w("type 1 - 7")
                     return [1,2,3,4,5,6,7];
                 }
                 else if(type === 2){
+                    // yy.log.w("type 9 - 15")
                     return [9,10,11,12,13,14,15];
                 }
                 else{

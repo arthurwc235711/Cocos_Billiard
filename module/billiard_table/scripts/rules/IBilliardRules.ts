@@ -14,6 +14,7 @@ export interface IBilliardRules  {
     nextTurn(type: eOutcomeType);
     startTurn();
     onShotBall(): Ball;
+    getShowBalls(type: any): number[];
 }
 
 

@@ -83,6 +83,7 @@ export class BilliardManager extends BaseCommonInstance{
         this.event_func_map = {
             [yy.Event_Name.billiard_table_init]: "onInitGame",
             [yy.Event_Name.billiard_allStationary] : 'onAllStationary',
+            [yy.Event_Name.billiard_hit_cd_stop]: "onHitCdStop",
         }
 
         super.register_event();
@@ -103,6 +104,8 @@ export class BilliardManager extends BaseCommonInstance{
         view.scheduleOnce(()=>{
             view.initBtnTable(node3d);
             rules.startTurn();
+            view.setPlayerInfo();
+            view.setPlayerCountDown(20);
         }, 0);
     }
 
@@ -122,6 +125,7 @@ export class BilliardManager extends BaseCommonInstance{
     onResult() {
         let table = this.getTable();
         let rules = this.getRules();
+        let view = this.getView();
         let result: { type: eOutcomeType } = { type: eOutcomeType.None };
         if (rules.isFoul(table.outcome)) {
             result.type = eOutcomeType.FreeBall;
@@ -135,9 +139,29 @@ export class BilliardManager extends BaseCommonInstance{
             return;
         } 
 
+        view.resetData();
         rules.nextTurn(result.type);
+        view.setPlayerCountDown(20);
+        this.setSureBalls();
     }
-    
+
+    onHitCdStop() {
+        let view = this.getView();
+        view.stopCountDown();
+    }
+
+
+    setSureBalls() {
+        const table = this.getTable();
+        const view = this.getView();
+        const rules = this.getRules();
+        const players = BilliardData.instance.getAllPlayers();
+        players.forEach(p=>{
+            // yy.log.w("getHitBalls", p, p.uid);          
+
+            view.billiardTop.setPlayerBalls(rules.getShowBalls(p.hitType), p.uid);
+        });
+    }
 }
 
 

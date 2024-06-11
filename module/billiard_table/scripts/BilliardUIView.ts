@@ -9,6 +9,7 @@ import { BaseRayCollision } from '../../../scripts/physics/component/BaseRayColl
 import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
 import { BilliardManager } from '../../../scripts/BilliardManager';
 import { BilliardFree } from './BilliardFree';
+import { BilliardTop } from './BilliardTop';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardUIView')
@@ -24,6 +25,8 @@ export class BilliardUIView extends BaseCommonScript {
     nodeCue:Node = null;
     @property(BilliardFree)
     freeBall: BilliardFree;
+    @property(BilliardTop)
+    billiardTop: BilliardTop;
 
     private _interactableTableTouch: boolean = true;
     private touchMove: boolean = false;
@@ -56,6 +59,10 @@ export class BilliardUIView extends BaseCommonScript {
 
         let btnBall = this.node.getChildByPath("NodeRight/NodeHitPoint/ButtonBall");
         btnBall.on("click", this.onClickStroke, this);
+    }
+
+    protected start(): void {
+        // this.setPlayerInfo();
     }
 
     onClickStroke() {
@@ -176,8 +183,8 @@ export class BilliardUIView extends BaseCommonScript {
 
     onClickHit() {
         yy.event.emit(yy.Event_Name.billiard_hit);
-
         this.controlHide();
+        yy.event.emit(yy.Event_Name.billiard_hit_cd_stop);
     }
 
     controlHide() {
@@ -393,6 +400,48 @@ export class BilliardUIView extends BaseCommonScript {
                 this.autoShotAt(ball.node);
             }
         }
+    }
+
+    setPlayerInfo() {
+        this.billiardTop.setBindLeftPlayerUID(1)
+        .setBindRightPlayerUID(2)
+
+        const players = BilliardData.instance.getAllPlayers();
+        players.forEach(p=>{
+            this.billiardTop.setPlayerName(p.name, p.uid)
+                .setPlayerHead(p.url, p.uid)
+                .setPlayerBalls(BilliardData.instance.getHitBalls(p.uid), p.uid);
+        });
+    }
+
+    setGold(gold: number) {
+        this.billiardTop.setGold(gold);
+    }
+    setScore(lScore: number, rScore: number) {
+        this.billiardTop.setScore(lScore, rScore);
+    }
+
+    stopCountDown() {
+        this.billiardTop.stopCountDown();
+    }
+
+    setPlayerCountDown(countDown: number) {
+        this.billiardTop.setPlayerCountDown(countDown);
+    }
+
+    resetData() {
+        this.billiardTop.resetData();
+    }
+
+    setSureBalls() {
+        const players = BilliardData.instance.getAllPlayers();
+        players.forEach(p=>{
+            // yy.log.w("getHitBalls", p, p.uid);
+
+
+
+            this.billiardTop.setPlayerBalls(BilliardData.instance.getHitBalls(p.uid), p.uid);
+        });
     }
 }
 

@@ -224,6 +224,18 @@ export class BilliardEightBall implements IBilliardRules {
 
     }
 
+    getShowBalls(type: eBallType) {
+        const table = BilliardManager.instance.getTable();
+        const balls = table.getOnTableBalls();
+        const showBalls = balls.filter(ball => this.getBallType(ball) === type);
+        const sBalls = [];
+        for (let i = 0; i < showBalls.length; ++i) {
+            sBalls.push(showBalls[i].id);
+        }
+
+        return sBalls;
+    }
+
     isSureBall() {
         return BilliardData.instance.getHitBallType() !== 0;
     }

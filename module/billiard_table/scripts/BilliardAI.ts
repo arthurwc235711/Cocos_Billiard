@@ -42,6 +42,7 @@ export class BilliardAI  {
                 ball.setSliding();
                 ball.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(150 * R));
                 ball.rvel.copy(cueToSpin(Vec3.ZERO, ball.vel));
+                yy.event.emit(yy.Event_Name.billiard_hit_cd_stop);
             })
         }
     }
