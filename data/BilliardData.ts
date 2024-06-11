@@ -113,6 +113,14 @@ export class BilliardData {
     getOffset(): Vec3 {
         return this._offset;
     }
+
+    getNotActionUid() {
+        return this.players[0].uid === this.actionUid ? this.players[1].uid : this.players[0].uid;
+    }
+
+    getPlayer(uid: number): BilliardPlayer {
+        return this.players.filter(p=>p.uid === uid)[0];
+    }
 }
 
 

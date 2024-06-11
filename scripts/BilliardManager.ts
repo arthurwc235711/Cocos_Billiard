@@ -131,10 +131,49 @@ export class BilliardManager extends BaseCommonInstance{
             result.type = eOutcomeType.FreeBall;
             if (rules.isGameEnd(table.outcome, result)) {
                 yy.log.w("游戏结束");
+                // if (result.type === eOutcomeType.Failed) {
+                    let uid = BilliardData.instance.getNotActionUid();
+                    let p = BilliardData.instance.getPlayer(uid);
+                    yy.dialog.show(
+                        {
+                            title: "Tip",
+                            content: `游戏结束 ${p.name} 获胜`,
+                            isCancelEnable: false,
+                            isConfirmEnable: true,
+                            confirmText: "OK",
+                            confirmCallback: () => {
+                            },
+                            closeCallback: () => {
+                            },
+                            fontSize: 50,
+                            lineHeight: 60,
+                        }
+                    )
+                // }
+
+
                 return;
             }
         }
         else if (rules.isGameEnd(table.outcome, result)) {
+
+            let uid = BilliardData.instance.getActionUid();
+            let p = BilliardData.instance.getPlayer(uid);
+            yy.dialog.show(
+                {
+                    title: "Tip",
+                    content: `游戏结束 ${p.name} 获胜`,
+                    isCancelEnable: false,
+                    isConfirmEnable: true,
+                    confirmText: "OK",
+                    confirmCallback: () => {
+                    },
+                    closeCallback: () => {
+                    },
+                    fontSize: 50,
+                    lineHeight: 60,
+                }
+            )
             yy.log.w("游戏结束");
             return;
         } 
