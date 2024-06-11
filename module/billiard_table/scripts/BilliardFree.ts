@@ -5,6 +5,7 @@ import { yy } from '../../../../../../yy';
 import { R } from '../../../scripts/physics/constants';
 import { TableGeometry } from './TableGeometry';
 import { table } from 'console';
+import { BilliardTools } from '../../../scripts/BilliardTools';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardFree')
@@ -39,7 +40,7 @@ export class BilliardFree extends BaseCommonScript {
             let touch = event.touch;
             let local = touch.getLocation();
             let perLocal = touch.getPreviousLocation();
-            if ((this.touchMove ||  Math.abs(local.x - perLocal.x) > 2 || Math.abs(local.y - perLocal.y) > 2)) {
+            if ( BilliardTools.instance.isMyAction() && (this.touchMove ||  Math.abs(local.x - perLocal.x) > 2 || Math.abs(local.y - perLocal.y) > 2)) {
                 if (!this.touchMove) yy.event.emit(yy.Event_Name.billiard_free_ball_move, true);
                 this.touchMove = true;
                 BilliardManager.instance.camera3d.screenToWorld(vec3.set(local.x, local.y, 0), outV3);
@@ -64,7 +65,9 @@ export class BilliardFree extends BaseCommonScript {
                             outV3.x = -TableGeometry.tableX;
                         }
                         else {
-                            outV3.x = -0.75;
+                            if (outV3.x > -0.75) {
+                                outV3.x = -0.75;
+                            }
                         }
                         table.cueBall.pos.copy(outV3);
                         outV3.setZ(0).setY(outV3.y - 4 * R).setX(outV3.x + R)
@@ -116,7 +119,7 @@ export class BilliardFree extends BaseCommonScript {
         });
     }
 
-    setFreeBall() {
+    setFreeBallHand() {
         let table = BilliardManager.instance.getTable();
         let outV3 = table.cueBall.pos.clone();
         let vec3 = new Vec3();
@@ -124,6 +127,10 @@ export class BilliardFree extends BaseCommonScript {
         BilliardManager.instance.camera3d.worldToScreen(outV3, vec3);
         BilliardManager.instance.camera2d.screenToWorld(vec3, outV3);
         this.nodeHand.setWorldPosition(outV3);
+    }
+
+    setStartAreaShow() {
+        this.nodeStart.active = true;
     }
 }
 

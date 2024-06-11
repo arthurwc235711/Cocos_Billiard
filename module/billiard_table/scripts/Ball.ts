@@ -24,10 +24,10 @@ export enum State {
 export class Ball extends Component {
   @property([Material])
   materials: Material[] = [];
-    pos: Vec3;
-    readonly vel: Vec3 = Vec3.ZERO.clone();
-    readonly rvel: Vec3 = Vec3.ZERO.clone();
-    readonly futurePos: Vec3 = Vec3.ZERO.clone();
+    readonly pos: Vec3 = new Vec3();
+    readonly vel: Vec3 = new Vec3();
+    readonly rvel: Vec3 = new Vec3();
+    readonly futurePos: Vec3 = new Vec3();
     state: State = State.Stationary;
     pocket: Pocket;
     @property(MeshRenderer)
@@ -40,7 +40,7 @@ export class Ball extends Component {
 
     protected onLoad(): void {
         this.id = BilliardData.ballId++;
-        this.pos = this.node.position.clone();
+        this.pos.copy(this.node.position);
         this.node.name = "ball_" + this.id;
         this.ballMesh.material = this.materials[this.id];
 
@@ -53,25 +53,33 @@ export class Ball extends Component {
         // yy.log.w("balls onLoad", this.node.name)
     }
 
-    fixedUpdate(dt: number) {
-      this.updatePosition(dt);
+    delateTime: number = 0;
+    fixedUpdate(ft: number, dt: number) {
+      this.delateTime = dt;
+      this.updatePosition(ft);
       if (this.state === State.Falling) {
-          this.pocket.updateFall(this, dt)
+          this.pocket.updateFall(this, ft)
       }
       else {
-        this.updateVelocity(dt)
+        this.updateVelocity(ft)
       }
     }
 
+
     protected update(dt: number): void {
       if (!this.pos.vec3Equals(this.node.position)) {
-          this.node.position = this.pos; // 更新球的位置
-          const angle = this.rvel.length() * dt;
+          this.node.position = this.node.position.lerp(this.pos, 0.5); // 更新球的位置
+          const angle = this.rvel.length() * this.delateTime;
           let q = rotateAxisAngle(norm(this.rvel), angle);
           const currentRotation = this.ballMesh.node.getRotation();
           this.ballMesh.node.setRotation(Quat.multiply(currentRotation, q, currentRotation));
           // yy.log.w(this.node.position, this.node.rotation, this.id);
       }
+    }
+
+    updatePosImmediately(pos: Vec3) {
+        this.pos.copy(pos);
+        this.node.position = this.pos;
     }
 
     private updatePosition(t: number) {
@@ -179,7 +187,7 @@ export class Ball extends Component {
     }
 
     setTrack() {
-      this.pos = new Vec3(-1.5, 0.74, -0.5);
+      this.pos.set(-1.5, 0.74, -0.5);
       this.node.getChildByName("SpriteRenderer").active = false;
     }
 }

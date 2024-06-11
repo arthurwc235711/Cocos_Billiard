@@ -14,6 +14,9 @@ export class BilliardTools {
         return this.__instance__;
     }
 
+    isMyAction() {
+        return  BilliardData.instance.getActionUid() === 1;
+    }
 
     // 摄像头之间坐标转换
     cameraToCameraWPos(orgWPos:Vec3, orgCamera: Camera, disCamera: Camera) {
@@ -38,9 +41,9 @@ export class BilliardTools {
         let camera2d = BilliardManager.instance.camera2d;
         let srcX1 = camera3d.worldToScreen(v3d);//org.worldPosition.distanceTo(dis.worldPosition);
         let wp1 = camera2d.screenToWorld(srcX1);
-        // let canvas = find("Canvas")
-        // let canvasPos = canvas.getComponent(UITransform).convertToNodeSpaceAR(wp1);
-        return wp1//canvasPos;
+        let canvas = find("Canvas")
+        let canvasPos = canvas.getComponent(UITransform).convertToNodeSpaceAR(wp1);
+        return canvasPos;
     }
 
 
@@ -54,13 +57,29 @@ export class BilliardTools {
         let cp2 = this.get3dTo2dSize(tmp2)//camera2d.screenToWorld(disTmp);
         let sphereRadius = Math.abs(cp1.x - cp2.x);
 
-        let offset = sphereCenter.clone().subtract(source.clone());
+        let offset = sphereCenter.clone().subtract(source);
         let e = offset.length();
         let a = offset.dot(rayDirection);
+        // let c = rayDirection.length();
+
+        // let length = a / (a / (e * c) )
+        // let oa = dir.multiplyScalar(length);
+
+
+
+        // let cos = a/e/c;
+        // let sin = Math.sqrt(1 - cos*cos);
+        // let y = sphereRadius * cos;
+        // let x = sphereRadius * sin;
+        // let vx = dis.worldRotation.x - x;
+        // let vy = dis.worldRotation.y + y;
+
+
+        
 
         let f = Math.sqrt(sphereRadius * sphereRadius - e*e + a*a);
         let t = a - f;
-        // yy.log.w("getDisanceBy2dCamera",source, dir.x*t + source.x, dir.y *t + source.y);
+        // yy.log.w("getDisanceBy2dCamera", rayDirection, rayDirection.clone().multiplyScalar(t));
         // yy.log.w("t", t);
         return t; //减少15像素贴图的误差
     }
@@ -77,12 +96,12 @@ export class BilliardTools {
         if (cushion.position.y !== 0) {
             let h = Math.abs(target.y - source.y) - inc;
             let w = dir.x/dir.y * h;
-            return Math.sqrt(h*h + w*w)- 15;//减少15像素贴图的误差
+            return Math.sqrt(h*h + w*w)- 30;//减少15像素贴图的误差
         }
         else {
             let w = Math.abs(target.x - source.x) - inc;
             let h = dir.y/dir.x * w;
-            return Math.sqrt(h*h + w*w)- 15;
+            return Math.sqrt(h*h + w*w)- 30;
         }
     }
 

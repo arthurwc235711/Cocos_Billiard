@@ -40,7 +40,7 @@ export class Table extends BaseCommonScript {
     cushionModel = bounceHanBlend
     cueBall:Ball = null;
 
-    readonly fixedTimeStep = 1.0 / 256.0;// 物理模拟的固定时间步长
+    readonly fixedTimeStep = 1.0 / 512.0;// 物理模拟的固定时间步长
 
 
     public register_event(): void {
@@ -53,8 +53,6 @@ export class Table extends BaseCommonScript {
 
     public on_init(): void {
       BilliardManager.instance.setTable(this);
-      this.prepareBalls();
-      this.initTable();
     }
 
     protected start(): void {
@@ -74,19 +72,23 @@ export class Table extends BaseCommonScript {
     }
 
 
+    decimal: number = 0;
     // loopUpdate  fixedUpdate 会在所有update之后调用
     loopUpdate(dt: number) {
-      let loopTimes = dt/this.fixedTimeStep;
+      let tmp = dt/this.fixedTimeStep + this.decimal;
+      let loopTimes = Math.floor(tmp)
+      this.decimal = tmp - loopTimes;
+      // this.records[loopTimes]++;
+      // yy.log.w("loopUpdate", this.records);
       for (let i = 0; i < loopTimes; i++) {
-        this.fixedUpdate(this.fixedTimeStep);
+        this.fixedUpdate(dt);
       }
+
+  
     }
     // 模拟物理
     fixedUpdate(dt: number) {
-      let loopTimes = dt/this.fixedTimeStep;
-      for (let i = 0; i < loopTimes; i++) {
-        this.advance(this.fixedTimeStep);
-      }
+      this.advance(dt);
     }
 
     initialiseBalls(balls: Ball[]) {
@@ -101,15 +103,15 @@ export class Table extends BaseCommonScript {
         }
     }
 
-    advance(t: number) {
+    advance(dt: number) {
         let depth = 0
-        while (!this.prepareAdvanceAll(t)) {
+        while (!this.prepareAdvanceAll(this.fixedTimeStep)) {
           if (depth++ > 100) {
             throw new Error("Depth exceeded resolving collisions")
           }
         }
         this.balls.forEach((a) => {
-          a.fixedUpdate(t)
+          a.fixedUpdate(this.fixedTimeStep, dt)
         })
     }
   /**
@@ -207,6 +209,10 @@ export class Table extends BaseCommonScript {
     }
   }
 
+  getOnTableBalls() {
+    return this.balls.filter((b) => b.onTable());
+  }
+
   hit() {
     this.outcome = [
       Outcome.hit(this.cueBall, BilliardData.instance.getPower())
@@ -215,7 +221,7 @@ export class Table extends BaseCommonScript {
   }
 
 
-  prepareBalls() {
+  prepareBalls(startPos: Vec3) {
     let ballNums = BilliardData.instance.getBallNums();
     let row = 1;
     let cNum = 0;
@@ -229,17 +235,17 @@ export class Table extends BaseCommonScript {
       let ball = instantiate(this.prefabBall).getComponent(Ball);
       this.nodeBalls.addChild(ball.node);
       if (i === 0) {// 母球
-        ball.pos = new Vec3(-0.85, 0, 0);
+        ball.updatePosImmediately(startPos);
         ball.getComponent(RaySphereCollision).destroy();
       }
       else {
         if (row === 1) {
-          ball.pos = new Vec3(x/2, 0, 0);
+          ball.updatePosImmediately(new Vec3(x/2, 0, 0));
         }
         else {
           let space = 0//0.001 ;
           let y = (lNum+1)%2 === 0 ?  (r + space/2) +  (2*r + space) * (Math.ceil((lNum+1)/2)-1) : (2*r + space) * (Math.ceil((lNum+1)/2)-1);
-          ball.pos = new Vec3(x/2 + (2 * r / acos25  +  0.001) * (row - 1), -y + (2 * r + space) * (lNum - cNum), 0);
+          ball.updatePosImmediately(new Vec3(x/2 + (2 * r / acos25  +  0.001) * (row - 1), -y + (2 * r + space) * (lNum - cNum), 0));
         }
   
         cNum += 1;
@@ -249,8 +255,6 @@ export class Table extends BaseCommonScript {
           cNum = 0;
         }
       }
-
-
     }
   }
 

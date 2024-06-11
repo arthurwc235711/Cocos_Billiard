@@ -7,6 +7,9 @@ import { Table } from "../module/billiard_table/scripts/Table";
 import { Ball } from "../module/billiard_table/scripts/Ball";
 import { BilliardData } from "../data/BilliardData";
 import { track } from "./physics/track";
+import { IBilliardRules } from "../module/billiard_table/scripts/rules/IBilliardRules";
+import { eOutcomeType, eRuleType } from "../config/BilliardConst";
+import { BilliardEightBall } from "../module/billiard_table/scripts/rules/BilliardEightBall";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -38,6 +41,7 @@ export class BilliardManager extends BaseCommonInstance{
 
     private _table: Table;
     private _view: BilliardUIView;
+    private _rules: IBilliardRules;
 
     setTable(table: Table) {
         this._table = table;
@@ -57,11 +61,29 @@ export class BilliardManager extends BaseCommonInstance{
         return this.getTable().cueBall;
     }
 
+    setRules(rules: eRuleType) {
+        switch (rules) {
+            case eRuleType.EightBall:
+                this._rules = new BilliardEightBall();
+                break;
+            case eRuleType.NineBall:
+                break;
+
+            default: 
+                yy.log.e("error eRuleType:", rules);
+        }
+    }
+
+    getRules() {        
+        return this._rules;
+    }
+
 
     register_event() {
         this.event_func_map = {
             [yy.Event_Name.billiard_table_init]: "onInitGame",
             [yy.Event_Name.billiard_allStationary] : 'onAllStationary',
+            [yy.Event_Name.billiard_hit_cd_stop]: "onHitCdStop",
         }
 
         super.register_event();
@@ -76,42 +98,109 @@ export class BilliardManager extends BaseCommonInstance{
     onInitGame(node3d:Node) {
         let view = this.getView();
         let table = this.getTable();
+        let rules = this.getRules();
+
+        rules.placeBalls();
         view.scheduleOnce(()=>{
             view.initBtnTable(node3d);
-            let ball = table.recentlyBall();
-            if (ball) {
-                view.autoShotAt(ball.node);
-                view.onFreeBall();
-            }
+            rules.startTurn();
+            view.setPlayerInfo();
+            view.setPlayerCountDown(20);
         }, 0);
-
     }
 
 
     onAllStationary() {
         let view = this.getView();
-        let table = this.getTable();
+        // let table = this.getTable();
+        let rules = this.getRules();
+        this.onResult();
         this.getView().onAllStationary();
-        this.onUpdate();
-        let ball = table.recentlyBall();
+        let ball = rules.onShotBall();
         if (ball) {
             view.autoShotAt(ball.node);
         }
     }
 
-    onUpdate() {
+    onResult() {
         let table = this.getTable();
-        // 母球进洞
-        if (Outcome.isCueBallPotted(table.cueBall, table.outcome)) {
-            table.cueBall.pos = new Vec3(-0.85, 0, 0);
-            let view =this.getView();
-            view.freeBall.node.active = true;
-            view.onFreeBallMove(!table.isValidFreeBall());
-            view.onFreeBall();
+        let rules = this.getRules();
+        let view = this.getView();
+        let result: { type: eOutcomeType } = { type: eOutcomeType.None };
+        if (rules.isFoul(table.outcome)) {
+            result.type = eOutcomeType.FreeBall;
+            if (rules.isGameEnd(table.outcome, result)) {
+                yy.log.w("游戏结束");
+                // if (result.type === eOutcomeType.Failed) {
+                    let uid = BilliardData.instance.getNotActionUid();
+                    let p = BilliardData.instance.getPlayer(uid);
+                    yy.dialog.show(
+                        {
+                            title: "Tip",
+                            content: `游戏结束 ${p.name} 获胜`,
+                            isCancelEnable: false,
+                            isConfirmEnable: true,
+                            confirmText: "OK",
+                            confirmCallback: () => {
+                            },
+                            closeCallback: () => {
+                            },
+                            fontSize: 50,
+                            lineHeight: 60,
+                        }
+                    )
+                // }
 
+
+                return;
+            }
         }
+        else if (rules.isGameEnd(table.outcome, result)) {
+
+            let uid = BilliardData.instance.getActionUid();
+            let p = BilliardData.instance.getPlayer(uid);
+            yy.dialog.show(
+                {
+                    title: "Tip",
+                    content: `游戏结束 ${p.name} 获胜`,
+                    isCancelEnable: false,
+                    isConfirmEnable: true,
+                    confirmText: "OK",
+                    confirmCallback: () => {
+                    },
+                    closeCallback: () => {
+                    },
+                    fontSize: 50,
+                    lineHeight: 60,
+                }
+            )
+            yy.log.w("游戏结束");
+            return;
+        } 
+
+        view.resetData();
+        rules.nextTurn(result.type);
+        view.setPlayerCountDown(20);
+        this.setSureBalls();
     }
-    
+
+    onHitCdStop() {
+        let view = this.getView();
+        view.stopCountDown();
+    }
+
+
+    setSureBalls() {
+        const table = this.getTable();
+        const view = this.getView();
+        const rules = this.getRules();
+        const players = BilliardData.instance.getAllPlayers();
+        players.forEach(p=>{
+            // yy.log.w("getHitBalls", p, p.uid);          
+
+            view.billiardTop.setPlayerBalls(rules.getShowBalls(p.hitType), p.uid);
+        });
+    }
 }
 
 

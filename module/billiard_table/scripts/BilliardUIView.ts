@@ -9,6 +9,7 @@ import { BaseRayCollision } from '../../../scripts/physics/component/BaseRayColl
 import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
 import { BilliardManager } from '../../../scripts/BilliardManager';
 import { BilliardFree } from './BilliardFree';
+import { BilliardTop } from './BilliardTop';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardUIView')
@@ -24,11 +25,19 @@ export class BilliardUIView extends BaseCommonScript {
     nodeCue:Node = null;
     @property(BilliardFree)
     freeBall: BilliardFree;
+    @property(BilliardTop)
+    billiardTop: BilliardTop;
 
-    private interactableTableTouch: boolean = true;
+    private _interactableTableTouch: boolean = true;
     private touchMove: boolean = false;
     private preTouchLocation: Vec2 = new Vec2();
 
+    get interactableTableTouch() {
+        return this._interactableTableTouch && BilliardTools.instance.isMyAction();
+    }
+    set interactableTableTouch(value: boolean) {
+        this._interactableTableTouch = value;
+    }
     
     public register_event() {
         // 注册指定的监听方法，格式如下
@@ -50,6 +59,10 @@ export class BilliardUIView extends BaseCommonScript {
 
         let btnBall = this.node.getChildByPath("NodeRight/NodeHitPoint/ButtonBall");
         btnBall.on("click", this.onClickStroke, this);
+    }
+
+    protected start(): void {
+        // this.setPlayerInfo();
     }
 
     onClickStroke() {
@@ -139,8 +152,8 @@ export class BilliardUIView extends BaseCommonScript {
             let cos = this.preTouchLocation.dot(new Vec2(1, 0)) / this.preTouchLocation.length();
             let ran = Math.acos(cos);
 
-            const newX = this.preTouchLocation.length() * Math.cos(ran + angleInRadians)// - this.preTouchLocation.y * Math.sin(angleInRadians);
-            const newY = this.preTouchLocation.length() * Math.sin(ran + angleInRadians)// + this.preTouchLocation.y * Math.cos(angleInRadians);
+            const newX = this.preTouchLocation.length() * Math.cos(ran + angleInRadians)
+            const newY = this.preTouchLocation.length() * Math.sin(ran + angleInRadians)
             this.preTouchLocation.x = newX;
             this.preTouchLocation.y = newY;
             this.onClickTable(this.preTouchLocation);
@@ -148,7 +161,7 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     initPowerSliderClick() {
-        let sliderNode = this.node.getChildByPath("NodePower/TouchPower/Slider");
+        let sliderNode = this.node.getChildByPath("NodeLeft/TouchPower/Slider");
         sliderNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
             let slider = event.target.getComponent(Slider);
             let progress = 1 - slider.progress;
@@ -170,14 +183,36 @@ export class BilliardUIView extends BaseCommonScript {
 
     onClickHit() {
         yy.event.emit(yy.Event_Name.billiard_hit);
+        this.controlHide();
+        yy.event.emit(yy.Event_Name.billiard_hit_cd_stop);
+    }
 
+    controlHide() {
         this.nodeCueArrow.active = false;
         let nodeAngle = this.node.getChildByName("NodeRight");
         nodeAngle.active = false;
         this.interactableTableTouch = false;
-        this.node.getChildByPath("NodePower").active = false;
+        this.node.getChildByPath("NodeLeft").active = false;
 
         this.freeBall.node.active = false;
+    }
+
+    controlShow() {
+        this.interactableTableTouch = true;
+        let slider = this.node.getChildByPath("NodeLeft/TouchPower/Slider").getComponent(Slider);
+        slider.progress = 1;
+        this.node.getChildByPath("NodeLeft").active = true && BilliardTools.instance.isMyAction();
+        this.node.getChildByPath("NodeLeft/Label").getComponent(Label).string = "";
+        let nodeAngle = this.node.getChildByName("NodeRight");
+        nodeAngle.active = true && BilliardTools.instance.isMyAction();
+
+        BilliardData.instance.getOffset().copy(Vec3.ZERO);
+        let dot = this.node.getChildByPath("NodeRight/NodeHitPoint/ButtonBall/Node/Dot");
+        dot.position = Vec3.ZERO;
+    }
+
+    cueHide() {
+        this.nodeCueArrow.active = false;
     }
 
     onClickTable(local: Vec2) {       
@@ -187,7 +222,6 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     onShotAt(wp: Vec3) {
-
         this.nodeCue.setPosition(-300, 0, 0);
         let nodeCueArrow = this.nodeCueArrow;
         let cueBall = BilliardManager.instance.getCueBall();
@@ -219,17 +253,16 @@ export class BilliardUIView extends BaseCommonScript {
             if (collision instanceof RaySphereCollision) {
                 ballArrow.active = true;
                 cueArrow.active = true;
-                let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction);
-                uiTran.setContentSize(k - 15, uiTran.contentSize.y);
+                let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction)
+                uiTran.setContentSize(k - 30, uiTran.contentSize.y);
                 
                 let b2dPos = camera3DToCamera2DWPos(nodes[0].worldPosition);
                 let furCueNode = nodeArrow.getChildByPath("Sprite");
 
                 furCueNode.getComponent(Widget).updateAlignment(); // 强制更新节点位置，不然当前帧数据会异常，需要等待下一帧计算才行
-                yy.log.w("furCueNode", furCueNode.worldPosition)
+                // yy.log.w("furCueNode", furCueNode.worldPosition)
                 let v1 = b2dPos.clone().subtract(direction.multiplyScalar(k).add(cue2dWp)).normalize();
-                yy.log.e("furCueNode", direction)
-                let ballAngle = v1.angleTo(Vec3.RIGHT);
+                let ballAngle = v1.angleTo(Vec3.RIGHT);;
 
                 let tmpBallAngle = ballAngle * Rtd;
                 if (furCueNode.worldPosition.y < b2dPos.y) {// 预判被撞球的运动方向
@@ -295,22 +328,11 @@ export class BilliardUIView extends BaseCommonScript {
 
     onAllStationary() {
         // yy.log.w("", "所有球都静止");
-        this.interactableTableTouch = true;
-        let slider = this.node.getChildByPath("NodePower/TouchPower/Slider").getComponent(Slider);
-        slider.progress = 1;
-        this.node.getChildByPath("NodePower").active = true;
-        this.node.getChildByPath("NodePower/Label").getComponent(Label).string = "";
-        let nodeAngle = this.node.getChildByName("NodeRight");
-        nodeAngle.active = true;
-
-        BilliardData.instance.getOffset().copy(Vec3.ZERO);
-        let dot = this.node.getChildByPath("NodeRight/NodeHitPoint/ButtonBall/Node/Dot");
-        dot.position = Vec3.ZERO;
-        // let nodeArrow = this.node.getChildByName("SpriteSplash")
+        this.controlShow();
     }
 
     onSlider(slider: Slider) {
-        let label = this.node.getChildByPath("NodePower/Label").getComponent(Label);
+        let label = this.node.getChildByPath("NodeLeft/Label").getComponent(Label);
         let progress = 1 - slider.progress;
         if (progress === 0) {
             label.string = "";
@@ -360,24 +382,66 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     onFreeBall() {
-        this.freeBall.setFreeBall();
+        this.freeBall.setFreeBallHand();
     }
 
     onFreeBallMove(isMove: boolean) {
         if (isMove) {
             this.nodeCueArrow.active = false;
             this.node.getChildByName("NodeRight").active = false;
-            this.node.getChildByPath("NodePower").active = false;
+            this.node.getChildByPath("NodeLeft").active = false;
         }else {
             this.nodeCueArrow.active = true;
-            this.node.getChildByName("NodeRight").active = true;
-            this.node.getChildByPath("NodePower").active = true;
+            this.node.getChildByName("NodeRight").active = true && BilliardTools.instance.isMyAction();
+            this.node.getChildByPath("NodeLeft").active = true && BilliardTools.instance.isMyAction();
             let table = BilliardManager.instance.getTable();
             let ball = table.recentlyBall();
             if (ball) {
                 this.autoShotAt(ball.node);
             }
         }
+    }
+
+    setPlayerInfo() {
+        this.billiardTop.setBindLeftPlayerUID(1)
+        .setBindRightPlayerUID(2)
+
+        const players = BilliardData.instance.getAllPlayers();
+        players.forEach(p=>{
+            this.billiardTop.setPlayerName(p.name, p.uid)
+                .setPlayerHead(p.url, p.uid)
+                .setPlayerBalls(BilliardData.instance.getHitBalls(p.uid), p.uid);
+        });
+    }
+
+    setGold(gold: number) {
+        this.billiardTop.setGold(gold);
+    }
+    setScore(lScore: number, rScore: number) {
+        this.billiardTop.setScore(lScore, rScore);
+    }
+
+    stopCountDown() {
+        this.billiardTop.stopCountDown();
+    }
+
+    setPlayerCountDown(countDown: number) {
+        this.billiardTop.setPlayerCountDown(countDown);
+    }
+
+    resetData() {
+        this.billiardTop.resetData();
+    }
+
+    setSureBalls() {
+        const players = BilliardData.instance.getAllPlayers();
+        players.forEach(p=>{
+            // yy.log.w("getHitBalls", p, p.uid);
+
+
+
+            this.billiardTop.setPlayerBalls(BilliardData.instance.getHitBalls(p.uid), p.uid);
+        });
     }
 }
 
