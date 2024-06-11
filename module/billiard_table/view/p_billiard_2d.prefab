@@ -1710,7 +1710,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "NodePower",
+    "_name": "NodeLeft",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -3217,7 +3217,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 890,
-      "y": 0,
+      "y": 1.845,
       "z": 0
     },
     "_lrot": {

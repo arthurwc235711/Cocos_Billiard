@@ -154,7 +154,7 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     initPowerSliderClick() {
-        let sliderNode = this.node.getChildByPath("NodePower/TouchPower/Slider");
+        let sliderNode = this.node.getChildByPath("NodeLeft/TouchPower/Slider");
         sliderNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
             let slider = event.target.getComponent(Slider);
             let progress = 1 - slider.progress;
@@ -185,17 +185,17 @@ export class BilliardUIView extends BaseCommonScript {
         let nodeAngle = this.node.getChildByName("NodeRight");
         nodeAngle.active = false;
         this.interactableTableTouch = false;
-        this.node.getChildByPath("NodePower").active = false;
+        this.node.getChildByPath("NodeLeft").active = false;
 
         this.freeBall.node.active = false;
     }
 
     controlShow() {
         this.interactableTableTouch = true;
-        let slider = this.node.getChildByPath("NodePower/TouchPower/Slider").getComponent(Slider);
+        let slider = this.node.getChildByPath("NodeLeft/TouchPower/Slider").getComponent(Slider);
         slider.progress = 1;
-        this.node.getChildByPath("NodePower").active = true && BilliardTools.instance.isMyAction();
-        this.node.getChildByPath("NodePower/Label").getComponent(Label).string = "";
+        this.node.getChildByPath("NodeLeft").active = true && BilliardTools.instance.isMyAction();
+        this.node.getChildByPath("NodeLeft/Label").getComponent(Label).string = "";
         let nodeAngle = this.node.getChildByName("NodeRight");
         nodeAngle.active = true && BilliardTools.instance.isMyAction();
 
@@ -325,7 +325,7 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     onSlider(slider: Slider) {
-        let label = this.node.getChildByPath("NodePower/Label").getComponent(Label);
+        let label = this.node.getChildByPath("NodeLeft/Label").getComponent(Label);
         let progress = 1 - slider.progress;
         if (progress === 0) {
             label.string = "";
@@ -382,11 +382,11 @@ export class BilliardUIView extends BaseCommonScript {
         if (isMove) {
             this.nodeCueArrow.active = false;
             this.node.getChildByName("NodeRight").active = false;
-            this.node.getChildByPath("NodePower").active = false;
+            this.node.getChildByPath("NodeLeft").active = false;
         }else {
             this.nodeCueArrow.active = true;
             this.node.getChildByName("NodeRight").active = true && BilliardTools.instance.isMyAction();
-            this.node.getChildByPath("NodePower").active = true && BilliardTools.instance.isMyAction();
+            this.node.getChildByPath("NodeLeft").active = true && BilliardTools.instance.isMyAction();
             let table = BilliardManager.instance.getTable();
             let ball = table.recentlyBall();
             if (ball) {
