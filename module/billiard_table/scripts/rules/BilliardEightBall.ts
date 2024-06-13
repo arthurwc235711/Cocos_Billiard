@@ -84,17 +84,23 @@ export class BilliardEightBall implements IBilliardRules {
         }
         else {
             if(this.isSureBall()) {// 定色
-                if (Outcome.isIncludeValidPotted(outcome, BilliardData.instance.getHitBalls())) {
-                    resultType.type = eOutcomeType.Continue;
+                let potBalls = Outcome.pots(outcome);
+                if (potBalls.length === 0) { // 没有进球则对方球权
+                    resultType.type = eOutcomeType.Turn;
                 }
-                else {
-                    if(Outcome.is8BallPotted(outcome)) { // 最后击打进入8球
+                else if (Outcome.is8BallPotted(outcome)) { // 最后一杆打进入8球
+                    // 最后杆打进8球， 可以同时打进对方球但不能打进己方球
+                    if(!Outcome.isIncludeValidPotted(outcome, BilliardData.instance.getHitBalls()) && this.getShowBalls(BilliardData.instance.getHitBallType()).length === 0) {
                         resultType.type = eOutcomeType.Win;
                         result = true;
                     }
                     else {
-                        resultType.type = eOutcomeType.Turn;
+                        resultType.type = eOutcomeType.Failed;
+                        result = true;
                     }
+                }
+                else if(Outcome.isIncludeValidPotted(outcome, BilliardData.instance.getHitBalls())){
+                        resultType.type = eOutcomeType.Continue;
                 }
             }
             else {// 未定色
@@ -193,7 +199,7 @@ export class BilliardEightBall implements IBilliardRules {
             view.onFreeBall();
         }
 
-        BilliardData.instance.setActionUid( Math.random() < 0.5 ? 1 : 2 );
+        BilliardData.instance.setActionUid(1) //Math.random() < 0.5 ? 1 : 2 );
         yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
 
 
