@@ -156,9 +156,14 @@ export class BilliardManager extends BaseCommonInstance{
             }
         }
         else if (rules.isGameEnd(table.outcome, result)) {
-
             let uid = BilliardData.instance.getActionUid();
             let p = BilliardData.instance.getPlayer(uid);
+
+            if (result.type === eOutcomeType.Failed) {
+                uid = BilliardData.instance.getNotActionUid();
+                p = BilliardData.instance.getPlayer(uid);
+            }
+
             yy.dialog.show(
                 {
                     title: "Tip",
