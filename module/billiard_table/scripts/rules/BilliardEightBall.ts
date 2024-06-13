@@ -34,15 +34,16 @@ export class BilliardEightBall implements IBilliardRules {
             yy.log.w("打进母球");
             freeBall();
         }
-        else if (Outcome.isFirstCushion(outcome)) {// 先撞库
-            yy.log.w("先撞库");
-            freeBall();
-        }
+        // else if (Outcome.isFirstCushion(outcome)) {// 先撞库
+        //     yy.log.w("先撞库");
+
+        //     freeBall();
+        // }
         else if (Outcome.firstCollision(outcome) === undefined) {// 没有撞球
             yy.log.w("没有撞球");
             freeBall();
         }
-        else if (Outcome.isCollisionNoCushion(outcome) && Outcome.potCount(outcome) ===0) { // 撞球后没有撞库
+        else if (Outcome.isCollisionNoCushion(outcome) && Outcome.potCount(outcome) ===0) { // 撞球后没有撞库  先撞库在撞自己球后不碰库算犯规
             yy.log.w("撞球后没有撞库");
             freeBall();
         }
