@@ -200,7 +200,7 @@ export class BilliardEightBall implements IBilliardRules {
             view.onFreeBall();
         }
 
-        BilliardData.instance.setActionUid(1) //Math.random() < 0.5 ? 1 : 2 );
+        BilliardData.instance.setActionUid(Math.random() < 0.5 ? 1 : 2 );
         yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
 
 
