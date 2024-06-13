@@ -47,12 +47,20 @@ export class BilliardEightBall implements IBilliardRules {
             freeBall();
         }
 
-        if (!result && this.isSureBall()) {
+        if (!result) {
             let o = (Outcome.firstCollision(outcome)) 
             if (o) {
-                let balls = BilliardManager.instance.getTable().getOnTableBalls();
-                if (this.hasBallType(balls, BilliardData.instance.getHitBallType()) && this.getBallType(o.ballB) !== BilliardData.instance.getHitBallType()){
-                    freeBall();
+                if (this.isSureBall()) { //定色后为首次击打自己颜色则犯规
+                    let balls = BilliardManager.instance.getTable().getOnTableBalls();
+                    if (this.hasBallType(balls, BilliardData.instance.getHitBallType()) && this.getBallType(o.ballB) !== BilliardData.instance.getHitBallType()){
+                        freeBall();
+                    }
+                }
+                else {
+                    // 定色前为首次击打8球则犯规
+                    if (this.getBallType(o.ballB) === eBallType.EightBall) {
+                        freeBall();
+                    }
                 }
             }
         }
@@ -92,7 +100,7 @@ export class BilliardEightBall implements IBilliardRules {
             else {// 未定色
                 let potBalls = Outcome.pots(outcome);
                 if (potBalls.length > 0) {
-                    if (this.round === 1) {// 开球进球不定色
+                    if (this.round === 1) {// 开球进球不定色   且开球必定进不了黑8
                         resultType.type = eOutcomeType.Continue;
                         yy.log.w("开球进球不定色");
                     }
@@ -253,6 +261,9 @@ export class BilliardEightBall implements IBilliardRules {
         }
         else if (ball.id < 8) {
             return eBallType.SolidBall;
+        }
+        else {
+            return eBallType.EightBall;
         }
     }
 
