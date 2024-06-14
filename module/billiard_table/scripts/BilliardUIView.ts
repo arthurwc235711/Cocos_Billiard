@@ -1,4 +1,4 @@
-import { _decorator, Button, Canvas, Component, EventTouch, find, game, Label, Node, physics, quat, Quat, Size, Slider, Sprite, UITransform, Vec2, Vec3, Widget } from 'cc';
+import { _decorator, Button, Canvas, Component, EventTouch, find, game, Label, Node, physics, quat, Quat, Size, Slider, Sprite, tween, UITransform, Vec2, Vec3, Widget } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
@@ -182,19 +182,32 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     onClickHit() {
-        yy.event.emit(yy.Event_Name.billiard_hit);
-        this.controlHide();
         yy.event.emit(yy.Event_Name.billiard_hit_cd_stop);
+
+        tween(this.nodeCue)
+        .to(0.5, {position: new Vec3(-R2d*2, -15, 0)}, {easing: "quintIn"})
+        .call(()=>{
+            yy.event.emit(yy.Event_Name.billiard_hit);
+            this.nodeCueArrow.active = false;
+        })
+        .start()
+        this.controlHide(true);
     }
 
-    controlHide() {
-        this.nodeCueArrow.active = false;
+    controlHide(cueHide: boolean = false) {
+        this.nodeCueArrow.active = cueHide;
+        this.setArrowLine(false);
         let nodeAngle = this.node.getChildByName("NodeRight");
         nodeAngle.active = false;
         this.interactableTableTouch = false;
         this.node.getChildByPath("NodeLeft").active = false;
 
         this.freeBall.node.active = false;
+    }
+
+    setArrowLine(isShow:boolean) {
+        this.nodeArrow.getChildByName("Sprite").active = isShow;
+        this.nodeArrow.getComponent(Sprite).enabled = isShow;
     }
 
     controlShow() {
@@ -230,6 +243,7 @@ export class BilliardUIView extends BaseCommonScript {
         let cue2dWp = camera3DToCamera2DWPos(cueBall.node.worldPosition);
         nodeCueArrow.worldPosition = cue2dWp;
         nodeCueArrow.active = true;
+        this.setArrowLine(true);
         let direction = wp.clone().subtract(cueBall.node.worldPosition).normalize();
         let angle = direction.angleTo(Vec3.RIGHT);// 返回弧度
         if (wp.y > cueBall.node.worldPosition.y) {
@@ -392,6 +406,7 @@ export class BilliardUIView extends BaseCommonScript {
             this.node.getChildByPath("NodeLeft").active = false;
         }else {
             this.nodeCueArrow.active = true;
+            this.setArrowLine(true);
             this.node.getChildByName("NodeRight").active = true && BilliardTools.instance.isMyAction();
             this.node.getChildByPath("NodeLeft").active = true && BilliardTools.instance.isMyAction();
             let table = BilliardManager.instance.getTable();
