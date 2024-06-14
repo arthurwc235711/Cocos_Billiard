@@ -2907,8 +2907,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 324.085,
+      "x": 96.2,
+      "y": 164.168,
       "z": 0
     },
     "_lrot": {
@@ -2947,8 +2947,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 50.4
+      "width": 102.94,
+      "height": 40
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2982,18 +2982,21 @@
       "b": 255,
       "a": 255
     },
-    "_string": "",
+    "_string": "60",
     "_horizontalAlign": 1,
-    "_verticalAlign": 1,
-    "_actualFontSize": 40,
-    "_fontSize": 40,
+    "_verticalAlign": 0,
+    "_actualFontSize": 9.6,
+    "_fontSize": 9.6,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
     "_overflow": 0,
     "_enableWrapText": false,
-    "_font": null,
-    "_isSystemFontUsed": true,
-    "_spacingX": 0,
+    "_font": {
+      "__uuid__": "d4ec8646-35a4-4c38-93f6-4965b54f43b0",
+      "__expectedType__": "cc.BitmapFont"
+    },
+    "_isSystemFontUsed": false,
+    "_spacingX": -16.1,
     "_isItalic": false,
     "_isBold": false,
     "_isUnderline": false,
@@ -11045,7 +11048,6 @@
       "__id__": 0
     },
     "fileId": "f7VJ2rdzlK/6VSNuo/wRKp",
-    "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": [
       {
