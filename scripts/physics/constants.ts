@@ -5,6 +5,7 @@ export let muC = 0.8
 export let rho = 0.024
 export let m = 0.23
 export let R = 0.04421//0.03275  // 球半径 //0.04421//
+export let R2d = 22.735; // 2D 摄像头 球半径尺寸
 export let e = 0.86
 export let Mz: number
 export let Mxy: number

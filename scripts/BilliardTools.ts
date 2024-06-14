@@ -1,7 +1,7 @@
 import { Camera, director, find, misc, Node, UITransform, Vec3 } from "cc";
 import { BilliardData } from "../data/BilliardData";
 import { yy } from "../../../../yy";
-import { R } from "./physics/constants";
+import { R, R2d } from "./physics/constants";
 import { log } from "console";
 import { BilliardManager } from "./BilliardManager";
 
@@ -96,12 +96,12 @@ export class BilliardTools {
         if (cushion.position.y !== 0) {
             let h = Math.abs(target.y - source.y) - inc;
             let w = dir.x/dir.y * h;
-            return Math.sqrt(h*h + w*w)- 45.47;//减少45.47像素贴图的误差
+            return Math.sqrt(h*h + w*w)- R2d*2;//减少45.47像素贴图的误差
         }
         else {
             let w = Math.abs(target.x - source.x) - inc;
             let h = dir.y/dir.x * w;
-            return Math.sqrt(h*h + w*w)- 45.47;
+            return Math.sqrt(h*h + w*w)- R2d*2;
         }
     }
 

@@ -3,7 +3,7 @@ import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
 import { BilliardTools } from '../../../scripts/BilliardTools';
-import { R, Rtd } from '../../../scripts/physics/constants';
+import { R, R2d, Rtd } from '../../../scripts/physics/constants';
 import { rayHit } from '../../../scripts/physics/physics';
 import { BaseRayCollision } from '../../../scripts/physics/component/BaseRayCollision';
 import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
@@ -222,7 +222,7 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     onShotAt(wp: Vec3) {
-        this.nodeCue.setPosition(-300, 0, 0);
+        this.nodeCue.setPosition(-R2d*2, -15, 0);
         let nodeCueArrow = this.nodeCueArrow;
         let cueBall = BilliardManager.instance.getCueBall();
         let nodeArrow = this.nodeArrow;
@@ -254,7 +254,7 @@ export class BilliardUIView extends BaseCommonScript {
                 ballArrow.active = true;
                 cueArrow.active = true;
                 let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction)
-                uiTran.setContentSize(k - 45.47, uiTran.contentSize.y);//45.47 球直径2D摄像头尺寸
+                uiTran.setContentSize(k - R2d*2, uiTran.contentSize.y);//45.47 球直径2D摄像头尺寸
                 
                 let b2dPos = camera3DToCamera2DWPos(nodes[0].worldPosition);
                 let furCueNode = nodeArrow.getChildByPath("Sprite");
@@ -342,7 +342,7 @@ export class BilliardUIView extends BaseCommonScript {
         }
 
 
-        this.nodeCue.setPosition((progress + 1)* -300, 0, 0);
+        this.nodeCue.setPosition((progress * 5 + 1)* -R2d*2, -15, 0);
     }
 
 
