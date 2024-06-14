@@ -132,7 +132,7 @@ export class BilliardUIView extends BaseCommonScript {
         let uiTransform = angleSlider.getComponent(UITransform);
         let min = uiTransform.contentSize.y;
         let max = min * 2;
-        angleSlider.on(Node.EventType.TOUCH_MOVE, (event: EventTouch) => {
+        this.node.getChildByPath("NodeRight/NodeAngle").on(Node.EventType.TOUCH_MOVE, (event: EventTouch) => {
             let touch = event.touch;
             let local = touch.getLocation();
             let perLocal = touch.getPreviousLocation();
