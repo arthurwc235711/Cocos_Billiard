@@ -254,7 +254,7 @@ export class BilliardUIView extends BaseCommonScript {
                 ballArrow.active = true;
                 cueArrow.active = true;
                 let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction)
-                uiTran.setContentSize(k - 46.735, uiTran.contentSize.y);//22.735+24
+                uiTran.setContentSize(k - 45.47, uiTran.contentSize.y);//45.47 球直径2D摄像头尺寸
                 
                 let b2dPos = camera3DToCamera2DWPos(nodes[0].worldPosition);
                 let furCueNode = nodeArrow.getChildByPath("Sprite");
