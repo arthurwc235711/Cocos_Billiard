@@ -254,7 +254,7 @@ export class BilliardUIView extends BaseCommonScript {
                 ballArrow.active = true;
                 cueArrow.active = true;
                 let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction)
-                uiTran.setContentSize(k - 30, uiTran.contentSize.y);
+                uiTran.setContentSize(k - 46.735, uiTran.contentSize.y);//22.735+24
                 
                 let b2dPos = camera3DToCamera2DWPos(nodes[0].worldPosition);
                 let furCueNode = nodeArrow.getChildByPath("Sprite");
@@ -433,16 +433,16 @@ export class BilliardUIView extends BaseCommonScript {
         this.billiardTop.resetData();
     }
 
-    setSureBalls() {
-        const players = BilliardData.instance.getAllPlayers();
-        players.forEach(p=>{
-            // yy.log.w("getHitBalls", p, p.uid);
+    // setSureBalls() {
+    //     const players = BilliardData.instance.getAllPlayers();
+    //     players.forEach(p=>{
+    //         // yy.log.w("getHitBalls", p, p.uid);
 
 
 
-            this.billiardTop.setPlayerBalls(BilliardData.instance.getHitBalls(p.uid), p.uid);
-        });
-    }
+    //         this.billiardTop.setPlayerBalls(BilliardData.instance.getHitBalls(p.uid), p.uid);
+    //     });
+    // }
 }
 
 

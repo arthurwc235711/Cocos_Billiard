@@ -220,32 +220,31 @@ export class Table extends BaseCommonScript {
     this.cue.hit(this.cueBall);
   }
 
-
-  prepareBalls(startPos: Vec3) {
-    let ballNums = BilliardData.instance.getBallNums();
+  // 8球三角摆法
+  prepareBalls(startPos: Vec3) { 
+    let ballNums = BilliardData.instance.getBallNums(); // 8球，球的总数量 16个 
     let row = 1;
     let cNum = 0;
     let lNum = 0;
-    let x = TableGeometry.tableX;
+    let x = TableGeometry.tableX; // 1.40825
     let r = R //* 1.4;
     let acos25 = Math.acos(22.5 * Math.PI / 180 );
-
 
     for( let i = 0; i < ballNums; i++ ) {
       let ball = instantiate(this.prefabBall).getComponent(Ball);
       this.nodeBalls.addChild(ball.node);
       if (i === 0) {// 母球
-        ball.updatePosImmediately(startPos);
+        ball.updatePosImmediately(startPos); // 母球初始坐标 Vec3(-0.75, 0, 0),
         ball.getComponent(RaySphereCollision).destroy();
       }
       else {
         if (row === 1) {
-          ball.updatePosImmediately(new Vec3(x/2, 0, 0));
+          ball.updatePosImmediately(new Vec3(x/2, 0, 0));//设置首行1球坐标
         }
         else {
-          let space = 0//0.001 ;
+          let space = 0//0.001 //日后这里使用随机数取值则可保证 同样输入不同输出结果
           let y = (lNum+1)%2 === 0 ?  (r + space/2) +  (2*r + space) * (Math.ceil((lNum+1)/2)-1) : (2*r + space) * (Math.ceil((lNum+1)/2)-1);
-          ball.updatePosImmediately(new Vec3(x/2 + (2 * r / acos25  +  0.001) * (row - 1), -y + (2 * r + space) * (lNum - cNum), 0));
+          ball.updatePosImmediately(new Vec3(x/2 + (2 * r / acos25  +  0.001) * (row - 1), -y + (2 * r + space) * (lNum - cNum), 0));//设置其他球
         }
   
         cNum += 1;

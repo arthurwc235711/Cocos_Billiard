@@ -96,12 +96,12 @@ export class BilliardTools {
         if (cushion.position.y !== 0) {
             let h = Math.abs(target.y - source.y) - inc;
             let w = dir.x/dir.y * h;
-            return Math.sqrt(h*h + w*w)- 30;//减少15像素贴图的误差
+            return Math.sqrt(h*h + w*w)- 46.735;//减少46.735像素贴图的误差
         }
         else {
             let w = Math.abs(target.x - source.x) - inc;
             let h = dir.y/dir.x * w;
-            return Math.sqrt(h*h + w*w)- 30;
+            return Math.sqrt(h*h + w*w)- 46.735;
         }
     }
 
