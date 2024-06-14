@@ -2,7 +2,7 @@
   "ver": "1.0.25",
   "importer": "image",
   "imported": true,
-  "uuid": "ce5d6a1d-dc61-452b-b47b-ca830bb96782",
+  "uuid": "c022af21-d11b-4a39-a933-38b3d71fc80d",
   "files": [
     ".json",
     ".png"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "ce5d6a1d-dc61-452b-b47b-ca830bb96782@6c48a",
-      "displayName": "剩余球底圆",
+      "uuid": "c022af21-d11b-4a39-a933-38b3d71fc80d@6c48a",
+      "displayName": "桌球阴影",
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-        "imageUuidOrDatabaseUri": "ce5d6a1d-dc61-452b-b47b-ca830bb96782",
+        "imageUuidOrDatabaseUri": "c022af21-d11b-4a39-a933-38b3d71fc80d",
         "isUuid": true,
         "visible": false,
         "minfilter": "linear",
@@ -34,8 +34,8 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "ce5d6a1d-dc61-452b-b47b-ca830bb96782@f9941",
-      "displayName": "剩余球底圆",
+      "uuid": "c022af21-d11b-4a39-a933-38b3d71fc80d@f9941",
+      "displayName": "桌球阴影",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -46,10 +46,10 @@
         "offsetY": 0,
         "trimX": 0,
         "trimY": 0,
-        "width": 56,
-        "height": 56,
-        "rawWidth": 56,
-        "rawHeight": 56,
+        "width": 55,
+        "height": 55,
+        "rawWidth": 55,
+        "rawHeight": 55,
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
@@ -61,17 +61,17 @@
         "meshType": 0,
         "vertices": {
           "rawPosition": [
-            -28,
-            -28,
+            -27.5,
+            -27.5,
             0,
-            28,
-            -28,
+            27.5,
+            -27.5,
             0,
-            -28,
-            28,
+            -27.5,
+            27.5,
             0,
-            28,
-            28,
+            27.5,
+            27.5,
             0
           ],
           "indexes": [
@@ -84,12 +84,12 @@
           ],
           "uv": [
             0,
-            56,
-            56,
-            56,
+            55,
+            55,
+            55,
             0,
             0,
-            56,
+            55,
             0
           ],
           "nuv": [
@@ -103,18 +103,18 @@
             1
           ],
           "minPos": [
-            -28,
-            -28,
+            -27.5,
+            -27.5,
             0
           ],
           "maxPos": [
-            28,
-            28,
+            27.5,
+            27.5,
             0
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "ce5d6a1d-dc61-452b-b47b-ca830bb96782@6c48a",
+        "imageUuidOrDatabaseUri": "c022af21-d11b-4a39-a933-38b3d71fc80d@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.11",
@@ -129,6 +129,6 @@
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": true,
     "hasAlpha": true,
-    "redirect": "ce5d6a1d-dc61-452b-b47b-ca830bb96782@f9941"
+    "redirect": "c022af21-d11b-4a39-a933-38b3d71fc80d@f9941"
   }
 }
