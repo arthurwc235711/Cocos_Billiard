@@ -32,10 +32,10 @@ export class PocketGeometry {
     PocketGeometry.PY = TableGeometry.tableY + R * (0.8 / 0.5)
     PocketGeometry.knuckleInset = (R * 1.6) / 0.5
     PocketGeometry.knuckleRadius = (R * 0.31) / 0.5
-    PocketGeometry.middleKnuckleInset = (R * 1.385) / 0.5
-    PocketGeometry.middleKnuckleRadius = (R * 0.2) / 0.5
-    PocketGeometry.cornerRadius = (R * 1.1) / 0.5
-    PocketGeometry.middleRadius = (R * 0.9) / 0.5
+    PocketGeometry.middleKnuckleInset = (R * 1.385) / 0.5//0.0907175
+    PocketGeometry.middleKnuckleRadius = (R * 0.2) / 0.5 //0.0131
+    PocketGeometry.cornerRadius = (R * 1.1) / 0.5 //0.07205
+    PocketGeometry.middleRadius = (R * 0.9) / 0.5 //0.05895
     PocketGeometry.pocketLayout(R)
     PocketGeometry.enumerateCenters()
     PocketGeometry.enumerateKnuckles()
@@ -105,8 +105,8 @@ export class PocketGeometry {
         ),
         knuckleNE: new Knuckle(
           new Vec3(
-            PocketGeometry.middleKnuckleInset,
-            TableGeometry.Y + PocketGeometry.middleKnuckleRadius,
+            PocketGeometry.middleKnuckleInset, //0.0907175
+            TableGeometry.Y + PocketGeometry.middleKnuckleRadius, //0.7205+0.0131=0.7336
             0
           ),
           PocketGeometry.middleKnuckleRadius
