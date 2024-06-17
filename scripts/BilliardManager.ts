@@ -10,6 +10,7 @@ import { track } from "./physics/track";
 import { IBilliardRules } from "../module/billiard_table/scripts/rules/IBilliardRules";
 import { eOutcomeType, eRuleType } from "../config/BilliardConst";
 import { BilliardEightBall } from "../module/billiard_table/scripts/rules/BilliardEightBall";
+import { BilliardService } from "../net/BilliardService";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -84,6 +85,8 @@ export class BilliardManager extends BaseCommonInstance{
             [yy.Event_Name.billiard_table_init]: "onInitGame",
             [yy.Event_Name.billiard_allStationary] : 'onAllStationary',
             [yy.Event_Name.billiard_hit_cd_stop]: "onHitCdStop",
+
+            [yy.Event_Name.billiard_notify_start]: "onStart",
         }
 
         super.register_event();
@@ -97,16 +100,18 @@ export class BilliardManager extends BaseCommonInstance{
 
     onInitGame(node3d:Node) {
         let view = this.getView();
-        let table = this.getTable();
         let rules = this.getRules();
 
-        rules.placeBalls();
+        // rules.placeBalls();
         view.scheduleOnce(()=>{
             view.initBtnTable(node3d);
-            rules.startTurn();
-            view.setPlayerInfo();
-            view.setPlayerCountDown(20);
+            // view.setPlayerInfo();
+            // rules.startTurn();
+
+            // view.setPlayerCountDown(20);
         }, 0);
+
+        BilliardService.instance.sendStart()
     }
 
 
@@ -183,10 +188,17 @@ export class BilliardManager extends BaseCommonInstance{
             return;
         } 
 
+
         view.resetData();
         rules.nextTurn(result.type);
-        view.setPlayerCountDown(20);
+        // view.setPlayerCountDown(20);
         this.setSureBalls();
+
+
+        let firstCollision = Outcome.firstCollision(table.outcome);
+        if (firstCollision) {
+            yy.log.w("firstCollision", firstCollision.ballB.name);
+        }
     }
 
     onHitCdStop() {
@@ -205,6 +217,21 @@ export class BilliardManager extends BaseCommonInstance{
 
             view.billiardTop.setPlayerBalls(rules.getShowBalls(p.hitType), p.uid);
         });
+    }
+
+
+
+    onStart() {
+        let view = this.getView();
+        let rules = this.getRules();
+
+        rules.placeBalls();
+        view.scheduleOnce(()=>{
+            view.setPlayerInfo();
+            rules.startTurn();
+
+            // view.setPlayerCountDown(20);
+        }, 0);
     }
 }
 

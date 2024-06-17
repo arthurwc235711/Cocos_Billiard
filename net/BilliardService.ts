@@ -20,8 +20,10 @@ export class BilliardService extends StackListenerNew {
     eventFuncMap: { [key: string]: string } = {
         ["BilliardAllocService_EnterByTable"]: "BilliardAllocService_EnterByTable",
 
-        ["BilliardAllocService_Hit"]: "respHit",
 
+
+        ["BilliardAllocService_Start"]: "notifyStart",
+        ["BilliardAllocService_Hit"]: "notifyHit",
     }
 
 
@@ -34,8 +36,26 @@ export class BilliardService extends StackListenerNew {
 
 
 
+    sendStart() {
+        let req = new protoBilliard.IStart ();
+        yy.socket.send("BilliardAllocService.Start", req);
+    }
+
+    notifyStart(data: any) {
+        let billiardData = BilliardData.instance;
+        let msg: protoBilliard.IStart = data.msg;
+        if(msg) {
+            billiardData.setStartBalls(msg.balls);
+            billiardData.setActionUid(msg.action.uid);
+            billiardData.setActionTimes(msg.action.times);
+            
+            // yy.log.w("respStart");
+            yy.event.emit(yy.Event_Name.billiard_notify_start);
+        }
+    }
+
     sendHitReq() {
-        yy.log.w("sendHitReq");
+        // yy.log.w("sendHitReq");
         let billiardData = BilliardData.instance;
         let req = new protoBilliard.IHit ();
         req.angle = billiardData.getAngle();
@@ -46,7 +66,7 @@ export class BilliardService extends StackListenerNew {
         yy.wait.showDelay("HitReq");
         yy.socket.send("BilliardAllocService.Hit", req);
     }
-    respHit(data: any) {
+    notifyHit(data: any) {
         let billiardData = BilliardData.instance;
         let msg: protoBilliard.IHit = data.msg;
         if(msg) {
@@ -54,7 +74,7 @@ export class BilliardService extends StackListenerNew {
             billiardData.setAngle(msg.angle);
             billiardData.setPower(msg.power);
             billiardData.getOffset().setX(msg.offset.x).setY(msg.offset.y);
-            yy.log.w("respHit");
+            // yy.log.w("respHit");
     
             yy.event.emit(yy.Event_Name.billiard_notify_hit);
         }

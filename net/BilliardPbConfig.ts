@@ -2,6 +2,8 @@ export let BilliardPbConfig = [
     // 快速开始
     {router: "BilliardAllocService.EnterByTable",  rsp: "protoBilliard.EnterRsp" },
 
+
+    {router: "BilliardAllocService.Start",  rsp: "protoBilliard.EnterRsp" },
     {router: "BilliardAllocService.Hit",  rsp: "protoBilliard.EnterRsp" },
 
 

@@ -142,6 +142,7 @@ export class BilliardEightBall implements IBilliardRules {
         return result;
     }
     nextTurn(type: eOutcomeType) {
+        let view = BilliardManager.instance.getView();
         ++ this.round
         switch(type) {
             case eOutcomeType.Continue:
@@ -150,14 +151,14 @@ export class BilliardEightBall implements IBilliardRules {
             case eOutcomeType.Turn:
                 yy.toast.addNow("正常击球，交换击球权");
                 let uid = BilliardData.instance.getActionUid() === 1 ? 2 : 1;
-                BilliardData.instance.setActionUid(uid)
+                BilliardData.instance.setActionUid(1)
                 break;
             case eOutcomeType.FreeBall:
                 yy.toast.addNow("击球犯规，下家放置自由球");
                 uid = BilliardData.instance.getActionUid() === 1 ? 2 : 1;
-                BilliardData.instance.setActionUid(uid)
+                BilliardData.instance.setActionUid(1)
 
-                let view = BilliardManager.instance.getView();
+
                 let table = BilliardManager.instance.getTable();
                 if (this.round === 2) {// 开局犯规后对方 限定发球区域摆球
                     view.freeBall.setStartAreaShow();
@@ -185,7 +186,7 @@ export class BilliardEightBall implements IBilliardRules {
                 BilliardAI.instance.hitBall();
             }
         }
-
+        view.setPlayerCountDown(BilliardData.instance.getActionTimes());
         yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
         // throw new Error("Method not implemented.");
     }
@@ -200,7 +201,8 @@ export class BilliardEightBall implements IBilliardRules {
             view.onFreeBall();
         }
 
-        BilliardData.instance.setActionUid(Math.random() < 0.5 ? 1 : 2 );
+        BilliardData.instance.setActionUid(1)//(Math.random() < 0.5 ? 1 : 2 );
+        view.setPlayerCountDown(BilliardData.instance.getActionTimes());
         yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
 
 

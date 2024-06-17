@@ -6,6 +6,9 @@ export class BilliardWriter extends ws_base_writer {
         return super.on_send(service_name, func_name, pb, callback);
     }
 
+    BilliardAllocService_Start(req:any) {
+        BilliardSimulateService.instance.notifyStart();
+    }
 
     BilliardAllocService_Hit(req:any) {
         BilliardSimulateService.instance.notifyHit();

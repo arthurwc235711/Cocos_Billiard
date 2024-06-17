@@ -36,8 +36,9 @@ export class BilliardData {
 
 
     private actionUid: number = 0;
+    private actionTimes: number = 0;
     private players: BilliardPlayer[] = [];
-
+    private balls: protoBilliard.IBall[] = [];
 
 
     getActionUid(): number {
@@ -46,6 +47,19 @@ export class BilliardData {
     setActionUid(uid: number) {
         this.actionUid = uid;
     }
+    getActionTimes(): number {
+        return this.actionTimes;
+    }
+    setActionTimes(times: number) {
+        this.actionTimes = times;
+    }
+    getStartBalls() {
+        return this.balls;
+    }
+    setStartBalls(balls: protoBilliard.IBall[]) {
+        this.balls = balls;
+    }
+
 
     getAllPlayers(): BilliardPlayer[] {
         return this.players;

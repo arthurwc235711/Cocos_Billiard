@@ -17,6 +17,7 @@ import { PocketGeometry } from '../../../scripts/pocketgeometry';
 import { BilliardManager } from '../../../scripts/BilliardManager';
 import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
 import { track } from '../../../scripts/physics/track';
+import { BilliardConst } from '../../../config/BilliardConst';
 
 const { ccclass, property } = _decorator;
 
@@ -222,39 +223,52 @@ export class Table extends BaseCommonScript {
 
   // 8球三角摆法
   prepareBalls(startPos: Vec3) { 
-    let ballNums = BilliardData.instance.getBallNums(); // 8球，球的总数量 16个 
-    let row = 1;
-    let cNum = 0;
-    let lNum = 0;
-    let x = TableGeometry.tableX; // 1.40825
-    let r = R //* 1.4;
-    let acos25 = Math.acos(22.5 * Math.PI / 180 );
+    let iBalls = BilliardData.instance.getStartBalls(); // 8球，球的总数量 16个
+    for(let i = 0; i < iBalls.length; ++i) {
+        let ball = instantiate(this.prefabBall).getComponent(Ball);
+        let data = iBalls[i];
+        this.nodeBalls.addChild(ball.node);
 
-    for( let i = 0; i < ballNums; i++ ) {
-      let ball = instantiate(this.prefabBall).getComponent(Ball);
-      this.nodeBalls.addChild(ball.node);
-      if (i === 0) {// 母球
-        ball.updatePosImmediately(startPos); // 母球初始坐标 Vec3(-0.75, 0, 0),
-        ball.getComponent(RaySphereCollision).destroy();
-      }
-      else {
-        if (row === 1) {
-          ball.updatePosImmediately(new Vec3(x/2, 0, 0));//设置首行1球坐标
+        if (data.val === 0) {
+          ball.getComponent(RaySphereCollision).destroy();
         }
-        else {
-          let space = 0//0.001 //日后这里使用随机数取值则可保证 同样输入不同输出结果
-          let y = (lNum+1)%2 === 0 ?  (r + space/2) +  (2*r + space) * (Math.ceil((lNum+1)/2)-1) : (2*r + space) * (Math.ceil((lNum+1)/2)-1);
-          ball.updatePosImmediately(new Vec3(x/2 + (2 * r / acos25  +  0.001) * (row - 1), -y + (2 * r + space) * (lNum - cNum), 0));//设置其他球
-        }
-  
-        cNum += 1;
-        if (cNum - lNum === 1) {
-          row += 1;
-          lNum = cNum;
-          cNum = 0;
-        }
-      }
+        ball.updatePosImmediately(new Vec3(data.position.x/BilliardConst.multiple, data.position.y/BilliardConst.multiple, 0));
     }
+
+
+    // let ballNums = BilliardData.instance.getBallNums(); // 8球，球的总数量 16个 
+    // let row = 1;
+    // let cNum = 0;
+    // let lNum = 0;
+    // let x = TableGeometry.tableX; // 1.40825
+    // let r = R //* 1.4;
+    // let acos25 = Math.acos(22.5 * Math.PI / 180 );
+
+    // for( let i = 0; i < ballNums; i++ ) {
+    //   let ball = instantiate(this.prefabBall).getComponent(Ball);
+    //   this.nodeBalls.addChild(ball.node);
+    //   if (i === 0) {// 母球
+    //     ball.updatePosImmediately(startPos); // 母球初始坐标 Vec3(-0.75, 0, 0),
+    //     ball.getComponent(RaySphereCollision).destroy();
+    //   }
+    //   else {
+    //     if (row === 1) {
+    //       ball.updatePosImmediately(new Vec3(x/2, 0, 0));//设置首行1球坐标
+    //     }
+    //     else {
+    //       let space = 0//0.001 //日后这里使用随机数取值则可保证 同样输入不同输出结果
+    //       let y = (lNum+1)%2 === 0 ?  (r + space/2) +  (2*r + space) * (Math.ceil((lNum+1)/2)-1) : (2*r + space) * (Math.ceil((lNum+1)/2)-1);
+    //       ball.updatePosImmediately(new Vec3(x/2 + (2 * r / acos25  +  0.001) * (row - 1), -y + (2 * r + space) * (lNum - cNum), 0));//设置其他球
+    //     }
+  
+    //     cNum += 1;
+    //     if (cNum - lNum === 1) {
+    //       row += 1;
+    //       lNum = cNum;
+    //       cNum = 0;
+    //     }
+    //   }
+    // }
   }
 
   protected update(dt: number): void {
