@@ -47,10 +47,10 @@ export class BilliardService extends StackListenerNew {
         yy.socket.send("BilliardAllocService.Hit", req);
     }
     respHit(data: any) {
-        yy.wait.hide("HitReq");
         let billiardData = BilliardData.instance;
         let msg: protoBilliard.IHit = data.msg;
         if(msg) {
+            yy.wait.hide("HitReq");
             billiardData.setAngle(msg.angle);
             billiardData.setPower(msg.power);
             billiardData.getOffset().setX(msg.offset.x).setY(msg.offset.y);

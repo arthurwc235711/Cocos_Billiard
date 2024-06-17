@@ -1,5 +1,7 @@
 import { _decorator, Component, Node } from 'cc';
 import { ws_base_writer } from '../../../../../framework/socket/ws3/ws_base_writer';
+import { yy } from '../../../../yy';
+import { GameMessageStack } from '../../../../main/data/GameMessageStack';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardReader')
