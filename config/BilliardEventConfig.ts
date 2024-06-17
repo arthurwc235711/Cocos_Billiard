@@ -8,4 +8,6 @@ export default [
     "billiard_hit_cd_stop",
     
     
+
+    "billiard_notify_hit",
 ]

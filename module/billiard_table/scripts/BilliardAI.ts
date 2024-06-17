@@ -6,6 +6,7 @@ import { cueToSpin } from "../../../scripts/physics/physics";
 import { R, R2d } from "../../../scripts/physics/constants";
 import { yy } from "../../../../../../yy";
 import { Outcome } from "./Outcome";
+import { BilliardService } from "../../../net/BilliardService";
 
 export class BilliardAI  {
     private static __instance__: BilliardAI;
@@ -33,25 +34,31 @@ export class BilliardAI  {
             this.thinkTime(()=>{
                 yy.log.w("thinkTime,hitBall")
                 let billiardData = BilliardData.instance;
-                let table = BilliardManager.instance.getTable();
-                let view = BilliardManager.instance.getView();
-                let ball = table.cueBall;
-                table.outcome = [
-                    Outcome.hit(ball, 150 * R),
-                ];
-                tween(view.nodeCue)
-                .to(0.5, {position: new Vec3(-R2d*2 * 6, -15, 0)})
-                .to(0.5, {position: new Vec3(-R2d*2, -15, 0)}, {easing: "quintIn"})
-                .call(()=>{
-                    view.nodeCueArrow.active = false;
-                    ball.setSliding();
-                    ball.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(150 * R));
-                    ball.rvel.copy(cueToSpin(Vec3.ZERO, ball.vel));
-                })
-                .start()
-                BilliardManager.instance.getView().controlHide(true);
+                billiardData.setPower(150 * R);
+                BilliardService.instance.sendHitReq();
+                // billiardData.setAngle()
 
-                yy.event.emit(yy.Event_Name.billiard_hit_cd_stop);
+
+                // let billiardData = BilliardData.instance;
+                // let table = BilliardManager.instance.getTable();
+                // let view = BilliardManager.instance.getView();
+                // let ball = table.cueBall;
+                // table.outcome = [
+                //     Outcome.hit(ball, 150 * R),
+                // ];
+                // tween(view.nodeCue)
+                // .to(0.5, {position: new Vec3(-R2d*2 * 6, -15, 0)})
+                // .to(0.5, {position: new Vec3(-R2d*2, -15, 0)}, {easing: "quintIn"})
+                // .call(()=>{
+                //     view.nodeCueArrow.active = false;
+                //     ball.setSliding();
+                //     ball.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(150 * R));
+                //     ball.rvel.copy(cueToSpin(Vec3.ZERO, ball.vel));
+                // })
+                // .start()
+                // BilliardManager.instance.getView().controlHide(true);
+
+                // yy.event.emit(yy.Event_Name.billiard_hit_cd_stop);
             })
         }
     }

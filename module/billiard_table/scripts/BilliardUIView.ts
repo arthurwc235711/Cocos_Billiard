@@ -10,6 +10,7 @@ import { RaySphereCollision } from '../../../scripts/physics/component/RaySphere
 import { BilliardManager } from '../../../scripts/BilliardManager';
 import { BilliardFree } from './BilliardFree';
 import { BilliardTop } from './BilliardTop';
+import { BilliardService } from '../../../net/BilliardService';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardUIView')
@@ -46,6 +47,7 @@ export class BilliardUIView extends BaseCommonScript {
             // [yy.Event_Name.billiard_allStationary]: "onAllStationary",
             [yy.Event_Name.billiard_hit_point]: "onHitPoint",
             [yy.Event_Name.billiard_free_ball_move]: "onFreeBallMove",
+            [yy.Event_Name.billiard_notify_hit]: "onClickHit"
         };
         super.register_event();
     }
@@ -167,8 +169,8 @@ export class BilliardUIView extends BaseCommonScript {
             let progress = 1 - slider.progress;
             if (progress > 0) {
                 BilliardData.instance.setPower( Math.floor( progress * 150 ) * R );
-                this.onClickHit();
-
+                BilliardService.instance.sendHitReq();
+                // this.onClickHit();
             }
         });
         sliderNode.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
@@ -176,7 +178,8 @@ export class BilliardUIView extends BaseCommonScript {
             let progress = 1 - slider.progress;
             if (progress > 0) {
                 BilliardData.instance.setPower( Math.floor( progress * 150 ) * R );
-                this.onClickHit();
+                BilliardService.instance.sendHitReq();
+                // this.onClickHit();
             }
         });
     }
@@ -200,7 +203,10 @@ export class BilliardUIView extends BaseCommonScript {
         let nodeAngle = this.node.getChildByName("NodeRight");
         nodeAngle.active = false;
         this.interactableTableTouch = false;
-        this.node.getChildByPath("NodeLeft").active = false;
+        this.scheduleOnce(()=>{
+            this.node.getChildByPath("NodeLeft").active = false;
+        });
+
 
         this.freeBall.node.active = false;
     }

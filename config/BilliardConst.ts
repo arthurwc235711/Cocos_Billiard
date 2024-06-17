@@ -3,6 +3,7 @@ import { Vec3 } from "cc";
 export const BilliardConst = {
     gameKey: "billiard",
     bundleName: "app_billiard",
+    startPos: new Vec3(-0.75, 0, 0),
     gid: 60
 }
 
