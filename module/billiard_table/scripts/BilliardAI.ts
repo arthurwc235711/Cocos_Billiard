@@ -79,7 +79,7 @@ export class BilliardAI  {
             if (cueball.pos.x > -0.85) {
                 cueball.pos.setX(cueball.pos.x - dt * 0.1);
                 view.onFreeBall()
-                view.onFreeBallMove(false);
+                view.onFreeBallMove(false, false);
             }
             else {
                 cueball.pos.setX(-0.85);
@@ -87,14 +87,8 @@ export class BilliardAI  {
                 view.onFreeBallMove(false);
                 canvas.unschedule(onUpdate);
                 let billiardData = BilliardData.instance;
-                let ball = table.cueBall;
-                table.outcome = [
-                    Outcome.hit(ball, 150 * R),
-                ];
-                BilliardManager.instance.getView().controlHide();
-                ball.setSliding();
-                ball.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(150 * R));
-                ball.rvel.copy(cueToSpin(Vec3.ZERO, ball.vel));
+                billiardData.setPower(150 * R);
+                BilliardService.instance.sendHitReq();
             }
         };
         canvas.schedule(onUpdate, 0);
