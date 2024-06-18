@@ -27,6 +27,10 @@ export class BilliardWriter extends ws_base_writer {
         // yy.log.w("BilliardAllocService_Result", req);
         BilliardSimulateService.instance.notifyResult(req);
     }
+
+    BilliardAllocService_Action(req: any) {
+        BilliardSimulateService.instance.notifyAction(req);
+    }
 }
 
 

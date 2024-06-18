@@ -68,6 +68,15 @@ export class track {
             ball.updatePosImmediately(v3.setX(this.endPos.x).setY(i * 2 * R));
         });
     }
+
+    static froceUpdateTrack() {
+        let v3 = Vec3.ZERO.clone();
+        this.inTrackBalls.forEach((ball, i)=>{
+            ball.setStationaryByService();
+            ball.setTrack();
+            ball.updatePosImmediately(v3.setX(this.endPos.x).setY(i * 2 * R));
+        });
+    }
 }
 
 

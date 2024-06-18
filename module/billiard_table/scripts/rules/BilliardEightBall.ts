@@ -141,24 +141,26 @@ export class BilliardEightBall implements IBilliardRules {
 
         return result;
     }
-    nextTurn(type: eOutcomeType) {
+    nextTurn(type: number, actionUid: number, round: number) {
         let view = BilliardManager.instance.getView();
-        ++ this.round
+        let puid = BilliardData.instance.getActionUid()
+        this.round = round;
+        yy.log.w(`nextTurn round: ${round}`);
         switch(type) {
-            case eOutcomeType.Continue:
-                yy.toast.addNow("继续击球");
+            case 0:
+                if (puid === actionUid) {
+                    yy.toast.addNow("继续击球");
+                }
+                else {
+                    yy.toast.addNow("正常击球，交换击球权");
+                    BilliardData.instance.setActionUid(actionUid)
+                }
                 break;
-            case eOutcomeType.Turn:
-                yy.toast.addNow("正常击球，交换击球权");
-                let uid = BilliardData.instance.getActionUid() === 1 ? 2 : 1;
-                BilliardData.instance.setActionUid(1)
+            case 1:
                 break;
-            case eOutcomeType.FreeBall:
+            case 2:
                 yy.toast.addNow("击球犯规，下家放置自由球");
-                uid = BilliardData.instance.getActionUid() === 1 ? 2 : 1;
-                BilliardData.instance.setActionUid(1)
-
-
+                BilliardData.instance.setActionUid(actionUid)
                 let table = BilliardManager.instance.getTable();
                 if (this.round === 2) {// 开局犯规后对方 限定发球区域摆球
                     view.freeBall.setStartAreaShow();
@@ -170,13 +172,43 @@ export class BilliardEightBall implements IBilliardRules {
 
                 view.freeBall.node.active = true;
                 view.onFreeBall();
-                view.onFreeBallMove(!table.isValidFreeBall());
+                view.onFreeBallMove(!table.isValidFreeBall(), false);
                 break;
-            default:
-                yy.log.e("未处理类型eOutcomeType", type);
         }
 
-        if (type === eOutcomeType.FreeBall) {
+        // switch(type) {
+        //     case eOutcomeType.Continue:
+        //         yy.toast.addNow("继续击球");
+        //         break;
+        //     case eOutcomeType.Turn:
+        //         yy.toast.addNow("正常击球，交换击球权");
+        //         let uid = BilliardData.instance.getActionUid() === 1 ? 2 : 1;
+        //         BilliardData.instance.setActionUid(1)
+        //         break;
+        //     case eOutcomeType.FreeBall:
+        //         yy.toast.addNow("击球犯规，下家放置自由球");
+        //         uid = BilliardData.instance.getActionUid() === 1 ? 2 : 1;
+        //         BilliardData.instance.setActionUid(1)
+
+
+        //         let table = BilliardManager.instance.getTable();
+        //         if (this.round === 2) {// 开局犯规后对方 限定发球区域摆球
+        //             view.freeBall.setStartAreaShow();
+        //             table.cueBall.updatePosImmediately(BilliardConst.startPos);
+        //         }
+        //         else {
+        //             table.cueBall.updatePosImmediately(Vec3.ZERO);
+        //         }
+
+        //         view.freeBall.node.active = true;
+        //         view.onFreeBall();
+        //         view.onFreeBallMove(!table.isValidFreeBall());
+        //         break;
+        //     default:
+        //         yy.log.e("未处理类型eOutcomeType", type);
+        // }
+
+        if (type === 2) {
             if (!BilliardTools.instance.isMyAction()) {
                 BilliardAI.instance.freeball();
             }
@@ -194,14 +226,14 @@ export class BilliardEightBall implements IBilliardRules {
     startTurn() {
         let table = BilliardManager.instance.getTable();
         let view = BilliardManager.instance.getView();
-        ++ this.round; // 回合数 + 1
+        this.round = 1; // 回合数 + 1
         let ball = table.recentlyBall();
         if (ball) {
             view.autoShotAt(ball.node);
             view.onFreeBall();
         }
 
-        BilliardData.instance.setActionUid(1)//(Math.random() < 0.5 ? 1 : 2 );
+        // BilliardData.instance.setActionUid(1)//(Math.random() < 0.5 ? 1 : 2 );
         view.setPlayerCountDown(BilliardData.instance.getActionTimes());
         yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
 

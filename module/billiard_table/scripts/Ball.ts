@@ -142,9 +142,18 @@ export class Ball extends Component {
         this.state = State.Stationary
 
         if (BilliardManager.instance.getTable().allStationary()) {
-
           yy.event.emit(yy.Event_Name.billiard_allStationary);
         }
+    }
+
+    setInPocket() {
+      this.vel.copy(Vec3.ZERO)
+      this.rvel.copy(Vec3.ZERO)
+      this.state = State.InPocket
+
+      if (BilliardManager.instance.getTable().allStationary()) {
+        yy.event.emit(yy.Event_Name.billiard_allStationary);
+      }
     }
 
     setStationaryByService() {

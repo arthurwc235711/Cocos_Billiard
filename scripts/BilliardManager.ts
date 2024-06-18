@@ -88,6 +88,7 @@ export class BilliardManager extends BaseCommonInstance{
 
             [yy.Event_Name.billiard_notify_start]: "onStart",
             [yy.Event_Name.billiard_notify_result]: "onServiceResult",
+            [yy.Event_Name.billiard_notify_action]: "onAction",
         }
 
         super.register_event();
@@ -121,11 +122,11 @@ export class BilliardManager extends BaseCommonInstance{
         // let table = this.getTable();
         let rules = this.getRules();
         this.onResult();
-        this.getView().onAllStationary();
-        let ball = rules.onShotBall();
-        if (ball) {
-            view.autoShotAt(ball.node);
-        }
+        // this.getView().onAllStationary();
+        // let ball = rules.onShotBall();
+        // if (ball) {
+        //     view.autoShotAt(ball.node);
+        // }
     }
 
     onResult() {
@@ -239,27 +240,31 @@ export class BilliardManager extends BaseCommonInstance{
         let table = this.getTable();
         let view = this.getView();
         let rules = this.getRules();
+        let uid = BilliardData.instance.getActionUid();
         switch(result.type) {
             case eOutcomeType.Continue:
                 table.onSetServiceData(result);
-                view.resetData();
-                rules.nextTurn(result.type);
-                this.setSureBalls();
+                BilliardService.instance.sendAction(uid, 10, 0);
+                // view.resetData();
+                // rules.nextTurn(result.type);
+                // this.setSureBalls();
                 break;
             case eOutcomeType.Turn:
                 table.onSetServiceData(result);
-                view.resetData();
-                rules.nextTurn(result.type);
-                this.setSureBalls();
+                BilliardService.instance.sendAction(uid === 1 ? 2 : 1, 10, 0);
+                // view.resetData();
+                // rules.nextTurn(result.type);
+                // this.setSureBalls();
                 break;
             case eOutcomeType.FreeBall:
                 table.onSetServiceData(result);
-                view.resetData();
-                rules.nextTurn(result.type);
-                this.setSureBalls();
+                BilliardService.instance.sendAction(uid === 1 ? 2 : 1, 10, 2);
+                // view.resetData();
+                // rules.nextTurn(result.type);
+                // this.setSureBalls();
                 break;
             case eOutcomeType.Failed:
-                let uid = BilliardData.instance.getNotActionUid();
+                uid = BilliardData.instance.getNotActionUid();
                 let p = BilliardData.instance.getPlayer(uid);
                 yy.dialog.show(
                     {
@@ -301,7 +306,21 @@ export class BilliardManager extends BaseCommonInstance{
         }
     }
 
+    onAction(action: protoBilliard.IAction) {
+        let table = this.getTable();
+        let view = this.getView();
+        let rules = this.getRules();
+        view.resetData();
+        rules.nextTurn(action.type, action.uid, action.round);
+        this.setSureBalls();
 
+
+        view.onAllStationary();
+        let ball = rules.onShotBall();
+        if (ball) {
+            view.autoShotAt(ball.node);
+        }
+    }
 }
 
 

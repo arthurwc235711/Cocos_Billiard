@@ -30,6 +30,7 @@ export class BilliardService extends StackListenerNew {
         ["BilliardAllocService_CueAngle"]: "notifyCueAngle",
         ["BilliardAllocService_Hit"]: "notifyHit",
         ["BilliardAllocService_Result"]: "notifyResult",
+        ["BilliardAllocService_Action"]: "notifyAction",
     }
 
 
@@ -156,13 +157,28 @@ export class BilliardService extends StackListenerNew {
         req.balls = balls;
         yy.socket.send("BilliardAllocService.Result", req);
     }
-
-
     notifyResult(data: any) {
         let msg: protoBilliard.IResult = data.msg;
         if(msg) {
-
             yy.event.emit(yy.Event_Name.billiard_notify_result, msg);
+        }
+    }
+
+
+    round = 1;
+    sendAction(uid: number, times: number, type: number) {
+        let req = new protoBilliard.IAction();
+        req.uid = uid;
+        req.times = times;
+        req.type = type;
+        req.round = ++this.round;
+        yy.socket.send("BilliardAllocService.Action", req);
+    }
+    notifyAction(data: any) {
+        let msg: protoBilliard.IAction = data.msg;
+        if (msg) {
+            BilliardData.instance.setActionTimes(msg.times);
+            yy.event.emit(yy.Event_Name.billiard_notify_action, msg);
         }
     }
 }
