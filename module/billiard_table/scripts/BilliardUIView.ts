@@ -50,6 +50,7 @@ export class BilliardUIView extends BaseCommonScript {
             [yy.Event_Name.billiard_free_ball_move]: "onFreeBallMove",
             [yy.Event_Name.billiard_notify_hit]: "onClickHit",
             [yy.Event_Name.billiard_notify_cuemove]: "onCueMove",
+            [yy.Event_Name.billiard_notify_cueangle]: "onCueAngle",
         };
         super.register_event();
     }
@@ -124,9 +125,15 @@ export class BilliardUIView extends BaseCommonScript {
         });
         btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
             if (this.interactableTableTouch && !isFreeBallMove && !this.touchMove) {
-                this.onClickTable(event.getLocation());
                 this.preTouchLocation = event.getLocation();
+                this.onClickTable(this.preTouchLocation);
+
+                BilliardService.instance.sendCueAngle(this.preTouchLocation.x, this.preTouchLocation.y);
             }
+            else if (this.interactableTableTouch && !isFreeBallMove) {
+                BilliardService.instance.sendCueAngle(event.getLocation().x, event.getLocation().y);
+            }
+
             this.touchMove = false;
         });
     }
@@ -435,6 +442,12 @@ export class BilliardUIView extends BaseCommonScript {
         this.onFreeBall();
         this.onFreeBallMove(false, false);
         yy.log.w("onCueMove", msg)
+    }
+
+
+    onCueAngle(msg: protoBilliard.ICueAngle) {
+        this.onClickTable(new Vec2(msg.curScreenPos.x/BilliardConst.multiple, msg.curScreenPos.y/BilliardConst.multiple));
+        yy.log.w("onCueAngle", msg)
     }
 
     setPlayerInfo() {

@@ -100,6 +100,17 @@ export class BilliardSimulateService {
     }
 
 
+    notifyCueAngle() {
+        let notify = new protoBilliard.ICueAngle();
+        notify.curScreenPos = new protoBilliard.IPosition();
+        notify.curScreenPos.x = 700.8000104427338 * BilliardConst.multiple;;
+        notify.curScreenPos.y = 194.07812789198942 * BilliardConst.multiple;;
+
+        this.delayAction(()=>{
+            BilliardService.instance.notifyCueAngle({msg: notify});
+        });
+    }
+
     notifyHit() { 
         let billiardData = BilliardData.instance;
         let notify = new protoBilliard.IHit ();

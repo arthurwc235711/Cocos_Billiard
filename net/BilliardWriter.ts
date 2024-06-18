@@ -14,6 +14,9 @@ export class BilliardWriter extends ws_base_writer {
         BilliardSimulateService.instance.notifyCueMove();
     }
 
+    BilliardAllocService_CueAngle(req:any) {
+        BilliardSimulateService.instance.notifyCueAngle();
+    }
 
     BilliardAllocService_Hit(req:any) {
         BilliardSimulateService.instance.notifyHit();
