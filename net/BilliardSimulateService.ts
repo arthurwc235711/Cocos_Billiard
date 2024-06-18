@@ -88,6 +88,18 @@ export class BilliardSimulateService {
     }
 
 
+    notifyCueMove() {
+        let notify = new protoBilliard.IFreeBall();
+        notify.curPosition = new protoBilliard.IPosition();
+        notify.curPosition.x = -0.85 * BilliardConst.multiple;
+        notify.curPosition.y = 0;
+
+        this.delayAction(()=>{
+            BilliardService.instance.notifyCueMove({msg: notify});
+        });
+    }
+
+
     notifyHit() { 
         let billiardData = BilliardData.instance;
         let notify = new protoBilliard.IHit ();

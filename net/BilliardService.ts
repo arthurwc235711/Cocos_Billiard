@@ -2,6 +2,7 @@
 import { StackListenerNew } from '../../../../main/data/GameMessageStack';
 import { yy } from '../../../../yy';
 import { BilliardData } from '../data/BilliardData';
+import { BilliardTools } from '../scripts/BilliardTools';
 
 export class BilliardService extends StackListenerNew {
     private static __instance__: BilliardService;
@@ -23,6 +24,7 @@ export class BilliardService extends StackListenerNew {
 
 
         ["BilliardAllocService_Start"]: "notifyStart",
+        ["BilliardAllocService_CueMove"]: "notifyCueMove",
         ["BilliardAllocService_Hit"]: "notifyHit",
     }
 
@@ -40,7 +42,6 @@ export class BilliardService extends StackListenerNew {
         let req = new protoBilliard.IStart ();
         yy.socket.send("BilliardAllocService.Start", req);
     }
-
     notifyStart(data: any) {
         let billiardData = BilliardData.instance;
         let msg: protoBilliard.IStart = data.msg;
@@ -51,6 +52,26 @@ export class BilliardService extends StackListenerNew {
             
             // yy.log.w("respStart");
             yy.event.emit(yy.Event_Name.billiard_notify_start);
+        }
+    }
+
+
+    sendCueMove(x: number, y: number) {
+        let req = new protoBilliard.IFreeBall();
+        req.curPosition = new protoBilliard.IPosition();
+        req.curPosition.x = x;
+        req.curPosition.y = y;
+        yy.socket.send("BilliardAllocService.CueMove", req);
+    }
+
+    notifyCueMove(data: any) {
+        let billiardData = BilliardData.instance;
+        let msg: protoBilliard.IFreeBall = data.msg;
+        if(msg) {
+            if (!BilliardTools.instance.isMyAction()) { // 其他人操作才设置坐标
+                yy.event.emit(yy.Event_Name.billiard_notify_cuemove, msg);
+            }
+            // billiardData.setCueMove(msg.curPosition.x, msg.curPosition.y);
         }
     }
 

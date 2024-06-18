@@ -11,6 +11,7 @@ import { BilliardManager } from '../../../scripts/BilliardManager';
 import { BilliardFree } from './BilliardFree';
 import { BilliardTop } from './BilliardTop';
 import { BilliardService } from '../../../net/BilliardService';
+import { BilliardConst } from '../../../config/BilliardConst';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardUIView')
@@ -47,7 +48,8 @@ export class BilliardUIView extends BaseCommonScript {
             // [yy.Event_Name.billiard_allStationary]: "onAllStationary",
             [yy.Event_Name.billiard_hit_point]: "onHitPoint",
             [yy.Event_Name.billiard_free_ball_move]: "onFreeBallMove",
-            [yy.Event_Name.billiard_notify_hit]: "onClickHit"
+            [yy.Event_Name.billiard_notify_hit]: "onClickHit",
+            [yy.Event_Name.billiard_notify_cuemove]: "onCueMove",
         };
         super.register_event();
     }
@@ -405,7 +407,7 @@ export class BilliardUIView extends BaseCommonScript {
         this.freeBall.setFreeBallHand();
     }
 
-    onFreeBallMove(isMove: boolean) {
+    onFreeBallMove(isMove: boolean, isSend: boolean = true) {
         if (isMove) {
             this.nodeCueArrow.active = false;
             this.node.getChildByName("NodeRight").active = false;
@@ -420,7 +422,19 @@ export class BilliardUIView extends BaseCommonScript {
             if (ball) {
                 this.autoShotAt(ball.node);
             }
+            if (isSend) {
+                BilliardService.instance.sendCueMove(table.cueBall.pos.x, table.cueBall.pos.y);
+            }
+
         }
+    }
+
+    onCueMove(msg: protoBilliard.IFreeBall) {
+        let table = BilliardManager.instance.getTable();
+        table.cueBall.updatePosImmediately(new Vec3(msg.curPosition.x/BilliardConst.multiple, msg.curPosition.y/BilliardConst.multiple, 0));
+        this.onFreeBall();
+        this.onFreeBallMove(false, false);
+        yy.log.w("onCueMove", msg)
     }
 
     setPlayerInfo() {

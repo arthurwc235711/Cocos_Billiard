@@ -4,6 +4,7 @@ export let BilliardPbConfig = [
 
 
     {router: "BilliardAllocService.Start",  rsp: "protoBilliard.EnterRsp" },
+    {router: "BilliardAllocService.CueMove",  rsp: "protoBilliard.EnterRsp" },
     {router: "BilliardAllocService.Hit",  rsp: "protoBilliard.EnterRsp" },
 
 

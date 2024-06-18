@@ -49,7 +49,7 @@ export class BilliardFree extends BaseCommonScript {
                 if (this.nodeStart.active) {
                     if (Math.abs(outV3.y) <= TableGeometry.tableY && outV3.x >= -TableGeometry.tableX && outV3.x <= -0.75) {
                         // yy.log.w("正常", outV3, TableGeometry.tableY)
-                        table.cueBall.pos.copy(outV3);
+                        table.cueBall.updatePosImmediately(outV3);
                         BilliardManager.instance.camera2d.screenToWorld(vec3, outV3);
                         this.nodeHand.setWorldPosition(outV3);
       
@@ -69,7 +69,7 @@ export class BilliardFree extends BaseCommonScript {
                                 outV3.x = -0.75;
                             }
                         }
-                        table.cueBall.pos.copy(outV3);
+                        table.cueBall.updatePosImmediately(outV3);
                         outV3.setZ(0).setY(outV3.y - 4 * R).setX(outV3.x + R)
                         BilliardManager.instance.camera3d.worldToScreen(outV3, vec3);
     
@@ -80,7 +80,7 @@ export class BilliardFree extends BaseCommonScript {
                 else {
                     if (Math.abs(outV3.y) <= TableGeometry.tableY && Math.abs(outV3.x) <= TableGeometry.tableX) {
                         // yy.log.w("正常", outV3, TableGeometry.tableY)
-                        table.cueBall.pos.copy(outV3);
+                        table.cueBall.updatePosImmediately(outV3);
                         BilliardManager.instance.camera2d.screenToWorld(vec3, outV3);
                         this.nodeHand.setWorldPosition(outV3);
                     }
@@ -94,7 +94,7 @@ export class BilliardFree extends BaseCommonScript {
                         if (Math.abs(outV3.x) > TableGeometry.tableX) {
                             outV3.x = outV3.x > 0 ? TableGeometry.tableX : -TableGeometry.tableX;
                         }
-                        table.cueBall.pos.copy(outV3);
+                        table.cueBall.updatePosImmediately(outV3);
                         outV3.setZ(0).setY(outV3.y - 4 * R).setX(outV3.x + R)
                         BilliardManager.instance.camera3d.worldToScreen(outV3, vec3);
     
@@ -127,6 +127,7 @@ export class BilliardFree extends BaseCommonScript {
         BilliardManager.instance.camera3d.worldToScreen(outV3, vec3);
         BilliardManager.instance.camera2d.screenToWorld(vec3, outV3);
         this.nodeHand.setWorldPosition(outV3);
+        this.node.active = true;
     }
 
     setStartAreaShow() {
