@@ -88,6 +88,10 @@ export class Ball extends Component {
         // yy.log.w("updatePosition ball:", t, this.pos, this.vel);
     }
 
+    setRotation(x: number, y: number, z: number, w: number) {
+      this.ballMesh.node.setRotation(x, y, z, w);
+    }
+
     private updateVelocity(t: number) {
         if (this.inMotion()) {
           if (this.isRolling()) {
@@ -142,6 +146,13 @@ export class Ball extends Component {
           yy.event.emit(yy.Event_Name.billiard_allStationary);
         }
     }
+
+    setStationaryByService() {
+      this.vel.copy(Vec3.ZERO)
+      this.rvel.copy(Vec3.ZERO)
+      this.state = State.Stationary
+    }
+
     setSliding() {
         this.state = State.Sliding
     }
@@ -187,6 +198,7 @@ export class Ball extends Component {
     }
 
     setTrack() {
+      this.state = State.InPocket;
       this.pos.set(-1.5, 0.74, -0.5);
       this.node.getChildByName("SpriteRenderer").active = false;
     }

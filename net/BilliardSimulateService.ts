@@ -125,6 +125,14 @@ export class BilliardSimulateService {
          });
     }
     
+
+    notifyResult(req: protoBilliard.IResult) {
+        let notify = req//new protoBilliard.IResult();
+
+        this.delayAction(() => {
+            BilliardService.instance.notifyResult({msg: notify});
+        });
+    }
 }
 
 

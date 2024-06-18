@@ -1,4 +1,5 @@
 import { ws_base_writer } from '../../../../../framework/socket/ws3/ws_base_writer';
+import { yy } from '../../../../yy';
 import { BilliardSimulateService } from './BilliardSimulateService';
 
 export class BilliardWriter extends ws_base_writer {
@@ -20,6 +21,11 @@ export class BilliardWriter extends ws_base_writer {
 
     BilliardAllocService_Hit(req:any) {
         BilliardSimulateService.instance.notifyHit();
+    }
+
+    BilliardAllocService_Result(req: any) {
+        // yy.log.w("BilliardAllocService_Result", req);
+        BilliardSimulateService.instance.notifyResult(req);
     }
 }
 

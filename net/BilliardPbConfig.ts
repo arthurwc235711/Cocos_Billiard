@@ -7,6 +7,7 @@ export let BilliardPbConfig = [
     {router: "BilliardAllocService.CueMove",  rsp: "protoBilliard.EnterRsp" },
     {router: "BilliardAllocService.CueAngle",  rsp: "protoBilliard.EnterRsp" },
     {router: "BilliardAllocService.Hit",  rsp: "protoBilliard.EnterRsp" },
+    {router: "BilliardAllocService.Result",  rsp: "protoBilliard.EnterRsp" },
 
 
     // 广播&通知

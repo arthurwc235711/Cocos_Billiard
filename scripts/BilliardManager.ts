@@ -87,6 +87,7 @@ export class BilliardManager extends BaseCommonInstance{
             [yy.Event_Name.billiard_hit_cd_stop]: "onHitCdStop",
 
             [yy.Event_Name.billiard_notify_start]: "onStart",
+            [yy.Event_Name.billiard_notify_result]: "onServiceResult",
         }
 
         super.register_event();
@@ -136,63 +137,62 @@ export class BilliardManager extends BaseCommonInstance{
             result.type = eOutcomeType.FreeBall;
             if (rules.isGameEnd(table.outcome, result)) {
                 yy.log.w("游戏结束");
-                // if (result.type === eOutcomeType.Failed) {
-                    let uid = BilliardData.instance.getNotActionUid();
-                    let p = BilliardData.instance.getPlayer(uid);
-                    yy.dialog.show(
-                        {
-                            title: "Tip",
-                            content: `游戏结束 ${p.name} 获胜`,
-                            isCancelEnable: false,
-                            isConfirmEnable: true,
-                            confirmText: "OK",
-                            confirmCallback: () => {
-                            },
-                            closeCallback: () => {
-                            },
-                            fontSize: 50,
-                            lineHeight: 60,
-                        }
-                    )
-                // }
-
-
+                BilliardService.instance.sendResult(result.type);
+                // let uid = BilliardData.instance.getNotActionUid();
+                // let p = BilliardData.instance.getPlayer(uid);
+                // yy.dialog.show(
+                //     {
+                //         title: "Tip",
+                //         content: `游戏结束 ${p.name} 获胜`,
+                //         isCancelEnable: false,
+                //         isConfirmEnable: true,
+                //         confirmText: "OK",
+                //         confirmCallback: () => {
+                //         },
+                //         closeCallback: () => {
+                //         },
+                //         fontSize: 50,
+                //         lineHeight: 60,
+                //     }
+                // )
                 return;
             }
         }
         else if (rules.isGameEnd(table.outcome, result)) {
-            let uid = BilliardData.instance.getActionUid();
-            let p = BilliardData.instance.getPlayer(uid);
-
-            if (result.type === eOutcomeType.Failed) {
-                uid = BilliardData.instance.getNotActionUid();
-                p = BilliardData.instance.getPlayer(uid);
-            }
-
-            yy.dialog.show(
-                {
-                    title: "Tip",
-                    content: `游戏结束 ${p.name} 获胜`,
-                    isCancelEnable: false,
-                    isConfirmEnable: true,
-                    confirmText: "OK",
-                    confirmCallback: () => {
-                    },
-                    closeCallback: () => {
-                    },
-                    fontSize: 50,
-                    lineHeight: 60,
-                }
-            )
             yy.log.w("游戏结束");
+            BilliardService.instance.sendResult(result.type);
+            // let uid = BilliardData.instance.getActionUid();
+            // let p = BilliardData.instance.getPlayer(uid);
+
+            // if (result.type === eOutcomeType.Failed) {
+            //     uid = BilliardData.instance.getNotActionUid();
+            //     p = BilliardData.instance.getPlayer(uid);
+            // }
+
+            // yy.dialog.show(
+            //     {
+            //         title: "Tip",
+            //         content: `游戏结束 ${p.name} 获胜`,
+            //         isCancelEnable: false,
+            //         isConfirmEnable: true,
+            //         confirmText: "OK",
+            //         confirmCallback: () => {
+            //         },
+            //         closeCallback: () => {
+            //         },
+            //         fontSize: 50,
+            //         lineHeight: 60,
+            //     }
+            // )
+
             return;
         } 
 
-
-        view.resetData();
-        rules.nextTurn(result.type);
-        // view.setPlayerCountDown(20);
-        this.setSureBalls();
+        BilliardService.instance.sendResult(result.type);
+        // view.resetData();
+        // rules.nextTurn(result.type);
+        // // view.setPlayerCountDown(20);
+        // this.setSureBalls();
 
 
         let firstCollision = Outcome.firstCollision(table.outcome);
@@ -233,6 +233,75 @@ export class BilliardManager extends BaseCommonInstance{
             // view.setPlayerCountDown(20);
         }, 0);
     }
+
+
+    onServiceResult (result: protoBilliard.IResult) {
+        let table = this.getTable();
+        let view = this.getView();
+        let rules = this.getRules();
+        switch(result.type) {
+            case eOutcomeType.Continue:
+                table.onSetServiceData(result);
+                view.resetData();
+                rules.nextTurn(result.type);
+                this.setSureBalls();
+                break;
+            case eOutcomeType.Turn:
+                table.onSetServiceData(result);
+                view.resetData();
+                rules.nextTurn(result.type);
+                this.setSureBalls();
+                break;
+            case eOutcomeType.FreeBall:
+                table.onSetServiceData(result);
+                view.resetData();
+                rules.nextTurn(result.type);
+                this.setSureBalls();
+                break;
+            case eOutcomeType.Failed:
+                let uid = BilliardData.instance.getNotActionUid();
+                let p = BilliardData.instance.getPlayer(uid);
+                yy.dialog.show(
+                    {
+                        title: "Tip",
+                        content: `游戏结束 ${p.name} 获胜`,
+                        isCancelEnable: false,
+                        isConfirmEnable: true,
+                        confirmText: "OK",
+                        confirmCallback: () => {
+                        },
+                        closeCallback: () => {
+                        },
+                        fontSize: 50,
+                        lineHeight: 60,
+                    }
+                );
+                break;
+            case eOutcomeType.Win:
+                uid = BilliardData.instance.getActionUid();
+                p = BilliardData.instance.getPlayer(uid);
+                yy.dialog.show(
+                    {
+                        title: "Tip",
+                        content: `游戏结束 ${p.name} 获胜`,
+                        isCancelEnable: false,
+                        isConfirmEnable: true,
+                        confirmText: "OK",
+                        confirmCallback: () => {
+                        },
+                        closeCallback: () => {
+                        },
+                        fontSize: 50,
+                        lineHeight: 60,
+                    }
+                );
+                break;
+            default:
+                yy.log.e("onServiceResult error:", result);
+        }
+    }
+
+
 }
 
 

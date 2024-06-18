@@ -3,6 +3,7 @@ import { StackListenerNew } from '../../../../main/data/GameMessageStack';
 import { yy } from '../../../../yy';
 import { BilliardConst } from '../config/BilliardConst';
 import { BilliardData } from '../data/BilliardData';
+import { BilliardManager } from '../scripts/BilliardManager';
 import { BilliardTools } from '../scripts/BilliardTools';
 
 export class BilliardService extends StackListenerNew {
@@ -28,6 +29,7 @@ export class BilliardService extends StackListenerNew {
         ["BilliardAllocService_CueMove"]: "notifyCueMove",
         ["BilliardAllocService_CueAngle"]: "notifyCueAngle",
         ["BilliardAllocService_Hit"]: "notifyHit",
+        ["BilliardAllocService_Result"]: "notifyResult",
     }
 
 
@@ -119,6 +121,49 @@ export class BilliardService extends StackListenerNew {
             yy.event.emit(yy.Event_Name.billiard_notify_hit);
         }
 
+    }
+
+
+    sendResult(outComeType: number) {
+        let table = BilliardManager.instance.getTable();
+
+        let tBalls = table.getOnTableBalls();
+        let pBalls = table.getInPocketBalls();
+        let balls: protoBilliard.IBall[] = [];
+        tBalls.forEach((ball) => {
+            let b = new protoBilliard.IBall();
+            b.val = ball.id;
+            b.position = new protoBilliard.IPosition();
+            b.position.x = ball.pos.x * BilliardConst.multiple;
+            b.position.y = ball.pos.y * BilliardConst.multiple;
+            b.rotation = new protoBilliard.IRotation();
+            let meshNode = ball.ballMesh.node;
+            b.rotation.x = meshNode.rotation.x * BilliardConst.multiple;
+            b.rotation.y = meshNode.rotation.y * BilliardConst.multiple;
+            b.rotation.z = meshNode.rotation.z * BilliardConst.multiple;
+            b.rotation.w = meshNode.rotation.w * BilliardConst.multiple;
+            balls.push(b);
+        });
+        let potBalls: number[] = [];
+        pBalls.forEach((ball) => {
+            potBalls.push(ball.id);
+        })
+
+        let req = new protoBilliard.IResult ();
+        req.type = outComeType
+        req.hitType = BilliardData.instance.getHitBallType();// 当前行动玩家击球类型
+        req.potBalls = potBalls
+        req.balls = balls;
+        yy.socket.send("BilliardAllocService.Result", req);
+    }
+
+
+    notifyResult(data: any) {
+        let msg: protoBilliard.IResult = data.msg;
+        if(msg) {
+
+            yy.event.emit(yy.Event_Name.billiard_notify_result, msg);
+        }
     }
 }
 

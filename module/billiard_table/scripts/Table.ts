@@ -214,6 +214,10 @@ export class Table extends BaseCommonScript {
     return this.balls.filter((b) => b.onTable());
   }
 
+  getInPocketBalls() {
+    return this.balls.filter((b) => !b.onTable());
+  }
+
   hit() {
     this.outcome = [
       Outcome.hit(this.cueBall, BilliardData.instance.getPower())
@@ -285,6 +289,24 @@ export class Table extends BaseCommonScript {
     }
     return true
   }
+
+
+  onSetServiceData(result: protoBilliard.IResult) {
+    result.balls.forEach((b, i)=> {
+      let ball = this.balls[b.val];
+      ball.setStationaryByService();
+      ball.updatePosImmediately(new Vec3(b.position.x/BilliardConst.multiple, b.position.y/BilliardConst.multiple, 0));
+      ball.setRotation(b.rotation.x/BilliardConst.multiple, b.rotation.y/BilliardConst.multiple, b.rotation.z/BilliardConst.multiple, b.rotation.w/BilliardConst.multiple);
+    });
+
+    result.potBalls.forEach((val, i)=> {
+      let ball = this.balls[val];
+      if (ball.onTable()) {
+          track.setInTrack(ball);
+      }
+    });
+  }
+
 }
 
 

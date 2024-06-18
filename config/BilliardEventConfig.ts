@@ -13,4 +13,5 @@ export default [
     "billiard_notify_cuemove",
     "billiard_notify_cueangle",
     "billiard_notify_hit",
+    "billiard_notify_result",
 ]
