@@ -28,7 +28,7 @@ export class BilliardGameTips extends BaseCommonScript {
                 this.labelTips.string = "You are breaking，good luck";
             }
             else {
-                this.labelTips.string = `"${this.getNoActionName()}" is breaking`;
+                this.labelTips.string = `"${this.getActionName()}" is breaking`;
             }
             this.nodeTips.active = true;
         });
