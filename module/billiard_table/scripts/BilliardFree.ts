@@ -106,13 +106,13 @@ export class BilliardFree extends BaseCommonScript {
             }
         });
         btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
-            if (BilliardManager.instance.getTable().isValidFreeBall()) {
+            if (BilliardTools.instance.isMyAction() && BilliardManager.instance.getTable().isValidFreeBall()) {
                 yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
                 this.touchMove = false;
             }
         });
         btn.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
-            if (BilliardManager.instance.getTable().isValidFreeBall()) {
+            if (BilliardTools.instance.isMyAction() && BilliardManager.instance.getTable().isValidFreeBall()) {
                 yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
                 this.touchMove = false;
             }
