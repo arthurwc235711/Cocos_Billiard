@@ -8,6 +8,7 @@ import { BilliardData } from "../../../../data/BilliardData";
 import { Ball } from "../Ball";
 import { BilliardTools } from "../../../../scripts/BilliardTools";
 import { BilliardAI } from "../BilliardAI";
+import { table } from "console";
 
 
 enum eBallType {
@@ -179,37 +180,6 @@ export class BilliardEightBall implements IBilliardRules {
                 break;
         }
 
-        // switch(type) {
-        //     case eOutcomeType.Continue:
-        //         yy.toast.addNow("继续击球");
-        //         break;
-        //     case eOutcomeType.Turn:
-        //         yy.toast.addNow("正常击球，交换击球权");
-        //         let uid = BilliardData.instance.getActionUid() === 1 ? 2 : 1;
-        //         BilliardData.instance.setActionUid(1)
-        //         break;
-        //     case eOutcomeType.FreeBall:
-        //         yy.toast.addNow("击球犯规，下家放置自由球");
-        //         uid = BilliardData.instance.getActionUid() === 1 ? 2 : 1;
-        //         BilliardData.instance.setActionUid(1)
-
-
-        //         let table = BilliardManager.instance.getTable();
-        //         if (this.round === 2) {// 开局犯规后对方 限定发球区域摆球
-        //             view.freeBall.setStartAreaShow();
-        //             table.cueBall.updatePosImmediately(BilliardConst.startPos);
-        //         }
-        //         else {
-        //             table.cueBall.updatePosImmediately(Vec3.ZERO);
-        //         }
-
-        //         view.freeBall.node.active = true;
-        //         view.onFreeBall();
-        //         view.onFreeBallMove(!table.isValidFreeBall());
-        //         break;
-        //     default:
-        //         yy.log.e("未处理类型eOutcomeType", type);
-        // }
 
         if (type === 2) {
             if (!BilliardTools.instance.isMyAction()) {
@@ -222,6 +192,18 @@ export class BilliardEightBall implements IBilliardRules {
             }
         }
         view.setPlayerCountDown(BilliardData.instance.getActionTimes());
+
+        if (this.isSureBall()) {
+            let table = BilliardManager.instance.getTable();
+            let tBalls = table.getOnTableBalls();
+            let hitType = BilliardData.instance.getHitBallType();
+            for (let i = 1; i < tBalls.length; i++) {
+                if (this.getBallType(tBalls[i]) === hitType) {
+                    tBalls[i].showTips();
+                }
+            }
+        }
+
         yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
         // throw new Error("Method not implemented.");
     }

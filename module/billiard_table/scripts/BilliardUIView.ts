@@ -215,6 +215,11 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     controlHide(cueHide: boolean = false) {
+        let tBalls = BilliardManager.instance.getTable().getOnTableBalls();
+        tBalls.forEach((ball)=>{
+            ball.hideTips();
+        })
+
         this.nodeCueArrow.active = cueHide;
         this.setArrowLine(false);
         let nodeAngle = this.node.getChildByName("NodeRight");

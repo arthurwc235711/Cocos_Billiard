@@ -24,11 +24,13 @@ export enum State {
 export class Ball extends Component {
   @property([Material])
   materials: Material[] = [];
-
   @property([Material])
   newMaterials: Material[] = [];
   @property([Mesh])
   meshs: Mesh[] = [];
+  @property(Node)
+  nodeBallAnimation: Node = null;
+
     readonly pos: Vec3 = new Vec3();
     readonly vel: Vec3 = new Vec3();
     readonly rvel: Vec3 = new Vec3();
@@ -226,6 +228,13 @@ export class Ball extends Component {
       this.state = State.InPocket;
       this.pos.set(-1.5, 0.74, -0.5);
       this.node.getChildByName("SpriteRenderer").active = false;
+    }
+
+    showTips() {
+      this.nodeBallAnimation.active = true;
+    }
+    hideTips() {
+      this.nodeBallAnimation.active = false;
     }
 }
 
