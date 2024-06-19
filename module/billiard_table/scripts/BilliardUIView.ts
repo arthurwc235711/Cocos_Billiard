@@ -429,6 +429,7 @@ export class BilliardUIView extends BaseCommonScript {
 
     onFreeBall() {
         this.freeBall.setFreeBallHand();
+        this.nodeCueAnimations.active = true && BilliardTools.instance.isMyAction();
     }
 
     onFreeBallMove(isMove: boolean, isSend: boolean = true) {
