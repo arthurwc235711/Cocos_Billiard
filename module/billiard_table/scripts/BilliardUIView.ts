@@ -29,6 +29,8 @@ export class BilliardUIView extends BaseCommonScript {
     freeBall: BilliardFree;
     @property(BilliardTop)
     billiardTop: BilliardTop;
+    @property(Node) 
+    nodeCueAnimations: Node = null;
 
     private _interactableTableTouch: boolean = true;
     private touchMove: boolean = false;
@@ -109,6 +111,7 @@ export class BilliardUIView extends BaseCommonScript {
             isFreeBallMove = this.freeBall.touchMove;
         });
         btn.on(Node.EventType.TOUCH_MOVE, (event: EventTouch) => {
+            this.nodeCueAnimations.active = false;
             if (this.interactableTableTouch && !this.freeBall.touchMove) {
                 let touch = event.touch;
                 let local = touch.getLocation();
@@ -124,6 +127,7 @@ export class BilliardUIView extends BaseCommonScript {
             isFreeBallMove = this.freeBall.touchMove;
         });
         btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
+            this.nodeCueAnimations.active = BilliardTools.instance.isMyAction();
             if (this.interactableTableTouch && !isFreeBallMove && !this.touchMove) {
                 this.preTouchLocation = event.getLocation();
                 this.onClickTable(this.preTouchLocation);
@@ -135,6 +139,10 @@ export class BilliardUIView extends BaseCommonScript {
             }
 
             this.touchMove = false;
+        });
+
+        btn.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
+
         });
     }
 
@@ -227,6 +235,7 @@ export class BilliardUIView extends BaseCommonScript {
 
     controlShow() {
         this.interactableTableTouch = true && BilliardTools.instance.isMyAction();
+        this.nodeCueAnimations.active = BilliardTools.instance.isMyAction();
         let slider = this.node.getChildByPath("NodeLeft/TouchPower/Slider").getComponent(Slider);
         slider.progress = 1;
         this.node.getChildByPath("NodeLeft").active = true && BilliardTools.instance.isMyAction();
@@ -430,6 +439,7 @@ export class BilliardUIView extends BaseCommonScript {
                 this.autoShotAt(ball.node);
             }
             if (isSend) {
+                // yy.log.w("发送球球位置", table.cueBall.pos);
                 BilliardService.instance.sendCueMove(table.cueBall.pos.x, table.cueBall.pos.y);
             }
 

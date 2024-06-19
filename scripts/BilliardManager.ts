@@ -230,6 +230,7 @@ export class BilliardManager extends BaseCommonInstance{
         view.scheduleOnce(()=>{
             view.setPlayerInfo();
             rules.startTurn();
+            view.onAllStationary();
 
             // view.setPlayerCountDown(20);
         }, 0);
