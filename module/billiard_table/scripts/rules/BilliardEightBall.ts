@@ -1,4 +1,4 @@
-import { Vec3 } from "cc";
+import { Vec3, view } from "cc";
 import { yy } from "../../../../../../../yy";
 import { eRuleType, eOutcomeType, BilliardConst } from "../../../../config/BilliardConst";
 import { BilliardManager } from "../../../../scripts/BilliardManager";
@@ -128,6 +128,8 @@ export class BilliardEightBall implements IBilliardRules {
                                     BilliardData.instance.setHitBallType(t);
                                     resultType.type = eOutcomeType.Continue;
                                     yy.log.w(`定色成功${t}`);
+                                    let view = BilliardManager.instance.getView();
+                                    view.gameTips.showMyBallTips();
                                 }
                                 else {//击打球色和打球色不相同不算定色，交换击球权
                                     resultType.type = eOutcomeType.Turn;
@@ -153,19 +155,31 @@ export class BilliardEightBall implements IBilliardRules {
         switch(type) {
             case 0:
                 if (puid === actionUid) {
-                    yy.toast.addNow("继续击球");
+                    // view.gameTips.startTips();
+                    // yy.toast.addNow("继续击球");
                 }
                 else {
-                    yy.toast.addNow("正常击球，交换击球权");
+                    // yy.toast.addNow("正常击球，交换击球权");
                     BilliardData.instance.setActionUid(actionUid)
+                    view.gameTips.turnTips();
                 }
                 break;
             case 1:
                 break;
             case 2:
-                yy.toast.addNow("击球犯规，下家放置自由球");
+                // yy.toast.addNow("击球犯规，下家放置自由球");
                 BilliardData.instance.setActionUid(actionUid)
                 let table = BilliardManager.instance.getTable();
+                if (Outcome.isCueBallPotted(BilliardManager.instance.getCueBall(), table.outcome)) {// 打进母球
+                    view.gameTips.cueInPocketTips();
+                    view.gameTips.freeBallTips();
+                }
+                else {
+                    view.gameTips.foulTips();
+                    view.gameTips.freeBallTips();
+                }
+
+
                 if (this.round === 2) {// 开局犯规后对方 限定发球区域摆球
                     view.freeBall.setStartAreaShow();
                     table.cueBall.updatePosImmediately(BilliardConst.startPos);
@@ -231,6 +245,8 @@ export class BilliardEightBall implements IBilliardRules {
         else {
             view.controlShow();
         }
+
+        view.gameTips.startTips();
     }
 
     onShotBall(): Ball {

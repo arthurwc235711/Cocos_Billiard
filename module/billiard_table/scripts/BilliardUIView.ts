@@ -12,6 +12,7 @@ import { BilliardFree } from './BilliardFree';
 import { BilliardTop } from './BilliardTop';
 import { BilliardService } from '../../../net/BilliardService';
 import { BilliardConst } from '../../../config/BilliardConst';
+import { BilliardGameTips } from './BilliardGameTips';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardUIView')
@@ -31,6 +32,8 @@ export class BilliardUIView extends BaseCommonScript {
     billiardTop: BilliardTop;
     @property(Node) 
     nodeCueAnimations: Node = null;
+    @property(BilliardGameTips)
+    gameTips: BilliardGameTips = null;
 
     private _interactableTableTouch: boolean = true;
     private touchMove: boolean = false;
