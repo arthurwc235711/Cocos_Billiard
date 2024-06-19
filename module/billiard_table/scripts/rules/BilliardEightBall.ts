@@ -103,6 +103,9 @@ export class BilliardEightBall implements IBilliardRules {
                 else if(Outcome.isIncludeValidPotted(outcome, BilliardData.instance.getHitBalls())){
                         resultType.type = eOutcomeType.Continue;
                 }
+                else {
+                    resultType.type = eOutcomeType.Turn;
+                }
             }
             else {// 未定色
                 let potBalls = Outcome.pots(outcome);
@@ -248,17 +251,18 @@ export class BilliardEightBall implements IBilliardRules {
 
     onShotBall(): Ball {
         let table = BilliardManager.instance.getTable();
+        
         if (this.isSureBall()) {
             let balls = table.getOnTableBalls();
             let lengths = [];
             for (let i = 1; i < balls.length; i++) {
                 if (this.getBallType(balls[i]) === BilliardData.instance.getHitBallType()) {
-                    lengths.push({ squared: table.cueBall.pos.distanceToSquared(balls[i].pos), index: i });
+                    lengths.push({ squared: table.cueBall.pos.distanceToSquared(balls[i].pos), ball: balls[i] });
                 }
             }
             if (lengths.length > 0) {
               lengths.sort((a, b) => a.squared - b.squared);
-              return table.balls[lengths[0].index];
+              return lengths[0].ball;
             }
             else {
               let eightBall = table.balls.filter(ball=>ball.id === 8);

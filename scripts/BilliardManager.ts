@@ -317,7 +317,9 @@ export class BilliardManager extends BaseCommonInstance{
 
         view.onAllStationary();
         let ball = rules.onShotBall();
+        // yy.log.w("onShotBall: ", BilliardData.instance.getHitBallType(), ball.id)
         if (ball) {
+
             view.autoShotAt(ball.node);
         }
     }

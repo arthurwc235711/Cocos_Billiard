@@ -198,12 +198,13 @@ export class Table extends BaseCommonScript {
 
   recentlyBall() {
     let lengths = [];
-    for (let i = 1; i < this.balls.length; i++) {
-      lengths.push({ squared: this.cueBall.pos.distanceToSquared(this.balls[i].pos), index: i });
+    let balls = this.getOnTableBalls();
+    for (let i = 1; i < balls.length; i++) {
+      lengths.push({ squared: this.cueBall.pos.distanceToSquared(balls[i].pos), ball: balls[i] });
     }
     if (lengths.length > 0) {
       lengths.sort((a, b) => a.squared - b.squared);
-      return this.balls[lengths[0].index];
+      return lengths[0].ball;
     }
     else {
       return null;
