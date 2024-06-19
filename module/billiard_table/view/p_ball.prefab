@@ -363,6 +363,18 @@
         "__expectedType__": "cc.Material"
       }
     ],
+    "newMaterials": [
+      {
+        "__uuid__": "00109809-e1bd-418a-aa5f-f4d47772660c@0f702",
+        "__expectedType__": "cc.Material"
+      }
+    ],
+    "meshs": [
+      {
+        "__uuid__": "00109809-e1bd-418a-aa5f-f4d47772660c@f6595",
+        "__expectedType__": "cc.Mesh"
+      }
+    ],
     "ballMesh": {
       "__id__": 7
     },

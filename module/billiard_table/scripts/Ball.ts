@@ -1,4 +1,4 @@
-import { _decorator, Component, director, macro, Material, MeshRenderer, misc, Node, quat, Quat, Vec3 } from 'cc';
+import { _decorator, Component, director, macro, Material, Mesh, MeshRenderer, misc, Node, Prefab, quat, Quat, Vec3 } from 'cc';
 import { yy } from '../../../../../../yy';
 import { forceRoll, rollingFull, sliding, surfaceVelocityFull } from '../../../scripts/physics/physics';
 import { norm, passesThroughZero, rotateAxisAngle } from '../../../scripts/utils';
@@ -24,6 +24,11 @@ export enum State {
 export class Ball extends Component {
   @property([Material])
   materials: Material[] = [];
+
+  @property([Material])
+  newMaterials: Material[] = [];
+  @property([Mesh])
+  meshs: Mesh[] = [];
     readonly pos: Vec3 = new Vec3();
     readonly vel: Vec3 = new Vec3();
     readonly rvel: Vec3 = new Vec3();
@@ -42,7 +47,18 @@ export class Ball extends Component {
         this.id = BilliardData.ballId++;
         this.pos.copy(this.node.position);
         this.node.name = "ball_" + this.id;
-        this.ballMesh.material = this.materials[this.id];
+
+        if (this.id === 0) {//母球
+          this.ballMesh.material = this.newMaterials[this.id];
+          this.ballMesh.mesh = this.meshs[this.id];
+          this.ballMesh.node.scale = new Vec3(8.8, 8.8, 8.8);
+        }
+        else{
+          this.ballMesh.material = this.materials[this.id];
+        }
+
+
+        // let perfab = this.meshRenderers[this.id];
 
         // this.node.setRotation(0.293, -0.491, 0.040, -0.818);
 
