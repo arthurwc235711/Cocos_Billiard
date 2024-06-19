@@ -174,7 +174,9 @@ export class BilliardEightBall implements IBilliardRules {
                     table.cueBall.updatePosImmediately(Vec3.ZERO);
                 }
 
+
                 view.freeBall.node.active = true;
+                view.freeBall.nodeForbid.active = !table.isValidFreeBall();
                 view.onFreeBall();
                 view.onFreeBallMove(!table.isValidFreeBall(), false);
                 break;

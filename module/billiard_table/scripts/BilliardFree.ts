@@ -14,6 +14,8 @@ export class BilliardFree extends BaseCommonScript {
     nodeHand: Node = null;
     @property(Node)
     nodeStart: Node = null;
+    @property(Node)
+    nodeForbid: Node = null;
 
     touchMove: boolean = false;
 
@@ -103,6 +105,8 @@ export class BilliardFree extends BaseCommonScript {
                     }
                 }
 
+                // yy.log.w("isValidFreeBall", BilliardManager.instance.getTable().isValidFreeBall())
+                this.nodeForbid.active = !BilliardManager.instance.getTable().isValidFreeBall();
             }
         });
         btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {

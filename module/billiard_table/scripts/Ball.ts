@@ -86,7 +86,7 @@ export class Ball extends Component {
 
     protected update(dt: number): void {
       if (!this.pos.vec3Equals(this.node.position)) {
-          this.node.position = this.node.position.lerp(this.pos, 0.5); // 更新球的位置
+          this.node.position = this.node.position.lerp(this.pos, 1); // 更新球的位置
           const angle = this.rvel.length() * this.delateTime;
           let q = rotateAxisAngle(norm(this.rvel), angle);
           const currentRotation = this.ballMesh.node.getRotation();
