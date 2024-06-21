@@ -30,6 +30,7 @@ export class BilliardSimulateService {
         notify.action.uid = (Math.random() < 0.5 ? 1 : 2 );
         notify.action.times = 20;
         notify.action.round = 1;
+        notify.action.type = 1;
         for(let i = 0; i < BilliardData.instance.getBallNums(); ++i) {
             let ball = new protoBilliard.IBall();
             ball.val = i;

@@ -72,7 +72,7 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     protected start(): void {
-        // BilliardService.instance.sendSit();
+        BilliardService.instance.sendEnterGame();
         // this.setPlayerInfo();
     }
 
@@ -131,7 +131,7 @@ export class BilliardUIView extends BaseCommonScript {
             isFreeBallMove = this.freeBall.touchMove;
         });
         btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
-            this.nodeCueAnimations.active = BilliardTools.instance.isMyAction();
+            this.nodeCueAnimations.active = BilliardTools.instance.isMyAction() && BilliardData.instance.getActionType() !== 0;
             if (this.interactableTableTouch && !isFreeBallMove && !this.touchMove) {
                 this.preTouchLocation = event.getLocation();
                 this.onClickTable(this.preTouchLocation);
@@ -269,7 +269,7 @@ export class BilliardUIView extends BaseCommonScript {
 
     controlShow() {
         this.interactableTableTouch = true && BilliardTools.instance.isMyAction();
-        this.nodeCueAnimations.active = BilliardTools.instance.isMyAction();
+        this.nodeCueAnimations.active = BilliardTools.instance.isMyAction() && BilliardData.instance.getActionType() !== 0; // 0 正常球权，1 开球， 2 自由球
         let slider = this.node.getChildByPath("NodeLeft/TouchPower/Slider").getComponent(Slider);
         slider.progress = 1;
         this.node.getChildByPath("NodeLeft").active = true && BilliardTools.instance.isMyAction();
@@ -476,6 +476,7 @@ export class BilliardUIView extends BaseCommonScript {
             if (isSend) {
                 // yy.log.w("发送球球位置", table.cueBall.pos);
                 BilliardService.instance.sendCueMove(table.cueBall.pos.x, table.cueBall.pos.y);
+                // BilliardService.instance.sendFreeBallReq(table.cueBall.pos.x, table.cueBall.pos.y);
             }
 
         }
@@ -496,10 +497,20 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     setPlayerInfo() {
+
         this.billiardTop.setBindLeftPlayerUID(1)
         .setBindRightPlayerUID(2)
 
         const players = BilliardData.instance.getAllPlayers();
+        players.forEach(p=>{
+            if (p.uid === yy.user.getUid()) {
+                this.billiardTop.setBindLeftPlayerUID(p.uid)
+            }
+            else {
+                this.billiardTop.setBindRightPlayerUID(p.uid)
+            }
+        })
+
         players.forEach(p=>{
             this.billiardTop.setPlayerName(p.name, p.uid)
                 .setPlayerHead(p.url, p.uid)

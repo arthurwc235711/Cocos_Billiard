@@ -9,6 +9,8 @@ export default [
     
     
     // 游戏协议
+    "billiard_notify_entergame",
+
     "billiard_notify_start",
     "billiard_notify_cuemove",
     "billiard_notify_cueangle",
