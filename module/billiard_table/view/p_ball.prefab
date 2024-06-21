@@ -22,24 +22,27 @@
       },
       {
         "__id__": 6
+      },
+      {
+        "__id__": 11
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 11
+        "__id__": 19
       },
       {
-        "__id__": 13
+        "__id__": 21
       }
     ],
     "_prefab": {
-      "__id__": 15
+      "__id__": 23
     },
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": -0.328,
       "z": 0
     },
     "_lrot": {
@@ -86,7 +89,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -0.005,
+      "y": -0.0015,
       "z": 0
     },
     "_lrot": {
@@ -131,7 +134,7 @@
     ],
     "_visFlags": 0,
     "_spriteFrame": {
-      "__uuid__": "ce5d6a1d-dc61-452b-b47b-ca830bb96782@f9941",
+      "__uuid__": "c022af21-d11b-4a39-a933-38b3d71fc80d@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_mode": 0,
@@ -194,10 +197,10 @@
     },
     "_lrot": {
       "__type__": "cc.Quat",
-      "x": 0,
+      "x": 0.7071067811865475,
       "y": 0,
       "z": 0,
-      "w": 1
+      "w": 0.7071067811865476
     },
     "_lscale": {
       "__type__": "cc.Vec3",
@@ -209,7 +212,7 @@
     "_layer": 1073741824,
     "_euler": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": 90,
       "y": 0,
       "z": 0
     },
@@ -237,7 +240,7 @@
       "__id__": 9
     },
     "_mesh": {
-      "__uuid__": "e72f98ec-f594-4d14-85b3-6fb6d62d2912@fd456",
+      "__uuid__": "fab24ca7-f998-4bae-8172-8a0f96317f25@c3687",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 1,
@@ -287,6 +290,163 @@
     "nestedPrefabInstanceRoots": null
   },
   {
+    "__type__": "cc.Node",
+    "_name": "BallTipsAnimation",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": false,
+    "_components": [
+      {
+        "__id__": 12
+      },
+      {
+        "__id__": 14
+      },
+      {
+        "__id__": 16
+      }
+    ],
+    "_prefab": {
+      "__id__": 18
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": -0.001,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 0.19,
+      "y": 0.19,
+      "z": 1
+    },
+    "_mobility": 0,
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.SpriteRenderer",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 11
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 13
+    },
+    "_materials": [
+      {
+        "__uuid__": "ade8a15a-dcca-4b3c-84c6-f6476ac875bb",
+        "__expectedType__": "cc.Material"
+      }
+    ],
+    "_visFlags": 0,
+    "_spriteFrame": {
+      "__uuid__": "33cf831b-59de-42ee-bc44-4462454019d8@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
+    "_mode": 0,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_flipX": false,
+    "_flipY": false,
+    "_size": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "1dmokFBVJH2L7JUfkM0ia6"
+  },
+  {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 11
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 15
+    },
+    "playOnLoad": false,
+    "_clips": [
+      {
+        "__uuid__": "2eee05b9-ec02-412b-af01-a67510d8ab99",
+        "__expectedType__": "cc.AnimationClip"
+      }
+    ],
+    "_defaultClip": {
+      "__uuid__": "2eee05b9-ec02-412b-af01-a67510d8ab99",
+      "__expectedType__": "cc.AnimationClip"
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "b1Zqm4gFNPRai6CLUzeoNR"
+  },
+  {
+    "__type__": "93e63l2q7RNGpnRAAmqJPJe",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 11
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 17
+    },
+    "animName": "ballTips",
+    "isCompleteHide": false,
+    "conmpeteHandlers": [],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "07MzNmrjVJfKzvFmkf346X"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "c8qElZMU1G14h/OAaRbCql",
+    "instance": null,
+    "targetOverrides": null,
+    "nestedPrefabInstanceRoots": null
+  },
+  {
     "__type__": "c470akZGpJDxbmsez+gxgl+",
     "_name": "",
     "_objFlags": 0,
@@ -295,7 +455,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 12
+      "__id__": 20
     },
     "materials": [
       {
@@ -363,6 +523,21 @@
         "__expectedType__": "cc.Material"
       }
     ],
+    "newMaterials": [
+      {
+        "__uuid__": "00109809-e1bd-418a-aa5f-f4d47772660c@0f702",
+        "__expectedType__": "cc.Material"
+      }
+    ],
+    "meshs": [
+      {
+        "__uuid__": "00109809-e1bd-418a-aa5f-f4d47772660c@f6595",
+        "__expectedType__": "cc.Mesh"
+      }
+    ],
+    "nodeBallAnimation": {
+      "__id__": 11
+    },
     "ballMesh": {
       "__id__": 7
     },
@@ -381,7 +556,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 14
+      "__id__": 22
     },
     "radius": 0.08842,
     "_id": ""

@@ -208,11 +208,41 @@ export function cueToSpin(offset: Vec3, v: Vec3) {
 export function rayHit(origin: Vec3, direction: Vec3) {
   let nodes: Node[] = [];
   let sortNode: BaseRayCollision[] = [];
-  RaySphereCollision.sRaySphereCollisions.forEach((c, i)=>{
-    if(raySphere(origin, direction, c)) {
-      c.sqrDeep = origin.distanceToSquared(c.node.worldPosition);
+  RaySphereCollision.sRaySphereCollisions.forEach((circle, i)=>{
+    if(raySphere(origin, direction, circle)) {
+      const fx = origin.x - circle.node.worldPosition.x;
+      const fy = origin.y - circle.node.worldPosition.y;
+  
+      const a = direction.x * direction.x + direction.y * direction.y;
+      const b = 2 * (fx * direction.x + fy * direction.y);
+      const c = fx * fx + fy * fy - circle.radius * circle.radius;
+  
+      const discriminant = b * b - 4 * a * c;
+  
+      if (discriminant < 0) {
+          // 没有实数解，表示没有交点
+          circle.sqrDeep = Infinity;
+      }
+  
+      // 计算两个交点
+      const t1 = (-b - Math.sqrt(discriminant)) / (2 * a);
+      const t2 = (-b + Math.sqrt(discriminant)) / (2 * a);
+  
+      // 选择正的 t 值（表示在移动方向上的交点）
+      if (t1 >= 0 && t2 >= 0) {
+        circle.sqrDeep = Math.min(t1, t2);
+      } else if (t1 >= 0) {
+        circle.sqrDeep = t1;
+      } else if (t2 >= 0) {
+        circle.sqrDeep = t2;
+      } else {
+          // 两个 t 值都为负，表示交点在反方向
+          circle.sqrDeep = Infinity;
+      }
+
+      // circle.sqrDeep = origin.distanceToSquared(circle.node.worldPosition);
       // yy.log.w('rayHit RaySphereCollision', c.sqrDeep, c.node.name, c.node.worldPosition)
-      sortNode.push(c);
+      sortNode.push(circle);
     }
   });
 
@@ -229,6 +259,7 @@ export function rayHit(origin: Vec3, direction: Vec3) {
   }
 
   sortNode.sort((a, b) => a.sqrDeep - b.sqrDeep);
+
   sortNode.forEach((s, i)=>{
     nodes.push(s.node);
   })
@@ -249,6 +280,8 @@ function raySphere(origin: Vec3, direction: Vec3, raySphere: RaySphereCollision)
   if (discriminant < 0) {
     return false;
   }
+
+  // yy.log.w('rayHit RaySphereCollision', raySphere.node.name, discriminant);
   // 射线与球体相交（判别式大于或等于0）
   return true;
 }

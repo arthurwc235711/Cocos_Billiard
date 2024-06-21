@@ -13,10 +13,10 @@ export class TableGeometry  {
   
     static scaleToRadius(R) {
       let r = 0.03275;
-      TableGeometry.tableX = r * 43 - (R - r)
-      TableGeometry.tableY = r * 21 - (R - r)
-      TableGeometry.X = TableGeometry.tableX + R
-      TableGeometry.Y = TableGeometry.tableY + R
+      TableGeometry.tableX = r * 43 - (R - r) // r*43 = 1.40825, R-r = 0.01146  =1.39679
+      TableGeometry.tableY = r * 21 - (R - r) // r*21 = 0.68775, R-r = 0.01146  =0.67629
+      TableGeometry.X = TableGeometry.tableX + R  //1.4410
+      TableGeometry.Y = TableGeometry.tableY + R  //0.7205
     }
 }
 

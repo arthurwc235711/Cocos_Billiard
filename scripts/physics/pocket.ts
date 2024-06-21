@@ -4,6 +4,7 @@ import { Vec3 } from "cc"
 import { Ball, State } from "../../module/billiard_table/scripts/Ball"
 import { up, zero } from "../utils"
 import { track } from "./track"
+import { yy } from "../../../../../yy"
 
 export class Pocket {
   pos: Vec3
@@ -51,11 +52,15 @@ export class Pocket {
 
     if (z < restingDepth - R) {
       ball.pos.z = restingDepth - R
-      ball.setStationary()
-      ball.state = State.InPocket
+      // ball.setStationary()
       if (ball.id !== 0) {
+        ball.setInPocket();
         ball.setTrack();
         track.inPocketBalls.push(ball);
+      }
+      else {
+        ball.updatePosImmediately(new Vec3(-1000, -1000, 0));
+        ball.setStationary();
       }
     }
   }

@@ -64,8 +64,8 @@ export class Outcome {
     return this.pots(outcomes).every((b) => b.id > 6)
   }
 
-  static firstCollision(outcome: Outcome[]) {
-    const collisions = outcome.filter((o) => o.type === OutcomeType.Collision)
+  static firstCollision(outcomes: Outcome[]) {
+    const collisions = outcomes.filter((o) => o.type === OutcomeType.Collision)
     return collisions.length > 0 ? collisions[0] : undefined
   }
 
@@ -114,8 +114,15 @@ export class Outcome {
   }
 
   static isCollisionNoCushion(outcomes: Outcome[]) {
-    return (outcomes.length > 1 ? outcomes[1].type === OutcomeType.Collision : false) &&
-    !outcomes.some(o=>o.type === OutcomeType.Cushion)
+    let index = 0;
+    const hadCollision = outcomes.some((o, i) =>{ index = i;  return o.type === OutcomeType.Collision })
+    if (!hadCollision) {
+      return true;
+    }
+    const cushions = outcomes.slice(index);
+    return !cushions.some((o) => o.type === OutcomeType.Cushion);
+    // return (outcomes.length > 1 ? outcomes[1].type === OutcomeType.Collision : false) &&
+    // !outcomes.some(o=>o.type === OutcomeType.Cushion)
   }
 
   static isIncludeValidPotted(outcome: Outcome[], ballsNum: number[]) {

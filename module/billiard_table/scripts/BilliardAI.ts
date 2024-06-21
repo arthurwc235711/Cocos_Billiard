@@ -3,9 +3,10 @@ import { BilliardData } from "../../../data/BilliardData";
 import { unitAtAngle } from "../../../scripts/utils";
 import { BilliardManager } from "../../../scripts/BilliardManager";
 import { cueToSpin } from "../../../scripts/physics/physics";
-import { R } from "../../../scripts/physics/constants";
+import { R, R2d } from "../../../scripts/physics/constants";
 import { yy } from "../../../../../../yy";
 import { Outcome } from "./Outcome";
+import { BilliardService } from "../../../net/BilliardService";
 
 export class BilliardAI  {
     private static __instance__: BilliardAI;
@@ -29,20 +30,11 @@ export class BilliardAI  {
 
     hitBall() {
         if (this.isUsed) {
-            yy.log.w("hitBall")
+            yy.log.w("AI HitBall")
             this.thinkTime(()=>{
-                yy.log.w("thinkTime,hitBall")
                 let billiardData = BilliardData.instance;
-                let table = BilliardManager.instance.getTable();
-                let ball = table.cueBall;
-                table.outcome = [
-                    Outcome.hit(ball, 150 * R),
-                ];
-                BilliardManager.instance.getView().controlHide();
-                ball.setSliding();
-                ball.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(150 * R));
-                ball.rvel.copy(cueToSpin(Vec3.ZERO, ball.vel));
-                yy.event.emit(yy.Event_Name.billiard_hit_cd_stop);
+                billiardData.setPower(150 * R);
+                BilliardService.instance.sendHitReq();
             })
         }
     }
@@ -55,6 +47,7 @@ export class BilliardAI  {
     }
 
     MoveStartCueBall() {
+        yy.log.w("AI FreeBall")
         let table = BilliardManager.instance.getTable();
         let view = BilliardManager.instance.getView();
         let canvas = director.getScene().getChildByName("Canvas").getComponent(Canvas);
@@ -63,7 +56,7 @@ export class BilliardAI  {
             if (cueball.pos.x > -0.85) {
                 cueball.pos.setX(cueball.pos.x - dt * 0.1);
                 view.onFreeBall()
-                view.onFreeBallMove(false);
+                view.onFreeBallMove(false, false);
             }
             else {
                 cueball.pos.setX(-0.85);
@@ -71,14 +64,8 @@ export class BilliardAI  {
                 view.onFreeBallMove(false);
                 canvas.unschedule(onUpdate);
                 let billiardData = BilliardData.instance;
-                let ball = table.cueBall;
-                table.outcome = [
-                    Outcome.hit(ball, 150 * R),
-                ];
-                BilliardManager.instance.getView().controlHide();
-                ball.setSliding();
-                ball.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(150 * R));
-                ball.rvel.copy(cueToSpin(Vec3.ZERO, ball.vel));
+                billiardData.setPower(150 * R);
+                BilliardService.instance.sendHitReq();
             }
         };
         canvas.schedule(onUpdate, 0);

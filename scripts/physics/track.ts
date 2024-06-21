@@ -57,6 +57,26 @@ export class track {
         this.inPocketBalls = [];
         this.inTrackBalls = [];
     }
+
+
+    static setInTrack(ball: Ball) {
+        ball.setStationaryByService();
+        ball.setTrack();
+        this.inPocketBalls.length = 0;
+        let v3 = Vec3.ZERO.clone();
+        this.inTrackBalls.forEach((ball, i)=>{
+            ball.updatePosImmediately(v3.setX(this.endPos.x).setY(i * 2 * R));
+        });
+    }
+
+    static froceUpdateTrack() {
+        let v3 = Vec3.ZERO.clone();
+        this.inTrackBalls.forEach((ball, i)=>{
+            ball.setStationaryByService();
+            ball.setTrack();
+            ball.updatePosImmediately(v3.setX(this.endPos.x).setY(i * 2 * R));
+        });
+    }
 }
 
 

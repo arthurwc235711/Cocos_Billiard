@@ -1,6 +1,7 @@
 import { _decorator, Component, Node } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
+import { BilliardService } from '../../../net/BilliardService';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardMenu')
@@ -30,6 +31,8 @@ export class BilliardMenu extends BaseCommonScript {
             yy.loader.releaseBundle('app_casual_common');
         });
         yy.event.emit(yy.Event_Name.CasualCommonQuit)
+
+        BilliardService.instance.sendExit();
     }
 
     onClickSound() {
