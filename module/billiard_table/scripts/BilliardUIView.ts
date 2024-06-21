@@ -72,6 +72,7 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     protected start(): void {
+        // BilliardService.instance.sendSit();
         // this.setPlayerInfo();
     }
 
@@ -159,27 +160,52 @@ export class BilliardUIView extends BaseCommonScript {
             let local = touch.getLocation();
             let perLocal = touch.getPreviousLocation();
             let inc = local.y - perLocal.y;
+
             let angleInRadians;
-            if (inc < 0) {
+            if (inc === 0) return;
+
+            if (inc < 0) { // 往下移固定顺时针
                 let y = uiTransform.contentSize.y - inc > max ? uiTransform.contentSize.y - inc - max + min : uiTransform.contentSize.y - inc;
                 uiTransform.setContentSize(new Size(uiTransform.contentSize.width, y));
-                angleInRadians = (0.01 * Math.PI) / 180
+                angleInRadians = 0.01//(0.01 * Math.PI) / 180
             }
-            else {
+            else {// 往上移固定逆时针
                 let y = uiTransform.contentSize.y - inc < min ? max - uiTransform.contentSize.y - inc + min : uiTransform.contentSize.y - inc;
                 uiTransform.setContentSize(new Size(uiTransform.contentSize.width, y));
-                angleInRadians = (-0.01 * Math.PI) / 180  
+                angleInRadians = -0.01//(-0.01 * Math.PI) / 180  
             }
 
-            let cos = this.preTouchLocation.dot(new Vec2(1, 0)) / this.preTouchLocation.length();
-            let ran = Math.acos(cos);
+            let rotatePoint = function rotatePoint(ax: number, ay: number, bx: number, by: number, angle: number): { x: number, y: number } {
+                // 将角度转换为弧度
+                const radians = angle * (Math.PI / 180);
+            
+                // 计算 AB 向量
+                const abx = bx - ax;
+                const aby = by - ay;
+            
+                // 使用旋转矩阵计算新的向量坐标
+                const newAbx = abx * Math.cos(radians) - aby * Math.sin(radians);
+                const newAby = abx * Math.sin(radians) + aby * Math.cos(radians);
+            
+                // 计算新的 B 坐标
+                const newBx = ax + newAbx;
+                const newBy = ay + newAby;
+            
+                return { x: newBx, y: newBy };
+            }
 
-            const newX = this.preTouchLocation.length() * Math.cos(ran + angleInRadians)
-            const newY = this.preTouchLocation.length() * Math.sin(ran + angleInRadians)
-            this.preTouchLocation.x = newX;
-            this.preTouchLocation.y = newY;
+            // yy.log.w("p角度:", this.nodeCueArrow.angle, angleInRadians);
+            this.nodeCueArrow.angle =  this.nodeCueArrow.angle + angleInRadians;
+
+            let wp = this.nodeArrow.getChildByPath("Sprite/ballArrow").worldPosition;
+            let cs = BilliardManager.instance.camera2d.worldToScreen(wp);
+            this.preTouchLocation.x = cs.x;
+            this.preTouchLocation.y = cs.y;
+            // yy.log.w("c角度:", this.nodeCueArrow.angle, cs);
             this.onClickTable(this.preTouchLocation);
         });
+
+
     }
 
     initPowerSliderClick() {
