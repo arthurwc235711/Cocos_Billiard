@@ -1,4 +1,5 @@
 
+import { ProtoHelper } from '../../../../../framework/socket/ProtoHelper';
 import { StackListenerNew } from '../../../../main/data/GameMessageStack';
 import { yy } from '../../../../yy';
 import { BilliardConst } from '../config/BilliardConst';
@@ -20,9 +21,25 @@ export class BilliardService extends StackListenerNew {
         delete BilliardService.__instance__;
     }
 
+
+    private tid: number;
+
     eventFuncMap: { [key: string]: string } = {
         ["BilliardAllocService_EnterByTable"]: "BilliardAllocService_EnterByTable",
 
+        ["BilliardService_EnterGame"]: "respEnterGame",
+
+        // ["BilliardService_Sit"]: "respSit",
+        ["BilliardService_Ready"]: "respReady",
+        ["BilliardService_Exit"]: "respExit",
+
+        ["BilliardService_ClientEvent"]: "respClientEvent",
+
+
+
+        ["cmd_0x6006"]: "notifyEnterGame",
+        ["cmd_0x0005"]: "notifyFreeBall",
+        ["cmd_0x0002"]: "notifyStart",
 
 
         ["BilliardAllocService_Start"]: "notifyStart",
@@ -34,6 +51,12 @@ export class BilliardService extends StackListenerNew {
     }
 
 
+    private errorTips(msg: protoBilliard.CommonRsp) {
+        if (msg) {
+            yy.toast.addNow(`error code:${msg.code} msg:${msg.msg}`);
+        }
+   }
+
     BilliardAllocService_EnterByTable(data: any, elapsedTime: number) {
         let msg: protoBilliard.EnterRsp = data.msg;
         if(data.code === 0 && msg && msg.code === 0) {
@@ -41,8 +64,114 @@ export class BilliardService extends StackListenerNew {
         }
     }
 
+    sendExit() {
+        let req = new protoBilliard.ExitReq();
+        yy.socket.send("BilliardService.Exit", req);
+    }
+
+    respExit(data: any) {
+        let msg: protoBilliard.CommonRsp = data.msg;
+        if(data.code == 0 && msg && msg.code == 0) {
+            
+        }
+    }
+
+    sendEnterGame() {
+        let req = new protoBilliard.EnterGameReq();
+        req.uid = yy.user.getUid();
+        yy.socket.send("BilliardService.EnterGame", req);
+    }
+    respEnterGame(data: any) {
+        let msg: protoBilliard.CommonRsp = data.msg;   
+        if(data.code == 0 && msg && msg.code == 0) {
+            
+        }
+        else {
+            this.errorTips(msg);
+        }
+    }
+
+    notifyEnterGame(data: any) {
+        let msg: protoBilliard.GameStatus = data.msg;   
+
+        this.tid = msg.tid;
+
+        msg.users.forEach(player=>{
+            BilliardData.instance.addPlayer(player.uid, player.nick, player.icon);
+        })
+
+        yy.event.emit(yy.Event_Name.billiard_notify_entergame);
+        yy.log.w("notifyEnterGame", msg);
+
+        this.sendReady();
+    }
+    // sendSit() {
+    //     let req = new protoBilliard.SitReq();
+    //     req.seat = -1;
+    //     yy.socket.send("BilliardService.Sit", req);
+    // }
+    // respSit(data: any) {
+    //     let msg: protoBilliard.CommonRsp = data.msg;
+    //     if(data.code == 0 && msg && msg.code == 0) {
+    //         this.sendReady();
+    //     }
+    //     else {
+    //         this.errorTips(msg);
+    //     }
+    // }
+
+    sendReady() {
+        let req = new protoBilliard.ReadyReq();
+        yy.socket.send("BilliardService.Ready", req);
+    }
+
+    respReady(data: any) {
+        let msg: protoBilliard.CommonRsp = data.msg;
+        if(data.code === 0 && msg && msg.code === 0) {
+            
+        }
+        else {
+            this.errorTips(msg);
+        }
+    }
 
 
+    respClientEvent(data: any) {
+        let msg: protoBilliard.CommonRsp = data.msg;
+        if(msg && msg.code !== 0) {
+            this.errorTips(msg);
+        }
+    }
+
+    sendFreeBallReq(x: number, y: number) {
+        let pb: protoBilliard.GameProtocol = new protoBilliard.GameProtocol();
+        let responseMsg = ProtoHelper.Ins.getProto('protoBilliard', 'IFreeBall');
+        let req: protoBilliard.IFreeBall = new protoBilliard.IFreeBall();
+        req.curPosition = new protoBilliard.IPosition();
+        req.curPosition.x = x * BilliardConst.multiple;
+        req.curPosition.y = y * BilliardConst.multiple;;
+        // req.useFree = PiggytapData.instance.getFreeTimes() > 0 ? 1 : 0;
+        let newMsg = responseMsg.encode(req).finish();
+        pb.Cmd = protoBilliard.BILLIARD_SubCmd.eBilliardFreeBallReq;
+        pb.TableId = this.tid;
+        pb.databody = newMsg;
+        yy.socket.send("BilliardService.ClientEvent", pb);
+    }
+
+
+    notifyFreeBall(data: {msg:protoBilliard.IFreeBall }) {
+        let msg: protoBilliard.IFreeBall = data.msg;
+        if(msg) {
+            if (!BilliardTools.instance.isMyAction()) { // 其他人操作才设置坐标
+                yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg);
+            }
+        }
+    }
+
+
+
+
+    //---------------------------------------------------------------------------------------
     sendStart() {
         let req = new protoBilliard.IStart ();
         yy.socket.send("BilliardAllocService.Start", req);
@@ -54,7 +183,7 @@ export class BilliardService extends StackListenerNew {
             billiardData.setStartBalls(msg.balls);
             billiardData.setActionUid(msg.action.uid);
             billiardData.setActionTimes(msg.action.times);
-            
+            billiardData.setActionType(msg.action.type);
             // yy.log.w("respStart");
             yy.event.emit(yy.Event_Name.billiard_notify_start);
         }
@@ -177,6 +306,7 @@ export class BilliardService extends StackListenerNew {
     notifyAction(data: any) {
         let msg: protoBilliard.IAction = data.msg;
         if (msg) {
+            BilliardData.instance.setActionType(msg.type);
             BilliardData.instance.setActionTimes(msg.times);
             yy.event.emit(yy.Event_Name.billiard_notify_action, msg);
         }

@@ -86,6 +86,7 @@ export class BilliardManager extends BaseCommonInstance{
             [yy.Event_Name.billiard_allStationary] : 'onAllStationary',
             [yy.Event_Name.billiard_hit_cd_stop]: "onHitCdStop",
 
+            [yy.Event_Name.billiard_notify_entergame]: "onEnterGame",
             [yy.Event_Name.billiard_notify_start]: "onStart",
             [yy.Event_Name.billiard_notify_result]: "onServiceResult",
             [yy.Event_Name.billiard_notify_action]: "onAction",
@@ -196,10 +197,10 @@ export class BilliardManager extends BaseCommonInstance{
         // this.setSureBalls();
 
 
-        let firstCollision = Outcome.firstCollision(table.outcome);
-        if (firstCollision) {
-            yy.log.w("firstCollision", firstCollision.ballB.name);
-        }
+        // let firstCollision = Outcome.firstCollision(table.outcome);
+        // if (firstCollision) {
+        //     yy.log.w("firstCollision", firstCollision.ballB.name);
+        // }
     }
 
     onHitCdStop() {
@@ -314,15 +315,25 @@ export class BilliardManager extends BaseCommonInstance{
         view.resetData();
         rules.nextTurn(action.type, action.uid, action.round);
         this.setSureBalls();
-
-
         view.onAllStationary();
+
+
+
         let ball = rules.onShotBall();
         // yy.log.w("onShotBall: ", BilliardData.instance.getHitBallType(), ball.id)
         if (ball) {
 
             view.autoShotAt(ball.node);
         }
+    }
+
+
+    onEnterGame() {
+        let table = this.getTable();
+        let view = this.getView();
+        let rules = this.getRules();
+
+        view.setPlayerInfo();
     }
 }
 

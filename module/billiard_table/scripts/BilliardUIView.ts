@@ -167,12 +167,12 @@ export class BilliardUIView extends BaseCommonScript {
             if (inc < 0) { // 往下移固定顺时针
                 let y = uiTransform.contentSize.y - inc > max ? uiTransform.contentSize.y - inc - max + min : uiTransform.contentSize.y - inc;
                 uiTransform.setContentSize(new Size(uiTransform.contentSize.width, y));
-                angleInRadians = 0.01//(0.01 * Math.PI) / 180
+                angleInRadians = -0.1//(0.01 * Math.PI) / 180
             }
             else {// 往上移固定逆时针
                 let y = uiTransform.contentSize.y - inc < min ? max - uiTransform.contentSize.y - inc + min : uiTransform.contentSize.y - inc;
                 uiTransform.setContentSize(new Size(uiTransform.contentSize.width, y));
-                angleInRadians = -0.01//(-0.01 * Math.PI) / 180  
+                angleInRadians = 0.1//(-0.01 * Math.PI) / 180  
             }
 
             let rotatePoint = function rotatePoint(ax: number, ay: number, bx: number, by: number, angle: number): { x: number, y: number } {

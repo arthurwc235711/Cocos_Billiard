@@ -7,6 +7,12 @@ export class BilliardWriter extends ws_base_writer {
         return super.on_send(service_name, func_name, pb, callback);
     }
 
+    BilliardService_Sit(req:any) {
+        yy.log.w("BilliardService_Sit", req);
+        // BilliardSimulateService.instance.notifySit(req);
+        // BilliardSimulateService.instance.notifySit(req);
+    }
+
     BilliardAllocService_Start(req:any) {
         BilliardSimulateService.instance.notifyStart();
     }
