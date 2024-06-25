@@ -4,6 +4,7 @@ import { ballsPathPoints } from '../../../../../poker_games/windrop/config/Slots
 import { BilliardData } from '../../../data/BilliardData';
 import { yy } from '../../../../../../yy';
 import { BilliardConst } from '../../../config/BilliardConst';
+import { BilliardTools } from '../../../scripts/BilliardTools';
 const { ccclass, property } = _decorator;
 
 interface PlayerUI {
@@ -144,10 +145,18 @@ export class BilliardTop extends BaseCommonScript {
                 countDown -= dt;
                 if (countDown < 0) {
                     countDown = 0;
+                    if (BilliardTools.instance.isMyAction()) {
+                        yy.event.emit(yy.Event_Name.billiard_action_arrow_cd, countDown);
+                    }
                     this.unschedule(onUpdate);
                 }
-                player.labelCD.string = `${Math.floor(countDown)}s`;
+                let cd = Math.floor(countDown);
+                player.labelCD.string = `${cd}s`;
                 player.spriteCD.fillRange = (countDown / MaxTime);
+
+                if (countDown < 6 && BilliardTools.instance.isMyAction()) {
+                    yy.event.emit(yy.Event_Name.billiard_action_arrow_cd, cd)
+                }
             }
             player.labelCD.string = `${Math.floor(countDown)}s`;
             this.schedule(onUpdate, 0);

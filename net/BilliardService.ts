@@ -22,6 +22,8 @@ export class BilliardService extends StackListenerNew {
     }
 
 
+    public isStandAlone = false;
+
     private tid: number;
 
     eventFuncMap: { [key: string]: string } = {
@@ -37,9 +39,15 @@ export class BilliardService extends StackListenerNew {
 
 
 
-        ["cmd_0x6006"]: "notifyEnterGame",
-        ["cmd_0x0005"]: "notifyFreeBall",
-        ["cmd_0x0002"]: "notifyStart",
+        ["cmd_0x6011"]: "notifyEnterGame",
+        ["cmd_0x6012"]: "notifyStart",
+        ["cmd_0x6013"]: "notifyAction",
+        ["cmd_0x6015"]: "notifyFreeBall",
+        ["cmd_0x6017"]: "notifyCueAngle",
+        ["cmd_0x6019"]: "notifyHit",
+        ["cmd_0x6021"]: "notifyResult",
+        ["cmd_0x6022"]: "notifyGameResult",
+
 
 
         ["BilliardAllocService_Start"]: "notifyStart",
@@ -57,6 +65,18 @@ export class BilliardService extends StackListenerNew {
         }
    }
 
+   private standAloneSend(cmd: string, msg: any) {
+        if (this.isStandAlone) {
+            yy.socket.send(cmd, msg);
+        }
+   }
+
+   private send(cmd: string, msg: any) {
+        if (!this.isStandAlone) {
+            yy.socket.send(cmd, msg);
+        }
+   }
+
     BilliardAllocService_EnterByTable(data: any, elapsedTime: number) {
         let msg: protoBilliard.EnterRsp = data.msg;
         if(data.code === 0 && msg && msg.code === 0) {
@@ -66,7 +86,8 @@ export class BilliardService extends StackListenerNew {
 
     sendExit() {
         let req = new protoBilliard.ExitReq();
-        yy.socket.send("BilliardService.Exit", req);
+        this.send("BilliardService.Exit", req);
+        // yy.socket.send("BilliardService.Exit", req);
     }
 
     respExit(data: any) {
@@ -79,7 +100,8 @@ export class BilliardService extends StackListenerNew {
     sendEnterGame() {
         let req = new protoBilliard.EnterGameReq();
         req.uid = yy.user.getUid();
-        yy.socket.send("BilliardService.EnterGame", req);
+        this.send("BilliardService.EnterGame", req);
+        // yy.socket.send("BilliardService.EnterGame", req);
     }
     respEnterGame(data: any) {
         let msg: protoBilliard.CommonRsp = data.msg;   
@@ -105,24 +127,12 @@ export class BilliardService extends StackListenerNew {
 
         this.sendReady();
     }
-    // sendSit() {
-    //     let req = new protoBilliard.SitReq();
-    //     req.seat = -1;
-    //     yy.socket.send("BilliardService.Sit", req);
-    // }
-    // respSit(data: any) {
-    //     let msg: protoBilliard.CommonRsp = data.msg;
-    //     if(data.code == 0 && msg && msg.code == 0) {
-    //         this.sendReady();
-    //     }
-    //     else {
-    //         this.errorTips(msg);
-    //     }
-    // }
 
     sendReady() {
         let req = new protoBilliard.ReadyReq();
-        yy.socket.send("BilliardService.Ready", req);
+        req.uid = yy.user.getUid();
+        this.send("BilliardService.Ready", req);
+        // yy.socket.send("BilliardService.Ready", req);
     }
 
     respReady(data: any) {
@@ -150,35 +160,118 @@ export class BilliardService extends StackListenerNew {
         req.curPosition = new protoBilliard.IPosition();
         req.curPosition.x = x * BilliardConst.multiple;
         req.curPosition.y = y * BilliardConst.multiple;;
-        // req.useFree = PiggytapData.instance.getFreeTimes() > 0 ? 1 : 0;
         let newMsg = responseMsg.encode(req).finish();
-        pb.Cmd = protoBilliard.BILLIARD_SubCmd.eBilliardFreeBallReq;
+        pb.Cmd = 0x6014;
         pb.TableId = this.tid;
         pb.databody = newMsg;
-        yy.socket.send("BilliardService.ClientEvent", pb);
+
+        this.send("BilliardService.ClientEvent", pb);
+        // yy.socket.send("BilliardService.ClientEvent", pb);
     }
-
-
     notifyFreeBall(data: {msg:protoBilliard.IFreeBall }) {
         let msg: protoBilliard.IFreeBall = data.msg;
         if(msg) {
             if (!BilliardTools.instance.isMyAction()) { // 其他人操作才设置坐标
-                yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg);
+                yy.event.emit(yy.Event_Name.billiard_notify_cuemove, msg);
             }
         }
     }
+    sendCueAngleReq(x: number, y: number) {
+        let pb: protoBilliard.GameProtocol = new protoBilliard.GameProtocol();
+        let responseMsg = ProtoHelper.Ins.getProto('protoBilliard', 'ICueAngle');
+        let req: protoBilliard.ICueAngle = new protoBilliard.ICueAngle();
+        req.curScreenPos = new protoBilliard.IPosition();
+        req.curScreenPos.x = x * BilliardConst.multiple;
+        req.curScreenPos.y = y * BilliardConst.multiple;;
+        let newMsg = responseMsg.encode(req).finish();
+        pb.Cmd = 0x6016;
+        pb.TableId = this.tid;
+        pb.databody = newMsg;
+        yy.log.w("sendCueAngleReq", req);
+        this.send("BilliardService.ClientEvent", pb);
+        // yy.socket.send("BilliardService.ClientEvent", pb);
+    }
+    
+    sendHitReq() {
+        let billiardData = BilliardData.instance;
+        let pb: protoBilliard.GameProtocol = new protoBilliard.GameProtocol();
+        let responseMsg = ProtoHelper.Ins.getProto('protoBilliard', 'IHit');
+        let req = new protoBilliard.IHit ();
+        req.angle = billiardData.getAngle() * BilliardConst.multiple;
+        req.power = billiardData.getPower() * BilliardConst.multiple;
+        req.offset = new protoBilliard.IPosition();
+        req.offset.x = billiardData.getOffset().x * BilliardConst.multiple;;
+        req.offset.y = billiardData.getOffset().y * BilliardConst.multiple;;
+        let newMsg = responseMsg.encode(req).finish();
+        pb.Cmd = 0x6018;
+        pb.TableId = this.tid;
+        pb.databody = newMsg;
+        yy.log.w("sendHitReq", req);
+        yy.wait.showDelay("HitReq");
+        this.send("BilliardService.ClientEvent", pb);
+    }
 
+    sendResultReq(outComeType: number) {
+        let pb: protoBilliard.GameProtocol = new protoBilliard.GameProtocol();
+        let responseMsg = ProtoHelper.Ins.getProto('protoBilliard', 'IResult');
 
+        let table = BilliardManager.instance.getTable();
 
+        let tBalls = table.getOnTableBalls();
+        let pBalls = table.getInPocketBalls();
+        let balls: protoBilliard.IBall[] = [];
+        tBalls.forEach((ball) => {
+            let b = new protoBilliard.IBall();
+            b.val = ball.id;
+            b.position = new protoBilliard.IPosition();
+            b.position.x = Math.round(ball.pos.x * BilliardConst.multiple);
+            b.position.y = Math.round(ball.pos.y * BilliardConst.multiple);
+            b.rotation = new protoBilliard.IRotation();
+            let meshNode = ball.ballMesh.node;
+            b.rotation.x = Math.round(meshNode.rotation.x * BilliardConst.multiple);
+            b.rotation.y = Math.round(meshNode.rotation.y * BilliardConst.multiple);
+            b.rotation.z = Math.round(meshNode.rotation.z * BilliardConst.multiple);
+            b.rotation.w = Math.round(meshNode.rotation.w * BilliardConst.multiple);
+            balls.push(b);
+        });
+        let potBalls: number[] = [];
+        pBalls.forEach((ball) => {
+            potBalls.push(ball.id);
+        })
+
+        let req = new protoBilliard.IResult ();
+        req.type = outComeType
+        req.hitType = BilliardData.instance.getHitBallType();// 当前行动玩家击球类型
+        req.potBalls = potBalls
+        req.balls = balls;
+
+        let newMsg = responseMsg.encode(req).finish();
+        pb.Cmd = 0x6020;
+        pb.TableId = this.tid;
+        pb.databody = newMsg;
+        yy.log.w("sendResultReq", req);
+        this.send("BilliardService.ClientEvent", pb)
+        // yy.socket.send("BilliardAllocService.Result", req);
+    }
+
+    notifyGameResult(data: any) {
+        let msg: protoBilliard.BroadcastGameResult = data.msg;
+        if(msg) {
+            yy.event.emit(yy.Event_Name.billiard_notify_wins, msg);
+        }
+    }
 
     //---------------------------------------------------------------------------------------
     sendStart() {
         let req = new protoBilliard.IStart ();
-        yy.socket.send("BilliardAllocService.Start", req);
+        this.standAloneSend("BilliardAllocService.Start", req)
+        // yy.socket.send("BilliardAllocService.Start", req);
     }
     notifyStart(data: any) {
         let billiardData = BilliardData.instance;
         let msg: protoBilliard.IStart = data.msg;
+
+        yy.log.w("notifyStart", msg);
         if(msg) {
             billiardData.setStartBalls(msg.balls);
             billiardData.setActionUid(msg.action.uid);
@@ -193,8 +286,9 @@ export class BilliardService extends StackListenerNew {
         let req = new protoBilliard.IFreeBall();
         req.curPosition = new protoBilliard.IPosition();
         req.curPosition.x = x * BilliardConst.multiple;
-        req.curPosition.y = y * BilliardConst.multiple;;
-        yy.socket.send("BilliardAllocService.CueMove", req);
+        req.curPosition.y = y * BilliardConst.multiple;
+        this.standAloneSend("BilliardAllocService.CueMove", req)
+        // yy.socket.send("BilliardAllocService.CueMove", req);
     }
 
     notifyCueMove(data: any) {
@@ -213,7 +307,8 @@ export class BilliardService extends StackListenerNew {
         let req = new protoBilliard.IPosition();
         req.x = x * BilliardConst.multiple;
         req.y = y * BilliardConst.multiple;
-        yy.socket.send("BilliardAllocService.CueAngle", req);
+        this.standAloneSend("BilliardAllocService.CueAngle", req)
+        // yy.socket.send("BilliardAllocService.CueAngle", req);
     }
     notifyCueAngle(data: any) {
         let billiardData = BilliardData.instance;
@@ -226,27 +321,28 @@ export class BilliardService extends StackListenerNew {
     }
 
 
-    sendHitReq() {
-        // yy.log.w("sendHitReq");
+    sendHit() {
+        // yy.log.w("sendHit");
         let billiardData = BilliardData.instance;
         let req = new protoBilliard.IHit ();
-        req.angle = billiardData.getAngle();
-        req.power = billiardData.getPower();
+        req.angle = billiardData.getAngle() * BilliardConst.multiple;
+        req.power = billiardData.getPower() * BilliardConst.multiple;
         req.offset = new protoBilliard.IPosition();
-        req.offset.x = billiardData.getOffset().x;
-        req.offset.y = billiardData.getOffset().y;
+        req.offset.x = billiardData.getOffset().x * BilliardConst.multiple;;
+        req.offset.y = billiardData.getOffset().y * BilliardConst.multiple;;
         yy.wait.showDelay("HitReq");
-        yy.socket.send("BilliardAllocService.Hit", req);
+        this.standAloneSend("BilliardAllocService.Hit", req)
+        // yy.socket.send("BilliardAllocService.Hit", req);
     }
     notifyHit(data: any) {
         let billiardData = BilliardData.instance;
         let msg: protoBilliard.IHit = data.msg;
         if(msg) {
             yy.wait.hide("HitReq");
-            billiardData.setAngle(msg.angle);
-            billiardData.setPower(msg.power);
-            billiardData.getOffset().setX(msg.offset.x).setY(msg.offset.y);
-            // yy.log.w("respHit");
+            billiardData.setAngle(msg.angle/BilliardConst.multiple);
+            billiardData.setPower(msg.power/BilliardConst.multiple);
+            billiardData.getOffset().setX(msg.offset.x/BilliardConst.multiple).setY(msg.offset.y/BilliardConst.multiple);
+             yy.log.w("respHit", msg);
     
             yy.event.emit(yy.Event_Name.billiard_notify_hit);
         }
@@ -284,12 +380,18 @@ export class BilliardService extends StackListenerNew {
         req.hitType = BilliardData.instance.getHitBallType();// 当前行动玩家击球类型
         req.potBalls = potBalls
         req.balls = balls;
-        yy.socket.send("BilliardAllocService.Result", req);
+        this.standAloneSend("BilliardAllocService.Result", req)
+        // yy.socket.send("BilliardAllocService.Result", req);
     }
     notifyResult(data: any) {
-        let msg: protoBilliard.IResult = data.msg;
+        let msg: protoBilliard.IValidResult = data.msg;
         if(msg) {
-            yy.event.emit(yy.Event_Name.billiard_notify_result, msg);
+            if (msg.code === 0) {
+                yy.event.emit(yy.Event_Name.billiard_notify_result, msg.validResult);
+            }
+            else {
+                yy.log.e("notifyResult", msg.code);
+            }
         }
     }
 
@@ -301,7 +403,8 @@ export class BilliardService extends StackListenerNew {
         req.times = times;
         req.type = type;
         req.round = ++this.round;
-        yy.socket.send("BilliardAllocService.Action", req);
+        this.standAloneSend("BilliardAllocService.Action", req)
+        // yy.socket.send("BilliardAllocService.Action", req);
     }
     notifyAction(data: any) {
         let msg: protoBilliard.IAction = data.msg;
@@ -311,6 +414,7 @@ export class BilliardService extends StackListenerNew {
             yy.event.emit(yy.Event_Name.billiard_notify_action, msg);
         }
     }
+
 }
 
 

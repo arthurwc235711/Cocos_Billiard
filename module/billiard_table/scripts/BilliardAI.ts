@@ -20,7 +20,7 @@ export class BilliardAI  {
     isUsed = true;
 
     freeball() {
-        if (this.isUsed) {
+        if (this.isUsed && BilliardService.instance.isStandAlone) {
             let table = BilliardManager.instance.getTable();
             if (table.isValidFreeBall()) {
                 this.hitBall();
@@ -29,12 +29,12 @@ export class BilliardAI  {
     }
 
     hitBall() {
-        if (this.isUsed) {
+        if (this.isUsed && BilliardService.instance.isStandAlone) {
             yy.log.w("AI HitBall")
             this.thinkTime(()=>{
                 let billiardData = BilliardData.instance;
                 billiardData.setPower(150 * R);
-                BilliardService.instance.sendHitReq();
+                BilliardService.instance.sendHit();
             })
         }
     }
@@ -47,28 +47,31 @@ export class BilliardAI  {
     }
 
     MoveStartCueBall() {
-        yy.log.w("AI FreeBall")
-        let table = BilliardManager.instance.getTable();
-        let view = BilliardManager.instance.getView();
-        let canvas = director.getScene().getChildByName("Canvas").getComponent(Canvas);
-        let cueball = table.cueBall;
-        let onUpdate = (dt) => {
-            if (cueball.pos.x > -0.85) {
-                cueball.pos.setX(cueball.pos.x - dt * 0.1);
-                view.onFreeBall()
-                view.onFreeBallMove(false, false);
-            }
-            else {
-                cueball.pos.setX(-0.85);
-                view.onFreeBall()
-                view.onFreeBallMove(false);
-                canvas.unschedule(onUpdate);
-                let billiardData = BilliardData.instance;
-                billiardData.setPower(150 * R);
-                BilliardService.instance.sendHitReq();
-            }
-        };
-        canvas.schedule(onUpdate, 0);
+        if (this.isUsed && BilliardService.instance.isStandAlone) {
+            yy.log.w("AI MoveStartCueBall")
+            yy.log.w("AI FreeBall")
+            let table = BilliardManager.instance.getTable();
+            let view = BilliardManager.instance.getView();
+            let canvas = director.getScene().getChildByName("Canvas").getComponent(Canvas);
+            let cueball = table.cueBall;
+            let onUpdate = (dt) => {
+                if (cueball.pos.x > -0.85) {
+                    cueball.pos.setX(cueball.pos.x - dt * 0.1);
+                    view.onFreeBall()
+                    view.onFreeBallMove(false, false);
+                }
+                else {
+                    cueball.pos.setX(-0.85);
+                    view.onFreeBall()
+                    view.onFreeBallMove(false);
+                    canvas.unschedule(onUpdate);
+                    let billiardData = BilliardData.instance;
+                    billiardData.setPower(150 * R);
+                    BilliardService.instance.sendHit();
+                }
+            };
+            canvas.schedule(onUpdate, 0);
+        }
     }
 
 }

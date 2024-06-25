@@ -7,6 +7,7 @@ import { BilliardManager } from '../../../scripts/BilliardManager';
 import { BilliardData } from '../../../data/BilliardData';
 import { trace } from 'node:console';
 import { track } from '../../../scripts/physics/track';
+import { BilliardTools } from '../../../scripts/BilliardTools';
 const { ccclass, property } = _decorator;
 
 
@@ -96,8 +97,10 @@ export class Ball extends Component {
     }
 
     updatePosImmediately(pos: Vec3) {
-        this.pos.copy(pos);
-        this.node.position = this.pos;
+      this.pos.x = BilliardTools.instance.roundToFiveDecimalPlaces(pos.x);
+      this.pos.y = BilliardTools.instance.roundToFiveDecimalPlaces(pos.y);
+      // yy.log.w("updatePosImmediately", this.pos);
+      this.node.position = this.pos;
     }
 
     private updatePosition(t: number) {

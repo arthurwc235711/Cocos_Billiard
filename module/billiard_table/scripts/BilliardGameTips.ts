@@ -15,10 +15,13 @@ export class BilliardGameTips extends BaseCommonScript {
     nodeSolids: Node = null;
     @property(Node)
     nodeStripes: Node = null;
+    @property(Node)
+    nodeWin: Node = null;
 
     static actionList:Function[] = [];
 
     isPlaying:boolean = false;
+
 
 
     startTips() {
@@ -164,6 +167,23 @@ export class BilliardGameTips extends BaseCommonScript {
         this.scheduleOnce(()=>{
             this.nodeStripes.active = false;
         }, 1.5);
+    }
+
+
+    showWinTips() {
+        this.nodeWin.active = true;
+        this.scheduleOnce(()=>{
+            this.nodeWin.active = false;
+        }, 1.5);
+    }
+
+    showLoseTips(winUid: number) {
+        const player = BilliardData.instance.getPlayer(winUid);
+        BilliardGameTips.actionList.push(()=>{
+            this.isPlaying = true;
+            this.labelTips.string = `"${player.name}" Wins`;
+            this.nodeTips.active = true;
+        });
     }
 
 }

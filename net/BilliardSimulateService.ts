@@ -27,7 +27,7 @@ export class BilliardSimulateService {
         let notify = new protoBilliard.IStart();
         notify.balls = [];
         notify.action = new protoBilliard.IAction();
-        notify.action.uid = (Math.random() < 0.5 ? 1 : 2 );
+        notify.action.uid = 1//(Math.random() < 0.5 ? 1 : 2 );
         notify.action.times = 20;
         notify.action.round = 1;
         notify.action.type = 1;
@@ -78,8 +78,8 @@ export class BilliardSimulateService {
         }
         for(let i = 0; i < notify.balls.length; ++i) {
             let ball = notify.balls[i];
-            ball.position.x *= BilliardConst.multiple;
-            ball.position.y *= BilliardConst.multiple;
+            ball.position.x =  Math.ceil(ball.position.x * BilliardConst.multiple);
+            ball.position.y =  Math.ceil(ball.position.y * BilliardConst.multiple);
         }
 
 
@@ -116,11 +116,11 @@ export class BilliardSimulateService {
     notifyHit() { 
         let billiardData = BilliardData.instance;
         let notify = new protoBilliard.IHit ();
-        notify.angle = billiardData.getAngle();
-        notify.power = billiardData.getPower();
+        notify.angle = billiardData.getAngle() * BilliardConst.multiple;
+        notify.power = billiardData.getPower() * BilliardConst.multiple;
         notify.offset = new protoBilliard.IPosition();
-        notify.offset.x = billiardData.getOffset().x;
-        notify.offset.y = billiardData.getOffset().y;
+        notify.offset.x = billiardData.getOffset().x * BilliardConst.multiple;
+        notify.offset.y = billiardData.getOffset().y * BilliardConst.multiple;
 
         this.delayAction(() => {
             BilliardService.instance.notifyHit({msg: notify});
@@ -129,7 +129,9 @@ export class BilliardSimulateService {
     
 
     notifyResult(req: protoBilliard.IResult) {
-        let notify = req//new protoBilliard.IResult();
+        let notify = new protoBilliard.IValidResult();
+        notify.code = 0;
+        notify.validResult = req;
 
         this.delayAction(() => {
             BilliardService.instance.notifyResult({msg: notify});

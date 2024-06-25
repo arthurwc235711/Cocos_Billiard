@@ -1,5 +1,6 @@
 import { Camera, find, Vec3 } from "cc";
 import { yy } from "../../../../yy";
+import { BilliardService } from "../net/BilliardService";
 
 
 interface BilliardPlayer {
@@ -23,8 +24,10 @@ export class BilliardData {
     }
 
     constructor (){
-        this.addPlayer(1, "Player", "");
-        this.addPlayer(2, "AI", "");
+        if (BilliardService.instance.isStandAlone) {
+            this.addPlayer(1, "Player", "");
+            this.addPlayer(2, "AI", "");
+        }
     }
 
 

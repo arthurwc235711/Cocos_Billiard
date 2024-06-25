@@ -1,9 +1,12 @@
-import { Camera, director, find, misc, Node, UITransform, Vec3 } from "cc";
+import { Camera, director, find, instantiate, misc, Node, UITransform, Vec3 } from "cc";
 import { BilliardData } from "../data/BilliardData";
 import { yy } from "../../../../yy";
 import { R, R2d } from "./physics/constants";
 import { log } from "console";
 import { BilliardManager } from "./BilliardManager";
+import { BilliardConst } from "../config/BilliardConst";
+import { BaseCommonScript } from "../../../../main/base/BaseCommonScript";
+import { BilliardScene } from "../scene/BilliardScene";
 
 export class BilliardTools {
     private static __instance__: BilliardTools;
@@ -15,7 +18,7 @@ export class BilliardTools {
     }
 
     isMyAction() {
-        return  BilliardData.instance.getActionUid() === 1;
+        return  BilliardData.instance.getActionUid() === yy.user.getUid()//1;
     }
 
     // 摄像头之间坐标转换
@@ -105,6 +108,28 @@ export class BilliardTools {
         }
     }
 
+
+    roundToFiveDecimalPlaces(num: number): number {
+        return Math.round(num * BilliardConst.multiple) / BilliardConst.multiple
+    }
+
+
+    openView(path: string, call:Function|null = null) {
+        const s = director.getScene();
+        yy.loader.asyncLoadPrefab(BilliardConst.bundleName, path, (p)=>{
+            let clone = instantiate(p) as Node;
+            let cmp = clone.getComponent(BaseCommonScript)
+            const scene = s.getComponentInChildren(BilliardScene)
+            scene.get_scene_layer_game().addChild(clone);
+            call && call(cmp);
+        });
+    }
+
+    openWinsView(data: protoBilliard.BroadcastGameResult) {
+        this.openView("module/billiard_wins/view/p_billiard_wins", (base)=>{
+            base["setData"](data);
+        });
+    } 
 }
 
 

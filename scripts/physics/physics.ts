@@ -265,7 +265,7 @@ export function rayHit(origin: Vec3, direction: Vec3) {
             let h = direction.y/direction.x * w;
             c.sqrDeep = Math.sqrt(h*h + w*w)- R*2;
         }
-        yy.log.w("RayRectangleCollision",  c.sqrDeep)
+        // yy.log.w("RayRectangleCollision",  c.sqrDeep)
 
         // c.sqrDeep = origin.distanceToSquared(new Vec3(point.x, point.y, c.node.worldPosition.z))
         // yy.log.w('rayHit RayRectangleCollision' + c.node.name, c.sqrDeep, c.node.name, new Vec3(point.x, point.y, c.node.worldPosition.z))

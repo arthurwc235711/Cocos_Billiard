@@ -54,7 +54,6 @@ export class BilliardFree extends BaseCommonScript {
                         table.cueBall.updatePosImmediately(outV3);
                         BilliardManager.instance.camera2d.screenToWorld(vec3, outV3);
                         this.nodeHand.setWorldPosition(outV3);
-      
                     }
                     else {
     
@@ -131,6 +130,7 @@ export class BilliardFree extends BaseCommonScript {
         BilliardManager.instance.camera3d.worldToScreen(outV3, vec3);
         BilliardManager.instance.camera2d.screenToWorld(vec3, outV3);
         this.nodeHand.setWorldPosition(outV3);
+        this.nodeHand.active = BilliardTools.instance.isMyAction();
         this.node.active = true;
     }
 
