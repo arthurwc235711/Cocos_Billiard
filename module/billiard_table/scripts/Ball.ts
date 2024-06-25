@@ -99,6 +99,7 @@ export class Ball extends Component {
     updatePosImmediately(pos: Vec3) {
       this.pos.x = BilliardTools.instance.roundToFiveDecimalPlaces(pos.x);
       this.pos.y = BilliardTools.instance.roundToFiveDecimalPlaces(pos.y);
+      this.pos.z = BilliardTools.instance.roundToFiveDecimalPlaces(pos.z);
       // yy.log.w("updatePosImmediately", this.pos);
       this.node.position = this.pos;
     }
