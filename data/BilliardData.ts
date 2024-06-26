@@ -10,6 +10,9 @@ interface BilliardPlayer {
     hitType: number;
 }
 
+const SolidsBalls = [1,2,3,4,5,6,7];
+const StripesBalls = [8,9,10,11,12,13,14,15];
+
 export class BilliardData {
     private static __instance__: BilliardData;
     static get instance(): BilliardData {
@@ -104,11 +107,11 @@ export class BilliardData {
                 let type = this.players[i].hitType;
                 if(type === 1){
                     // yy.log.w("type 1 - 7")
-                    return [1,2,3,4,5,6,7];
+                    return SolidsBalls;
                 }
                 else if(type === 2){
                     // yy.log.w("type 9 - 15")
-                    return [9,10,11,12,13,14,15];
+                    return StripesBalls;
                 }
                 else{
                     return [];

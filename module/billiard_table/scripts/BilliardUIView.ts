@@ -13,6 +13,7 @@ import { BilliardTop } from './BilliardTop';
 import { BilliardService } from '../../../net/BilliardService';
 import { BilliardConst } from '../../../config/BilliardConst';
 import { BilliardGameTips } from './BilliardGameTips';
+import { Ball } from './Ball';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardUIView')
@@ -395,6 +396,11 @@ export class BilliardUIView extends BaseCommonScript {
             let ballArrow = nodeArrow.getChildByPath("Sprite/ballArrow");
             let cueArrow = nodeArrow.getChildByPath("Sprite/cueArrow");
             if (collision instanceof RaySphereCollision) {
+                let shotAtBall = nodes[0].getComponent(Ball);
+                let isVaildShot = BilliardTools.instance.isVaildShot(shotAtBall.id);
+                nodeArrow.getChildByName("NodeForbid").active = !isVaildShot;
+                nodeArrow.getChildByName("Sprite").active = isVaildShot;
+
                 ballArrow.active = true;
                 cueArrow.active = true;
                 let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction)
@@ -452,6 +458,8 @@ export class BilliardUIView extends BaseCommonScript {
                 // yy.log.w( "ballArrow", ballArrow.angle );
             }
             else {
+                nodeArrow.getChildByName("NodeForbid").active = false;
+                nodeArrow.getChildByName("Sprite").active = true;
                 ballArrow.active = false;
                 cueArrow.active = false;
                 uiTran.setContentSize(BilliardTools.instance.getRectangleDisanceBy2dCamera(cueBall.node, nodes[0], direction), uiTran.contentSize.y);

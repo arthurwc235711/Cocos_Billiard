@@ -130,6 +130,17 @@ export class BilliardTools {
             base["setData"](data);
         });
     } 
+
+
+    isVaildShot(ballId: number) {
+        if (BilliardData.instance.getHitBallType() === 0) {
+            return true;
+        }
+        else {
+            let vaildBalls = BilliardData.instance.getHitBalls();
+            return vaildBalls.includes(ballId);
+        }
+    }
 }
 
 
