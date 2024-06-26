@@ -478,7 +478,11 @@ export class BilliardUIView extends BaseCommonScript {
     onSlider(slider: Slider) {
         this.nodeRight.getChildByName("NodeAngle").active = false;
         let label = this.nodeLeft.getChildByPath("Label").getComponent(Label);
+        let maskProgress = this.nodeLeft.getChildByPath("TouchPower/MaskProgress").getComponent(UITransform);
+        let maxHight = 528;
         let progress = 1 - slider.progress;
+
+        maskProgress.height = progress * maxHight;
         if (progress === 0) {
             label.string = "";
         }
