@@ -2,6 +2,7 @@ import { _decorator, Component, Node } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardService } from '../../../net/BilliardService';
+import { BilliardTools } from '../../../scripts/BilliardTools';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardMenu')
@@ -56,7 +57,7 @@ export class BilliardMenu extends BaseCommonScript {
 
     onClickSetting() {
         this.onClickMask();
-
+        BilliardTools.instance.openSettingView();
     }
 }
 

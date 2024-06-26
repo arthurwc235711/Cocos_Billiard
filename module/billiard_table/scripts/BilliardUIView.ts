@@ -62,6 +62,7 @@ export class BilliardUIView extends BaseCommonScript {
             [yy.Event_Name.billiard_notify_cuemove]: "onCueMove",
             [yy.Event_Name.billiard_notify_cueangle]: "onCueAngle",
             [yy.Event_Name.billiard_action_arrow_cd]: "onActionArrowCd",
+            [yy.Event_Name.billiard_setting_cue_location]: "onSettingCueLocation",
         };
         super.register_event();
     }
@@ -630,16 +631,18 @@ export class BilliardUIView extends BaseCommonScript {
         nodeCd.getComponent(Label).string = `${cd}`;
     }
 
-    // setSureBalls() {
-    //     const players = BilliardData.instance.getAllPlayers();
-    //     players.forEach(p=>{
-    //         // yy.log.w("getHitBalls", p, p.uid);
-
-
-
-    //         this.billiardTop.setPlayerBalls(BilliardData.instance.getHitBalls(p.uid), p.uid);
-    //     });
-    // }
+    onSettingCueLocation(isLeft: boolean) {
+        if (isLeft) {
+            this.nodeLeft.position = this.nodeLeft.position.setX(-890);
+            let nAngle = this.nodeRight.getChildByName("NodeAngle");
+            nAngle.position = nAngle.position.setX(0);
+        }
+        else {
+            this.nodeLeft.position = this.nodeLeft.position.setX(890);
+            let nAngle = this.nodeRight.getChildByName("NodeAngle");
+            nAngle.position = nAngle.position.setX(-1780);
+        }
+    }
 }
 
 

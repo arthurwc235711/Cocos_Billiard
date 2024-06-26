@@ -7,6 +7,7 @@ export default [
     "billiard_free_ball_move",
     "billiard_hit_cd_stop",
     "billiard_action_arrow_cd",
+    "billiard_setting_cue_location",
     
     // 游戏协议
     "billiard_notify_entergame",

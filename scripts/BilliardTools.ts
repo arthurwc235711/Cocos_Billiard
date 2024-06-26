@@ -113,6 +113,15 @@ export class BilliardTools {
         return Math.round(num * BilliardConst.multiple) / BilliardConst.multiple
     }
 
+    isVaildShot(ballId: number) {
+        if (BilliardData.instance.getHitBallType() === 0) {
+            return true;
+        }
+        else {
+            let vaildBalls = BilliardData.instance.getHitBalls();
+            return vaildBalls.includes(ballId);
+        }
+    }
 
     openView(path: string, call:Function|null = null) {
         const s = director.getScene();
@@ -131,16 +140,11 @@ export class BilliardTools {
         });
     } 
 
-
-    isVaildShot(ballId: number) {
-        if (BilliardData.instance.getHitBallType() === 0) {
-            return true;
-        }
-        else {
-            let vaildBalls = BilliardData.instance.getHitBalls();
-            return vaildBalls.includes(ballId);
-        }
+    openSettingView() {
+        // this.openView("module/billiard_wins/view/p_billiard_wins");
+        yy.popup.show_popup(BilliardConst.bundleName, "module/billiard_setting/view/p_billiard_setting");
     }
+
 }
 
 
