@@ -53,6 +53,11 @@ export class BilliardMenu extends BaseCommonScript {
         this.onClickMask();
         yy.event.emit(yy.Event_Name.CasualCommonHistory)
     }
+
+    onClickSetting() {
+        this.onClickMask();
+
+    }
 }
 
 
