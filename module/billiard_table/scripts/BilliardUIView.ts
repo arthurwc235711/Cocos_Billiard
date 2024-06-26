@@ -346,6 +346,7 @@ export class BilliardUIView extends BaseCommonScript {
         this.nodeRight.getChildByName("NodeAngle").active = BilliardTools.instance.isMyAction();
         let slider = this.nodeLeft.getChildByPath("TouchPower/Slider").getComponent(Slider);
         slider.progress = 1;
+        this.onSlider(slider);
         this.nodeLeft.active = true && BilliardTools.instance.isMyAction();
         this.nodeLeft.getChildByPath("Label").getComponent(Label).string = "";
         let nodeAngle = this.nodeRight;
