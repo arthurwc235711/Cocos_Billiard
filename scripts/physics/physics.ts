@@ -241,12 +241,11 @@ export function rayHit(origin: Vec3, direction: Vec3) {
       }
 
       // circle.sqrDeep = origin.distanceToSquared(circle.node.worldPosition);
-      // yy.log.w('rayHit RaySphereCollision', circle.sqrDeep)
       sortNode.push(circle);
     }
   });
 
-  if (sortNode.length === 0) {
+  // if (sortNode.length === 0) {
     RayRectangleCollision.sRayRectangleCollisions.forEach((c, i)=>{
       let point = rayRectangle3(origin, direction, c)
       if(point) {
@@ -258,14 +257,13 @@ export function rayHit(origin: Vec3, direction: Vec3) {
         if (c.node.position.y !== 0) {
           let h = Math.abs(target.y - source.y) - inc;
           let w = direction.x/direction.y * h;
-          c.sqrDeep = Math.sqrt(h*h + w*w)- R*2;//减少45.47像素贴图的误差
+          c.sqrDeep = Math.sqrt(h*h + w*w)//- R*2;//减少45.47像素贴图的误差
         }
         else {
             let w = Math.abs(target.x - source.x) - inc;
             let h = direction.y/direction.x * w;
-            c.sqrDeep = Math.sqrt(h*h + w*w)- R*2;
+            c.sqrDeep = Math.sqrt(h*h + w*w)//- R*2;
         }
-        // yy.log.w("RayRectangleCollision",  c.sqrDeep)
 
         // c.sqrDeep = origin.distanceToSquared(new Vec3(point.x, point.y, c.node.worldPosition.z))
         // yy.log.w('rayHit RayRectangleCollision' + c.node.name, c.sqrDeep, c.node.name, new Vec3(point.x, point.y, c.node.worldPosition.z))
@@ -273,7 +271,7 @@ export function rayHit(origin: Vec3, direction: Vec3) {
         sortNode.push(c);
       }
     });
-  }
+  // }
 
   sortNode.sort((a, b) => a.sqrDeep - b.sqrDeep);
 
