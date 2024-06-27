@@ -32,6 +32,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
 
 
     public on_init(): void {
+        yy.scene.reset_scene_size(true)
         GameMessageStack.instance().setLogTag("[BilliardMsgStack]");
         GameMessageStack.instance().openLock();
         BilliardService.instance.setSceneScript(this);
