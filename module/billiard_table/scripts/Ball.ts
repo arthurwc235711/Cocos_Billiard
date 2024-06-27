@@ -5,8 +5,6 @@ import { norm, passesThroughZero, rotateAxisAngle } from '../../../scripts/utils
 import { Pocket } from '../../../scripts/physics/pocket';
 import { BilliardManager } from '../../../scripts/BilliardManager';
 import { BilliardData } from '../../../data/BilliardData';
-import { trace } from 'node:console';
-import { track } from '../../../scripts/physics/track';
 import { BilliardTools } from '../../../scripts/BilliardTools';
 const { ccclass, property } = _decorator;
 
@@ -235,7 +233,7 @@ export class Ball extends Component {
     }
 
     showTips() {
-      this.nodeBallAnimation.active = true;
+      this.nodeBallAnimation.active = true && BilliardTools.instance.isMyAction();
     }
     hideTips() {
       this.nodeBallAnimation.active = false;
