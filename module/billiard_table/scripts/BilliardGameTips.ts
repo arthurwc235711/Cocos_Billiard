@@ -159,14 +159,14 @@ export class BilliardGameTips extends BaseCommonScript {
         this.nodeSolids.active = true;
         this.scheduleOnce(()=>{
             this.nodeSolids.active = false;
-        }, 1.5);
+        }, 2);
     }
 
     showStripesTips() {
         this.nodeStripes.active = true;
         this.scheduleOnce(()=>{
             this.nodeStripes.active = false;
-        }, 1.5);
+        }, 2);
     }
 
 
@@ -174,7 +174,7 @@ export class BilliardGameTips extends BaseCommonScript {
         this.nodeWin.active = true;
         this.scheduleOnce(()=>{
             this.nodeWin.active = false;
-        }, 1.5);
+        }, 2);
     }
 
     showLoseTips(winUid: number) {
