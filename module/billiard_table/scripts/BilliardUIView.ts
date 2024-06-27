@@ -63,6 +63,7 @@ export class BilliardUIView extends BaseCommonScript {
             [yy.Event_Name.billiard_notify_cueangle]: "onCueAngle",
             [yy.Event_Name.billiard_action_arrow_cd]: "onActionArrowCd",
             [yy.Event_Name.billiard_setting_cue_location]: "onSettingCueLocation",
+            [yy.Event_Name.billiard_notify_setgold]: "setGold",
         };
         super.register_event();
     }

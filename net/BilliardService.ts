@@ -118,12 +118,15 @@ export class BilliardService extends StackListenerNew {
 
         this.tid = msg.tid;
 
+
         msg.users.forEach(player=>{
             BilliardData.instance.addPlayer(player.uid, player.nick, player.icon);
         })
 
         yy.event.emit(yy.Event_Name.billiard_notify_entergame);
-        yy.log.w("notifyEnterGame", msg);
+        yy.event.emit(yy.Event_Name.billiard_notify_setgold, msg.chipPot);
+
+        // yy.log.w("notifyEnterGame", msg);
 
         this.sendReady();
     }
@@ -279,6 +282,7 @@ export class BilliardService extends StackListenerNew {
             billiardData.setActionType(msg.action.type);
             // yy.log.w("respStart");
             yy.event.emit(yy.Event_Name.billiard_notify_start);
+            yy.event.emit(yy.Event_Name.billiard_notify_setgold, msg.chipPot);
         }
     }
 
