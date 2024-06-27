@@ -353,10 +353,10 @@ export class BilliardUIView extends BaseCommonScript {
         slider.progress = 1;
         this.onSlider(slider);
         this.nodeRight.getChildByName("NodeAngle").active = BilliardTools.instance.isMyAction();
-        this.nodeLeft.active = true && BilliardTools.instance.isMyAction();
+        this.nodeLeft.active = BilliardData.instance.getActionType() === 0 && BilliardTools.instance.isMyAction();
         this.nodeLeft.getChildByPath("Label").getComponent(Label).string = "";
         let nodeAngle = this.nodeRight;
-        nodeAngle.active = true && BilliardTools.instance.isMyAction();
+        nodeAngle.active = BilliardData.instance.getActionType() === 0 && BilliardTools.instance.isMyAction();
 
         BilliardData.instance.getOffset().copy(Vec3.ZERO);
         let dot = this.nodeRight.getChildByPath("NodeHitPoint/ButtonBall/Node/Dot");
@@ -552,19 +552,19 @@ export class BilliardUIView extends BaseCommonScript {
         this.nodeCueAnimations.active = true && BilliardTools.instance.isMyAction();
     }
 
-    onFreeBallMove(isMove: boolean, isSend: boolean = true) {
+    onFreeBallMove(isMove: boolean, isSend: boolean = true, isShowShot:boolean = true) {
         if (isMove) {
             this.nodeCueArrow.active = false;
             this.nodeRight.active = false;
             this.nodeLeft.active = false;
         }else {
-            this.nodeCueArrow.active = true;
+            this.nodeCueArrow.active = isShowShot;
             this.setArrowLine(true);
-            this.nodeRight.active = true && BilliardTools.instance.isMyAction();
-            this.nodeLeft.active = true && BilliardTools.instance.isMyAction();
+            this.nodeRight.active = isShowShot && BilliardTools.instance.isMyAction();
+            this.nodeLeft.active = isShowShot && BilliardTools.instance.isMyAction();
             let table = BilliardManager.instance.getTable();
             let ball = table.recentlyBall();
-            if (ball) {
+            if (ball && isShowShot) {
                 this.autoShotAt(ball.node);
             }
             if (isSend) {

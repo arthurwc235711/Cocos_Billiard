@@ -163,6 +163,11 @@ export class BilliardEightBall implements IBilliardRules {
                     BilliardData.instance.setActionUid(actionUid)
                     view.gameTips.turnTips();
                 }
+                let ball = this.onShotBall();
+                // yy.log.w("onShotBall: ", BilliardData.instance.getHitBallType(), ball.id)
+                if (ball) {
+                    view.autoShotAt(ball.node);
+                }
                 break;
             case 1:
                 break;
@@ -192,7 +197,7 @@ export class BilliardEightBall implements IBilliardRules {
                 view.freeBall.node.active = true;
                 view.freeBall.nodeForbid.active = !table.isValidFreeBall();
                 view.onFreeBall();
-                view.onFreeBallMove(!table.isValidFreeBall(), false);
+                view.onFreeBallMove(!table.isValidFreeBall(), false, false);
                 break;
         }
 
@@ -230,7 +235,7 @@ export class BilliardEightBall implements IBilliardRules {
         this.round = 1; // 回合数 + 1
         let ball = table.recentlyBall();
         if (ball) {
-            view.autoShotAt(ball.node);
+            // view.autoShotAt(ball.node);
             view.onFreeBall();
         }
 

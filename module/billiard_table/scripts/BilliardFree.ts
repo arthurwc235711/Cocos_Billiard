@@ -1,4 +1,4 @@
-import { _decorator, BlockInputEvents, Component, EventTouch, Node, Vec3 } from 'cc';
+import { _decorator, BlockInputEvents, Component, EventTouch, Node, Sprite, Vec3 } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { BilliardManager } from '../../../scripts/BilliardManager';
 import { yy } from '../../../../../../yy';
@@ -112,12 +112,15 @@ export class BilliardFree extends BaseCommonScript {
             if (BilliardTools.instance.isMyAction() && BilliardManager.instance.getTable().isValidFreeBall()) {
                 yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
                 this.touchMove = false;
+                btn.getComponent(Sprite).enabled = false;
+                
             }
         });
         btn.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
             if (BilliardTools.instance.isMyAction() && BilliardManager.instance.getTable().isValidFreeBall()) {
                 yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
                 this.touchMove = false;
+                btn.getComponent(Sprite).enabled = false;
             }
         });
     }
@@ -131,6 +134,7 @@ export class BilliardFree extends BaseCommonScript {
         BilliardManager.instance.camera2d.screenToWorld(vec3, outV3);
         this.nodeHand.setWorldPosition(outV3);
         this.nodeHand.active = BilliardTools.instance.isMyAction();
+        this.nodeHand.getComponent(Sprite).enabled = true;
         this.node.active = true;
     }
 
