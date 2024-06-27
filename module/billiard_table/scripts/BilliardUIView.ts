@@ -122,6 +122,7 @@ export class BilliardUIView extends BaseCommonScript {
             this.touchMove = false;
             isFreeBallMove = this.freeBall.touchMove;
         });
+        let scv2 = new Vec2();
         btn.on(Node.EventType.TOUCH_MOVE, (event: EventTouch) => {
             this.nodeCueAnimations.active = false;
             if (this.interactableTableTouch && !this.freeBall.touchMove) {
@@ -130,9 +131,113 @@ export class BilliardUIView extends BaseCommonScript {
                 let perLocal = touch.getPreviousLocation();
                 if ((this.touchMove ||  Math.abs(local.x - perLocal.x) > 2 || Math.abs(local.y - perLocal.y) > 2)) {
                     this.touchMove = true;
-                    let x = local.x - perLocal.x;
-                    let y = local.y - perLocal.y;
-                    this.preTouchLocation.add2f(x, y);
+                    let cueBall = BilliardManager.instance.getCueBall();
+                    let sc = BilliardManager.instance.camera3d.worldToScreen(cueBall.node.worldPosition);
+                    scv2.set(sc.x, sc.y);
+                    let ab = local.clone().subtract(scv2);
+                    let perAb = perLocal.clone().subtract(scv2);
+                    function calculateAngleBetweenVectors(x1: number, y1: number, x2: number, y2: number): number {
+                        const dotProduct = x1 * x2 + y1 * y2;
+                        const lengthAB = Math.sqrt(x1 * x1 + y1 * y1);
+                        const lengthAC = Math.sqrt(x2 * x2 + y2 * y2);
+                        const cosine = dotProduct / (lengthAB * lengthAC);
+                        const angleInRadians = Math.acos(cosine);
+                        const angleInDegrees = angleInRadians * (180 / Math.PI);
+                        return angleInDegrees;
+                    }
+                    let angle = calculateAngleBetweenVectors(perAb.x, perAb.y, ab.x, ab.y)
+
+                    let absX = Math.abs(local.x - perLocal.x);
+                    let absY = Math.abs(local.y - perLocal.y);
+                    let f = 0;
+
+                    if (sc.x < local.x && sc.y < local.y) {
+                        if (absX > absY) {
+                            if (local.x > perLocal.x) {
+                                f = -1;
+                            }
+                            else {
+                                f = 1;
+                            }
+                        }
+                        else {
+                            if (local.y > perLocal.y) {
+                                f = 1;
+                            }
+                            else {
+                                f = -1;
+                            }
+                        }
+                    }
+                    else if(sc.x < local.x && sc.y > local.y){
+                        if (absX > absY) {
+                            if (local.x > perLocal.x) {
+                                f = 1;
+                            }
+                            else {
+                                f = -1;
+                            }
+                        }
+                        else {
+                            if (local.y > perLocal.y) {
+                                f = 1;
+                            }
+                            else {
+                                f = -1;
+                            }
+                        }
+                    }
+                    else if(sc.x >local.x && sc.y > local.y){
+                        if (absX > absY) {
+                            if (local.x > perLocal.x) {
+                                f = 1;
+                            }
+                            else {
+                                f = -1;
+                            }
+                        }
+                        else {
+                            if (local.y > perLocal.y) {
+                                f = -1;
+                            }
+                            else {
+                                f = 1;
+                            }
+                        }
+                    }
+                    else if(sc.x >local.x && sc.y < local.y){
+                        if (absX > absY) {
+                            if (local.x > perLocal.x) {
+                                f = -1;
+                            }
+                            else {
+                                f = 1;
+                            }
+                        }
+                        else {
+                            if (local.y > perLocal.y) {
+                                f = -1;
+                            }
+                            else {
+                                f = 1;
+                            }
+                        }
+                    }
+
+
+
+                    this.nodeCueArrow.angle =  this.nodeCueArrow.angle + angle * f;
+
+
+                    let wp = this.nodeArrow.getChildByPath("Sprite/ballArrow").worldPosition;
+                    let cs = BilliardManager.instance.camera2d.worldToScreen(wp);
+                    this.preTouchLocation.x = cs.x;
+                    this.preTouchLocation.y = cs.y;                    
+
+
+                    // let x = local.x - perLocal.x;
+                    // let y = local.y - perLocal.y;
+                    // this.preTouchLocation.add2f(x, y);
                     this.onClickTable(this.preTouchLocation);
                 }
             }
