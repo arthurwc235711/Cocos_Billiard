@@ -120,7 +120,7 @@ export class BilliardService extends StackListenerNew {
 
 
         msg.users.forEach(player=>{
-            BilliardData.instance.addPlayer(player.uid, player.nick, player.icon);
+            BilliardData.instance.addPlayer(player.uid, player.nick, player.icon, player.scoreboard);
         })
 
         yy.event.emit(yy.Event_Name.billiard_notify_entergame);

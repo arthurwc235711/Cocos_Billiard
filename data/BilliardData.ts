@@ -8,10 +8,11 @@ interface BilliardPlayer {
     url: string;
     uid: number;
     hitType: number;
+    score: number;
 }
 
 const SolidsBalls = [1,2,3,4,5,6,7];
-const StripesBalls = [8,9,10,11,12,13,14,15];
+const StripesBalls = [9,10,11,12,13,14,15];
 
 export class BilliardData {
     private static __instance__: BilliardData;
@@ -28,8 +29,8 @@ export class BilliardData {
 
     constructor (){
         if (BilliardService.instance.isStandAlone) {
-            this.addPlayer(1, "Player", "");
-            this.addPlayer(2, "AI", "");
+            this.addPlayer(1, "Player", "", 0);
+            this.addPlayer(2, "AI", "", 0);
         }
     }
 
@@ -79,9 +80,9 @@ export class BilliardData {
         return this.players;
     }
 
-    addPlayer(uid: number, name: string, url: string){
+    addPlayer(uid: number, name: string, url: string, score: number){
         if (this.players.filter(p=>p.uid === uid).length === 0) {
-            this.players.push({uid:uid, hitType:0, name:name, url:url});
+            this.players.push({uid:uid, hitType:0, name:name, url:url, score:score});
         }
     }
 

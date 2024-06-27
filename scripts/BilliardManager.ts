@@ -353,7 +353,7 @@ export class BilliardManager extends BaseCommonInstance{
 
         view.scheduleOnce(()=>{
             BilliardTools.instance.openWinsView(notify);
-        }, 1.5);
+        }, 2);
     }
 }
 

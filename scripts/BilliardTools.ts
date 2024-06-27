@@ -119,7 +119,23 @@ export class BilliardTools {
         }
         else {
             let vaildBalls = BilliardData.instance.getHitBalls();
-            return vaildBalls.includes(ballId);
+            if (ballId !== 8) {
+                return vaildBalls.includes(ballId);
+            }
+            else { // 额外判断 黑 8
+                let potBalls = BilliardManager.instance.getTable().getInPocketBalls();
+                let maxNum = vaildBalls.length;
+                let pots = 0;
+                for (let i = 0; i < maxNum; ++i) {
+                    for (let j = 0; j < potBalls.length; ++j) {
+                        if (vaildBalls[i] === potBalls[j].id)  {
+                            ++pots;
+                        }
+                    }
+                }
+                return pots === maxNum;
+            }
+
         }
     }
 

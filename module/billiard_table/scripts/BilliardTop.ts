@@ -187,8 +187,10 @@ export class BilliardTop extends BaseCommonScript {
     }
 
 
-    setScore(lScore: number, rScore: number) {
-        this.labelScore.string = `${lScore} : ${rScore}`;
+    setScore() {
+        let mp = BilliardData.instance.getPlayer(this.playerUI[0].uid);
+        let op = BilliardData.instance.getPlayer(this.playerUI[1].uid);
+        this.labelScore.string = `${mp.score} : ${op.score}`;
         return this;
     }
 

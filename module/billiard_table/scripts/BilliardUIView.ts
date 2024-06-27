@@ -591,8 +591,8 @@ export class BilliardUIView extends BaseCommonScript {
         yy.log.w("onCueAngle", sc)
     }
 
+    
     setPlayerInfo() {
-
         this.billiardTop.setBindLeftPlayerUID(1)
         .setBindRightPlayerUID(2)
 
@@ -611,13 +611,15 @@ export class BilliardUIView extends BaseCommonScript {
                 .setPlayerHead(p.url, p.uid)
                 .setPlayerBalls(BilliardData.instance.getHitBalls(p.uid), p.uid);
         });
+
+        this.setScore();
     }
 
     setGold(gold: number) {
         this.billiardTop.setGold(gold);
     }
-    setScore(lScore: number, rScore: number) {
-        this.billiardTop.setScore(lScore, rScore);
+    setScore() {
+        this.billiardTop.setScore();
     }
 
     stopCountDown() {
