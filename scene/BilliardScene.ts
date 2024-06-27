@@ -19,6 +19,11 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     @property([JsonAsset])
     protoJson: JsonAsset[] = [];
 
+    async onLoad() {
+        yy.scene.reset_scene_size(true)
+        super.onLoad();
+    }
+
     public register_event() {
         yy.event.addEventNameList(BilliardEventConfig);
         // 注册指定的监听方法，格式如下
@@ -30,9 +35,9 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         super.register_event();
     }
 
+    
 
     public on_init(): void {
-        yy.scene.reset_scene_size(true)
         GameMessageStack.instance().setLogTag("[BilliardMsgStack]");
         GameMessageStack.instance().openLock();
         BilliardService.instance.setSceneScript(this);
