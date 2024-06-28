@@ -472,7 +472,9 @@ export class BilliardUIView extends BaseCommonScript {
         this.nodeCueArrow.active = false;
     }
 
-    onClickTable(local: Vec2) {       
+    onClickTable(local: Vec2) {    
+        this.nodeRight.active = BilliardTools.instance.isMyAction();
+        this.nodeLeft.active = BilliardTools.instance.isMyAction();
         let screenPos = local;
         let wp = BilliardManager.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
         this.onShotAt(wp);
