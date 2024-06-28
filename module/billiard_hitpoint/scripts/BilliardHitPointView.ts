@@ -61,6 +61,14 @@ export class BilliardHitPointView extends BaseCommonPopup {
         super.on_init();
     }
 
+    protected start(): void {
+        // 临时处理 popo通用接口适配异常处理
+        let mask = this.node.parent.getChildByName('popup_shade_layer');
+        if(mask){
+            mask.active = false;
+        }
+    }
+
     onTouch(touchWpos: Vec3, dis: Vec3, radius: number, length: number) {
         this.nodeDot.worldPosition = touchWpos;
         let offset = BilliardData.instance.getOffset();

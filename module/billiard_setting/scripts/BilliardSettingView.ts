@@ -20,7 +20,13 @@ export class BilliardSettingView extends BaseCommonPopup {
         this.toggleSound.isChecked = yy.audio.getSoundSwitch();
     }
 
-
+    protected start(): void {
+        // 临时处理 popo通用接口适配异常处理
+        let mask = this.node.parent.getChildByName('popup_shade_layer');
+        if(mask){
+            mask.active = false;
+        }
+    }
 
     onToggle(toggle: Toggle) {
         switch(toggle.node.name) {
