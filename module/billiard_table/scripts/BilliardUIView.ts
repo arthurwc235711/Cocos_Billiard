@@ -592,6 +592,7 @@ export class BilliardUIView extends BaseCommonScript {
                 ballArrow.active = false;
                 cueArrow.active = false;
                 uiTran.setContentSize(BilliardTools.instance.getRectangleDisanceBy2dCamera(cueBall.node, nodes[0], direction), uiTran.contentSize.y);
+                nodeArrow.getComponent(Sprite).enabled = uiTran.width > 0;
                 // yy.log.w("", "未检测出碰撞点");
             }
 
