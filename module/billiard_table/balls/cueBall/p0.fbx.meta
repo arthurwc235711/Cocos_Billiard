@@ -5,23 +5,6 @@
   "uuid": "00109809-e1bd-418a-aa5f-f4d47772660c",
   "files": [],
   "subMetas": {
-    "f6595": {
-      "importer": "gltf-mesh",
-      "uuid": "00109809-e1bd-418a-aa5f-f4d47772660c@f6595",
-      "displayName": "",
-      "id": "f6595",
-      "name": "p_0.mesh",
-      "userData": {
-        "gltfIndex": 0
-      },
-      "ver": "1.1.0",
-      "imported": true,
-      "files": [
-        ".bin",
-        ".json"
-      ],
-      "subMetas": {}
-    },
     "f877a": {
       "importer": "gltf-embeded-image",
       "uuid": "00109809-e1bd-418a-aa5f-f4d47772660c@f877a",
@@ -74,6 +57,23 @@
       "ver": "1.0.14",
       "imported": true,
       "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f6595": {
+      "importer": "gltf-mesh",
+      "uuid": "00109809-e1bd-418a-aa5f-f4d47772660c@f6595",
+      "displayName": "",
+      "id": "f6595",
+      "name": "p_0.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
         ".json"
       ],
       "subMetas": {}
