@@ -43,10 +43,9 @@ export class BilliardSimulateService {
         let lNum = 0;
         let x = TableGeometry.tableX; // 1.39679
         let r = R //* 0.04421;
+        // let pi180 = Math.PI / 180;
 
-        let acos25 = Math.acos(22.5 * Math.PI / 180 );
-
-
+        let acos25 = 1.16723//17198700313//Math.acos(22.5 *  pi180);
         for(let i = 0; i < notify.balls.length; ++i) {
             let ball = notify.balls[i];
             if (ball.val === 0) {
