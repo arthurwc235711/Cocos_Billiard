@@ -41,8 +41,9 @@ export class BilliardSimulateService {
         let row = 1;
         let cNum = 0;
         let lNum = 0;
-        let x = TableGeometry.tableX; // 1.40825
-        let r = R //* 1.4;
+        let x = TableGeometry.tableX; // 1.39679
+        let r = R //* 0.04421;
+
         let acos25 = Math.acos(22.5 * Math.PI / 180 );
 
 

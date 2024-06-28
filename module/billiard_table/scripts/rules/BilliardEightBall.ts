@@ -291,6 +291,16 @@ export class BilliardEightBall implements IBilliardRules {
             sBalls.push(showBalls[i].id);
         }
 
+        if (sBalls.length === 0) {
+            if (this.isSureBall()) {
+                for(let i = 0; i < balls.length; ++i) {
+                    if (balls[i].id === 8) {
+                        sBalls.push(8);
+                        break;
+                    }
+                }
+            }
+        }
         return sBalls;
     }
 
