@@ -161,6 +161,10 @@ export class BilliardTools {
         yy.popup.show_popup(BilliardConst.bundleName, "module/billiard_setting/view/p_billiard_setting");
     }
 
+    openChatView() {
+        this.openView("module/billiard_chat/view/p_billiard_chat");
+    }
+
 }
 
 

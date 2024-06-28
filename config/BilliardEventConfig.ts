@@ -8,6 +8,7 @@ export default [
     "billiard_hit_cd_stop",
     "billiard_action_arrow_cd",
     "billiard_setting_cue_location",
+    "billiard_send_msg",
     
 
     // 游戏协议

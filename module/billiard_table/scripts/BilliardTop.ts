@@ -16,6 +16,7 @@ interface PlayerUI {
     spriteCD: Sprite,
     labelCD: Label,
     nodeBalls: Node,
+    nodeMsg: Node,
 }
 
 
@@ -35,6 +36,14 @@ export class BilliardTop extends BaseCommonScript {
 
     private playerUI: PlayerUI[] = [];
 
+    public register_event() {
+        // 注册指定的监听方法，格式如下
+        this.event_func_map = {
+            [yy.Event_Name.billiard_send_msg]: "onMsg",
+        };
+        super.register_event();
+    }
+
     on_init(): void {
         let players = [this.player1, this.player2];
         players.forEach(p => {
@@ -47,6 +56,7 @@ export class BilliardTop extends BaseCommonScript {
                 spriteCD: p.getChildByPath('p_head_billiard/SpriteHeadCD').getComponent(Sprite),
                 labelCD: p.getChildByPath('p_head_billiard/SpriteHeadCD/LabelCD').getComponent(Label),
                 nodeBalls:  p.getChildByName('NodeBalls'),
+                nodeMsg: p.getChildByName('NodeMsg'),
             });
         });
     }
@@ -199,6 +209,29 @@ export class BilliardTop extends BaseCommonScript {
         return this;
     }
 
+    //type 1: 文字  2 标签
+    onMsg(msg: protoBilliard.ChatMsg) {
+        let player = this.playerUI.find(p => p.uid === msg.senderUid);
+        if (player) {
+            player.nodeMsg.active = true;
+            if (msg.msgType === 1) {
+                player.nodeMsg.getChildByName("SpriteMsg").active = true;
+                player.nodeMsg.getChildByName("SpriteEmo").active = false;
+                player.nodeMsg.getChildByPath("SpriteMsg/Label").getComponent(Label).string = msg.contentData;
+            }
+            else if (msg.msgType === 2) {
+                player.nodeMsg.getChildByName("SpriteMsg").active = false;
+                player.nodeMsg.getChildByName("SpriteEmo").active = true;
+                let sprite = player.nodeMsg.getChildByPath("SpriteEmo/Sprite").getComponent(Sprite);
+                sprite.spriteFrame = sprite.spriteAtlas.getSpriteFrame(msg.contentData);
+            }
+
+            this.scheduleOnce(()=>{
+                player.nodeMsg.active = false;
+            }, 2);
+        }
+
+    }
 }
 
 

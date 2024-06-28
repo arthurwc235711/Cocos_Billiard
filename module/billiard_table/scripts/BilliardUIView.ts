@@ -760,6 +760,10 @@ export class BilliardUIView extends BaseCommonScript {
             nAngle.position = nAngle.position.setX(-1780);
         }
     }
+
+    onClickChat() {
+        BilliardTools.instance.openChatView();
+    }
 }
 
 

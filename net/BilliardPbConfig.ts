@@ -27,4 +27,5 @@ export let BilliardPbConfig = [
     {cmd: 0x6019, rsp: "protoBilliard.IHit"}, // GC击球同步 IHit
     {cmd: 0x6021, rsp: "protoBilliard.IValidResult"}, // GC玩家操作结果 IValidResult
     {cmd: 0x6022, rsp: "protoBilliard.BroadcastGameResult"}, // 游戏协议 BroadcastGameResult
+    {cmd: 0x6024, rsp: "protoBilliard.ChatMsg"}, // 聊天协议 ChatMsg
 ]
