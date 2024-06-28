@@ -791,7 +791,7 @@
     "_isSystemFontUsed": true,
     "_spacingX": 0,
     "_isItalic": false,
-    "_isBold": false,
+    "_isBold": true,
     "_isUnderline": false,
     "_underlineHeight": 2,
     "_cacheMode": 1,
@@ -934,6 +934,7 @@
       "__id__": 0
     },
     "fileId": "96B6f6ZgVHrp9rc77uNDkO",
+    "instance": null,
     "targetOverrides": null
   }
 ]
