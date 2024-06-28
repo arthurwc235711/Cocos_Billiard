@@ -226,7 +226,20 @@ export class BilliardUIView extends BaseCommonScript {
 
 
 
-                    this.nodeCueArrow.angle =  this.nodeCueArrow.angle + angle * f;
+                    function getAngle(a) {
+                        let tmp = a + angle * f;
+                        if (tmp >360) {
+                            return Math.abs(tmp - 360);
+                        }
+                        else if (tmp < 0) {
+                            return 360 - Math.abs(tmp);
+                        }
+
+                        return tmp
+
+                    }
+
+                    this.nodeCueArrow.angle = getAngle(this.nodeCueArrow.angle)// this.nodeCueArrow.angle + angle * f;
 
 
                     let wp = this.nodeArrow.getChildByPath("Sprite/ballArrow").worldPosition;
