@@ -51,20 +51,18 @@ export class BilliardWinsView extends BaseCommonScript {
     }
 
     setData(data: protoBilliard.BroadcastGameResult) {
-        yy.log.w("setData", data);
-
         for(let i = 0; i < data.playerResult.length; i++) {
             let p = data.playerResult[i];
             if(p.uid === yy.user.getUid()) {
                 this.setPlayerInfo(this.myUI, p.nick, p.icon, p.moneyTotal.toNumber());
+                this.nodeMy.getChildByName("NodeWiner").active = data.winnerid === p.uid;
             }
             else {
                 this.setPlayerInfo(this.otherUI, p.nick, p.icon, p.moneyTotal.toNumber());
+                this.nodeOther.getChildByName("NodeWiner").active = data.winnerid === p.uid;
             }
         }
 
-        this.nodeMy.getChildByName("NodeWiner").active = data.winnerid === yy.user.getUid();
-        this.nodeOther.getChildByName("NodeWiner").active = data.winnerid === yy.user.getUid();
         this.labelGold.string = yy.money.formatMoney( data.ChipPot.toNumber(), false);
     }
 
