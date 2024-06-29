@@ -238,14 +238,15 @@ export class BilliardUIView extends BaseCommonScript {
                         return tmp
 
                     }
-
-                    this.nodeCueArrow.angle = getAngle(this.nodeCueArrow.angle)// this.nodeCueArrow.angle + angle * f;
-
-
-                    let wp = this.nodeArrow.getChildByPath("Sprite/ballArrow").worldPosition;
-                    let cs = BilliardManager.instance.camera2d.worldToScreen(wp);
-                    this.preTouchLocation.x = cs.x;
-                    this.preTouchLocation.y = cs.y;                    
+                    let value = getAngle(this.nodeCueArrow.angle)
+                    if (!Number.isNaN(value)) {
+                        this.nodeCueArrow.angle = getAngle(this.nodeCueArrow.angle)// this.nodeCueArrow.angle + angle * f;
+                        let wp = this.nodeArrow.getChildByPath("Sprite/ballArrow").worldPosition;
+                        let cs = BilliardManager.instance.camera2d.worldToScreen(wp);
+                        this.preTouchLocation.x = cs.x;
+                        this.preTouchLocation.y = cs.y;      
+                    }
+              
 
 
                     // let x = local.x - perLocal.x;
