@@ -2041,10 +2041,7 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": {
-      "__uuid__": "230fd26a-59b0-4eff-97e4-8d911f71f834@d7755",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_normalSprite": null,
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,
@@ -2304,17 +2301,14 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": {
-      "__uuid__": "230fd26a-59b0-4eff-97e4-8d911f71f834@fe069",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_normalSprite": null,
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,
     "_duration": 0.1,
     "_zoomScale": 1.2,
     "_target": {
-      "__id__": 71
+      "__id__": 85
     },
     "_id": ""
   },
@@ -2569,16 +2563,15 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": {
-      "__uuid__": "230fd26a-59b0-4eff-97e4-8d911f71f834@0f466",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_normalSprite": null,
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,
     "_duration": 0.1,
     "_zoomScale": 1.2,
-    "_target": null,
+    "_target": {
+      "__id__": 99
+    },
     "_id": ""
   },
   {
@@ -2833,17 +2826,14 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": {
-      "__uuid__": "230fd26a-59b0-4eff-97e4-8d911f71f834@d6710",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_normalSprite": null,
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,
     "_duration": 0.1,
     "_zoomScale": 1.2,
     "_target": {
-      "__id__": 99
+      "__id__": 113
     },
     "_id": ""
   },
@@ -3099,17 +3089,14 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": {
-      "__uuid__": "230fd26a-59b0-4eff-97e4-8d911f71f834@6422a",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_normalSprite": null,
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,
     "_duration": 0.1,
     "_zoomScale": 1.2,
     "_target": {
-      "__id__": 99
+      "__id__": 127
     },
     "_id": ""
   },
@@ -3365,17 +3352,14 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": {
-      "__uuid__": "230fd26a-59b0-4eff-97e4-8d911f71f834@cdab0",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_normalSprite": null,
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,
     "_duration": 0.1,
     "_zoomScale": 1.2,
     "_target": {
-      "__id__": 99
+      "__id__": 141
     },
     "_id": ""
   },
@@ -3631,17 +3615,14 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": {
-      "__uuid__": "230fd26a-59b0-4eff-97e4-8d911f71f834@c10f9",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_normalSprite": null,
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,
     "_duration": 0.1,
     "_zoomScale": 1.2,
     "_target": {
-      "__id__": 99
+      "__id__": 155
     },
     "_id": ""
   },
@@ -3897,17 +3878,14 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": {
-      "__uuid__": "230fd26a-59b0-4eff-97e4-8d911f71f834@a8656",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_normalSprite": null,
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,
     "_duration": 0.1,
     "_zoomScale": 1.2,
     "_target": {
-      "__id__": 99
+      "__id__": 169
     },
     "_id": ""
   },
@@ -4163,17 +4141,14 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": {
-      "__uuid__": "230fd26a-59b0-4eff-97e4-8d911f71f834@979f3",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_normalSprite": null,
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,
     "_duration": 0.1,
     "_zoomScale": 1.2,
     "_target": {
-      "__id__": 99
+      "__id__": 183
     },
     "_id": ""
   },
@@ -4448,17 +4423,14 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": {
-      "__uuid__": "230fd26a-59b0-4eff-97e4-8d911f71f834@cb4df",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_normalSprite": null,
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,
     "_duration": 0.1,
     "_zoomScale": 1.2,
     "_target": {
-      "__id__": 99
+      "__id__": 197
     },
     "_id": ""
   },
