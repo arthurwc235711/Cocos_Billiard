@@ -65,12 +65,12 @@ export class BilliardPersonalView extends BaseCommonPopup {
      }
 
     setData(type: number) {
-        function calculatePercentage(dividend: number, divisor: number, decimalPlaces: number = 2): string {
+        function calculatePercentage(dividend: number, divisor: number, decimalPlaces: number = 0): string {
             if (divisor === 0) {
                 return "-%";
             }
             const quotient = dividend / divisor;
-            const percentage = quotient * 10;
+            const percentage = quotient * 100;
             const formattedPercentage = percentage.toFixed(decimalPlaces);
             return `${formattedPercentage}%`;
         }

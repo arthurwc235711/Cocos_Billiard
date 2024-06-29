@@ -734,7 +734,7 @@ export class BilliardUIView extends BaseCommonScript {
                 .setPlayerBalls(BilliardData.instance.getHitBalls(p.uid), p.uid);
         });
 
-        this.setScore();
+        // this.setScore();
     }
 
     setGold(gold: number) {
