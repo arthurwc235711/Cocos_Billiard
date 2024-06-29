@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, Toggle } from 'cc';
 import { BaseCommonPopup } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
+import { BilliardManager } from '../../../scripts/BilliardManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardSettingView')
@@ -13,11 +14,21 @@ export class BilliardSettingView extends BaseCommonPopup {
     toggleVibrating: Toggle = null;
 
 
+    @property(Toggle)
+    toggleCueLeft: Toggle = null;
+    @property(Toggle)
+    toggleCueRight: Toggle = null;
+
+
     on_init() {
         super.on_init();
 
         this.toggleMusic.isChecked = yy.audio.getMusicSwitch();
         this.toggleSound.isChecked = yy.audio.getSoundSwitch();
+
+        let x = BilliardManager.instance.getView().nodeLeft.position.x;
+        this.toggleCueLeft.isChecked = x === -890;
+        this.toggleCueRight.isChecked = x === 890;
     }
 
     protected start(): void {

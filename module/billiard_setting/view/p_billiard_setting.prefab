@@ -8321,6 +8321,12 @@
     "toggleVibrating": {
       "__id__": 172
     },
+    "toggleCueLeft": {
+      "__id__": 317
+    },
+    "toggleCueRight": {
+      "__id__": 335
+    },
     "_id": ""
   },
   {
