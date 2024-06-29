@@ -35,6 +35,8 @@ export class BilliardTop extends BaseCommonScript {
     mapAtlas:{ [key: string]: SpriteFrame }
 
     private playerUI: PlayerUI[] = [];
+    private actionList:Function[] = [];
+    private isPlaying = false;
 
     public register_event() {
         // 注册指定的监听方法，格式如下
@@ -211,26 +213,35 @@ export class BilliardTop extends BaseCommonScript {
 
     //type 1: 文字  2 标签
     onMsg(msg: protoBilliard.ChatMsg) {
-        let player = this.playerUI.find(p => p.uid === msg.senderUid);
-        if (player) {
-            player.nodeMsg.active = true;
-            if (msg.msgType === 1) {
-                player.nodeMsg.getChildByName("SpriteMsg").active = true;
-                player.nodeMsg.getChildByName("SpriteEmo").active = false;
-                player.nodeMsg.getChildByPath("SpriteMsg/Label").getComponent(Label).string = msg.contentData;
+        this.actionList.push(()=>{
+            this.isPlaying = true;
+            let player = this.playerUI.find(p => p.uid === msg.senderUid);
+            if (player) {
+                player.nodeMsg.active = true;
+                if (msg.msgType === 1) {
+                    player.nodeMsg.getChildByName("Msg").active = true;
+                    player.nodeMsg.getChildByName("Emo").active = false;
+                    player.nodeMsg.getChildByPath("Msg/SpriteMsg/Label").getComponent(Label).string = msg.contentData;
+                }
+                else if (msg.msgType === 2) {
+                    player.nodeMsg.getChildByName("Msg").active = false;
+                    player.nodeMsg.getChildByName("Emo").active = true;
+                    let sprite = player.nodeMsg.getChildByPath("Emo/SpriteEmo/Sprite").getComponent(Sprite);
+                    sprite.spriteFrame = sprite.spriteAtlas.getSpriteFrame(msg.contentData);
+                }
             }
-            else if (msg.msgType === 2) {
-                player.nodeMsg.getChildByName("SpriteMsg").active = false;
-                player.nodeMsg.getChildByName("SpriteEmo").active = true;
-                let sprite = player.nodeMsg.getChildByPath("SpriteEmo/Sprite").getComponent(Sprite);
-                sprite.spriteFrame = sprite.spriteAtlas.getSpriteFrame(msg.contentData);
-            }
+        })
+    }
 
-            this.scheduleOnce(()=>{
-                player.nodeMsg.active = false;
-            }, 2);
+    playChatComplete() {
+        this.isPlaying = false;
+    }
+
+    protected update(dt: number): void {
+        if (!this.isPlaying && this.actionList.length > 0) {
+            let action = this.actionList.shift();
+            action();
         }
-
     }
 }
 
