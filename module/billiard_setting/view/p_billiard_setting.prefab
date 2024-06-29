@@ -8327,6 +8327,15 @@
     "toggleCueRight": {
       "__id__": 335
     },
+    "toggleSlow": {
+      "__id__": 230
+    },
+    "toggleNormal": {
+      "__id__": 248
+    },
+    "toggleFast": {
+      "__id__": 266
+    },
     "_id": ""
   },
   {

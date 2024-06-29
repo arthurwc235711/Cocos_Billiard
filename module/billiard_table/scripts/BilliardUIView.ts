@@ -361,7 +361,7 @@ export class BilliardUIView extends BaseCommonScript {
             }
 
             let tran = this.nodeArrow.getComponent(UITransform);
-            let sin = R2d / 100  / (tran.width + R2d*2)
+            let sin = R2d / BilliardData.instance.getAngleLimit()  / (tran.width + R2d*2)
             let asin = Math.asin(sin);
             let angle = asin * Rtd;
 

@@ -48,6 +48,10 @@ export class BilliardData {
     private balls: protoBilliard.IBall[] = [];
     private actionType: number = 0;
 
+    private angleLimit: number = 100; // 微调参数
+
+
+
 
     getActionType(): number {
         return this.actionType;
@@ -149,6 +153,13 @@ export class BilliardData {
 
     getPlayer(uid: number): BilliardPlayer {
         return this.players.filter(p=>p.uid === uid)[0];
+    }
+
+    getAngleLimit(): number {
+        return this.angleLimit;
+    }
+    setAngleLimit(limit: number) {
+        this.angleLimit = limit;
     }
 }
 

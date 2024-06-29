@@ -2,6 +2,7 @@ import { _decorator, Component, Node, Toggle } from 'cc';
 import { BaseCommonPopup } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardManager } from '../../../scripts/BilliardManager';
+import { BilliardData } from '../../../data/BilliardData';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardSettingView')
@@ -19,12 +20,26 @@ export class BilliardSettingView extends BaseCommonPopup {
     @property(Toggle)
     toggleCueRight: Toggle = null;
 
+    @property(Toggle)
+    toggleSlow: Toggle = null;
+    @property(Toggle)
+    toggleNormal: Toggle = null;
+    @property(Toggle)
+    toggleFast: Toggle = null;
 
     on_init() {
         super.on_init();
 
         this.toggleMusic.isChecked = yy.audio.getMusicSwitch();
         this.toggleSound.isChecked = yy.audio.getSoundSwitch();
+
+
+        let limit = BilliardData.instance.getAngleLimit()
+        this.toggleSlow.isChecked = limit === 200;
+        this.toggleNormal.isChecked = limit === 100;
+        this.toggleFast.isChecked = limit === 50;
+
+
 
         let x = BilliardManager.instance.getView().nodeLeft.position.x;
         this.toggleCueLeft.isChecked = x === -890;
@@ -58,13 +73,13 @@ export class BilliardSettingView extends BaseCommonPopup {
         // yy.log.w("onToggleGroup", toggle.node.name, toggle.isChecked);
         switch(toggle.node.name) {
             case "ToggleSlow":
-                yy.log.w("ToggleSlow");
+                BilliardData.instance.setAngleLimit(200);
                 break;
             case "ToggleNormal":
-                yy.log.w("ToggleNormal");
+                BilliardData.instance.setAngleLimit(100);
                 break;
             case "ToggleFast":
-                yy.log.w("ToggleFast");
+                BilliardData.instance.setAngleLimit(50);
                 break;
             case "ToggleLeft":
                 yy.event.emit(yy.Event_Name.billiard_setting_cue_location, true);
