@@ -109,7 +109,7 @@
       "b": 255,
       "a": 255
     },
-    "loop": true,
+    "loop": false,
     "_timeScale": 1,
     "_useTint": false,
     "_preCacheMode": 0,
@@ -121,7 +121,7 @@
       "__uuid__": "d2451926-8f71-403f-afa3-51afbdc1e9c7",
       "__expectedType__": "sp.SkeletonData"
     },
-    "_premultipliedAlpha": true,
+    "_premultipliedAlpha": false,
     "defaultSkin": "default",
     "defaultAnimation": "",
     "_enableBatch": false,
@@ -164,6 +164,7 @@
       "__id__": 0
     },
     "fileId": "46C0cpYOJOp4PDmu/Rd8Hh",
+    "instance": null,
     "targetOverrides": null
   }
 ]
