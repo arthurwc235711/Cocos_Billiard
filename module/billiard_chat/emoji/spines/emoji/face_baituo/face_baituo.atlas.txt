@@ -1,0 +1,111 @@
+
+face_baituo.png
+size: 481,295
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+cou
+  rotate: true
+  xy: 417, 13
+  size: 30, 36
+  orig: 38, 38
+  offset: 5, 1
+  index: -1
+eyeL
+  rotate: false
+  xy: 273, 132
+  size: 109, 92
+  orig: 132, 104
+  offset: 5, 8
+  index: -1
+eyeR
+  rotate: false
+  xy: 273, 39
+  size: 107, 91
+  orig: 118, 103
+  offset: 6, 8
+  index: -1
+eye_whiteL
+  rotate: false
+  xy: 2, 2
+  size: 19, 19
+  orig: 21, 21
+  offset: 1, 1
+  index: -1
+eye_whiteR
+  rotate: false
+  xy: 2, 2
+  size: 19, 19
+  orig: 21, 21
+  offset: 1, 1
+  index: -1
+face
+  rotate: false
+  xy: 2, 23
+  size: 269, 270
+  orig: 276, 276
+  offset: 4, 0
+  index: -1
+kou
+  rotate: false
+  xy: 273, 226
+  size: 205, 67
+  orig: 205, 70
+  offset: 0, 0
+  index: -1
+meimaoL
+  rotate: false
+  xy: 384, 175
+  size: 95, 49
+  orig: 110, 51
+  offset: 4, 2
+  index: -1
+meimaoR
+  rotate: false
+  xy: 384, 139
+  size: 94, 34
+  orig: 96, 35
+  offset: 0, 1
+  index: -1
+waterL
+  rotate: true
+  xy: 273, 4
+  size: 33, 107
+  orig: 33, 107
+  offset: 0, 0
+  index: -1
+waterL_point
+  rotate: false
+  xy: 467, 113
+  size: 8, 24
+  orig: 9, 24
+  offset: 0, 0
+  index: -1
+waterR
+  rotate: false
+  xy: 382, 23
+  size: 33, 107
+  orig: 33, 107
+  offset: 0, 0
+  index: -1
+waterR_point
+  rotate: true
+  xy: 382, 6
+  size: 15, 23
+  orig: 15, 23
+  offset: 0, 0
+  index: -1
+yanzhuL
+  rotate: false
+  xy: 417, 92
+  size: 48, 45
+  orig: 48, 45
+  offset: 0, 0
+  index: -1
+yanzhuR
+  rotate: false
+  xy: 417, 45
+  size: 48, 45
+  orig: 48, 45
+  offset: 0, 0
+  index: -1

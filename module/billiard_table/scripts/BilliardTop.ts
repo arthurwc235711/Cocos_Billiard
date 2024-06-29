@@ -1,4 +1,4 @@
-import { _decorator, Component, EventTouch, Label, Node, Sprite, SpriteFrame } from 'cc';
+import { _decorator, Component, EventTouch, instantiate, Label, Node, Sprite, SpriteFrame, Vec3 } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { ballsPathPoints } from '../../../../../poker_games/windrop/config/SlotsWindropConfig';
 import { BilliardData } from '../../../data/BilliardData';
@@ -17,6 +17,7 @@ interface PlayerUI {
     labelCD: Label,
     nodeBalls: Node,
     nodeMsg: Node,
+    emojiPos: Vec3,
 }
 
 
@@ -59,6 +60,7 @@ export class BilliardTop extends BaseCommonScript {
                 labelCD: p.getChildByPath('p_head_billiard/SpriteHeadCD/LabelCD').getComponent(Label),
                 nodeBalls:  p.getChildByName('NodeBalls'),
                 nodeMsg: p.getChildByName('NodeMsg'),
+                emojiPos: Vec3.ZERO.clone(),
             });
         });
     }
@@ -79,10 +81,12 @@ export class BilliardTop extends BaseCommonScript {
 
     setBindLeftPlayerUID(uid: number) {
         this.playerUI[0].uid = uid;
+        this.playerUI[0].emojiPos.setX(100).setY(-55);
         return this;
     }
     setBindRightPlayerUID(uid: number) {
         this.playerUI[1].uid = uid;
+        this.playerUI[1].emojiPos.setX(100).setY(-55);
         return this;
     }
 
@@ -225,9 +229,21 @@ export class BilliardTop extends BaseCommonScript {
                 }
                 else if (msg.msgType === 2) {
                     player.nodeMsg.getChildByName("Msg").active = false;
-                    player.nodeMsg.getChildByName("Emo").active = true;
-                    let sprite = player.nodeMsg.getChildByPath("Emo/SpriteEmo/Sprite").getComponent(Sprite);
-                    sprite.spriteFrame = sprite.spriteAtlas.getSpriteFrame(msg.contentData);
+                    let nodeEmo = player.nodeMsg.getChildByName("Emo");
+                    nodeEmo.active = true;
+                    let prent = nodeEmo.getChildByName("SpriteEmo");
+                    for(let i = 1; i < prent.children.length; i++){
+                        prent.children[i].destroy();
+                    }
+                    // let sprite = player.nodeMsg.getChildByPath("Emo/SpriteEmo/Sprite").getComponent(Sprite);
+
+                    // let sprite = player.nodeMsg.getChildByPath("Emo/SpriteEmo/Sprite").getComponent(Sprite);
+                    // sprite.spriteFrame = sprite.spriteAtlas.getSpriteFrame(msg.contentData);
+                    yy.loader.asyncLoadPrefab(BilliardConst.bundleName, "module/billiard_chat/emoji/perfabs/" + msg.contentData, (p)=>{
+                        let clone = instantiate(p) as Node;
+                        prent.addChild(clone);
+                        clone.position = player.emojiPos;
+                    });
                 }
             }
         })

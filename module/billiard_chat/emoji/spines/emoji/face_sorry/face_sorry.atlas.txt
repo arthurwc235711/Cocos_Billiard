@@ -1,0 +1,76 @@
+
+face_sorry.png
+size: 434,268
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 2, 4
+  size: 262, 261
+  orig: 276, 276
+  offset: 9, 11
+  index: -1
+eye_L
+  rotate: false
+  xy: 265, 182
+  size: 110, 84
+  orig: 118, 87
+  offset: 6, 3
+  index: -1
+eye_R
+  rotate: false
+  xy: 265, 104
+  size: 109, 76
+  orig: 112, 76
+  offset: 3, 0
+  index: -1
+kou
+  rotate: true
+  xy: 365, 2
+  size: 80, 32
+  orig: 80, 32
+  offset: 0, 0
+  index: -1
+meimao_L
+  rotate: true
+  xy: 316, 15
+  size: 87, 47
+  orig: 95, 50
+  offset: 2, 3
+  index: -1
+meimao_R
+  rotate: true
+  xy: 265, 18
+  size: 84, 49
+  orig: 84, 50
+  offset: 0, 1
+  index: -1
+red_L
+  rotate: true
+  xy: 377, 175
+  size: 91, 55
+  orig: 100, 65
+  offset: 3, 5
+  index: -1
+red_R
+  rotate: true
+  xy: 376, 84
+  size: 89, 53
+  orig: 100, 64
+  offset: 5, 7
+  index: -1
+zhu_L
+  rotate: false
+  xy: 399, 57
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+zhu_R
+  rotate: false
+  xy: 399, 31
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1

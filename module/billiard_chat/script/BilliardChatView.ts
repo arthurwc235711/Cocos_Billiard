@@ -40,8 +40,8 @@ export class BilliardChatView extends BaseCommonScript  {
 
         this.nodeEmo.children.forEach(emo=>{
             emo.on("click", ()=> {
-                let s = emo.getComponent(Sprite);
-                BilliardService.instance.sendChatReq(2, s.spriteFrame.name);
+                let s = emo.children[0];
+                BilliardService.instance.sendChatReq(2, s.name);
                 // yy.event.emit(yy.Event_Name.billiard_send_msg, 2, s.spriteFrame.name);
                 // yy.log.w(s.spriteFrame.name);
                 this.onClickClose();

@@ -1,0 +1,41 @@
+
+face_haopai.png
+size: 469,287
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 2, 23
+  size: 262, 260
+  orig: 276, 276
+  offset: 6, 9
+  index: -1
+face
+  rotate: false
+  xy: 264, 140
+  size: 184, 145
+  orig: 186, 145
+  offset: 1, 0
+  index: -1
+jiaoL
+  rotate: true
+  xy: 372, 68
+  size: 70, 95
+  orig: 77, 102
+  offset: 3, 3
+  index: -1
+jiaoR
+  rotate: true
+  xy: 372, 2
+  size: 64, 85
+  orig: 70, 93
+  offset: 3, 3
+  index: -1
+slow
+  rotate: false
+  xy: 264, 13
+  size: 106, 125
+  orig: 119, 139
+  offset: 7, 7
+  index: -1

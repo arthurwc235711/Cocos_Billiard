@@ -1,0 +1,83 @@
+
+face_nanguo.png
+size: 371,376
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+eyeL
+  rotate: true
+  xy: 269, 289
+  size: 85, 92
+  orig: 85, 92
+  offset: 0, 0
+  index: -1
+eyeR
+  rotate: true
+  xy: 269, 202
+  size: 85, 88
+  orig: 85, 88
+  offset: 0, 0
+  index: -1
+face
+  rotate: false
+  xy: 2, 110
+  size: 265, 264
+  orig: 276, 276
+  offset: 5, 4
+  index: -1
+fire
+  rotate: false
+  xy: 300, 79
+  size: 69, 62
+  orig: 80, 70
+  offset: 5, 5
+  index: -1
+glow
+  rotate: false
+  xy: 187, 19
+  size: 89, 89
+  orig: 101, 101
+  offset: 6, 6
+  index: -1
+kou
+  rotate: false
+  xy: 2, 2
+  size: 183, 106
+  orig: 183, 106
+  offset: 0, 0
+  index: -1
+meimaoL
+  rotate: true
+  xy: 278, 4
+  size: 73, 35
+  orig: 76, 37
+  offset: 2, 2
+  index: -1
+meimaoR
+  rotate: false
+  xy: 269, 143
+  size: 95, 57
+  orig: 102, 64
+  offset: 4, 4
+  index: -1
+point
+  rotate: false
+  xy: 187, 3
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+zhuL
+  rotate: false
+  xy: 269, 111
+  size: 29, 30
+  orig: 29, 30
+  offset: 0, 0
+  index: -1
+zhuR
+  rotate: true
+  xy: 315, 48
+  size: 29, 30
+  orig: 29, 30
+  offset: 0, 0
+  index: -1

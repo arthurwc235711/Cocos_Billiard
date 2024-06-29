@@ -1,0 +1,132 @@
+
+face_gaobudong.png
+size: 494,391
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+eye_bg_L
+  rotate: false
+  xy: 2, 3
+  size: 97, 110
+  orig: 99, 114
+  offset: 2, 3
+  index: -1
+eye_bg_R
+  rotate: true
+  xy: 412, 28
+  size: 65, 75
+  orig: 68, 78
+  offset: 1, 2
+  index: -1
+eye_close1_L
+  rotate: false
+  xy: 101, 3
+  size: 95, 110
+  orig: 99, 114
+  offset: 2, 2
+  index: -1
+eye_close1_R
+  rotate: true
+  xy: 402, 317
+  size: 72, 90
+  orig: 75, 93
+  offset: 1, 2
+  index: -1
+eye_close2_L
+  rotate: false
+  xy: 198, 3
+  size: 95, 110
+  orig: 99, 114
+  offset: 2, 2
+  index: -1
+eye_close2_R
+  rotate: true
+  xy: 402, 243
+  size: 72, 90
+  orig: 75, 93
+  offset: 1, 2
+  index: -1
+eye_close3_L
+  rotate: true
+  xy: 295, 301
+  size: 88, 105
+  orig: 91, 109
+  offset: 2, 2
+  index: -1
+eye_close3_R
+  rotate: true
+  xy: 402, 169
+  size: 72, 90
+  orig: 75, 93
+  offset: 1, 2
+  index: -1
+eye_close4_L
+  rotate: true
+  xy: 295, 211
+  size: 88, 105
+  orig: 91, 109
+  offset: 2, 2
+  index: -1
+eye_close4_R
+  rotate: true
+  xy: 402, 95
+  size: 72, 90
+  orig: 75, 93
+  offset: 1, 2
+  index: -1
+eye_zhu_L
+  rotate: false
+  xy: 350, 68
+  size: 34, 33
+  orig: 36, 35
+  offset: 1, 1
+  index: -1
+eye_zhu_R
+  rotate: false
+  xy: 295, 5
+  size: 25, 29
+  orig: 27, 31
+  offset: 1, 1
+  index: -1
+face
+  rotate: true
+  xy: 2, 115
+  size: 274, 267
+  orig: 276, 276
+  offset: 2, 7
+  index: -1
+kou
+  rotate: false
+  xy: 295, 158
+  size: 105, 51
+  orig: 109, 57
+  offset: 4, 3
+  index: -1
+meimao_L
+  rotate: false
+  xy: 271, 116
+  size: 83, 40
+  orig: 83, 40
+  offset: 0, 0
+  index: -1
+meimao_R
+  rotate: false
+  xy: 350, 2
+  size: 60, 64
+  orig: 60, 65
+  offset: 0, 1
+  index: -1
+wenhao1
+  rotate: false
+  xy: 295, 36
+  size: 53, 78
+  orig: 53, 78
+  offset: 0, 0
+  index: -1
+wenhao2
+  rotate: false
+  xy: 356, 103
+  size: 39, 53
+  orig: 39, 53
+  offset: 0, 0
+  index: -1

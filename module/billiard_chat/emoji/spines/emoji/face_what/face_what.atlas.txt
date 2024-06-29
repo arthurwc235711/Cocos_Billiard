@@ -1,0 +1,83 @@
+
+face_what.png
+size: 386,319
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+eye_L
+  rotate: false
+  xy: 266, 227
+  size: 115, 90
+  orig: 119, 96
+  offset: 3, 4
+  index: -1
+eye_R
+  rotate: false
+  xy: 266, 134
+  size: 111, 91
+  orig: 113, 97
+  offset: 2, 2
+  index: -1
+face
+  rotate: false
+  xy: 2, 54
+  size: 262, 263
+  orig: 276, 276
+  offset: 6, 7
+  index: -1
+kou_L
+  rotate: false
+  xy: 2, 5
+  size: 12, 47
+  orig: 13, 48
+  offset: 1, 1
+  index: -1
+kou_R
+  rotate: true
+  xy: 373, 46
+  size: 86, 11
+  orig: 86, 11
+  offset: 0, 0
+  index: -1
+meimaoL
+  rotate: false
+  xy: 266, 102
+  size: 105, 30
+  orig: 111, 35
+  offset: 3, 3
+  index: -1
+meimaoR
+  rotate: false
+  xy: 88, 19
+  size: 86, 33
+  orig: 92, 36
+  offset: 3, 3
+  index: -1
+meitou
+  rotate: false
+  xy: 176, 24
+  size: 27, 28
+  orig: 28, 28
+  offset: 1, 0
+  index: -1
+yun
+  rotate: false
+  xy: 266, 2
+  size: 102, 98
+  orig: 102, 98
+  offset: 0, 0
+  index: -1
+zhu_L
+  rotate: false
+  xy: 52, 17
+  size: 34, 35
+  orig: 34, 37
+  offset: 0, 2
+  index: -1
+zhu_R
+  rotate: false
+  xy: 16, 15
+  size: 34, 37
+  orig: 36, 39
+  offset: 2, 2
+  index: -1
