@@ -28,4 +28,5 @@ export let BilliardPbConfig = [
     {cmd: 0x6021, rsp: "protoBilliard.IValidResult"}, // GC玩家操作结果 IValidResult
     {cmd: 0x6022, rsp: "protoBilliard.BroadcastGameResult"}, // 游戏协议 BroadcastGameResult
     {cmd: 0x6024, rsp: "protoBilliard.ChatMsg"}, // 聊天协议 ChatMsg
+    {cmd: 0x6026, rsp: "protoBilliard.UserPlayBilliardDataRsp"}, // 玩家游戏数据 UserPlayBilliardDataRsp
 ]

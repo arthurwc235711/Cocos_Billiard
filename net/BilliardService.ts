@@ -48,6 +48,7 @@ export class BilliardService extends StackListenerNew {
         ["cmd_0x6021"]: "notifyResult",
         ["cmd_0x6022"]: "notifyGameResult",
         ["cmd_0x6024"]: "notifyChat",
+        ["cmd_0x6026"]: "notifyPersonal",
 
 
 
@@ -284,6 +285,28 @@ export class BilliardService extends StackListenerNew {
     notifyChat(data: any) {
         let notify = data.msg as protoBilliard.ChatMsg;
         yy.event.emit(yy.Event_Name.billiard_send_msg, notify);
+    }
+
+
+    sendPersonalReq(uid: number) {
+        let billiardData = BilliardData.instance;
+        let pb: protoBilliard.GameProtocol = new protoBilliard.GameProtocol();
+        let responseMsg = ProtoHelper.Ins.getProto('protoBilliard', 'UserPlayBilliardDataReq');
+        let req = new protoBilliard.UserPlayBilliardDataReq ();
+        req.uid = uid;
+        req.ballcount = [8,9];
+
+        let newMsg = responseMsg.encode(req).finish();
+        pb.Cmd = 0x6025;
+        pb.TableId = this.tid;
+        pb.databody = newMsg;
+        yy.log.w("sendPersonalReq", req);
+        this.send("BilliardService.ClientEvent", pb);
+    }
+
+    notifyPersonal(data: any) {
+        let notify = data.msg as protoBilliard.UserPlayBilliardDataRsp;
+        yy.event.emit(yy.Event_Name.billiard_send_personal, notify);
     }
 
     //---------------------------------------------------------------------------------------

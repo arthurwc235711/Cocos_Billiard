@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, Node, Sprite, SpriteFrame } from 'cc';
+import { _decorator, Component, EventTouch, Label, Node, Sprite, SpriteFrame } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { ballsPathPoints } from '../../../../../poker_games/windrop/config/SlotsWindropConfig';
 import { BilliardData } from '../../../data/BilliardData';
@@ -241,6 +241,14 @@ export class BilliardTop extends BaseCommonScript {
         if (!this.isPlaying && this.actionList.length > 0) {
             let action = this.actionList.shift();
             action();
+        }
+    }
+
+
+    onClickPersonal(evt:EventTouch, index: string) {
+        let i = parseInt(index);
+        if (this.playerUI[i]) {
+            BilliardTools.instance.openPersonalView(this.playerUI[i].uid);
         }
     }
 }

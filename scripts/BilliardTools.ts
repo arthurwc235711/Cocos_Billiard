@@ -165,6 +165,10 @@ export class BilliardTools {
         this.openView("module/billiard_chat/view/p_billiard_chat");
     }
 
+    openPersonalView(uid: number) {
+        yy.popup.show_popup(BilliardConst.bundleName, "module/billiard_personal/view/p_billiard_personal", null, uid);
+    }
+
 }
 
 
