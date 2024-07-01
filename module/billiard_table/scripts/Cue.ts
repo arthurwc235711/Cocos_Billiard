@@ -7,6 +7,7 @@ import { unitAtAngle } from '../../../scripts/utils';
 import { cueToSpin } from '../../../scripts/physics/physics';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
+import { BilliardTools } from '../../../scripts/BilliardTools';
 const { ccclass, property } = _decorator;
 
 @ccclass('Cue')
@@ -25,6 +26,13 @@ export class Cue extends Component {
         ball.setSliding();
         ball.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(billiardData.getPower()));
         ball.rvel.copy(cueToSpin(billiardData.getOffset(), ball.vel));
+
+        if (billiardData.getPower() < 40) {
+            BilliardTools.instance.playSoundHitWeak()
+        }   
+        else {
+            BilliardTools.instance.playSoundHitStrong();
+        }
     }
 }
 

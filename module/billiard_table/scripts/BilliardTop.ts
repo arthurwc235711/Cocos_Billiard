@@ -208,6 +208,7 @@ export class BilliardTop extends BaseCommonScript {
 
     stopCountDown() {
         this.unscheduleAllCallbacks();
+        yy.audio.stopSound();
         let player = this.getPlayerByUID(BilliardData.instance.getActionUid());
         if (player) {
             player.spriteCD.node.active = false;
