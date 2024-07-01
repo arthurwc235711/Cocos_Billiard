@@ -22,6 +22,8 @@ export class BilliardEightBall implements IBilliardRules {
     ruleType: eRuleType;
     ruleName: string = "8球";
     round: number = 0;
+    shotCount: number = 1;
+
 
     isFoul(outcome: Outcome[]): boolean {
         let result = false;
@@ -155,10 +157,15 @@ export class BilliardEightBall implements IBilliardRules {
         switch(type) {
             case 0:
                 if (puid === actionUid) {
+                    this.shotCount ++;
+                    if (this.shotCount >= 3) {
+                        BilliardTools.instance.playSoundApplause();
+                    }
                     // view.gameTips.startTips();
                     // yy.toast.addNow("继续击球");
                 }
                 else {
+                    this.shotCount = 1;
                     // yy.toast.addNow("正常击球，交换击球权");
                     BilliardData.instance.setActionUid(actionUid)
                     view.gameTips.turnTips();
@@ -172,6 +179,7 @@ export class BilliardEightBall implements IBilliardRules {
             case 1:
                 break;
             case 2:
+                this.shotCount = 1;
                 // yy.toast.addNow("击球犯规，下家放置自由球");
                 BilliardData.instance.setActionUid(actionUid)
                 let table = BilliardManager.instance.getTable();
