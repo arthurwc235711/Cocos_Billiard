@@ -2,6 +2,7 @@ import { _decorator, Component, Label, Node, Sprite } from 'cc';
 import { yy } from '../../../../../../yy';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { BilliardService } from '../../../net/BilliardService';
+import { BilliardTools } from '../../../scripts/BilliardTools';
 const { ccclass, property } = _decorator;
 
 
@@ -64,6 +65,10 @@ export class BilliardWinsView extends BaseCommonScript {
         }
 
         this.labelGold.string = yy.money.formatMoney( data.ChipPot.toNumber(), false);
+
+        // if (data.winnerid === yy.user.getUid()) {
+            BilliardTools.instance.playSoundWin();
+        // }
     }
 
 
