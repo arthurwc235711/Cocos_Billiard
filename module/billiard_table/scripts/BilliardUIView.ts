@@ -270,6 +270,8 @@ export class BilliardUIView extends BaseCommonScript {
                 // yy.log.w("cueAngle1", this.preTouchLocation)
                 BilliardService.instance.sendCueAngle(this.preTouchLocation.x, this.preTouchLocation.y);
                 BilliardService.instance.sendCueAngleReq(wp.x, wp.y);
+
+                BilliardTools.instance.playSoundPress();
             }
             else if (this.interactableTableTouch && !isFreeBallMove) {
                 // this.preTouchLocation = event.getLocation();
