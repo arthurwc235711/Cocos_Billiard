@@ -1,4 +1,4 @@
-import { _decorator, Button, Canvas, Component, EventTouch, find, game, Label, Node, physics, quat, Quat, Size, Slider, Sprite, tween, UITransform, Vec2, Vec3, Widget } from 'cc';
+import { _decorator, Button, Canvas, Component, director, EventTouch, find, game, Label, Node, physics, quat, Quat, Size, Slider, Sprite, tween, UITransform, Vec2, Vec3, Widget } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
@@ -324,6 +324,8 @@ export class BilliardUIView extends BaseCommonScript {
         let min = uiTransform.contentSize.y;
         let max = min * 2;
         let nodeAngle = this.nodeRight.getChildByPath("NodeAngle");
+
+        let times = 0;
         nodeAngle.on(Node.EventType.TOUCH_MOVE, (event: EventTouch) => {
             let touch = event.touch;
             let local = touch.getLocation();
@@ -359,7 +361,11 @@ export class BilliardUIView extends BaseCommonScript {
             // yy.log.w("c角度:", this.nodeCueArrow.angle, cs);
             this.onClickTable(this.preTouchLocation);
 
-            BilliardTools.instance.playSoundAngleSlider();
+            if (times === 0 || game.totalTime - times > 450) {
+                BilliardTools.instance.playSoundAngleSlider();
+                times = game.totalTime;
+            }
+
         });
 
         nodeAngle.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
@@ -370,6 +376,8 @@ export class BilliardUIView extends BaseCommonScript {
             this.onClickTable(this.preTouchLocation);
             yy.log.w("TOUCH_END", this.preTouchLocation, wp)
             BilliardService.instance.sendCueAngleReq(wp.x, wp.y);
+
+            times = 0;
         });
         nodeAngle.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
             this.preTouchLocation.x = BilliardTools.instance.roundToFiveDecimalPlaces(this.preTouchLocation.x);
@@ -379,6 +387,7 @@ export class BilliardUIView extends BaseCommonScript {
             this.onClickTable(this.preTouchLocation);
             yy.log.w("TOUCH_CANCEL", this.preTouchLocation, wp)
             BilliardService.instance.sendCueAngleReq(wp.x, wp.y);
+            times = 0;
         });
 
     }

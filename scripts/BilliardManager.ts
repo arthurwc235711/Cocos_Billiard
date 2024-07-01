@@ -251,7 +251,7 @@ export class BilliardManager extends BaseCommonInstance{
         switch(result.type) {
             case eOutcomeType.Continue:
                 table.onSetServiceData(result);
-                BilliardService.instance.sendAction(uid, 10, 0);
+                BilliardService.instance.sendAction(uid, 6, 0);
                 // view.resetData();
                 // rules.nextTurn(result.type);
                 // this.setSureBalls();
@@ -259,7 +259,7 @@ export class BilliardManager extends BaseCommonInstance{
             case eOutcomeType.Turn:
                 table.onSetServiceData(result);
                 // BilliardService.instance.sendAction(uid === 1 ? 2 : 1, 10, 0);
-                BilliardService.instance.sendAction(1, 10, 0);
+                BilliardService.instance.sendAction(1, 6, 0);
                 // view.resetData();
                 // rules.nextTurn(result.type);
                 // this.setSureBalls();
@@ -267,7 +267,7 @@ export class BilliardManager extends BaseCommonInstance{
             case eOutcomeType.FreeBall:
                 table.onSetServiceData(result);
                 // BilliardService.instance.sendAction(uid === 1 ? 2 : 1, 10, 2);
-                BilliardService.instance.sendAction(1, 10, 2);
+                BilliardService.instance.sendAction(1, 6, 2);
                 // view.resetData();
                 // rules.nextTurn(result.type);
                 // this.setSureBalls();
@@ -337,6 +337,7 @@ export class BilliardManager extends BaseCommonInstance{
 
     onWins(notify: protoBilliard.BroadcastGameResult) {
         let view = this.getView();
+        view.stopCountDown()
         if (notify.winnerid === yy.user.getUid()) {
             view.gameTips.showWinTips();
         }
