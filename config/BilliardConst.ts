@@ -24,3 +24,20 @@ export enum eOutcomeType {
     Failed,    // 己方失败 —— 例如8球，误将8好球打入则对方直接胜利
     Win,       // 己方胜利
 }
+
+
+export enum eAudio {
+    None,
+    BGM = "audio/bgm/bgm",
+    WindowClose = "audio/sound/Bt_Close",
+    BtnPress = "audio/sound/Bt_Press",
+    CountDown = "audio/sound/countDown",
+    AngleSlider = "audio/sound/angleSlider",
+    BallCollision = "audio/sound/ballCollision",
+    BallInPocket = "audio/sound/ballInPocket",
+    HitWeak = "audio/sound/hitWeak",
+    HitStrong = "audio/sound/hitStrong",
+    Win = "audio/sound/win",
+    Applause = "audio/sound/applause",
+
+}

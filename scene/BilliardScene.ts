@@ -10,6 +10,8 @@ import { BilliardPbConfig } from '../net/BilliardPbConfig';
 import { BilliardReader } from '../net/BilliardReader';
 import { BilliardWriter } from '../net/BilliardWriter';
 import { ProtoHelper } from '../../../../../framework/socket/ProtoHelper';
+import { BilliardTools } from '../scripts/BilliardTools';
+import { SoundAudio } from '../../../../main/audio/SoundAudio';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardScene')
@@ -19,9 +21,13 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     @property([JsonAsset])
     protoJson: JsonAsset[] = [];
 
+
+    private commonBtnClickSound: ()=>void;
     async onLoad() {
         yy.scene.reset_scene_size(true)
         super.onLoad();
+
+        
     }
 
     public register_event() {
@@ -47,6 +53,9 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         this.protoJson.forEach(info => {
             ProtoHelper.Ins.parseJsonData(info.json)
         })
+
+        this.commonBtnClickSound = SoundAudio.clickGameSound;
+        SoundAudio.clickGameSound = BilliardTools.instance.playSoundPress;
     }
 
 
@@ -55,6 +64,8 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         director.getScene().addChild(clone);
         yy.toast.setToastRes('app_common', 'toast/view/toast_view');
         BilliardManager.instance.setRules(eRuleType.EightBall);
+
+        BilliardTools.instance.playBgm();
     }
 
 
@@ -71,6 +82,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     }
 
     on_uninit() {
+        SoundAudio.clickGameSound = this.commonBtnClickSound;
         this.removeGameSocketConfig();
         yy.event.removeEventNameList(BilliardEventConfig);
         BilliardManager.instance.release();

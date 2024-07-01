@@ -4,9 +4,10 @@ import { yy } from "../../../../yy";
 import { R, R2d } from "./physics/constants";
 import { log } from "console";
 import { BilliardManager } from "./BilliardManager";
-import { BilliardConst } from "../config/BilliardConst";
+import { BilliardConst, eAudio } from "../config/BilliardConst";
 import { BaseCommonScript } from "../../../../main/base/BaseCommonScript";
 import { BilliardScene } from "../scene/BilliardScene";
+import { SoundAudio } from "../../../../main/audio/SoundAudio";
 
 export class BilliardTools {
     private static __instance__: BilliardTools;
@@ -138,7 +139,6 @@ export class BilliardTools {
 
         }
     }
-
     openView(path: string, call:Function|null = null) {
         const s = director.getScene();
         yy.loader.asyncLoadPrefab(BilliardConst.bundleName, path, (p)=>{
@@ -169,6 +169,41 @@ export class BilliardTools {
         yy.popup.show_popup(BilliardConst.bundleName, "module/billiard_personal/view/p_billiard_personal", null, uid);
     }
 
+
+    playBgm() {
+        yy.audio.playMusic(BilliardConst.bundleName, eAudio.BGM);
+    }
+
+    playSoundClose() {
+        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.WindowClose);
+    }
+    playSoundPress() {
+        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.BtnPress);
+    }
+    playSoundCD() {
+        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.CountDown);
+    }
+    playSoundAngleSlider() {
+        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.AngleSlider);
+    }
+    playSoundBallCollision() {
+        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.BallCollision);
+    }
+    playSoundBallInPocket() {
+        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.BallInPocket);
+    }
+    playSoundHitWeak() {
+        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.HitWeak);
+    }
+    playSoundHitStrong() {
+        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.HitStrong);
+    }
+    playSoundWin() {
+        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.Win);
+    }
+    playSoundApplause() {
+        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.Applause);
+    }
 }
 
 
