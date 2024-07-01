@@ -344,25 +344,6 @@ export class BilliardUIView extends BaseCommonScript {
                 angleInRadians = 1//(-0.01 * Math.PI) / 180  
             }
 
-            let rotatePoint = function rotatePoint(ax: number, ay: number, bx: number, by: number, angle: number): { x: number, y: number } {
-                // 将角度转换为弧度
-                const radians = angle * (Math.PI / 180);
-            
-                // 计算 AB 向量
-                const abx = bx - ax;
-                const aby = by - ay;
-            
-                // 使用旋转矩阵计算新的向量坐标
-                const newAbx = abx * Math.cos(radians) - aby * Math.sin(radians);
-                const newAby = abx * Math.sin(radians) + aby * Math.cos(radians);
-            
-                // 计算新的 B 坐标
-                const newBx = ax + newAbx;
-                const newBy = ay + newAby;
-            
-                return { x: newBx, y: newBy };
-            }
-
             let tran = this.nodeArrow.getComponent(UITransform);
             let sin = R2d / BilliardData.instance.getAngleLimit()  / (tran.width + R2d*2)
             let asin = Math.asin(sin);
@@ -377,6 +358,8 @@ export class BilliardUIView extends BaseCommonScript {
             this.preTouchLocation.y = cs.y;
             // yy.log.w("c角度:", this.nodeCueArrow.angle, cs);
             this.onClickTable(this.preTouchLocation);
+
+            BilliardTools.instance.playSoundAngleSlider();
         });
 
         nodeAngle.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
