@@ -4,7 +4,7 @@ export const BilliardConst = {
     gameKey: "billiard",
     bundleName: "app_billiard",
     startPos: new Vec3(-0.75, 0, 0),
-    gid: 60,
+    gid: 47,
     multiple:100000,
 }
 
