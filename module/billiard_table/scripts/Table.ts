@@ -135,6 +135,7 @@ export class Table extends BaseCommonScript {
     if (Collision.willCollide(a, b, t)) {
       const incidentSpeed = Collision.collide(a, b)
       this.outcome.push(Outcome.collision(a, b, incidentSpeed))
+      BilliardTools.instance.playSoundBallCollision();
       return false
     }
     return true
@@ -178,6 +179,7 @@ export class Table extends BaseCommonScript {
     if (p) {
       const pocketIncidentSpeed = p.fall(a, t)
       this.outcome.push(Outcome.pot(a, pocketIncidentSpeed))
+      BilliardTools.instance.playSoundBallInPocket();
       return false
     }
 
