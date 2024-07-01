@@ -181,7 +181,8 @@ export class BilliardTools {
         SoundAudio.playEffect(BilliardConst.bundleName, eAudio.BtnPress);
     }
     playSoundCD() {
-        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.CountDown);
+        yy.audio.playSound(BilliardConst.bundleName, eAudio.CountDown, 1, true);
+        // SoundAudio.playEffect(BilliardConst.bundleName, eAudio.CountDown);
     }
     playSoundAngleSlider() {
         SoundAudio.playEffect(BilliardConst.bundleName, eAudio.AngleSlider);

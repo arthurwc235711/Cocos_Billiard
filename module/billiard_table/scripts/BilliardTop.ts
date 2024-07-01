@@ -158,6 +158,7 @@ export class BilliardTop extends BaseCommonScript {
             player.shadeHeadCD.active = true;
 
             let onUpdate = (dt)=>{
+                let perCD = countDown;
                 countDown -= dt;
                 if (countDown < 0) {
                     countDown = 0;
@@ -165,16 +166,41 @@ export class BilliardTop extends BaseCommonScript {
                         yy.event.emit(yy.Event_Name.billiard_action_arrow_cd, countDown);
                     }
                     this.unschedule(onUpdate);
+                    player.labelCD.string = `${countDown}s`;
+                    yy.audio.stopSound();
+                    return;
                 }
                 let cd = Math.floor(countDown);
-                player.labelCD.string = `${cd}s`;
+
+                player.labelCD.string = `${cd + 1}s`;
                 player.spriteCD.fillRange = (countDown / MaxTime);
 
-                if (countDown < 6 && BilliardTools.instance.isMyAction()) {
-                    yy.event.emit(yy.Event_Name.billiard_action_arrow_cd, cd)
+                if (perCD > 5.05 && countDown <= 5.05) {
+                    BilliardTools.instance.playSoundCD();
+                }
+                // else if (perCD > 4.05 && countDown <= 4.05) {
+                //     BilliardTools.instance.playSoundCD();
+                //     yy.log.w("4s")
+                // }
+                // else if (perCD > 3.05 && countDown <= 3.05) {
+                //     BilliardTools.instance.playSoundCD();
+                //     yy.log.w("3s")
+                // }
+                // else if (perCD > 2.05 && countDown <= 2.05) {
+                //     BilliardTools.instance.playSoundCD();
+                //     yy.log.w("2s")
+                // }   
+                // else if (perCD > 1.05 && countDown <= 1.05) {
+                //     BilliardTools.instance.playSoundCD();
+                //     yy.log.w("1s")
+                // }
+
+
+                if (countDown < 5 && BilliardTools.instance.isMyAction()) {
+                    yy.event.emit(yy.Event_Name.billiard_action_arrow_cd, cd + 1)
                 }
             }
-            player.labelCD.string = `${Math.floor(countDown)}s`;
+            player.labelCD.string = `${Math.floor(countDown) + 1}s`;
             this.schedule(onUpdate, 0);
         }
         return this;
