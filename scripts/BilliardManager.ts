@@ -361,7 +361,7 @@ export class BilliardManager extends BaseCommonInstance{
         let table = this.getTable();
         view.clearData();
         table.clearData();
-        BilliardData.instance.clearData();
+        BilliardData.instance.resetData();
 
     }
 }

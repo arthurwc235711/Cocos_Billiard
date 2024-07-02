@@ -165,11 +165,16 @@ export class BilliardData {
     }
 
 
-    clearData() {
+    resetData() {
         this.players.forEach(p=> {
             p.hitType = 0;
         });
         BilliardData.ballId = 0;
+    }
+
+    clearData() {
+        this.players.length = 0;
+        BilliardData.ballId = 0;  
     }
 }
 
