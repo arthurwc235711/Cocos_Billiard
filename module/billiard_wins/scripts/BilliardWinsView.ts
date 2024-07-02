@@ -1,8 +1,9 @@
-import { _decorator, Component, Label, Node, Sprite } from 'cc';
+import { _decorator, Button, Component, Label, Node, Sprite, Vec3 } from 'cc';
 import { yy } from '../../../../../../yy';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { BilliardService } from '../../../net/BilliardService';
 import { BilliardTools } from '../../../scripts/BilliardTools';
+import { BilliardData } from '../../../data/BilliardData';
 const { ccclass, property } = _decorator;
 
 
@@ -24,6 +25,14 @@ export class BilliardWinsView extends BaseCommonScript {
     labelGold: Label = null;
     @property(Label)
     labelMyGold: Label = null;
+    @property(Node)
+    nodePao: Node = null;
+    @property(Label)
+    labelTips: Label = null;
+    @property(Button)
+    btnPlayAgain:Button = null;
+    @property(Button)
+    btnRematch: Button = null;
 
     
 
@@ -35,9 +44,9 @@ export class BilliardWinsView extends BaseCommonScript {
     public register_event() {
         // 注册指定的监听方法，格式如下
         this.event_func_map = {
-            // [yy.Event_Name.Billiard_Matching]: "onMatching",
-            // [yy.Event_Name.Billiard_Matching_Success]: "onMatchingSuccess",
-            // [yy.Event_Name.Billiard_Matching_Cancel]: "onMatchingCancel",
+            [yy.Event_Name.billiard_notify_ready]: "onReady",
+            [yy.Event_Name.billiard_notify_leave]: "onLeave",
+            [yy.Event_Name.billiard_notify_start]: "onReStart",
         };
         super.register_event();
     }
@@ -51,9 +60,18 @@ export class BilliardWinsView extends BaseCommonScript {
         this.otherUI.labelName = this.nodeOther.getChildByName("Label").getComponent(Label);
         this.otherUI.spriteUrl = this.nodeOther.getChildByPath("p_head_billiard/head_mask/img_head").getComponent(Sprite);
         this.otherUI.labelGold = this.nodeOther.getChildByPath("Layout/Label").getComponent(Label);
-        this.otherUI.nodeHalo = this.nodeMy.getChildByName("Halo");
+        this.otherUI.nodeHalo = this.nodeOther.getChildByName("Halo");
 
         this.labelMyGold.string = yy.money.formatMoney( yy.user.getTotalMoney(), false);
+
+        this.scheduleOnce(()=>{
+            yy.event.emit(yy.Event_Name.billiard_clear_game_data);
+            this.node.getChildByName("NodeBtn").scale = Vec3.ONE;
+        }, 2)
+
+        if (BilliardData.instance.isOtherPlayExit) {
+            this.onLeave();
+        }
     }
 
     setData(data: protoBilliard.BroadcastGameResult) {
@@ -74,7 +92,7 @@ export class BilliardWinsView extends BaseCommonScript {
         this.labelGold.string = yy.money.formatMoney( data.ChipPot.toNumber(), false);
 
         // if (data.winnerid === yy.user.getUid()) {
-            BilliardTools.instance.playSoundWin();
+        BilliardTools.instance.playSoundWin();
         // }
     }
 
@@ -103,6 +121,37 @@ export class BilliardWinsView extends BaseCommonScript {
         ui.labelGold.string = yy.money.formatMoney(gold, false);
     }
 
+
+    onReady(notify: protoBilliard.BroadcastUserReady) {
+        if (notify.uid === yy.user.getUid()) {
+            this.btnPlayAgain.interactable = false;
+            this.btnRematch.interactable = false;
+        }
+        else {
+            this.nodePao.active = true;
+            this.labelTips.string = "Let's play another round!";
+        }
+    }
+
+    onLeave() {
+        this.nodePao.active = true;
+        this.labelTips.string = "Have Left!";
+        this.btnPlayAgain.interactable = false;
+        this.btnRematch.interactable = true;
+    }
+
+    onReStart() {
+        this.node.destroy();
+    }
+
+
+    onClickReady() {
+        BilliardService.instance.sendReady();
+    }
+
+    onClickRematch() {
+        
+    }
 }
 
 

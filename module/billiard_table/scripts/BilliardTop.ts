@@ -294,6 +294,15 @@ export class BilliardTop extends BaseCommonScript {
             BilliardTools.instance.openPersonalView(this.playerUI[i].uid);
         }
     }
+
+    clearData() {
+        this.playerUI.forEach(p=>{
+            p.nodeBalls.children.forEach((c,i)=>{
+                let bNode = c.getChildByName("SpriteBall")
+                bNode.active = false;
+            });
+        });
+    }
 }
 
 

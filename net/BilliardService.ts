@@ -39,6 +39,9 @@ export class BilliardService extends StackListenerNew {
 
 
 
+        ["cmd_0x6003"]: "notifyReady",
+        ["cmd_0x6004"]: "notifyExit",
+    
         ["cmd_0x6011"]: "notifyEnterGame",
         ["cmd_0x6012"]: "notifyStart",
         ["cmd_0x6013"]: "notifyAction",
@@ -98,6 +101,13 @@ export class BilliardService extends StackListenerNew {
             
         }
     }
+    notifyExit(data: any) {
+        let notify: protoBilliard.NotifyUserExit = data.msg;
+        if (notify) {
+            BilliardData.instance.isOtherPlayExit = true;
+            yy.event.emit(yy.Event_Name.billiard_notify_leave);
+        }
+    }
 
     sendEnterGame() {
         let req = new protoBilliard.EnterGameReq();
@@ -147,6 +157,12 @@ export class BilliardService extends StackListenerNew {
         }
         else {
             this.errorTips(msg);
+        }
+    }
+    notifyReady(data: any) {
+        let notify:protoBilliard.BroadcastUserReady = data.msg;
+        if (notify) {
+            yy.event.emit(yy.Event_Name.billiard_notify_ready, notify);
         }
     }
 

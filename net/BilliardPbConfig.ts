@@ -18,6 +18,7 @@ export let BilliardPbConfig = [
 
 
     // 广播&通知
+    {cmd: 0x6003, rsp: "protoBilliard.BroadcastUserReady"}, // 准备请求协议
     {cmd: 0x6004, rsp: "protoBilliard.NotifyUserExit"}, // 退出桌子数据协议
     {cmd: 0x6011, rsp: "protoBilliard.GameStatus"}, // 请求桌子数据协议
     {cmd: 0x6012, rsp: "protoBilliard.IStart"}, // GC游戏开始 IStart

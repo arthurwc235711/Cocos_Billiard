@@ -54,8 +54,8 @@ export class track {
     }
 
     static clear() {
-        this.inPocketBalls = [];
-        this.inTrackBalls = [];
+        this.inPocketBalls.length = 0;
+        this.inTrackBalls.length = 0;
     }
 
 

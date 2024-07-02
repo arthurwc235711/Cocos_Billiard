@@ -310,6 +310,12 @@ export class Table extends BaseCommonScript {
     });
   }
 
+
+  clearData() {
+    this.nodeBalls.removeAllChildren();
+    track.clear();
+  }
+
 }
 
 

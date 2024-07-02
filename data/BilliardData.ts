@@ -50,6 +50,8 @@ export class BilliardData {
 
     private angleLimit: number = 100; // 微调参数
 
+    isOtherPlayExit = false;
+
 
 
 
@@ -160,6 +162,14 @@ export class BilliardData {
     }
     setAngleLimit(limit: number) {
         this.angleLimit = limit;
+    }
+
+
+    clearData() {
+        this.players.forEach(p=> {
+            p.hitType = 0;
+        });
+        BilliardData.ballId = 0;
     }
 }
 

@@ -92,6 +92,8 @@ export class BilliardManager extends BaseCommonInstance{
             [yy.Event_Name.billiard_notify_result]: "onServiceResult",
             [yy.Event_Name.billiard_notify_action]: "onAction",
             [yy.Event_Name.billiard_notify_wins]: "onWins",
+
+            [yy.Event_Name.billiard_clear_game_data]: "clearGameData",
         }
 
         super.register_event();
@@ -348,6 +350,19 @@ export class BilliardManager extends BaseCommonInstance{
         view.scheduleOnce(()=>{
             BilliardTools.instance.openWinsView(notify);
         }, 2);
+
+
+        this.clearGameData();
+    }
+
+
+    clearGameData() {
+        let view = this.getView();
+        let table = this.getTable();
+        view.clearData();
+        table.clearData();
+        BilliardData.instance.clearData();
+
     }
 }
 

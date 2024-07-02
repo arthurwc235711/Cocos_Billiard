@@ -773,6 +773,11 @@ export class BilliardUIView extends BaseCommonScript {
     onClickChat() {
         BilliardTools.instance.openChatView();
     }
+
+
+    clearData() {
+        this.billiardTop.clearData();
+    }
 }
 
 

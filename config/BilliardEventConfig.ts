@@ -10,10 +10,13 @@ export default [
     "billiard_setting_cue_location",
     "billiard_send_msg",
     "billiard_send_personal",
+    "billiard_clear_game_data",
     
 
     // 游戏协议
     "billiard_notify_entergame",
+    "billiard_notify_ready",
+    "billiard_notify_leave",
     "billiard_notify_start",
     "billiard_notify_cuemove",
     "billiard_notify_cueangle",
