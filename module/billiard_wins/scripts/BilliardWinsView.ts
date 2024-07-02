@@ -10,6 +10,7 @@ interface BilliardMatchUI {
     labelName: Label;
     spriteUrl: Sprite;
     labelGold: Label;
+    nodeHalo: Node;
 }
 
 
@@ -21,11 +22,13 @@ export class BilliardWinsView extends BaseCommonScript {
     nodeOther: Node = null;
     @property(Label)
     labelGold: Label = null;
+    @property(Label)
+    labelMyGold: Label = null;
 
     
 
-    myUI: BilliardMatchUI = {labelName: null, spriteUrl: null, labelGold: null};
-    otherUI: BilliardMatchUI = {labelName: null, spriteUrl: null, labelGold: null};
+    myUI: BilliardMatchUI = {labelName: null, spriteUrl: null, labelGold: null, nodeHalo: null};
+    otherUI: BilliardMatchUI = {labelName: null, spriteUrl: null, labelGold: null, nodeHalo: null};
 
 
     // private sData: protoBilliard.BroadcastGameResult;
@@ -43,12 +46,14 @@ export class BilliardWinsView extends BaseCommonScript {
         this.myUI.labelName = this.nodeMy.getChildByName("Label").getComponent(Label);
         this.myUI.spriteUrl = this.nodeMy.getChildByPath("p_head_billiard/head_mask/img_head").getComponent(Sprite);
         this.myUI.labelGold = this.nodeMy.getChildByPath("Layout/Label").getComponent(Label);
+        this.myUI.nodeHalo = this.nodeMy.getChildByName("Halo");
 
         this.otherUI.labelName = this.nodeOther.getChildByName("Label").getComponent(Label);
         this.otherUI.spriteUrl = this.nodeOther.getChildByPath("p_head_billiard/head_mask/img_head").getComponent(Sprite);
         this.otherUI.labelGold = this.nodeOther.getChildByPath("Layout/Label").getComponent(Label);
+        this.otherUI.nodeHalo = this.nodeMy.getChildByName("Halo");
 
-        yy.log.w("on_init")
+        this.labelMyGold.string = yy.money.formatMoney( yy.user.getTotalMoney(), false);
     }
 
     setData(data: protoBilliard.BroadcastGameResult) {
@@ -57,10 +62,12 @@ export class BilliardWinsView extends BaseCommonScript {
             if(p.uid === yy.user.getUid()) {
                 this.setPlayerInfo(this.myUI, p.nick, p.icon, p.moneyTotal.toNumber());
                 this.nodeMy.getChildByName("NodeWiner").active = data.winnerid === p.uid;
+                this.myUI.nodeHalo.active = data.winnerid === p.uid;
             }
             else {
                 this.setPlayerInfo(this.otherUI, p.nick, p.icon, p.moneyTotal.toNumber());
                 this.nodeOther.getChildByName("NodeWiner").active = data.winnerid === p.uid;
+                this.otherUI.nodeHalo.active = data.winnerid === p.uid;
             }
         }
 
