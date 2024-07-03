@@ -778,6 +778,11 @@ export class BilliardUIView extends BaseCommonScript {
     clearData() {
         this.billiardTop.clearData();
     }
+
+
+    onRematch() {
+        BilliardService.instance.sendEnterGame();
+    }
 }
 
 

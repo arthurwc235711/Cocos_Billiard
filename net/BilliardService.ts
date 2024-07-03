@@ -25,6 +25,8 @@ export class BilliardService extends StackListenerNew {
     public isStandAlone = false;
 
     private tid: number;
+    private levelData: protoBilliard.MatchingReq;
+    private rematchData: protoBilliard.BilliardsTableCfg
 
     eventFuncMap: { [key: string]: string } = {
         ["BilliardAllocService_EnterByTable"]: "BilliardAllocService_EnterByTable",
@@ -38,6 +40,8 @@ export class BilliardService extends StackListenerNew {
         ["BilliardService_ClientEvent"]: "respClientEvent",
 
 
+
+        // ["cmd_0x6000"]: "notifyMatchingTable",
 
         ["cmd_0x6003"]: "notifyReady",
         ["cmd_0x6004"]: "notifyExit",
@@ -278,6 +282,7 @@ export class BilliardService extends StackListenerNew {
     notifyGameResult(data: any) {
         let msg: protoBilliard.BroadcastGameResult = data.msg;
         if(msg) {
+            this.rematchData = msg.tablecfg;
             yy.event.emit(yy.Event_Name.billiard_notify_wins, msg);
         }
     }
@@ -325,6 +330,35 @@ export class BilliardService extends StackListenerNew {
         yy.event.emit(yy.Event_Name.billiard_send_personal, notify);
     }
 
+
+    sendLeaveMatching() {
+        let req: protoBilliard.MatchingReq = this.levelData;
+        yy.socket.send("BilliardAllocService.LeaveMatching", req);
+    }
+
+    
+    sendEnterMatching() {
+        let req: protoBilliard.MatchingReq = new protoBilliard.MatchingReq();
+        let data = this.rematchData;
+        req.minCarry = data.CarryLower.toNumber();
+        req.maxCarry = data.CarryUpper.toNumber();
+        req.seatNumber = data.TableMaxPlayerNum;
+        req.matchingUserCount = data.MatchingPlayerNum;
+        req.basescore = data.BaseScore.toNumber();
+        req.ballcount = data.BallCount;
+        req.seq = data.Seq;
+
+        this.levelData = req;
+        yy.socket.send("BilliardAllocService.EnterMatching", req);
+    }
+
+
+    notifyMatchingTable(data: any) {
+        let notify: protoBilliardAlloc.MatchingTableMsg = data.msg;
+
+        yy.log.w("BilliardLobbyService   notifyMatchingTable");
+        yy.event.emit(yy.Event_Name.Billiard_Matching_Success, notify);
+    }
     //---------------------------------------------------------------------------------------
     sendStart() {
         let req = new protoBilliard.IStart ();

@@ -11,6 +11,8 @@ export default [
     "billiard_send_msg",
     "billiard_send_personal",
     "billiard_clear_game_data",
+    "billiard_rematch",
+    // "Billiard_Matching_Success", // 同大厅匹配 大厅注册，不能重复注册
     
 
     // 游戏协议

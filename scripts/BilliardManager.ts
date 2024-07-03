@@ -94,6 +94,10 @@ export class BilliardManager extends BaseCommonInstance{
             [yy.Event_Name.billiard_notify_wins]: "onWins",
 
             [yy.Event_Name.billiard_clear_game_data]: "clearGameData",
+
+
+            [yy.Event_Name.billiard_rematch]: "onRematch",
+            [yy.Event_Name.billiard_reconnect]: "onReconnect",
         }
 
         super.register_event();
@@ -352,7 +356,7 @@ export class BilliardManager extends BaseCommonInstance{
         }, 2);
 
 
-        this.clearGameData();
+        // this.clearGameData();
     }
 
 
@@ -362,8 +366,21 @@ export class BilliardManager extends BaseCommonInstance{
         view.clearData();
         table.clearData();
         BilliardData.instance.resetData();
+    }
+
+    onRematch() {
+        BilliardService.instance.sendEnterGame();
+        let view = this.getView();
+        let table = this.getTable();
+        view.clearData();
+        table.clearData();
+        BilliardData.instance.clearData();
+    }
+
+    onReconnect() {
 
     }
+
 }
 
 

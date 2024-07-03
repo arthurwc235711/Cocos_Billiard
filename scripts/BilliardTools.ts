@@ -8,6 +8,7 @@ import { BilliardConst, eAudio } from "../config/BilliardConst";
 import { BaseCommonScript } from "../../../../main/base/BaseCommonScript";
 import { BilliardScene } from "../scene/BilliardScene";
 import { SoundAudio } from "../../../../main/audio/SoundAudio";
+import { BilliardService } from "../net/BilliardService";
 
 export class BilliardTools {
     private static __instance__: BilliardTools;
@@ -167,6 +168,24 @@ export class BilliardTools {
 
     openPersonalView(uid: number) {
         yy.popup.show_popup(BilliardConst.bundleName, "module/billiard_personal/view/p_billiard_personal", null, uid);
+    }
+
+    openMatchView(call:Function) {
+        BilliardService.instance.sendExit();
+        const s = director.getScene();
+        yy.wait.show("BilliardMatchView");
+        yy.loader.asyncLoadPrefab("app_lobby", "module/billiardLevel/view/p_billiard_match", (p)=>{
+            yy.wait.hide("BilliardMatchView");
+            let clone = instantiate(p) as Node;
+            let cmp = clone.getComponent(BaseCommonScript)
+            const scene = s.getComponentInChildren(BilliardScene)
+            scene.get_scene_layer_game().addChild(clone);
+            if (cmp) {
+                cmp.reqGameSceneMatching()
+                BilliardService.instance.sendEnterMatching();
+                call && call(cmp);
+            }
+        });
     }
 
 

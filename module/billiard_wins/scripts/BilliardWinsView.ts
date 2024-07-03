@@ -1,4 +1,4 @@
-import { _decorator, Button, Component, Label, Node, Sprite, Vec3 } from 'cc';
+import { _decorator, Button, Component, Label, Node, Sprite, tiledLayerAssembler, Vec3 } from 'cc';
 import { yy } from '../../../../../../yy';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { BilliardService } from '../../../net/BilliardService';
@@ -150,7 +150,9 @@ export class BilliardWinsView extends BaseCommonScript {
     }
 
     onClickRematch() {
-        
+        BilliardTools.instance.openMatchView(()=>{
+            this.node.destroy();
+        });
     }
 }
 
