@@ -83,6 +83,8 @@ export class BilliardManager extends BaseCommonInstance{
 
     register_event() {
         this.event_func_map = {
+            [yy.Event_Name.CasualCommonQuit]: "onQuit",
+
             [yy.Event_Name.billiard_table_init]: "onInitGame",
             [yy.Event_Name.billiard_allStationary] : 'onAllStationary',
             [yy.Event_Name.billiard_hit_cd_stop]: "onHitCdStop",
@@ -379,6 +381,19 @@ export class BilliardManager extends BaseCommonInstance{
 
     onReconnect() {
 
+    }
+
+
+    onQuit() {
+        yy.audio.stopMusic()
+        yy.audio.stopSound()
+        yy.scene.change_bundle_scene('app_lobby', 'lobby_scene', () => {
+            let gameBundleName = this.sGameBundleName;
+            if (typeof gameBundleName === 'string' && gameBundleName.length > 0) {
+                yy.loader.releaseBundle(gameBundleName);
+            }
+            yy.loader.releaseBundle('app_casual_common');
+        });
     }
 
 }
