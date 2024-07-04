@@ -3,7 +3,7 @@ import { CasualCommonSceneBase } from '../../../casual_common/scripts/base/Casua
 import { yy } from '../../../../yy';
 import BilliardEventConfig from '../config/BilliardEventConfig';
 import { BilliardManager } from '../scripts/BilliardManager';
-import { eRuleType } from '../config/BilliardConst';
+import { BilliardConst, eRuleType } from '../config/BilliardConst';
 import { GameMessageStack, ITemplateGameServiceListener } from '../../../../main/data/GameMessageStack';
 import { BilliardService } from '../net/BilliardService';
 import { BilliardPbConfig } from '../net/BilliardPbConfig';
@@ -12,6 +12,8 @@ import { BilliardWriter } from '../net/BilliardWriter';
 import { ProtoHelper } from '../../../../../framework/socket/ProtoHelper';
 import { BilliardTools } from '../scripts/BilliardTools';
 import { SoundAudio } from '../../../../main/audio/SoundAudio';
+import { GameEnterTypeEnum, IEnterGameEmitData, ISubGameTableInfoItemData } from '../../../../main/data/SubGameData';
+import { BilliardData } from '../data/BilliardData';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardScene')
@@ -21,6 +23,11 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     @property([JsonAsset])
     protoJson: JsonAsset[] = [];
 
+
+    @property(Prefab)
+    matchPrefab: Prefab = null;
+
+    levelData: ISubGameTableInfoItemData;
 
     private commonBtnClickSound: ()=>void;
     async onLoad() {
@@ -34,7 +41,8 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         yy.event.addEventNameList(BilliardEventConfig);
         // 注册指定的监听方法，格式如下
         this.event_func_map = {
-            // [yy.Event_Name.PPSlotsEventClickRules]: "onClickRule",
+            [yy.Event_Name.Common_Enter_SubGame_Success] : "onLevelData",
+            [yy.Event_Name.CasualProgressComplete]: "onProgressComplete",
             // [yy.Event_Name.PPSlotsEventClickHistory]: "onClickHistory",
             // [yy.Event_Name.reset_all_view]: 'onEventResetAllView',
         };
@@ -56,6 +64,8 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
 
         this.commonBtnClickSound = SoundAudio.clickGameSound;
         SoundAudio.clickGameSound = BilliardTools.instance.playSoundPress;
+
+        this.loadingResource();
     }
 
 
@@ -98,6 +108,55 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     clearAllTimer(): void {
         this.g_canvas.unscheduleAllCallbacks();
     }
+
+
+    onLevelData(enterData: IEnterGameEmitData) {
+        if (enterData.enterType !== GameEnterTypeEnum.RECONNECT) {
+            this.levelData = enterData.tableInfo.data;
+            yy.log.w("BilliardScene onLevelData", this.levelData)
+            // BilliardTools.instance.openMatchView(enterData.tableInfo.data);
+        }
+        else {
+            yy.log.e("BilliardScene onLevelData", "enterType is RECONNECT")
+            this.levelData = null;
+        }
+    }
+
+    onProgressComplete() {
+
+        yy.log.w("onProgressComplete", this.levelData)
+        if (this.levelData != null) {
+            yy.log.w("------------")
+            BilliardTools.instance.openMatchView(this.levelData, null);
+        }
+    }
+
+
+    loadingResource() {
+        // 预设预加载资源
+        let pre = [
+            "module/billiard_match/view/p_billiard_match",
+        ]
+        // 音效预加载资源
+        let preSound = [
+        ]
+        const max = pre.length + preSound.length;
+        let cur = 0;
+        pre.forEach((name, i)=>{
+            yy.loader.asyncLoadPrefab(BilliardConst.bundleName, name, (prefab)=>{
+                cur ++;
+                yy.event.emit(yy.Event_Name.billiard_loading_resource, cur/max);
+            });
+        })
+    
+        preSound.forEach((name, i)=>{
+            yy.loader.asyncLoadAudioClip(BilliardConst.bundleName, name, (clip)=>{
+                cur ++;
+                yy.event.emit(yy.Event_Name.billiard_loading_resource, cur/max);
+            })
+        });
+    }
+
 }
 
 

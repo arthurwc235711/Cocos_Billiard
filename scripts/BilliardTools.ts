@@ -1,4 +1,4 @@
-import { Camera, director, find, instantiate, misc, Node, UITransform, Vec3 } from "cc";
+import { Camera, director, find, instantiate, misc, Node, Prefab, UITransform, Vec3 } from "cc";
 import { BilliardData } from "../data/BilliardData";
 import { yy } from "../../../../yy";
 import { R, R2d } from "./physics/constants";
@@ -9,6 +9,7 @@ import { BaseCommonScript } from "../../../../main/base/BaseCommonScript";
 import { BilliardScene } from "../scene/BilliardScene";
 import { SoundAudio } from "../../../../main/audio/SoundAudio";
 import { BilliardService } from "../net/BilliardService";
+import { ISubGameTableInfoItemData } from "../../../../main/data/SubGameData";
 
 export class BilliardTools {
     private static __instance__: BilliardTools;
@@ -140,15 +141,25 @@ export class BilliardTools {
 
         }
     }
-    openView(path: string, call:Function|null = null) {
+    openView(path: string, call:Function|null = null, prefab: Prefab|null = null) {
         const s = director.getScene();
-        yy.loader.asyncLoadPrefab(BilliardConst.bundleName, path, (p)=>{
-            let clone = instantiate(p) as Node;
+        if (prefab) {
+            let clone = instantiate(prefab) as Node;
             let cmp = clone.getComponent(BaseCommonScript)
             const scene = s.getComponentInChildren(BilliardScene)
             scene.get_scene_layer_game().addChild(clone);
             call && call(cmp);
-        });
+        }
+        else {
+            yy.loader.asyncLoadPrefab(BilliardConst.bundleName, path, (p)=>{
+                let clone = instantiate(p) as Node;
+                let cmp = clone.getComponent(BaseCommonScript)
+                const scene = s.getComponentInChildren(BilliardScene)
+                scene.get_scene_layer_game().addChild(clone);
+                call && call(cmp);
+            });
+        }
+
     }
 
     openWinsView(data: protoBilliard.BroadcastGameResult) {
@@ -170,11 +181,11 @@ export class BilliardTools {
         yy.popup.show_popup(BilliardConst.bundleName, "module/billiard_personal/view/p_billiard_personal", null, uid);
     }
 
-    openMatchView(call:Function) {
+    openReMatchView(call:Function) {
         BilliardService.instance.sendExit();
         const s = director.getScene();
         yy.wait.show("BilliardMatchView");
-        yy.loader.asyncLoadPrefab("app_lobby", "module/billiardLevel/view/p_billiard_match", (p)=>{
+        yy.loader.asyncLoadPrefab(BilliardConst.bundleName, "module/billiard_match/view/p_billiard_match", (p)=>{
             yy.wait.hide("BilliardMatchView");
             let clone = instantiate(p) as Node;
             let cmp = clone.getComponent(BaseCommonScript)
@@ -182,10 +193,18 @@ export class BilliardTools {
             scene.get_scene_layer_game().addChild(clone);
             if (cmp) {
                 cmp.reqGameSceneMatching()
-                BilliardService.instance.sendEnterMatching();
+                BilliardService.instance.sendEnterReMatching();
                 call && call(cmp);
             }
         });
+    }
+
+    openMatchView(data: ISubGameTableInfoItemData, perfab: Prefab) {
+        yy.wait.show("BilliardMatchView");
+        this.openView("module/billiard_match/view/p_billiard_match", (base)=>{
+            yy.wait.hide("BilliardMatchView");
+            base["reqMatching"](data);
+        }, perfab);
     }
 
     openWaitView(time: number) {

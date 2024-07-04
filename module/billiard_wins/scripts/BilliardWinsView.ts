@@ -150,7 +150,7 @@ export class BilliardWinsView extends BaseCommonScript {
     }
 
     onClickRematch() {
-        BilliardTools.instance.openMatchView(()=>{
+        BilliardTools.instance.openReMatchView(()=>{
             this.node.destroy();
         });
     }

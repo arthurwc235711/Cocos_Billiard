@@ -12,6 +12,8 @@ export default [
     "billiard_send_personal",
     "billiard_clear_game_data",
     "billiard_rematch",
+
+    "billiard_loading_resource",
     // "Billiard_Matching_Success", // 同大厅匹配 大厅注册，不能重复注册
 
     // "billiard_wait_close",
@@ -32,4 +34,12 @@ export default [
 
     "billiard_notify_setgold",
     "billiard_notify_offline",
+
+
+
+    //桌球
+    "Billiard_Matching",
+    "Billiard_Matching_Success",
+    "Billiard_Matching_Fail",
+    "Billiard_Matching_Cancel",
 ]

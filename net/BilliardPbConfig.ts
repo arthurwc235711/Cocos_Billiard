@@ -1,4 +1,13 @@
 export let BilliardPbConfig = [
+
+
+    ////////////////////////////////////////////// 桌球匹配相关 以下 //////////////////////////////////////////////
+    { router: 'BilliardAllocService.EnterMatching', rsp: 'protoBilliard.EnterRsp' },
+    { router: 'BilliardAllocService.LeaveMatching', rsp: 'protoBilliard.EnterRsp' },
+    {cmd: 0x6000, rsp: 'protoBilliardAlloc.MatchingTableMsg'},
+    ////////////////////////////////////////////// 桌球匹配相关 以上 //////////////////////////////////////////////
+
+
     // 快速开始
     {router: "BilliardAllocService.EnterByTable",  rsp: "protoBilliard.EnterRsp" },
 

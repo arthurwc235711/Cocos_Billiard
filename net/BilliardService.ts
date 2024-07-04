@@ -1,6 +1,7 @@
 
 import { ProtoHelper } from '../../../../../framework/socket/ProtoHelper';
 import { StackListenerNew } from '../../../../main/data/GameMessageStack';
+import { ISubGameTableInfoItemData } from '../../../../main/data/SubGameData';
 import { yy } from '../../../../yy';
 import { BilliardConst } from '../config/BilliardConst';
 import { BilliardData } from '../data/BilliardData';
@@ -29,6 +30,14 @@ export class BilliardService extends StackListenerNew {
     private rematchData: protoBilliard.BilliardsTableCfg
 
     eventFuncMap: { [key: string]: string } = {
+        ////////////////////////////////////////////// 桌球匹配相关 以下 //////////////////////////////////////////////
+        ['BilliardAllocService.EnterMatching']: 'respEnterMatching',
+        ["BilliardAllocService.EnterMatching.timeout"]: "respEnterMatching",
+        ["BilliardAllocService.LeaveMatching"]: "respLeaveMatching",
+        ["BilliardAllocService.LeaveMatching.timeout"]: "respLeaveMatching",
+        ["cmd_0x6000"]: "notifyMatchingTable",
+        ////////////////////////////////////////////// 桌球匹配相关 以上 //////////////////////////////////////////////
+
         ["BilliardAllocService_EnterByTable"]: "BilliardAllocService_EnterByTable",
 
         ["BilliardService_EnterGame"]: "respEnterGame",
@@ -41,7 +50,6 @@ export class BilliardService extends StackListenerNew {
 
 
 
-        // ["cmd_0x6000"]: "notifyMatchingTable",
 
         ["cmd_0x6003"]: "notifyReady",
         ["cmd_0x6004"]: "notifyExit",
@@ -69,7 +77,63 @@ export class BilliardService extends StackListenerNew {
     }
 
 
-    private errorTips(msg: protoBilliard.CommonRsp) {
+    /********************************************匹配相关  开始**************************************** */
+    sendEnterMatching(data: ISubGameTableInfoItemData) {
+        let req: protoBilliard.MatchingReq = new protoBilliard.MatchingReq();
+        req.minCarry = data.carryLower;
+        req.maxCarry = data.carryUpper;
+        req.seatNumber = data.seats % 100;
+        req.matchingUserCount = Math.floor(data.seats / 100)  //data.playerNumber;
+        req.basescore = data.tableMoney;
+        req.ballcount = data.maxBetMoney;
+        req.seq = data.id;
+
+        this.levelData = req;
+        yy.socket.send("BilliardAllocService.EnterMatching", req);
+    }
+    
+    respEnterMatching(data: any, req: any) {
+        let resp = data.msg as protoBilliard.EnterRsp;
+        // yy.log.w("respEnterMatching", data, req);
+        if(data.code == 0 &&  resp && resp.code  == 0) {
+            yy.event.emit(yy.Event_Name.Billiard_Matching);
+        }
+        else {
+            yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
+             this.errorTips(resp);
+        }
+        // 
+    }
+
+
+    sendLeaveMatching() {
+        let req: protoBilliard.MatchingReq = this.levelData;
+        yy.socket.send("BilliardAllocService.LeaveMatching", req);
+    }
+
+    respLeaveMatching(data: any, req: any) {
+        let resp = data.msg as protoBilliard.EnterRsp;
+        if(data.code == 0 &&  resp && resp.code  == 0) {
+            
+        }
+        else {
+             this.errorTips(resp);
+        }
+
+        yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
+    }
+
+    notifyMatchingTable(data: any) {
+        let notify: protoBilliardAlloc.MatchingTableMsg = data.msg;
+
+        yy.log.w("BilliardService   notifyMatchingTable");
+        yy.event.emit(yy.Event_Name.Billiard_Matching_Success, notify);
+    }
+    /********************************************匹配相关  结束**************************************** */
+
+
+
+    private errorTips(msg: any) {
         if (msg) {
             yy.toast.addNow(`error code:${msg.code} msg:${msg.msg}`);
         }
@@ -362,13 +426,9 @@ export class BilliardService extends StackListenerNew {
     }
 
 
-    sendLeaveMatching() {
-        let req: protoBilliard.MatchingReq = this.levelData;
-        yy.socket.send("BilliardAllocService.LeaveMatching", req);
-    }
 
     
-    sendEnterMatching() {
+    sendEnterReMatching() {
         let req: protoBilliard.MatchingReq = new protoBilliard.MatchingReq();
         let data = this.rematchData;
         req.minCarry = data.CarryLower.toNumber();
@@ -384,12 +444,7 @@ export class BilliardService extends StackListenerNew {
     }
 
 
-    notifyMatchingTable(data: any) {
-        let notify: protoBilliardAlloc.MatchingTableMsg = data.msg;
 
-        yy.log.w("BilliardLobbyService   notifyMatchingTable");
-        yy.event.emit(yy.Event_Name.Billiard_Matching_Success, notify);
-    }
 
     //=0后台切回前台  =1前台切到后台
     sendForeBackstageReq(status: number) {
