@@ -100,12 +100,21 @@ export class BilliardData {
         }
     }
     setHitBallType(type: number) {
-        for(let i = 0; i < this.players.length; i++){
-            if(this.players[i].uid === this.actionUid){
-                this.players[i].hitType = type;
-                this.players[i === 0 ? 1 : 0].hitType = type === 1 ? 2 : 1;
+        if (type === 0) {
+            for(let i = 0; i < this.players.length; i++){
+                this.players[i].hitType = 0;
             }
         }
+        else {
+            for(let i = 0; i < this.players.length; i++){
+                if(this.players[i].uid === this.actionUid){
+                    this.players[i].hitType = type;
+                    this.players[i === 0 ? 1 : 0].hitType = type === 1 ? 2 : 1;
+                }
+            }
+        }
+
+
     }
     getHitBalls(uid = 0): number[] {
         if(uid === 0) uid = this.actionUid;

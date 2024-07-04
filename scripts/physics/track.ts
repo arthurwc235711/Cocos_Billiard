@@ -69,13 +69,14 @@ export class track {
         });
     }
 
-    static froceUpdateTrack() {
+    static froceUpdateTrack(ball: Ball) {
         let v3 = Vec3.ZERO.clone();
-        this.inTrackBalls.forEach((ball, i)=>{
-            ball.setStationaryByService();
-            ball.setTrack();
-            ball.updatePosImmediately(v3.setX(this.endPos.x).setY(i * 2 * R));
-        });
+        ball.setStationaryByService();
+        ball.setTrack();
+        ball.vel.copy(Vec3.ZERO)
+        ball.rvel.copy(Vec3.ZERO)
+        ball.updatePosImmediately(v3.setX(this.endPos.x).setY(this.endPos.y + this.inTrackBalls.length * 2* R));
+        this.inTrackBalls.push(ball);
     }
 }
 

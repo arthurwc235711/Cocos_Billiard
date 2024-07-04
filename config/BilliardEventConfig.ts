@@ -13,9 +13,12 @@ export default [
     "billiard_clear_game_data",
     "billiard_rematch",
     // "Billiard_Matching_Success", // 同大厅匹配 大厅注册，不能重复注册
-    
+
+    // "billiard_wait_close",
 
     // 游戏协议
+    "billiard_reconnect",
+
     "billiard_notify_entergame",
     "billiard_notify_ready",
     "billiard_notify_leave",
@@ -27,6 +30,6 @@ export default [
     "billiard_notify_action",
     "billiard_notify_wins",
 
-
     "billiard_notify_setgold",
+    "billiard_notify_offline",
 ]

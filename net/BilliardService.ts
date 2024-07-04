@@ -45,6 +45,7 @@ export class BilliardService extends StackListenerNew {
 
         ["cmd_0x6003"]: "notifyReady",
         ["cmd_0x6004"]: "notifyExit",
+        ["cmd_0x6008"]: "notifyOffLine",
     
         ["cmd_0x6011"]: "notifyEnterGame",
         ["cmd_0x6012"]: "notifyStart",
@@ -133,7 +134,7 @@ export class BilliardService extends StackListenerNew {
         let msg: protoBilliard.GameStatus = data.msg;   
 
         this.tid = msg.tid;
-
+        BilliardData.instance.clearData();
 
         msg.users.forEach(player=>{
             BilliardData.instance.addPlayer(player.uid, player.nick, player.icon, player.scoreboard);
@@ -142,9 +143,39 @@ export class BilliardService extends StackListenerNew {
         yy.event.emit(yy.Event_Name.billiard_notify_entergame);
         yy.event.emit(yy.Event_Name.billiard_notify_setgold, msg.chipPot);
 
+
+
+        if (msg.stage === 3) { //牌局阶段(0:无牌局,1:牌局开始,2:已结算,3:已结束，注意：结算状态不发送) 
+            let cueBall = msg.validResult.balls.filter(b=>b.val === 0)[0];
+            cueBall.position.x = msg.freeBall.curPosition.x 
+            cueBall.position.y = msg.freeBall.curPosition.y;
+
+            for(let i = 0; i < msg.validResult.potBalls.length; ++i) { // 把进球实例化Ball对象
+                let potBall = new protoBilliard.IBall();
+                potBall.val = msg.validResult.potBalls[i];
+                potBall.position = new protoBilliard.IPosition();
+                msg.validResult.balls.push(potBall);
+            }
+            msg.validResult.balls.sort((a, b)=>a.val - b.val);
+            let billiardData = BilliardData.instance;
+            billiardData.setStartBalls(msg.validResult.balls);
+            billiardData.setAngle(msg.hitReq.angle/BilliardConst.multiple);
+            billiardData.setPower(msg.hitReq.power/BilliardConst.multiple);
+            billiardData.getOffset().setX(msg.hitReq.offset.x/BilliardConst.multiple).setY(msg.hitReq.offset.y/BilliardConst.multiple);
+
+
+            billiardData.setActionUid(msg.action.uid);
+            billiardData.setHitBallType(msg.validResult.hitType);
+            yy.event.emit(yy.Event_Name.billiard_reconnect, msg);
+
+        }
+        else {
+            this.sendReady();
+        }
+
         // yy.log.w("notifyEnterGame", msg);
 
-        this.sendReady();
+
     }
 
     sendReady() {
@@ -359,6 +390,22 @@ export class BilliardService extends StackListenerNew {
         yy.log.w("BilliardLobbyService   notifyMatchingTable");
         yy.event.emit(yy.Event_Name.Billiard_Matching_Success, notify);
     }
+
+    //=0后台切回前台  =1前台切到后台
+    sendForeBackstageReq(status: number) {
+        let req: protoBilliard.ForeBackstageReq = new protoBilliard.ForeBackstageReq();
+        req.uid = yy.user.getUid();
+        req.status = status;
+        yy.socket.send("BilliardService.ForeBackStageEvent", req);
+    }
+
+    notifyOffLine(data: any) {
+        let notify: protoBilliard.NotifyUserNetStatus = data.msg;
+        if (notify.uid !== yy.user.getUid()) {
+            yy.event.emit(yy.Event_Name.billiard_notify_offline, notify);
+        }
+    }
+
     //---------------------------------------------------------------------------------------
     sendStart() {
         let req = new protoBilliard.IStart ();
@@ -371,6 +418,8 @@ export class BilliardService extends StackListenerNew {
 
         yy.log.w("notifyStart", msg);
         if(msg) {
+            msg.balls.sort((a, b)=>a.val - b.val);
+
             billiardData.setStartBalls(msg.balls);
             billiardData.setActionUid(msg.action.uid);
             billiardData.setActionTimes(msg.action.times);

@@ -69,6 +69,8 @@ export class Table extends BaseCommonScript {
       // yy.log.w("initialiseBalls", this.balls, this.cueBall, this.balls[0].node.name)
       // yy.log.w("balls:", this.cueBall.node.worldPosition, this.cueBall.node.position);
       // yy.log.w("nodeBalls", this.nodeBalls.worldPosition, this.nodeBalls.position);
+
+      this.unschedule(this.loopUpdate);
       this.schedule(this.loopUpdate, 0); 
     }
 
@@ -240,6 +242,14 @@ export class Table extends BaseCommonScript {
           ball.getComponent(RaySphereCollision).destroy();
         }
         ball.updatePosImmediately(new Vec3(data.position.x/BilliardConst.multiple, data.position.y/BilliardConst.multiple, 0));
+        let ration = {
+          x:  Math.round(ball.ballMesh.node.rotation.x * BilliardConst.multiple),
+          y:  Math.round(ball.ballMesh.node.rotation.y * BilliardConst.multiple),
+          z:  Math.round(ball.ballMesh.node.rotation.z * BilliardConst.multiple),
+          w:  Math.round(ball.ballMesh.node.rotation.w * BilliardConst.multiple),
+        }
+
+        // ball.setRotation(data.rotation.x/BilliardConst.multiple, data.rotation.y/BilliardConst.multiple, data.rotation.z/BilliardConst.multiple, data.rotation.w/BilliardConst.multiple);
     }
 
 
@@ -306,6 +316,22 @@ export class Table extends BaseCommonScript {
       let ball = this.balls[val];
       if (ball.onTable()) {
           track.setInTrack(ball);
+      }
+    });
+  }
+
+  setBallsRotation(balls: protoBilliard.IBall[]) {
+    const rotations = {x: 70711, y: 0, z: 0, w: 70711};
+    balls.forEach(b => {
+      let ball = this.balls[b.val];
+      if (ball.onTable()) {
+        if (b.rotation.x === 0 && b.rotation.y === 0 && b.rotation.z === 0 && b.rotation.w === 0){
+          ball.setRotation(rotations.x/BilliardConst.multiple, rotations.y/BilliardConst.multiple, rotations.z/BilliardConst.multiple, rotations.w/BilliardConst.multiple);
+        }
+        else {
+          ball.setRotation(b.rotation.x/BilliardConst.multiple, b.rotation.y/BilliardConst.multiple, b.rotation.z/BilliardConst.multiple, b.rotation.w/BilliardConst.multiple);
+        }
+
       }
     });
   }

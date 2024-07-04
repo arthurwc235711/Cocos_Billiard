@@ -8,7 +8,7 @@ import { Ball } from "../module/billiard_table/scripts/Ball";
 import { BilliardData } from "../data/BilliardData";
 import { track } from "./physics/track";
 import { IBilliardRules } from "../module/billiard_table/scripts/rules/IBilliardRules";
-import { eOutcomeType, eRuleType } from "../config/BilliardConst";
+import { BilliardConst, eOutcomeType, eRuleType } from "../config/BilliardConst";
 import { BilliardEightBall } from "../module/billiard_table/scripts/rules/BilliardEightBall";
 import { BilliardService } from "../net/BilliardService";
 import { BilliardTools } from "./BilliardTools";
@@ -84,6 +84,8 @@ export class BilliardManager extends BaseCommonInstance{
     register_event() {
         this.event_func_map = {
             [yy.Event_Name.CasualCommonQuit]: "onQuit",
+            [yy.System_Event.Application_Pause]: 'onPause',
+            [yy.System_Event.Application_Resume]: 'onResume',
 
             [yy.Event_Name.billiard_table_init]: "onInitGame",
             [yy.Event_Name.billiard_allStationary] : 'onAllStationary',
@@ -100,6 +102,7 @@ export class BilliardManager extends BaseCommonInstance{
 
             [yy.Event_Name.billiard_rematch]: "onRematch",
             [yy.Event_Name.billiard_reconnect]: "onReconnect",
+            [yy.Event_Name.billiard_notify_offline]: "onOffline",
         }
 
         super.register_event();
@@ -379,8 +382,53 @@ export class BilliardManager extends BaseCommonInstance{
         BilliardData.instance.clearData();
     }
 
-    onReconnect() {
+    onReconnect(msg: protoBilliard.GameStatus) {
+        let view = this.getView();
+        let table = this.getTable();
+        let rules =this.getRules();
+        view.clearData();
+        table.clearData();
 
+        // 球摆法处理
+        rules.placeBalls();
+        for (let i = 0; i < msg.validResult.potBalls.length; i++) {
+            for(let j = 0; j < table.balls.length; j++) {
+                if (msg.validResult.potBalls[i] === table.balls[j].id) {
+                    track.froceUpdateTrack(table.balls[j]);
+                    break;
+                }
+            }
+        }
+        table.setBallsRotation(msg.validResult.balls);
+
+        // 自由球处理
+        if (msg.action.type === 2) {
+            if (msg.action.round === 2) {
+                table.cueBall.updatePosImmediately(BilliardConst.startPos);
+            }
+            else {
+                table.cueBall.updatePosImmediately(Vec3.ZERO);
+            }
+        }
+
+        // 动态重连
+        if (BilliardData.instance.getPower() !== 0) { 
+            yy.event.emit(yy.Event_Name.billiard_hit);
+            view.controlHide();
+        }
+        else { // 指向处理
+            if (msg.cueAngle.curScreenPos.x === 0) { // 没有移动角度默认 指向最近目标
+                let ball = rules.onShotBall();
+                if (ball) {
+                    view.autoShotAt(ball.node);
+                }
+            }
+            else {
+                yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg.cueAngle);
+            }
+        }
+
+        this.setSureBalls();
     }
 
 
@@ -396,6 +444,21 @@ export class BilliardManager extends BaseCommonInstance{
         });
     }
 
+    onPause() {
+        yy.log.w("onPause");
+        BilliardService.instance.sendForeBackstageReq(1);
+    }
+
+    onResume() {
+        yy.log.w("onResume");
+        BilliardService.instance.sendForeBackstageReq(0);
+    }
+
+    onOffline(msg: protoBilliard.NotifyUserNetStatus) {
+        if (msg.status === 1) {
+            BilliardTools.instance.openWaitView(msg.timer);
+        }
+    }
 }
 
 

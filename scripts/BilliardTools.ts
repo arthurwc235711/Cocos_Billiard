@@ -188,6 +188,14 @@ export class BilliardTools {
         });
     }
 
+    openWaitView(time: number) {
+        yy.wait.show("openWaitView");
+        this.openView("module/billiard_wait/view/p_billiard_wait", (base)=>{
+            yy.wait.hide("openWaitView");
+            base["setWaitTime"](time);
+        });
+    }
+
 
     playBgm() {
         yy.audio.playMusic(BilliardConst.bundleName, eAudio.BGM);

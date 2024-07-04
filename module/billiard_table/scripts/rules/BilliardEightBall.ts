@@ -1,4 +1,4 @@
-import { Vec3, view } from "cc";
+import { Vec3 } from "cc";
 import { yy } from "../../../../../../../yy";
 import { eRuleType, eOutcomeType, BilliardConst } from "../../../../config/BilliardConst";
 import { BilliardManager } from "../../../../scripts/BilliardManager";
