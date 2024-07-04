@@ -416,6 +416,7 @@ export class BilliardService extends StackListenerNew {
         let billiardData = BilliardData.instance;
         let msg: protoBilliard.IStart = data.msg;
 
+        BilliardData.instance.isOtherPlayExit = false;
         yy.log.w("notifyStart", msg);
         if(msg) {
             msg.balls.sort((a, b)=>a.val - b.val);
