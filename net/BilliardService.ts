@@ -456,7 +456,7 @@ export class BilliardService extends StackListenerNew {
 
     notifyOffLine(data: any) {
         let notify: protoBilliard.NotifyUserNetStatus = data.msg;
-        if (notify.uid !== yy.user.getUid()) {
+        if (notify.uid !== yy.user.getUid() && notify.timer !== -1) { // timer -1 为非 牌局状态不提示 等待
             yy.event.emit(yy.Event_Name.billiard_notify_offline, notify);
         }
     }
