@@ -66,6 +66,8 @@ export class BilliardUIView extends BaseCommonScript {
             [yy.Event_Name.billiard_action_arrow_cd]: "onActionArrowCd",
             [yy.Event_Name.billiard_setting_cue_location]: "onSettingCueLocation",
             [yy.Event_Name.billiard_notify_setgold]: "setGold",
+
+            [yy.Event_Name.billiard_stop_animations]: "onStopAnimations",
         };
         super.register_event();
     }
@@ -714,11 +716,27 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
 
+    _lastSc = new Vec2()
+    _sc = new Vec2();
     onCueAngle(msg: protoBilliard.ICueAngle) {
+        let lastSc = BilliardManager.instance.camera3d.worldToScreen(new Vec3(msg.lastScreenPos.x/BilliardConst.multiple, msg.lastScreenPos.y/BilliardConst.multiple, 0)).setZ(0);
         let sc = BilliardManager.instance.camera3d.worldToScreen(new Vec3(msg.curScreenPos.x/BilliardConst.multiple, msg.curScreenPos.y/BilliardConst.multiple, 0)).setZ(0);
+        this._lastSc.set(lastSc.x, lastSc.y);
+        this._sc.set(sc.x, sc.y);
+        this.unschedule(this.onUpdateCueAngle);
+        this.schedule(this.onUpdateCueAngle);
 
-        this.onClickTable(new Vec2(sc.x, sc.y));
-        yy.log.w("onCueAngle", sc)
+        // this.onClickTable(this._sc);
+    }
+
+
+    onUpdateCueAngle() {
+        this._lastSc.lerp(this._sc, 0.1);
+        this.onClickTable(this._lastSc);
+        if (Math.abs(this._lastSc.x - this._sc.x) < 0.1) {
+            this.onClickTable(this._sc);
+            this.unschedule(this.onUpdateCueAngle);
+        }
     }
 
     
@@ -795,6 +813,11 @@ export class BilliardUIView extends BaseCommonScript {
 
     onRematch() {
         BilliardService.instance.sendEnterGame();
+    }
+
+
+    onStopAnimations() {
+        this.unschedule(this.onUpdateCueAngle);
     }
 }
 

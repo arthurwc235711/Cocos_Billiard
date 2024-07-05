@@ -543,6 +543,7 @@ export class BilliardService extends StackListenerNew {
         let msg: protoBilliard.IHit = data.msg;
         if(msg) {
             yy.wait.hide("HitReq");
+            yy.event.emit(yy.Event_Name.billiard_stop_animations);
             billiardData.setAngle(msg.angle/BilliardConst.multiple);
             billiardData.setPower(msg.power/BilliardConst.multiple);
             billiardData.getOffset().setX(msg.offset.x/BilliardConst.multiple).setY(msg.offset.y/BilliardConst.multiple);
