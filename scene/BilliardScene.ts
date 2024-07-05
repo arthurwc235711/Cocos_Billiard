@@ -24,9 +24,6 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     protoJson: JsonAsset[] = [];
 
 
-    @property(Prefab)
-    matchPrefab: Prefab = null;
-
     levelData: ISubGameTableInfoItemData;
 
     private commonBtnClickSound: ()=>void;

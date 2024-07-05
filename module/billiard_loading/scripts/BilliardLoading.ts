@@ -1,6 +1,5 @@
 import { _decorator, Component, Node } from 'cc';
 import { CasualCommonLoading } from '../../../../../casual_common/module/loading/scripts/CasualCommonLoading';
-import { load } from '../../../../../../../../extensions/power_tools/src/main';
 import { yy } from '../../../../../../yy';
 const { ccclass, property } = _decorator;
 
@@ -21,11 +20,11 @@ export class BilliardLoading extends CasualCommonLoading {
     private resourceProgress = 0;
 
     get loadPrecess() {
-        return super.loadPrecess * 0.5 + this.resourceProgress * 0.5;
+        return this.nLoadPrecess * 0.5 + this.resourceProgress * 0.5;
     }
 
     onPreloadLoadedNotice(data: { schedule: number }) {
-        super.loadPrecess = data.schedule;
+        this.nLoadPrecess = data.schedule;
     }
 
 
