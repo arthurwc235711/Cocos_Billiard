@@ -44,6 +44,8 @@ export class BilliardUIView extends BaseCommonScript {
     private touchMove: boolean = false;
     private preTouchLocation: Vec2 = new Vec2();
 
+    private isShotAtBall = false;
+
     get interactableTableTouch() {
         return this._interactableTableTouch && BilliardTools.instance.isMyAction();
     }
@@ -226,7 +228,11 @@ export class BilliardUIView extends BaseCommonScript {
 
 
                     let inc = Math.max(Math.abs(local.x - perLocal.x), Math.abs(local.y - perLocal.y));
-                    let xs = inc < 5 ? 0.1 : 1;
+                    let xs = 1;
+                    if (this.isShotAtBall) {
+                        xs = inc < 5 ? 0.25 : 0.5;
+                    }
+
 
                     function getAngle(a) {
                         let tmp = a + angle * f * xs;
@@ -517,6 +523,7 @@ export class BilliardUIView extends BaseCommonScript {
 
         let nodes = rayHit(cueBall.node.worldPosition, direction);
         let uiTran = nodeArrow.getComponent(UITransform);
+        this.isShotAtBall = false;
         if (nodes.length > 0) {
             // yy.log.w("hit sucess", nodes[0].name);
             let collision = nodes[0].getComponent(BaseRayCollision);
@@ -524,6 +531,7 @@ export class BilliardUIView extends BaseCommonScript {
             let ballArrow = nodeArrow.getChildByPath("Sprite/ballArrow");
             let cueArrow = nodeArrow.getChildByPath("Sprite/cueArrow");
             if (collision instanceof RaySphereCollision) {
+                this.isShotAtBall = true;
                 let shotAtBall = nodes[0].getComponent(Ball);
                 let isVaildShot = BilliardTools.instance.isVaildShot(shotAtBall.id);
                 nodeArrow.getChildByName("NodeForbid").active = !isVaildShot;
