@@ -34,7 +34,7 @@ export class PocketGeometry {
     PocketGeometry.knuckleRadius = (R * 0.31) / 0.5
     PocketGeometry.middleKnuckleInset = (R * 1.385) / 0.5//0.0907175
     PocketGeometry.middleKnuckleRadius = (R * 0.2) / 0.5 //0.0131
-    PocketGeometry.cornerRadius = (R * 1.1) / 0.5 //0.07205
+    PocketGeometry.cornerRadius = (R * 1.2) / 0.5 //0.07205
     PocketGeometry.middleRadius = (R * 0.9) / 0.5 //0.05895
     PocketGeometry.pocketLayout(R)
     PocketGeometry.enumerateCenters()
