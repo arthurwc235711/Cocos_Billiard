@@ -411,7 +411,7 @@ export class BilliardUIView extends BaseCommonScript {
             let slider = event.target.getComponent(Slider);
             let progress = 1 - slider.progress;
             if (progress > 0) {
-                BilliardData.instance.setPower( Math.floor( progress * 150 ) * R );
+                BilliardData.instance.setPower( Math.floor( progress * 100 ) * R );
                 BilliardService.instance.sendHit();
                 BilliardService.instance.sendHitReq();
             }
@@ -423,7 +423,7 @@ export class BilliardUIView extends BaseCommonScript {
             let slider = event.target.getComponent(Slider);
             let progress = 1 - slider.progress;
             if (progress > 0) {
-                BilliardData.instance.setPower( Math.floor( progress * 150 ) * R );
+                BilliardData.instance.setPower( Math.floor( progress * 100 ) * R );
                 BilliardService.instance.sendHit();
                 BilliardService.instance.sendHitReq();
             }
@@ -438,7 +438,7 @@ export class BilliardUIView extends BaseCommonScript {
 
         let power = BilliardData.instance.getPower();
         tween(this.nodeCue)
-        .to(0.25, {position: new Vec3((power/150/R * 5 + 1) * -R2d*2, -15, 0)})
+        .to(0.25, {position: new Vec3((power/100/R * 5 + 1) * -R2d*2, -15, 0)})
         .to(0.5, {position: new Vec3(-R2d*2, -15, 0)}, {easing: "quintIn"})
         .call(()=>{
             yy.event.emit(yy.Event_Name.billiard_hit);
@@ -635,7 +635,7 @@ export class BilliardUIView extends BaseCommonScript {
             label.string = "";
         }
         else {
-            label.string = Math.floor( progress * 150 ).toString();
+            label.string = Math.floor( progress * 100 ).toString();
         }
 
 
