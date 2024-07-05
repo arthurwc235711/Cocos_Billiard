@@ -13,7 +13,7 @@ const { ccclass, property } = _decorator;
 @ccclass('Cue')
 export class Cue extends Component {
     readonly offCenterLimit = 0.3
-    readonly maxPower = 150 * R
+    readonly maxPower = 100 * R
 
 
 
