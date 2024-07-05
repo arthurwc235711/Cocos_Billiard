@@ -39,5 +39,8 @@ export enum eAudio {
     HitStrong = "audio/sound/hitStrong",
     Win = "audio/sound/win",
     Applause = "audio/sound/applause",
-
+    Turn = "audio/sound/turn",
+    Match = "audio/sound/match",
+    HeadRotate = "audio/sound/headRotate",
+    FlyGold = "audio/sound/flyGold",
 }

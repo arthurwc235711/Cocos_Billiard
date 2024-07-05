@@ -166,6 +166,7 @@ export class BilliardEightBall implements IBilliardRules {
                 }
                 else {
                     this.shotCount = 1;
+                    BilliardTools.instance.PlaySoundTurn();
                     // yy.toast.addNow("正常击球，交换击球权");
                     BilliardData.instance.setActionUid(actionUid)
                     view.gameTips.turnTips();
@@ -179,6 +180,7 @@ export class BilliardEightBall implements IBilliardRules {
             case 1:
                 break;
             case 2:
+                BilliardTools.instance.PlaySoundTurn();
                 this.shotCount = 1;
                 // yy.toast.addNow("击球犯规，下家放置自由球");
                 BilliardData.instance.setActionUid(actionUid)

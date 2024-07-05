@@ -3,7 +3,7 @@ import { CasualCommonSceneBase } from '../../../casual_common/scripts/base/Casua
 import { yy } from '../../../../yy';
 import BilliardEventConfig from '../config/BilliardEventConfig';
 import { BilliardManager } from '../scripts/BilliardManager';
-import { BilliardConst, eRuleType } from '../config/BilliardConst';
+import { BilliardConst, eAudio, eRuleType } from '../config/BilliardConst';
 import { GameMessageStack, ITemplateGameServiceListener } from '../../../../main/data/GameMessageStack';
 import { BilliardService } from '../net/BilliardService';
 import { BilliardPbConfig } from '../net/BilliardPbConfig';
@@ -135,7 +135,10 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             "module/billiard_match/view/p_billiard_match",
         ]
         // 音效预加载资源
-        let preSound = [
+        let preSound:string[] = [
+            eAudio.Match.toString(),
+            eAudio.HeadRotate.toString(),
+            eAudio.Turn.toString(),
         ]
         const max = pre.length + preSound.length;
         let cur = 0;

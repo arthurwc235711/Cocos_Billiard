@@ -72,6 +72,8 @@ export class BilliardWinsView extends BaseCommonScript {
         if (BilliardData.instance.isOtherPlayExit) {
             this.onLeave();
         }
+
+        BilliardTools.instance.playSoundFlyGold();
     }
 
     setData(data: protoBilliard.BroadcastGameResult) {

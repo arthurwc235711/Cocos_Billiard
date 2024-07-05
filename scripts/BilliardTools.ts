@@ -251,6 +251,21 @@ export class BilliardTools {
     playSoundApplause() {
         SoundAudio.playEffect(BilliardConst.bundleName, eAudio.Applause);
     }
+
+
+    playSoundMatch() {
+        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.Match);
+    }
+    PlaySoundTurn() {
+        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.Turn);
+    }
+    playSoundHeadRotate() {
+        yy.audio.playSound(BilliardConst.bundleName, eAudio.HeadRotate, 1, true);
+        // SoundAudio.playEffect(BilliardConst.bundleName, eAudio.HeadRotate);
+    }
+    playSoundFlyGold() {
+        SoundAudio.playEffect(BilliardConst.bundleName, eAudio.FlyGold);
+    }
 }
 
 
