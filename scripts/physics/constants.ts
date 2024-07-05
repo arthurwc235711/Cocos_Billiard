@@ -1,8 +1,8 @@
 export const g = 9.8
-export let mu = 0.01330//0.00985// *1.35
-export let muS = 0.15
-export let muC = 0.8
-export let rho = 0.024
+export let mu = 0.00985// *1.35空气阻力系数
+export let muS = 0.15 //水阻力系数
+export let muC = 0.8 //摩擦阻力系数
+export let rho = 0.024 // 空气密度
 export let m = 0.23
 export let R = 0.04421//0.03275  // 球半径 //0.04421//
 export let R2d = 22.735; // 2D 摄像头 球半径尺寸

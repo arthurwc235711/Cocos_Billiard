@@ -100,7 +100,7 @@ function basisHan(v, w) {
   return {
     c: c0(v),
     s: s0(v, w),
-    A: 7 / 2 / m,
+    A: 7 / 0.5 / m,
     B: 1 / m,
   }
 }
