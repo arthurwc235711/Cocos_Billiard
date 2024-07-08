@@ -118,7 +118,7 @@ export class BilliardTools {
 
     isVaildShot(ballId: number) {
         if (BilliardData.instance.getHitBallType() === 0) {
-            return true;
+            return ballId !== 8; // 8球为定色为无效击球
         }
         else {
             let vaildBalls = BilliardData.instance.getHitBalls();
