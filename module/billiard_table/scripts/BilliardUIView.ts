@@ -16,7 +16,7 @@ import { BilliardGameTips } from './BilliardGameTips';
 import { Ball } from './Ball';
 const { ccclass, property } = _decorator;
 
-
+// 力度杆最大强度 MaxPower * R
 const MaxPower = 100;
 
 @ccclass('BilliardUIView')
@@ -59,8 +59,6 @@ export class BilliardUIView extends BaseCommonScript {
     public register_event() {
         // 注册指定的监听方法，格式如下
         this.event_func_map = {
-            // [yy.Event_Name.billiard_table_init]: "initBtnTable",
-            // [yy.Event_Name.billiard_allStationary]: "onAllStationary",
             [yy.Event_Name.billiard_hit_point]: "onHitPoint",
             [yy.Event_Name.billiard_free_ball_move]: "onFreeBallMove",
             [yy.Event_Name.billiard_notify_hit]: "onClickHit",
@@ -88,12 +86,9 @@ export class BilliardUIView extends BaseCommonScript {
 
     protected start(): void {
         BilliardService.instance.sendEnterGame();
-        // this.setPlayerInfo();
     }
 
     onClickStroke() {
-        // yy.log.w("onClickStroke");
-
         yy.popup.show_popup("app_billiard", "module/billiard_hitpoint/view/p_billiard_hit_point", null);
     }
 
@@ -728,8 +723,6 @@ export class BilliardUIView extends BaseCommonScript {
         this._sc.set(sc.x, sc.y);
         this.unschedule(this.onUpdateCueAngle);
         this.schedule(this.onUpdateCueAngle);
-
-        // this.onClickTable(this._sc);
     }
 
 
@@ -817,7 +810,6 @@ export class BilliardUIView extends BaseCommonScript {
     onRematch() {
         BilliardService.instance.sendEnterGame();
     }
-
 
     onStopAnimations() {
         this.unschedule(this.onUpdateCueAngle);
