@@ -5,7 +5,7 @@ import { Collision } from '../../../scripts/physics/collision';
 import { TableGeometry } from './TableGeometry';
 import { yy } from '../../../../../../yy';
 import { Cushion } from './Cushion';
-import { bounceHanBlend } from '../../../scripts/physics/physics';
+import { bounceHanBlend, cueToSpin } from '../../../scripts/physics/physics';
 import { BilliardData } from '../../../data/BilliardData';
 import { R } from '../../../scripts/physics/constants';
 import { Outcome } from './Outcome';
@@ -18,6 +18,7 @@ import { BilliardManager } from '../../../scripts/BilliardManager';
 import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
 import { track } from '../../../scripts/physics/track';
 import { BilliardConst } from '../../../config/BilliardConst';
+import { unitAtAngle } from '../../../scripts/utils';
 
 const { ccclass, property } = _decorator;
 
@@ -28,8 +29,6 @@ interface Pair {
 
 @ccclass('Table')
 export class Table extends BaseCommonScript {
-    @property(Cue)
-    cue: Cue = null;
     @property(Node)
     nodeBalls: Node = null;
     @property(Prefab)
@@ -221,7 +220,17 @@ export class Table extends BaseCommonScript {
     this.outcome = [
       Outcome.hit(this.cueBall, BilliardData.instance.getPower())
     ];
-    this.cue.hit(this.cueBall);
+
+    let billiardData = BilliardData.instance;
+    this.cueBall.setSliding();
+    this.cueBall.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(billiardData.getPower()));
+    this.cueBall.rvel.copy(cueToSpin(billiardData.getOffset(), this.cueBall.vel));
+    if (billiardData.getPower() < 40) {
+        BilliardTools.instance.playSoundHitWeak()
+    }   
+    else {
+        BilliardTools.instance.playSoundHitStrong();
+    }
   }
 
   // 8球三角摆法
