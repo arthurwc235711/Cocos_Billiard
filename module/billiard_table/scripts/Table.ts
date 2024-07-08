@@ -57,18 +57,12 @@ export class Table extends BaseCommonScript {
     }
 
     protected start(): void {
-      // yy.log.w("cueBall worldPosition", this.cueBall.node.worldPosition)
-      // BilliardTools.instance.camera3DToCamera2DWPos(this.cueBall.node.worldPosition.clone().add3f(R,0,0));
-      // yy.event.emit(yy.Event_Name.billiard_table_init, this.cueBall.node.worldPosition.clone().add3f(R,0,0));
       yy.event.emit(yy.Event_Name.billiard_table_init, this.node.getChildByName("Plane"));
     }
 
     initTable() {
       this.initialiseBalls(director.getScene().getChildByPath("p_billiard_3d/NodeBalls").getComponentsInChildren(Ball));
       this.cueBall = this.balls[0];//this.balls.find(ball => ball.node.name === "CueBall");
-      // yy.log.w("initialiseBalls", this.balls, this.cueBall, this.balls[0].node.name)
-      // yy.log.w("balls:", this.cueBall.node.worldPosition, this.cueBall.node.position);
-      // yy.log.w("nodeBalls", this.nodeBalls.worldPosition, this.nodeBalls.position);
 
       this.unschedule(this.loopUpdate);
       this.schedule(this.loopUpdate, 0); 
@@ -248,44 +242,7 @@ export class Table extends BaseCommonScript {
           z:  Math.round(ball.ballMesh.node.rotation.z * BilliardConst.multiple),
           w:  Math.round(ball.ballMesh.node.rotation.w * BilliardConst.multiple),
         }
-
-        // ball.setRotation(data.rotation.x/BilliardConst.multiple, data.rotation.y/BilliardConst.multiple, data.rotation.z/BilliardConst.multiple, data.rotation.w/BilliardConst.multiple);
     }
-
-
-    // let ballNums = BilliardData.instance.getBallNums(); // 8球，球的总数量 16个 
-    // let row = 1;
-    // let cNum = 0;
-    // let lNum = 0;
-    // let x = TableGeometry.tableX; // 1.40825
-    // let r = R //* 1.4;
-    // let acos25 = Math.acos(22.5 * Math.PI / 180 );
-
-    // for( let i = 0; i < ballNums; i++ ) {
-    //   let ball = instantiate(this.prefabBall).getComponent(Ball);
-    //   this.nodeBalls.addChild(ball.node);
-    //   if (i === 0) {// 母球
-    //     ball.updatePosImmediately(startPos); // 母球初始坐标 Vec3(-0.75, 0, 0),
-    //     ball.getComponent(RaySphereCollision).destroy();
-    //   }
-    //   else {
-    //     if (row === 1) {
-    //       ball.updatePosImmediately(new Vec3(x/2, 0, 0));//设置首行1球坐标
-    //     }
-    //     else {
-    //       let space = 0//0.001 //日后这里使用随机数取值则可保证 同样输入不同输出结果
-    //       let y = (lNum+1)%2 === 0 ?  (r + space/2) +  (2*r + space) * (Math.ceil((lNum+1)/2)-1) : (2*r + space) * (Math.ceil((lNum+1)/2)-1);
-    //       ball.updatePosImmediately(new Vec3(x/2 + (2 * r / acos25  +  0.001) * (row - 1), -y + (2 * r + space) * (lNum - cNum), 0));//设置其他球
-    //     }
-  
-    //     cNum += 1;
-    //     if (cNum - lNum === 1) {
-    //       row += 1;
-    //       lNum = cNum;
-    //       cNum = 0;
-    //     }
-    //   }
-    // }
   }
 
   protected update(dt: number): void {

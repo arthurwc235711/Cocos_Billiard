@@ -45,7 +45,6 @@ export class BilliardMatchView extends BaseCommonScript {
     public register_event() {
         // 注册指定的监听方法，格式如下
         this.event_func_map = {
-            [yy.Event_Name.Billiard_Matching]: "onMatching",
             [yy.Event_Name.Billiard_Matching_Success]: "onMatchingSuccess",
             [yy.Event_Name.Billiard_Matching_Cancel]: "onMatchingCancel",
         };
@@ -73,15 +72,6 @@ export class BilliardMatchView extends BaseCommonScript {
 
     reqGameSceneMatching() {
         yy.log.w("reqGameSceneMatching");
-    }
-
-
-    protected start(): void {
-
-
-        // this.scheduleOnce(()=>{
-            // this.setState(BilliardMatchState.eMatchSucess);
-        // }, 3);
     }
 
     onClickGoBack() {
@@ -168,9 +158,6 @@ export class BilliardMatchView extends BaseCommonScript {
         ui.labelGold.string = yy.money.formatMoney(score, false);
     }
 
-    onMatching() {
-
-    }
 
     onMatchingSuccess(msg: protoBilliardAlloc.MatchingTableMsg) {
         let myInfo = msg.userList.filter((v)=>v.uid === yy.user.getUid());
