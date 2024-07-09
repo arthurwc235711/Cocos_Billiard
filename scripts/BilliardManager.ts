@@ -348,6 +348,7 @@ export class BilliardManager extends BaseCommonInstance{
 
     onWins(notify: protoBilliard.BroadcastGameResult) {
         let view = this.getView();
+        view.controlHide();
         view.stopCountDown()
         if (notify.winnerid === yy.user.getUid()) {
             view.gameTips.showWinTips();
