@@ -46,6 +46,8 @@ export class BilliardUIView extends BaseCommonScript {
 
     @property(BilliardCue)
     cue: BilliardCue;
+    @property(Slider)
+    powerSlider: Slider;
 
     private _interactableTableTouch: boolean = true;
     private touchMove: boolean = false;
@@ -409,10 +411,16 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     initPowerSliderClick() {
-        let sliderNode = this.nodeLeft.getChildByPath("TouchPower/Slider");
-        sliderNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
+        // let sliderNode = this.nodeLeft.getChildByPath("TouchPower/Slider");
+        let sliderNode = this.nodeLeft.getChildByPath("ExpSlider");
+        sliderNode.on(Node.EventType.TOUCH_START, (event: EventTouch) => {
             let slider = event.target.getComponent(Slider);
             let progress = 1 - slider.progress;
+        });
+
+        sliderNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
+            let slider = event.target.getComponent(Slider);
+            let progress = 1 - this.powerSlider.progress;
             if (progress > 0) {
                 BilliardData.instance.setPower( Math.floor( progress * MaxPower ) * R );
                 BilliardService.instance.sendHit();
@@ -424,7 +432,7 @@ export class BilliardUIView extends BaseCommonScript {
         });
         sliderNode.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
             let slider = event.target.getComponent(Slider);
-            let progress = 1 - slider.progress;
+            let progress = 1 - this.powerSlider.progress;
             if (progress > 0) {
                 BilliardData.instance.setPower( Math.floor( progress * MaxPower ) * R );
                 BilliardService.instance.sendHit();
@@ -641,6 +649,18 @@ export class BilliardUIView extends BaseCommonScript {
 
 
         this.nodeCue.setPosition((progress * 5 + 1)* -R2d*2, -15, 0);
+    }
+
+    onExpSlider(slider: Slider) {
+        const startPer = 0.88;
+        if (slider.progress <= startPer) {
+            this.powerSlider.progress = slider.progress / startPer;
+            this.onSlider(this.powerSlider);
+        }
+        else {
+            this.powerSlider.progress = 1;
+            this.onSlider(this.powerSlider);
+        }
     }
 
 
