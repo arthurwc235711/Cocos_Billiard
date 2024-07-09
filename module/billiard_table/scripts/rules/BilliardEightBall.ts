@@ -200,6 +200,7 @@ export class BilliardEightBall implements IBilliardRules {
                     table.cueBall.updatePosImmediately(BilliardConst.startPos);
                 }
                 else {
+                    view.freeBall.setStartAreaHide();
                     table.cueBall.updatePosImmediately(Vec3.ZERO);
                 }
 

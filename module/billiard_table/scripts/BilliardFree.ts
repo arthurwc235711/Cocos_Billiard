@@ -141,6 +141,10 @@ export class BilliardFree extends BaseCommonScript {
     setStartAreaShow() {
         this.nodeStart.active = true;
     }
+
+    setStartAreaHide() {
+        this.nodeStart.active = false;
+    }
 }
 
 
