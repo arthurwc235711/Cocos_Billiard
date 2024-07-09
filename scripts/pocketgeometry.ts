@@ -30,8 +30,8 @@ export class PocketGeometry {
     R = 0.03275
     PocketGeometry.PX = TableGeometry.tableX + R * (0.8 / 0.5)
     PocketGeometry.PY = TableGeometry.tableY + R * (0.8 / 0.5)
-    PocketGeometry.knuckleInset = (R * 1.6) / 0.5
-    PocketGeometry.knuckleRadius = (R * 0.31) / 0.5
+    PocketGeometry.knuckleInset = (R * 1.6) / 0.5 //0.1048
+    PocketGeometry.knuckleRadius = 0.005//(R * 0.31) / 0.5 //0.020305
     PocketGeometry.middleKnuckleInset = (R * 1.385) / 0.5//0.0907175
     PocketGeometry.middleKnuckleRadius = (R * 0.2) / 0.5 //0.0131
     PocketGeometry.cornerRadius = (R * 1.13) / 0.5 //0.07205
