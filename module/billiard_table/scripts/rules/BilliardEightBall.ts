@@ -261,6 +261,7 @@ export class BilliardEightBall implements IBilliardRules {
             view.controlShow();
         }
 
+        view.freeBall.setStartAreaShow();
         view.gameTips.startTips();
     }
 
