@@ -18,7 +18,7 @@ import { BilliardCue } from './BilliardCue';
 const { ccclass, property } = _decorator;
 
 // 力度杆最大强度 MaxPower * R
-const MaxPower = 100;
+const MaxPower = 120;
 
 @ccclass('BilliardUIView')
 export class BilliardUIView extends BaseCommonScript {
