@@ -243,7 +243,7 @@ export class BilliardManager extends BaseCommonInstance{
         let view = this.getView();
         let rules = this.getRules();
 
-        rules.placeBalls();
+        rules.placeBalls(true);
         view.scheduleOnce(()=>{
             view.setPlayerInfo();
             rules.startTurn();
@@ -391,7 +391,7 @@ export class BilliardManager extends BaseCommonInstance{
         table.clearData();
 
         // 球摆法处理
-        rules.placeBalls();
+        rules.placeBalls(false);
         for (let i = 0; i < msg.validResult.potBalls.length; i++) {
             for(let j = 0; j < table.balls.length; j++) {
                 if (msg.validResult.potBalls[i] === table.balls[j].id) {
@@ -400,7 +400,7 @@ export class BilliardManager extends BaseCommonInstance{
                 }
             }
         }
-        table.setBallsRotation(msg.validResult.balls);
+        table.setBallsRotation(msg.validResult.balls, msg.action.round);
 
         // 自由球处理
         if (msg.action.type === 2) {

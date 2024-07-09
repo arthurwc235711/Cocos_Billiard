@@ -9,7 +9,7 @@ export interface IBilliardRules  {
 
 
     isFoul(outcome: Outcome[]): boolean;
-    placeBalls();
+    placeBalls(isStart: boolean);
     isGameEnd(outcome: Outcome[], reslut:{ type: eOutcomeType }): boolean;
     nextTurn(type: number, actionUid: number, round: number);
     startTurn();

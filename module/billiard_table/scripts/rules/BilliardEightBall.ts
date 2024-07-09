@@ -71,9 +71,9 @@ export class BilliardEightBall implements IBilliardRules {
 
         return result;
     }
-    placeBalls() {
+    placeBalls(isStart: boolean) {
         let table = BilliardManager.instance.getTable();
-        table.prepareBalls(BilliardConst.startPos);
+        table.prepareBalls(BilliardConst.startPos, isStart);
         table.initTable();
         // throw new Error("Method not implemented.");
     }

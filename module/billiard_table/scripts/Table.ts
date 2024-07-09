@@ -234,7 +234,7 @@ export class Table extends BaseCommonScript {
   }
 
   // 8球三角摆法
-  prepareBalls(startPos: Vec3) { 
+  prepareBalls(startPos: Vec3, isStart: boolean = true) { 
     let iBalls = BilliardData.instance.getStartBalls(); // 8球，球的总数量 16个
     for(let i = 0; i < iBalls.length; ++i) {
         let ball = instantiate(this.prefabBall).getComponent(Ball);
@@ -246,17 +246,18 @@ export class Table extends BaseCommonScript {
         }
         ball.updatePosImmediately(new Vec3(data.position.x/BilliardConst.multiple, data.position.y/BilliardConst.multiple, 0));
         // yy.log.w(ball.name, data.rotation.x/BilliardConst.multiple, data.rotation.y/BilliardConst.multiple, data.rotation.z/BilliardConst.multiple, data.rotation.w/BilliardConst.multiple)
-        const quaternion = ball.ballMesh.node.getRotation();
+        if (isStart) {
+          const quaternion = ball.ballMesh.node.getRotation();
+          // 生成随机的旋转轴
+          const axis = new Vec3( data.rotation.x/BilliardConst.multiple,  data.rotation.y/BilliardConst.multiple, data.rotation.z/BilliardConst.multiple).normalize();//new Vec3(Math.random(), Math.random(), Math.random()).normalize();//
+          // 生成随机的旋转角度（弧度）
+          const angle = data.rotation.w/BilliardConst.multiple * Math.PI * 2; //Math.random() * Math.PI * 2;//
+          // 根据旋转轴和角度创建四元数
+          Quat.fromAxisAngle(quaternion, axis, angle);
+          // 将四元数应用到节点的旋转
+          ball.ballMesh.node.rotation = quaternion;
+        }
 
-      // 生成随机的旋转轴
-      const axis = new Vec3( data.rotation.x/BilliardConst.multiple,  data.rotation.y/BilliardConst.multiple, data.rotation.z/BilliardConst.multiple).normalize();//new Vec3(Math.random(), Math.random(), Math.random()).normalize();//
-
-      // 生成随机的旋转角度（弧度）
-      const angle = data.rotation.w/BilliardConst.multiple * Math.PI * 2; //Math.random() * Math.PI * 2;//
-      // 根据旋转轴和角度创建四元数
-      Quat.fromAxisAngle(quaternion, axis, angle);
-      // 将四元数应用到节点的旋转
-      ball.ballMesh.node.rotation = quaternion;
 
     }
   }
@@ -293,13 +294,17 @@ export class Table extends BaseCommonScript {
     });
   }
 
-  setBallsRotation(balls: protoBilliard.IBall[]) {
+  setBallsRotation(balls: protoBilliard.IBall[], round: number) {
     const rotations = {x: 70711, y: 0, z: 0, w: 70711};
     balls.forEach(b => {
       let ball = this.balls[b.val];
       if (ball.onTable()) {
-        if (b.rotation.x === 0 && b.rotation.y === 0 && b.rotation.z === 0 && b.rotation.w === 0){
-          ball.setRotation(rotations.x/BilliardConst.multiple, rotations.y/BilliardConst.multiple, rotations.z/BilliardConst.multiple, rotations.w/BilliardConst.multiple);
+        if (round === 1){ // 开球初始数据通过服务器随机4元素设置旋转
+          const quaternion = ball.ballMesh.node.getRotation();
+          const axis = new Vec3(b.rotation.x/BilliardConst.multiple,  b.rotation.y/BilliardConst.multiple, b.rotation.z/BilliardConst.multiple).normalize();
+          const angle = b.rotation.w/BilliardConst.multiple * Math.PI * 2; //Math.random() * Math.PI * 2;//
+          Quat.fromAxisAngle(quaternion, axis, angle);
+          ball.ballMesh.node.rotation = quaternion;
         }
         else {
           ball.setRotation(b.rotation.x/BilliardConst.multiple, b.rotation.y/BilliardConst.multiple, b.rotation.z/BilliardConst.multiple, b.rotation.w/BilliardConst.multiple);
