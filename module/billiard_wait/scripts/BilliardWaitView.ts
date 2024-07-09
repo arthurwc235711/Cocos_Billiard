@@ -23,6 +23,7 @@ export class BilliardWaitView extends BaseCommonScript {
             this.labelWait.string = `等待${Math.max(Math.floor(time), 0)}秒`;     
             if (time <= 0) {
                 this.unschedule(onUpdate);
+                this.scheduleOnce(()=> this.node.destroy(), 1);
             }
         }
         this.schedule(onUpdate, 0);
