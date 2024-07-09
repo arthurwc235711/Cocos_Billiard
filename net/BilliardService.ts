@@ -229,7 +229,8 @@ export class BilliardService extends StackListenerNew {
 
 
             billiardData.setActionUid(msg.action.uid);
-            billiardData.setHitBallType(msg.validResult.hitType);
+            let hitType = msg.users.filter(u=>u.uid === msg.action.uid)[0].hitType;
+            billiardData.setHitBallType(hitType);
             yy.event.emit(yy.Event_Name.billiard_reconnect, msg);
 
         }

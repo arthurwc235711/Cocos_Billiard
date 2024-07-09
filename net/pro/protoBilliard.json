@@ -93,6 +93,10 @@
             "currTurnHitCount": {
               "type": "int32",
               "id": 13
+            },
+            "hitType": {
+              "type": "int32",
+              "id": 14
             }
           }
         },

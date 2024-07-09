@@ -111,6 +111,9 @@ declare global {
 			/** UserInfo currTurnHitCount */
 			currTurnHitCount?: (number | null);
 
+			/** UserInfo hitType */
+			hitType?: (number | null);
+
 		}
 
 		/** Represents a UserInfo. */
@@ -160,6 +163,9 @@ declare global {
 
 			/** UserInfo currTurnHitCount */
 			public currTurnHitCount: number | null;
+
+			/** UserInfo hitType */
+			public hitType: number | null;
 
 		}
 
