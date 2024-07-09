@@ -1,4 +1,4 @@
-import { _decorator, Camera, Component, director, find, game, instantiate, macro, Node, Prefab, Vec3, UITransform, Canvas, geometry } from 'cc';
+import { _decorator, Camera, Component, director, find, game, instantiate, macro, Node, Prefab, Vec3, UITransform, Canvas, geometry, quat, Quat } from 'cc';
 import { Ball } from './Ball';
 import { Cue } from './Cue';
 import { Collision } from '../../../scripts/physics/collision';
@@ -245,12 +245,19 @@ export class Table extends BaseCommonScript {
           ball.getComponent(RaySphereCollision).destroy();
         }
         ball.updatePosImmediately(new Vec3(data.position.x/BilliardConst.multiple, data.position.y/BilliardConst.multiple, 0));
-        let ration = {
-          x:  Math.round(ball.ballMesh.node.rotation.x * BilliardConst.multiple),
-          y:  Math.round(ball.ballMesh.node.rotation.y * BilliardConst.multiple),
-          z:  Math.round(ball.ballMesh.node.rotation.z * BilliardConst.multiple),
-          w:  Math.round(ball.ballMesh.node.rotation.w * BilliardConst.multiple),
-        }
+        // yy.log.w(ball.name, data.rotation.x/BilliardConst.multiple, data.rotation.y/BilliardConst.multiple, data.rotation.z/BilliardConst.multiple, data.rotation.w/BilliardConst.multiple)
+        const quaternion = ball.ballMesh.node.getRotation();
+
+      // 生成随机的旋转轴
+      const axis = new Vec3( data.rotation.x/BilliardConst.multiple,  data.rotation.y/BilliardConst.multiple, data.rotation.z/BilliardConst.multiple).normalize();//new Vec3(Math.random(), Math.random(), Math.random()).normalize();//
+
+      // 生成随机的旋转角度（弧度）
+      const angle = data.rotation.w/BilliardConst.multiple * Math.PI * 2; //Math.random() * Math.PI * 2;//
+      // 根据旋转轴和角度创建四元数
+      Quat.fromAxisAngle(quaternion, axis, angle);
+      // 将四元数应用到节点的旋转
+      ball.ballMesh.node.rotation = quaternion;
+
     }
   }
 
