@@ -459,9 +459,9 @@ export class BilliardUIView extends BaseCommonScript {
     controlShow() {
         this.interactableTableTouch = true && BilliardTools.instance.isMyAction();
         this.nodeCueAnimations.active = BilliardTools.instance.isMyAction() && BilliardData.instance.getActionType() !== 0; // 0 正常球权，1 开球， 2 自由球
-        let slider = this.nodeLeft.getChildByPath("TouchPower/Slider").getComponent(Slider);
+        let slider = this.nodeLeft.getChildByPath("ExpSlider").getComponent(Slider);
         slider.progress = 1;
-        this.onSlider(slider);
+        this.onExpSlider(slider);
         this.nodeRight.getChildByName("NodeAngle").active = BilliardTools.instance.isMyAction();
         this.nodeLeft.active = BilliardData.instance.getActionType() === 0 && BilliardTools.instance.isMyAction();
         this.nodeLeft.getChildByPath("Label").getComponent(Label).string = "";
