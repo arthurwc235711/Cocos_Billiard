@@ -28,7 +28,7 @@ export class BilliardSimulateService {
         notify.balls = [];
         notify.action = new protoBilliard.IAction();
         notify.action.uid = 1//(Math.random() < 0.5 ? 1 : 2 );
-        notify.action.times = 20;
+        notify.action.times = 6//20;
         notify.action.round = 1;
         notify.action.type = 1;
         for(let i = 0; i < BilliardData.instance.getBallNums(); ++i) {
@@ -62,11 +62,16 @@ export class BilliardSimulateService {
                     ball.position.y = 0;
                   }
                   else {
-                    let space = 0//0.001 //日后这里使用随机数取值则可保证 同样输入不同输出结果
+                    let space = 0// 0.001 //日后这里使用随机数取值则可保证 同样输入不同输出结果
+                    // yy.log.w("随机值", space)
                     let y = (lNum+1)%2 === 0 ?  (r + space/2) +  (2*r + space) * (Math.ceil((lNum+1)/2)-1) : (2*r + space) * (Math.ceil((lNum+1)/2)-1);
                     ball.position.x = x/2 + (2 * r / acos25  +  0.001) * (row - 1);//设置其他球
                     ball.position.y = -y + (2 * r + space) * (lNum - cNum);
                   }
+                  ball.rotation.x =  Math.random() * BilliardConst.multiple;
+                  ball.rotation.y =  Math.random() * BilliardConst.multiple;
+                  ball.rotation.z =  Math.random() * BilliardConst.multiple;
+                  ball.rotation.w =  Math.random() * BilliardConst.multiple;
             
                   cNum += 1;
                   if (cNum - lNum === 1) {
