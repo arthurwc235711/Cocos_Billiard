@@ -15,6 +15,7 @@ import { BilliardConst } from '../../../config/BilliardConst';
 import { BilliardGameTips } from './BilliardGameTips';
 import { Ball } from './Ball';
 import { BilliardCue } from './BilliardCue';
+import { off } from 'process';
 const { ccclass, property } = _decorator;
 
 // 力度杆最大强度 MaxPower * R
@@ -70,6 +71,7 @@ export class BilliardUIView extends BaseCommonScript {
             [yy.Event_Name.billiard_notify_hit]: "onClickHit",
             [yy.Event_Name.billiard_notify_cuemove]: "onCueMove",
             [yy.Event_Name.billiard_notify_cueangle]: "onCueAngle",
+            [yy.Event_Name.billiard_notify_cueoffset]: "onCueOffset",
             [yy.Event_Name.billiard_action_arrow_cd]: "onActionArrowCd",
             [yy.Event_Name.billiard_setting_cue_location]: "onSettingCueLocation",
             [yy.Event_Name.billiard_notify_setgold]: "setGold",
@@ -86,7 +88,7 @@ export class BilliardUIView extends BaseCommonScript {
         this.initAngleSliderClick();
         this.initPowerSliderClick();
 
-        let btnBall = this.nodeRight.getChildByPath("NodeHitPoint/ButtonBall");
+        let btnBall = this.node.getChildByPath("NodeHitPoint/ButtonBall");
         btnBall.on("click", this.onClickStroke, this);
     }
 
@@ -96,7 +98,9 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     onClickStroke() {
-        yy.popup.show_popup("app_billiard", "module/billiard_hitpoint/view/p_billiard_hit_point", null);
+        if (BilliardTools.instance.isMyAction() && BilliardManager.instance.getTable().allStationary() ) {
+            yy.popup.show_popup("app_billiard", "module/billiard_hitpoint/view/p_billiard_hit_point", null);
+        }
     }
 
     initBtnTable(node3d:Node) {
@@ -138,7 +142,9 @@ export class BilliardUIView extends BaseCommonScript {
                 let touch = event.touch;
                 let local = touch.getLocation();
                 let perLocal = touch.getPreviousLocation();
-                // if ((this.touchMove ||  Math.abs(local.x - perLocal.x) > 2 || Math.abs(local.y - perLocal.y) > 2)) {
+
+                // yy.log.w("Move", local, perLocal);
+                if ((this.touchMove ||  Math.abs(local.x - perLocal.x) > 0.01 || Math.abs(local.y - perLocal.y) > 0.01)) {
                     this.touchMove = true;
                     let cueBall = BilliardManager.instance.getCueBall();
                     let sc = BilliardManager.instance.camera3d.worldToScreen(cueBall.node.worldPosition);
@@ -268,7 +274,7 @@ export class BilliardUIView extends BaseCommonScript {
                     // let y = local.y - perLocal.y;
                     // this.preTouchLocation.add2f(x, y);
                     this.onClickTable(this.preTouchLocation);
-                // }
+                }
             }
             isFreeBallMove = this.freeBall.touchMove;
         });
@@ -499,7 +505,7 @@ export class BilliardUIView extends BaseCommonScript {
         nodeAngle.active = BilliardData.instance.getActionType() === 0 && BilliardTools.instance.isMyAction();
 
         BilliardData.instance.getOffset().copy(Vec3.ZERO);
-        let dot = this.nodeRight.getChildByPath("NodeHitPoint/ButtonBall/Node/Dot");
+        let dot = this.node.getChildByPath("NodeHitPoint/ButtonBall/Node/Dot");
         dot.position = Vec3.ZERO;
     }
 
@@ -665,7 +671,7 @@ export class BilliardUIView extends BaseCommonScript {
 
 
     onHitPoint(nor: Vec3, per: number) {
-        let dot = this.nodeRight.getChildByPath("NodeHitPoint/ButtonBall/Node/Dot");
+        let dot = this.node.getChildByPath("NodeHitPoint/ButtonBall/Node/Dot");
         let radius = dot.parent.getComponent(UITransform).width / 2;
         let length = radius * per;
         let dis = nor.multiplyScalar(length)
@@ -685,7 +691,7 @@ export class BilliardUIView extends BaseCommonScript {
         let cfps = 1/dt;
         if (this.dt > 1) {
             this.fps = this.frameCount / this.dt;
-            this.tmpString = `FPS: ${this.fps.toFixed(2)}  DT: ${(this.dt/this.frameCount).toFixed(3)}  minFps: ${this.minFps.toFixed(3)},  maxFps: ${this.maxFps.toFixed(3)}`;
+            this.tmpString = `FPS: ${this.fps.toFixed(2)}  MinDT: ${(1/this.minFps).toFixed(3)}  minFps: ${this.minFps.toFixed(3)},  maxFps: ${this.maxFps.toFixed(3)}`;
             this.labelTestInfo.string = this.tmpString;
             this.dt = 0;
             this.frameCount = 0;
@@ -748,8 +754,6 @@ export class BilliardUIView extends BaseCommonScript {
         this.unschedule(this.onUpdateCueAngle);
         this.schedule(this.onUpdateCueAngle);
     }
-
-
     onUpdateCueAngle() {
         this._lastSc.lerp(this._sc, 0.1);
         this.onClickTable(this._lastSc);
@@ -759,7 +763,19 @@ export class BilliardUIView extends BaseCommonScript {
         }
     }
 
+    onCueOffset(msg: protoBilliard.ICueOffset) {
+        let dot = this.node.getChildByPath("NodeHitPoint/ButtonBall/Node/Dot");
+        let radius = dot.parent.getComponent(UITransform).width / 2;
+        let offset = new Vec3(msg.curOffset.x/BilliardConst.multiple, msg.curOffset.y/BilliardConst.multiple, 0);
+        let nor = offset.clone().normalize();
+        nor.setX(-nor.x);
+        let length = radius * (offset.length() * 2);
+        let dis = nor.multiplyScalar(length)
+        let pos = dot.parent.worldPosition.clone().add(dis);
+        dot.worldPosition = pos;
+    }
     
+
     setPlayerInfo() {
         this.billiardTop.setBindLeftPlayerUID(1)
         .setBindRightPlayerUID(2)

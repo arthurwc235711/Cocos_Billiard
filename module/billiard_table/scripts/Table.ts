@@ -1,6 +1,5 @@
 import { _decorator, Camera, Component, director, find, game, instantiate, macro, Node, Prefab, Vec3, UITransform, Canvas, geometry, quat, Quat } from 'cc';
 import { Ball } from './Ball';
-import { Cue } from './Cue';
 import { Collision } from '../../../scripts/physics/collision';
 import { TableGeometry } from './TableGeometry';
 import { yy } from '../../../../../../yy';

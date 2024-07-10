@@ -3,6 +3,8 @@ import { BaseCommonPopup } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
 import { roundVec2 } from '../../../scripts/utils';
+import { BilliardService } from '../../../net/BilliardService';
+import { off } from 'process';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardHitPointView')
@@ -25,28 +27,60 @@ export class BilliardHitPointView extends BaseCommonPopup {
         touchNode.on(Node.EventType.TOUCH_MOVE, (event: EventTouch) => {
             const local = event.getLocation();
             const perLocal = event.getPreviousLocation();
-            if ((this.touchMove ||  Math.abs(local.x - perLocal.x) > 2 || Math.abs(local.y - perLocal.y) > 2)) {
+            // if ((this.touchMove ||  Math.abs(local.x - perLocal.x) > 2 || Math.abs(local.y - perLocal.y) > 2)) {
                 this.touchMove = true;
                 let touchWpos = camera.screenToWorld(v3.set(local.x, local.y, 0)).setZ(0);
                 let length = dis.copy(touchWpos).subtract(this.nodeDot.parent.worldPosition).length();
                 if (length <= radius) {// 圆内
                     this.onTouch(touchWpos, dis, radius, length);
                 }
-            }
+            // }
         });
         touchNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
+            const local = event.getLocation();
+            let touchWpos = camera.screenToWorld(v3.set(local.x, local.y, 0)).setZ(0);
+            let length = dis.copy(touchWpos).subtract(this.nodeDot.parent.worldPosition).length();
             if (!this.touchMove) {
-                const local = event.getLocation();
-                let touchWpos = camera.screenToWorld(v3.set(local.x, local.y, 0)).setZ(0);
-
-                // this.onTouch(touchWpos, dis, radius);
-                let length = dis.copy(touchWpos).subtract(this.nodeDot.parent.worldPosition).length();
+                if (length > radius) {// 圆内
+                    this.close();
+                }
+                else {
+                    this.onTouch(touchWpos, dis, radius, length);
+                    let offset = BilliardData.instance.getOffset()
+                    BilliardService.instance.sendCueOffsetReq(offset.x, offset.y);
+                }
+            }
+            else {
                 if (length <= radius) {// 圆内
                     this.onTouch(touchWpos, dis, radius, length);
                 }
-                else {
+                let offset = BilliardData.instance.getOffset()
+                BilliardService.instance.sendCueOffsetReq(offset.x, offset.y);
+            }
+
+            this.touchMove = false;
+        });
+
+        touchNode.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
+            const local = event.getLocation();
+            let touchWpos = camera.screenToWorld(v3.set(local.x, local.y, 0)).setZ(0);
+            let length = dis.copy(touchWpos).subtract(this.nodeDot.parent.worldPosition).length();
+            if (!this.touchMove) {
+                if (length > radius) {// 圆内
                     this.close();
                 }
+                else {
+                    this.onTouch(touchWpos, dis, radius, length);
+                    let offset = BilliardData.instance.getOffset()
+                    BilliardService.instance.sendCueOffsetReq(offset.x, offset.y);
+                }
+            }
+            else {
+                if (length <= radius) {// 圆内
+                    this.onTouch(touchWpos, dis, radius, length);
+                }
+                let offset = BilliardData.instance.getOffset()
+                BilliardService.instance.sendCueOffsetReq(offset.x, offset.y);
             }
 
             this.touchMove = false;
@@ -73,9 +107,9 @@ export class BilliardHitPointView extends BaseCommonPopup {
         this.nodeDot.worldPosition = touchWpos;
         let offset = BilliardData.instance.getOffset();
         offset.set(-dis.x / (radius*2), dis.y / (radius*2), 0);
-        roundVec2(offset);
+        // roundVec2(offset);
         yy.event.emit(yy.Event_Name.billiard_hit_point, dis.normalize(), length/radius);
-        // yy.log.w("offset", offset);
+        // yy.log.w("offset", offset, dis.normalize(), offset.clone().normalize());
     }
     
 }

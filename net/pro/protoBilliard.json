@@ -353,6 +353,18 @@
             }
           }
         },
+        "ICueOffset": {
+          "fields": {
+            "curOffset": {
+              "type": "IPosition",
+              "id": 1
+            },
+            "lastOffset": {
+              "type": "IPosition",
+              "id": 2
+            }
+          }
+        },
         "IHit": {
           "fields": {
             "power": {
@@ -491,6 +503,10 @@
             "cueAngle": {
               "type": "ICueAngle",
               "id": 11
+            },
+            "cueOffset": {
+              "type": "ICueOffset",
+              "id": 12
             }
           }
         },

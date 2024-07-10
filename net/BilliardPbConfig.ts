@@ -40,4 +40,5 @@ export let BilliardPbConfig = [
     {cmd: 0x6022, rsp: "protoBilliard.BroadcastGameResult"}, // 游戏协议 BroadcastGameResult
     {cmd: 0x6024, rsp: "protoBilliard.ChatMsg"}, // 聊天协议 ChatMsg
     {cmd: 0x6026, rsp: "protoBilliard.UserPlayBilliardDataRsp"}, // 玩家游戏数据 UserPlayBilliardDataRsp
+    {cmd: 0x6028, rsp: "protoBilliard.ICueOffset"}, // 自由球偏移量 ICueOffset
 ]

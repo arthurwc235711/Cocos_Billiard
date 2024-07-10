@@ -65,6 +65,7 @@ export class BilliardService extends StackListenerNew {
         ["cmd_0x6022"]: "notifyGameResult",
         ["cmd_0x6024"]: "notifyChat",
         ["cmd_0x6026"]: "notifyPersonal",
+        ["cmd_0x6028"]: "notifyCueOffset",
 
 
 
@@ -225,14 +226,14 @@ export class BilliardService extends StackListenerNew {
             billiardData.setStartBalls(msg.validResult.balls);
             billiardData.setAngle(msg.hitReq.angle/BilliardConst.multiple);
             billiardData.setPower(msg.hitReq.power/BilliardConst.multiple);
-            billiardData.getOffset().setX(msg.hitReq.offset.x/BilliardConst.multiple).setY(msg.hitReq.offset.y/BilliardConst.multiple);
+            if (msg.hitReq.power !== 0) billiardData.getOffset().setX(msg.hitReq.offset.x/BilliardConst.multiple).setY(msg.hitReq.offset.y/BilliardConst.multiple);
+            else billiardData.getOffset().setX(msg.cueOffset.curOffset.x/BilliardConst.multiple).setY(msg.cueOffset.curOffset.y/BilliardConst.multiple);
 
-
+            yy.event.emit(yy.Event_Name.billiard_notify_cueoffset, msg.cueOffset);
             billiardData.setActionUid(msg.action.uid);
             let hitType = msg.users.filter(u=>u.uid === msg.action.uid)[0].hitType;
             billiardData.setHitBallType(hitType);
             yy.event.emit(yy.Event_Name.billiard_reconnect, msg);
-
         }
         else {
             this.sendReady();
@@ -311,6 +312,37 @@ export class BilliardService extends StackListenerNew {
         yy.log.w("sendCueAngleReq", req);
         this.send("BilliardService.ClientEvent", pb);
         // yy.socket.send("BilliardService.ClientEvent", pb);
+    }
+    notifyCueAngle(data: any) {
+        let msg: protoBilliard.ICueAngle = data.msg;
+        if(msg) {
+            if (!BilliardTools.instance.isMyAction()) { // 其他人操作才设置坐标
+                yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg);
+            }
+        }
+    }
+    sendCueOffsetReq(x: number, y: number) {
+        let pb: protoBilliard.GameProtocol = new protoBilliard.GameProtocol();
+        let responseMsg = ProtoHelper.Ins.getProto('protoBilliard', 'ICueOffset');
+        let req: protoBilliard.ICueOffset = new protoBilliard.ICueOffset();
+        req.curOffset = new protoBilliard.IPosition();
+        req.curOffset.x = x * BilliardConst.multiple;
+        req.curOffset.y = y * BilliardConst.multiple;;
+        let newMsg = responseMsg.encode(req).finish();
+        pb.Cmd = 0x6027;
+        pb.TableId = this.tid;
+        pb.databody = newMsg;
+        yy.log.w("sendCueOffsetReq", req);
+        this.send("BilliardService.ClientEvent", pb);
+        // yy.socket.send("BilliardService.ClientEvent", pb);
+    }
+    notifyCueOffset(data: any) {
+        let msg: protoBilliard.ICueOffset = data.msg;
+        if(msg) {
+            if (!BilliardTools.instance.isMyAction()) { // 其他人操作才设置坐标
+                yy.event.emit(yy.Event_Name.billiard_notify_cueoffset, msg);
+            }
+        }
     }
     
     sendHitReq() {
@@ -515,15 +547,7 @@ export class BilliardService extends StackListenerNew {
         this.standAloneSend("BilliardAllocService.CueAngle", req)
         // yy.socket.send("BilliardAllocService.CueAngle", req);
     }
-    notifyCueAngle(data: any) {
-        let billiardData = BilliardData.instance;
-        let msg: protoBilliard.ICueAngle = data.msg;
-        if(msg) {
-            if (!BilliardTools.instance.isMyAction()) { // 其他人操作才设置坐标
-                yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg);
-            }
-        }
-    }
+
 
 
     sendHit() {

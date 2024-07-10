@@ -631,6 +631,34 @@ declare global {
 
 		}
 
+		/** Properties of a ICueOffset. */
+		interface IICueOffset{
+
+			/** ICueOffset curOffset */
+			curOffset?: (IPosition | null);
+
+			/** ICueOffset lastOffset */
+			lastOffset?: (IPosition | null);
+
+		}
+
+		/** Represents a ICueOffset. */
+		class ICueOffset implements IICueOffset {
+
+			/**
+			* Constructs a new %s.
+			* @param [properties] Properties to set
+			*/
+			constructor(properties?: protoBilliard.IICueOffset);
+
+			/** ICueOffset curOffset */
+			public curOffset: IPosition | null;
+
+			/** ICueOffset lastOffset */
+			public lastOffset: IPosition | null;
+
+		}
+
 		/** Properties of a IHit. */
 		interface IIHit{
 
@@ -825,6 +853,9 @@ declare global {
 			/** GameStatus cueAngle */
 			cueAngle?: (ICueAngle | null);
 
+			/** GameStatus cueOffset */
+			cueOffset?: (ICueOffset | null);
+
 		}
 
 		/** Represents a GameStatus. */
@@ -868,6 +899,9 @@ declare global {
 
 			/** GameStatus cueAngle */
 			public cueAngle: ICueAngle | null;
+
+			/** GameStatus cueOffset */
+			public cueOffset: ICueOffset | null;
 
 		}
 
