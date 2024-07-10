@@ -138,7 +138,7 @@ export class BilliardUIView extends BaseCommonScript {
                 let touch = event.touch;
                 let local = touch.getLocation();
                 let perLocal = touch.getPreviousLocation();
-                if ((this.touchMove ||  Math.abs(local.x - perLocal.x) > 2 || Math.abs(local.y - perLocal.y) > 2)) {
+                // if ((this.touchMove ||  Math.abs(local.x - perLocal.x) > 2 || Math.abs(local.y - perLocal.y) > 2)) {
                     this.touchMove = true;
                     let cueBall = BilliardManager.instance.getCueBall();
                     let sc = BilliardManager.instance.camera3d.worldToScreen(cueBall.node.worldPosition);
@@ -268,7 +268,7 @@ export class BilliardUIView extends BaseCommonScript {
                     // let y = local.y - perLocal.y;
                     // this.preTouchLocation.add2f(x, y);
                     this.onClickTable(this.preTouchLocation);
-                }
+                // }
             }
             isFreeBallMove = this.freeBall.touchMove;
         });
