@@ -183,34 +183,54 @@ export class BilliardUIView extends BaseCommonScript {
 
                     }
 
-
-                    let inc = Math.max(Math.abs(local.x - perLocal.x), Math.abs(local.y - perLocal.y));
-                    let xs = 1;
-                    if (this.isShotAtBall) {
-                        xs = inc < 5 ? 0.25 : 0.5;
-                    }
-
-
-                    function getAngle(a) {
-                        let tmp = a + angle * f * xs;
-                        if (tmp >360) {
-                            return Math.abs(tmp - 360);
-                        }
-                        else if (tmp < 0) {
-                            return 360 - Math.abs(tmp);
+                    if (this.isShotAtBall) { // 指向球使用微调相关 周长算法
+                        let inc = Math.max(Math.abs(local.x - perLocal.x), Math.abs(local.y - perLocal.y));
+                        let xs = 1;
+                        if (this.isShotAtBall) {
+                            xs = inc < 5 ? 0.1 : 1;
                         }
 
-                        return tmp
+                        let tran = this.nodeArrow.getComponent(UITransform);
+                        let sin = R2d / 10  / (tran.width + R2d*2)
+                        let asin = Math.asin(sin);
+                        let incangle = asin * Rtd;
 
-                    }
-                    let value = getAngle(this.nodeCueArrow.angle)
-                    if (!Number.isNaN(value)) {
-                        this.nodeCueArrow.angle = value;
+
+                        this.nodeCueArrow.angle = this.nodeCueArrow.angle + f * incangle * xs;
+
                         let wp = this.cue.nodeBallArrow.worldPosition;
                         let cs = BilliardManager.instance.camera2d.worldToScreen(wp);
                         this.preTouchLocation.x = cs.x;
-                        this.preTouchLocation.y = cs.y;      
+                        this.preTouchLocation.y = cs.y;
                     }
+                    else {
+                        let inc = Math.max(Math.abs(local.x - perLocal.x), Math.abs(local.y - perLocal.y));
+                        let xs = 1;
+                        if (this.isShotAtBall) {
+                            xs = inc < 5 ? 0.25 : 0.5;
+                        }
+                        function getAngle(a) {
+                            let tmp = a + angle * f * xs;
+                            if (tmp >360) {
+                                return Math.abs(tmp - 360);
+                            }
+                            else if (tmp < 0) {
+                                return 360 - Math.abs(tmp);
+                            }
+    
+                            return tmp
+    
+                        }
+                        let value = getAngle(this.nodeCueArrow.angle)
+                        if (!Number.isNaN(value)) {
+                            this.nodeCueArrow.angle = value;
+                            let wp = this.cue.nodeBallArrow.worldPosition;
+                            let cs = BilliardManager.instance.camera2d.worldToScreen(wp);
+                            this.preTouchLocation.x = cs.x;
+                            this.preTouchLocation.y = cs.y;      
+                        }
+                    }
+
               
 
 
@@ -320,7 +340,7 @@ export class BilliardUIView extends BaseCommonScript {
             let angle = asin * Rtd;
 
             // yy.log.w("p角度:", this.nodeCueArrow.angle, angleInRadians);
-            this.nodeCueArrow.angle =  this.nodeCueArrow.angle + angleInRadians * angle * xs;
+            this.nodeCueArrow.angle = this.nodeCueArrow.angle + angleInRadians * angle * xs;
 
             let wp = this.cue.nodeBallArrow.worldPosition;
             let cs = BilliardManager.instance.camera2d.worldToScreen(wp);
