@@ -162,81 +162,25 @@ export class BilliardUIView extends BaseCommonScript {
                     }
                     let angle = calculateAngleBetweenVectors(perAb.x, perAb.y, ab.x, ab.y)
 
-                    let absX = Math.abs(local.x - perLocal.x);
-                    let absY = Math.abs(local.y - perLocal.y);
+                    let perangele = calculateAngleBetweenVectors(perAb.x, perAb.y, 1, 0); // 和x轴方向角度
+                    let curangele = calculateAngleBetweenVectors(ab.x, ab.y, 1, 0);
                     let f = 0;
+                    if (curangele > perangele) {
+                        if (sc.y > local.y) {
+                            f = -1;
+                        }
+                        else {
+                            f = 1;
+                        }
+                    } 
+                    else {
+                        if (sc.y > local.y) {
+                            f = 1;
+                        }
+                        else {
+                            f = -1;
+                        }
 
-                    if (sc.x < local.x && sc.y < local.y) {
-                        if (absX > absY) {
-                            if (local.x > perLocal.x) {
-                                f = -1;
-                            }
-                            else {
-                                f = 1;
-                            }
-                        }
-                        else {
-                            if (local.y > perLocal.y) {
-                                f = 1;
-                            }
-                            else {
-                                f = -1;
-                            }
-                        }
-                    }
-                    else if(sc.x < local.x && sc.y > local.y){
-                        if (absX > absY) {
-                            if (local.x > perLocal.x) {
-                                f = 1;
-                            }
-                            else {
-                                f = -1;
-                            }
-                        }
-                        else {
-                            if (local.y > perLocal.y) {
-                                f = 1;
-                            }
-                            else {
-                                f = -1;
-                            }
-                        }
-                    }
-                    else if(sc.x >local.x && sc.y > local.y){
-                        if (absX > absY) {
-                            if (local.x > perLocal.x) {
-                                f = 1;
-                            }
-                            else {
-                                f = -1;
-                            }
-                        }
-                        else {
-                            if (local.y > perLocal.y) {
-                                f = -1;
-                            }
-                            else {
-                                f = 1;
-                            }
-                        }
-                    }
-                    else if(sc.x >local.x && sc.y < local.y){
-                        if (absX > absY) {
-                            if (local.x > perLocal.x) {
-                                f = -1;
-                            }
-                            else {
-                                f = 1;
-                            }
-                        }
-                        else {
-                            if (local.y > perLocal.y) {
-                                f = -1;
-                            }
-                            else {
-                                f = 1;
-                            }
-                        }
                     }
 
 
