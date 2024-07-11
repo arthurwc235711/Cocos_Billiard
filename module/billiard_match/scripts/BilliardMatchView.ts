@@ -82,7 +82,9 @@ export class BilliardMatchView extends BaseCommonScript {
     }
 
     onMatchingCancel() {
-        this.node.destroy();
+        this.scheduleOnce(()=>{
+            this.onClickGoBack();
+        }, 2);
     }
 
     

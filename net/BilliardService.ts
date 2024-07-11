@@ -31,10 +31,10 @@ export class BilliardService extends StackListenerNew {
 
     eventFuncMap: { [key: string]: string } = {
         ////////////////////////////////////////////// 桌球匹配相关 以下 //////////////////////////////////////////////
-        ['BilliardAllocService.EnterMatching']: 'respEnterMatching',
-        ["BilliardAllocService.EnterMatching.timeout"]: "respEnterMatching",
-        ["BilliardAllocService.LeaveMatching"]: "respLeaveMatching",
-        ["BilliardAllocService.LeaveMatching.timeout"]: "respLeaveMatching",
+        ['BilliardAllocService_EnterMatching']: 'respEnterMatching',
+        ["BilliardAllocService_EnterMatching.timeout"]: "respEnterMatching",
+        ["BilliardAllocService_LeaveMatching"]: "respLeaveMatching",
+        ["BilliardAllocService_LeaveMatching.timeout"]: "respLeaveMatching",
         ["cmd_0x6000"]: "notifyMatchingTable",
         ////////////////////////////////////////////// 桌球匹配相关 以上 //////////////////////////////////////////////
 
@@ -94,9 +94,9 @@ export class BilliardService extends StackListenerNew {
     }
     
     respEnterMatching(data: any, req: any) {
-        let resp = data.msg as protoBilliard.EnterRsp;
+        let resp = data.msg as protoBilliard.CommonRsp;
         // yy.log.w("respEnterMatching", data, req);
-        if(data.code == 0 &&  resp && resp.code  == 0) {
+        if(data.code === 0 &&  resp && resp.code  === 0) {
             yy.event.emit(yy.Event_Name.Billiard_Matching);
         }
         else {
@@ -113,7 +113,7 @@ export class BilliardService extends StackListenerNew {
     }
 
     respLeaveMatching(data: any, req: any) {
-        let resp = data.msg as protoBilliard.EnterRsp;
+        let resp = data.msg as protoBilliard.CommonRsp;
         if(data.code == 0 &&  resp && resp.code  == 0) {
             
         }
@@ -126,7 +126,6 @@ export class BilliardService extends StackListenerNew {
 
     notifyMatchingTable(data: any) {
         let notify: protoBilliardAlloc.MatchingTableMsg = data.msg;
-
         yy.log.w("BilliardService   notifyMatchingTable");
         yy.event.emit(yy.Event_Name.Billiard_Matching_Success, notify);
     }
@@ -134,7 +133,7 @@ export class BilliardService extends StackListenerNew {
 
 
 
-    private errorTips(msg: any) {
+    private errorTips(msg: protoBilliard.CommonRsp) {
         if (msg) {
             yy.toast.addNow(`error code:${msg.code} msg:${msg.msg}`);
         }
@@ -223,6 +222,7 @@ export class BilliardService extends StackListenerNew {
             }
             msg.validResult.balls.sort((a, b)=>a.val - b.val);
             let billiardData = BilliardData.instance;
+            billiardData.setActionType(msg.action.type);
             billiardData.setStartBalls(msg.validResult.balls);
             billiardData.setAngle(msg.hitReq.angle/BilliardConst.multiple);
             billiardData.setPower(msg.hitReq.power/BilliardConst.multiple);
