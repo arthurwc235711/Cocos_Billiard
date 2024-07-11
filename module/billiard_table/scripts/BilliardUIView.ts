@@ -791,11 +791,15 @@ export class BilliardUIView extends BaseCommonScript {
     onSettingCueLocation(isLeft: boolean) {
         if (isLeft) {
             this.nodeLeft.position = this.nodeLeft.position.setX(-890);
+            let labelNode = this.nodeLeft.getChildByName("Label");
+            labelNode.position = labelNode.position.setX(110);
             let nAngle = this.nodeRight.getChildByName("NodeAngle");
             nAngle.position = nAngle.position.setX(0);
         }
         else {
             this.nodeLeft.position = this.nodeLeft.position.setX(890);
+            let labelNode = this.nodeLeft.getChildByName("Label");
+            labelNode.position = labelNode.position.setX(-110);
             let nAngle = this.nodeRight.getChildByName("NodeAngle");
             nAngle.position = nAngle.position.setX(-1780);
         }

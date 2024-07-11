@@ -137,13 +137,17 @@ export class BilliardMatchView extends BaseCommonScript {
 
 
                 this.scheduleOnce(()=>{
-                    if (director.getScene().name === "billiard") {
-                        yy.event.emit(yy.Event_Name.billiard_rematch);
-                        this.node.destroy();
-                    }
-                    else {
-                        yy.subGameData.enterSubGame("billiard", { isPractice: false });  
-                    }
+                    yy.event.emit(yy.Event_Name.billiard_rematch);
+                    yy.audio.stopSound();
+                    this.node.destroy();
+                    // if (director.getScene().name === "billiard") {
+                    //     yy.event.emit(yy.Event_Name.billiard_rematch);
+                    //     yy.audio.stopSound();
+                    //     this.node.destroy();
+                    // }
+                    // else {
+                    //     yy.subGameData.enterSubGame("billiard", { isPractice: false });  
+                    // }
                 }, 1)
 
                 break;
