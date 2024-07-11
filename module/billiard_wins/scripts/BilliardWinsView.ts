@@ -42,6 +42,7 @@ export class BilliardWinsView extends BaseCommonScript {
     otherUI: BilliardMatchUI = {labelName: null, spriteUrl: null, labelGold: null, nodeHalo: null};
 
 
+    private isEnoughMoney: boolean = true;
     // private sData: protoBilliard.BroadcastGameResult;
     public register_event() {
         // 注册指定的监听方法，格式如下
@@ -85,6 +86,8 @@ export class BilliardWinsView extends BaseCommonScript {
                 this.setPlayerInfo(this.myUI, p.nick, p.icon, p.moneyTotal.toNumber());
                 this.nodeMy.getChildByName("NodeWiner").active = data.winnerid === p.uid;
                 this.myUI.nodeHalo.active = data.winnerid === p.uid;
+
+                this.isEnoughMoney = p.moneyTotal >= data.tablecfg.CarryLower;
             }
             else {
                 this.setPlayerInfo(this.otherUI, p.nick, p.icon, p.moneyTotal.toNumber());
@@ -145,19 +148,64 @@ export class BilliardWinsView extends BaseCommonScript {
         this.btnRematch.interactable = true;
     }
 
+
     onReStart() {
         this.node.destroy();
     }
 
 
     onClickReady() {
-        BilliardService.instance.sendReady();
+        if (this.isEnoughMoney) {
+            BilliardService.instance.sendReady();
+        }
+        else {
+            yy.dialog.show(
+                {
+                    title: "Tip",
+                    content: "You need more money to enter the room.",
+                    isCancelEnable: false,
+                    isConfirmEnable: true,
+                    confirmText: "OK",
+                    confirmCallback: () => {
+                    },
+                    closeCallback: () => {
+                    },
+                    fontSize: 50,
+                    lineHeight: 60,
+                    // horizontalAlign: HorizontalTextAlignment.CENTER,
+                    // verticalAlign: VerticalTextAlignment.CENTER,
+                }
+            )
+        }
+
     }
 
     onClickRematch() {
-        BilliardTools.instance.openReMatchView(()=>{
-            this.node.destroy();
-        });
+        if (this.isEnoughMoney) {
+            BilliardTools.instance.openReMatchView(()=>{
+                this.node.destroy();
+            });
+        }
+        else {
+            yy.dialog.show(
+                {
+                    title: "Tip",
+                    content: "You need more money to enter the room.",
+                    isCancelEnable: false,
+                    isConfirmEnable: true,
+                    confirmText: "OK",
+                    confirmCallback: () => {
+                    },
+                    closeCallback: () => {
+                    },
+                    fontSize: 50,
+                    lineHeight: 60,
+                    // horizontalAlign: HorizontalTextAlignment.CENTER,
+                    // verticalAlign: VerticalTextAlignment.CENTER,
+                }
+            )
+        }
+
     }
 }
 
