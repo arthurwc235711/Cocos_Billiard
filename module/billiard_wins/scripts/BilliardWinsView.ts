@@ -26,6 +26,8 @@ export class BilliardWinsView extends BaseCommonScript {
     @property(Label)
     labelMyGold: Label = null;
     @property(Node)
+    nodeMyPao: Node = null;
+    @property(Node)
     nodePao: Node = null;
     @property(Label)
     labelTips: Label = null;
@@ -128,6 +130,7 @@ export class BilliardWinsView extends BaseCommonScript {
         if (notify.uid === yy.user.getUid()) {
             this.btnPlayAgain.interactable = false;
             // this.btnRematch.interactable = false;
+            this.nodeMyPao.active = true;
         }
         else {
             this.nodePao.active = true;
