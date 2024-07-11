@@ -67,7 +67,7 @@ export class BilliardGameTips extends BaseCommonScript {
                 this.labelTips.string = "You have the ball in hand";
             }
             else {
-                this.labelTips.string = `"${this.getNoActionName()}" has the ball in hand`;
+                this.labelTips.string = `"${this.getActionName()}" has the ball in hand`;
             }
             this.nodeTips.active = true;
         });
