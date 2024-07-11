@@ -54,9 +54,6 @@ export class Table extends BaseCommonScript {
       BilliardManager.instance.setTable(this);
     }
 
-    protected start(): void {
-      yy.event.emit(yy.Event_Name.billiard_table_init, this.node.getChildByName("Plane"));
-    }
 
     initTable() {
       this.initialiseBalls(director.getScene().getChildByPath("p_billiard_3d/NodeBalls").getComponentsInChildren(Ball));
