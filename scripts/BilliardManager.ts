@@ -402,15 +402,7 @@ export class BilliardManager extends BaseCommonInstance{
         }
         table.setBallsRotation(msg.validResult.balls, msg.action.round);
 
-        // 自由球处理
-        if (msg.action.type === 2) {
-            if (msg.action.round === 2) {
-                table.cueBall.updatePosImmediately(BilliardConst.startPos);
-            }
-            else {
-                table.cueBall.updatePosImmediately(Vec3.ZERO);
-            }
-        }
+
 
         // 动态重连
         if (BilliardData.instance.getPower() !== 0) { 
@@ -427,6 +419,22 @@ export class BilliardManager extends BaseCommonInstance{
             else {
                 yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg.cueAngle);
             }
+        }
+
+        // 自由球处理
+        if (msg.action.type !== 0) {
+            if (msg.action.round === 2 || msg.action.type === 1) {
+                view.freeBall.setStartAreaShow();
+                table.cueBall.updatePosImmediately(BilliardConst.startPos);
+            }
+            else {
+                table.cueBall.updatePosImmediately(Vec3.ZERO);
+            }
+
+            view.freeBall.node.active = true;
+            view.freeBall.nodeForbid.active = !table.isValidFreeBall();
+            view.onFreeBall();
+            view.onFreeBallMove(!table.isValidFreeBall(), false, false);
         }
 
         this.setSureBalls();

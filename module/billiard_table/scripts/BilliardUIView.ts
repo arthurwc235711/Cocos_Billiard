@@ -478,11 +478,19 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     onClickTable(local: Vec2) {    
+        this.cue.showCueLine();
         this.nodeRight.active = BilliardTools.instance.isMyAction();
         this.nodeLeft.active = BilliardTools.instance.isMyAction();
         let screenPos = local;
         let wp = BilliardManager.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
         this.onShotAt(wp);
+
+        // 自由球相关显示
+        if (BilliardData.instance.isFreeBall()) {
+            this.freeBall.hideHand();
+            this.cue.ShowFreeBallAnim();
+        }
+
     }
 
     onShotAt(wp: Vec3) {
@@ -590,11 +598,7 @@ export class BilliardUIView extends BaseCommonScript {
             uiTran.setContentSize(100, uiTran.contentSize.y);
         }
 
-        // 自由球相关显示
-        if (BilliardData.instance.isFreeBall() && BilliardTools.instance.isMyAction()) {
-            this.freeBall.hideHand();
-            this.cue.ShowFreeBallAnim();
-        }
+
     }
 
     autoShotAt(node: Node) {
@@ -688,14 +692,17 @@ export class BilliardUIView extends BaseCommonScript {
         }else {
             this.nodeCueArrow.active = isShowShot;
             // this.setArrowLine(true);
-            this.cue.showLine()
+            // this.cue.showLine()
+
             this.nodeRight.active = isShowShot && BilliardTools.instance.isMyAction();
             this.nodeLeft.active = isShowShot && BilliardTools.instance.isMyAction();
             let table = BilliardManager.instance.getTable();
             let ball = table.recentlyBall();
             if (ball && isShowShot) {
                 this.autoShotAt(ball.node);
+                this.cue.onlyShowFreeBallAnim();
             }
+
             if (isSend) {
                 // yy.log.w("发送球球位置", table.cueBall.pos);
                 BilliardService.instance.sendCueMove(table.cueBall.pos.x, table.cueBall.pos.y);
@@ -710,6 +717,9 @@ export class BilliardUIView extends BaseCommonScript {
         table.cueBall.updatePosImmediately(new Vec3(msg.curPosition.x/BilliardConst.multiple, msg.curPosition.y/BilliardConst.multiple, 0));
         this.onFreeBall();
         this.onFreeBallMove(false, false);
+        this.freeBall.hideHand();
+        this.cue.onlyShowFreeBallAnim();
+
         yy.log.w("onCueMove", msg)
     }
 

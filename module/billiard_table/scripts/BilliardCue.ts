@@ -24,16 +24,16 @@ export class BilliardCue extends Component {
     nodeCueArrow: Node;
 
     hideAll() {
-        this.hideShowFreeBallAnim()
+        this.hideFreeBallAnim()
             .hideCueLine()
             .hideBallArrow()
         return this;
     }
     ShowFreeBallAnim() {
-        this.node.active = true;
+        this.nodeFreeBallAnim.active = true;
         return this;
     }
-    hideShowFreeBallAnim() {
+    hideFreeBallAnim() {
         this.nodeFreeBallAnim.active = false;
         return this;
     }
@@ -56,12 +56,12 @@ export class BilliardCue extends Component {
 
     showCueLine() {
         this.spriteLine.enabled = true;
-        this.nodeCue.active = true;
+        this.nodeCueLine.active = true;
         return this;
     }
     hideCueLine() {
         this.spriteLine.enabled = false;
-        this.nodeCue.active = false;
+        this.nodeCueLine.active = false;
         return this;
     }
     showBallArrow(isAllow: boolean) {
