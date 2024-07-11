@@ -665,7 +665,7 @@ export class BilliardUIView extends BaseCommonScript {
         let cfps = 1/dt;
         if (this.dt > 1) {
             this.fps = this.frameCount / this.dt;
-            this.tmpString = `FPS: ${this.fps.toFixed(2)}  MinDT: ${(1/this.minFps).toFixed(3)}  minFps: ${this.minFps.toFixed(3)},  maxFps: ${this.maxFps.toFixed(3)}`;
+            this.tmpString = `FPS: ${this.fps.toFixed(0)}  MinDT: ${(1/this.minFps).toFixed(3)}  minFps: ${this.minFps.toFixed(0)}  maxFps: ${this.maxFps.toFixed(0)}`;
             this.labelTestInfo.string = this.tmpString;
             this.dt = 0;
             this.frameCount = 0;
