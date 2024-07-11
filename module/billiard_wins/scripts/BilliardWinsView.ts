@@ -127,7 +127,7 @@ export class BilliardWinsView extends BaseCommonScript {
     onReady(notify: protoBilliard.BroadcastUserReady) {
         if (notify.uid === yy.user.getUid()) {
             this.btnPlayAgain.interactable = false;
-            this.btnRematch.interactable = false;
+            // this.btnRematch.interactable = false;
         }
         else {
             this.nodePao.active = true;
