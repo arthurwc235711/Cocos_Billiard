@@ -118,11 +118,13 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     }
 
     onProgressComplete() {
-
+        yy.event.emit(yy.Event_Name.billiard_table_init);
         yy.log.w("onProgressComplete", this.levelData)
         if (this.levelData != null) {
-            yy.log.w("------------")
             BilliardTools.instance.openMatchView(this.levelData, null);
+        }
+        else {
+            BilliardService.instance.sendEnterGame();
         }
     }
 
@@ -143,7 +145,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         let cur = 0;
         pre.forEach((name, i)=>{
             yy.loader.asyncLoadPrefab(BilliardConst.bundleName, name, (prefab)=>{
-                cur ++;
+
 
                 if (name === pre[0]) { // 实例化3d对象
                     let clone = instantiate(prefab);
@@ -153,7 +155,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             
                     BilliardTools.instance.playBgm();
                 }
-
+                cur ++;
                 yy.event.emit(yy.Event_Name.billiard_loading_resource, cur/max);
 
             });

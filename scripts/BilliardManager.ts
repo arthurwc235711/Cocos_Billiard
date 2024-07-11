@@ -114,20 +114,21 @@ export class BilliardManager extends BaseCommonInstance{
         track.clear();
     }
 
-    onInitGame(node3d:Node) {
+    onInitGame() {
+        let table = this.getTable();
         let view = this.getView();
         let rules = this.getRules();
 
         // rules.placeBalls();
         view.scheduleOnce(()=>{
-            view.initBtnTable(node3d);
+            view.initBtnTable(table.node.getChildByName("Plane"));
             // view.setPlayerInfo();
             // rules.startTurn();
 
             // view.setPlayerCountDown(20);
         }, 0);
 
-        BilliardService.instance.sendStart()
+        BilliardService.instance.sendStart()// 单机测试用
     }
 
 

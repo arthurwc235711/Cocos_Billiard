@@ -93,7 +93,7 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     protected start(): void {
-        BilliardService.instance.sendEnterGame();
+        // BilliardService.instance.sendEnterGame();
         this.nodeCueArrow.active = false;
     }
 
@@ -709,6 +709,8 @@ export class BilliardUIView extends BaseCommonScript {
                 BilliardService.instance.sendFreeBallReq(table.cueBall.pos.x, table.cueBall.pos.y);
             }
 
+            this.nodeRight.active = false;
+            this.nodeLeft.active = false;
         }
     }
 
@@ -831,9 +833,9 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
 
-    onRematch() {
-        BilliardService.instance.sendEnterGame();
-    }
+    // onRematch() {
+    //     BilliardService.instance.sendEnterGame();
+    // }
 
     onStopAnimations() {
         this.unschedule(this.onUpdateCueAngle);
