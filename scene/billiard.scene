@@ -86,7 +86,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 959.9999999999999,
+      "x": 960.0000000000001,
       "y": 540,
       "z": 0
     },
@@ -170,7 +170,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 680.9106830122591,
+    "_orthoHeight": 897.578475336323,
     "_near": 1,
     "_far": 2000,
     "_color": {
@@ -247,8 +247,8 @@
     "__prefab": null,
     "_alignFlags": 45,
     "_target": null,
-    "_left": -1.1368683772161603e-13,
-    "_right": -1.1368683772161603e-13,
+    "_left": 1.1368683772161603e-13,
+    "_right": 1.1368683772161603e-13,
     "_top": 1.1368683772161603e-13,
     "_bottom": 0,
     "_horizontalCenter": 0,
@@ -290,10 +290,7 @@
       "__uuid__": "5a7121bf-54f9-4283-8fa0-3360f7382c17",
       "__expectedType__": "cc.Prefab"
     },
-    "prefabBilliard3D": {
-      "__uuid__": "7fb48d1d-322b-42f6-bbe4-f774aa9ee195",
-      "__expectedType__": "cc.Prefab"
-    },
+    "prefabBilliard3D": null,
     "protoJson": [
       {
         "__uuid__": "9d649a77-ec94-4811-944e-8290f62e143a",
@@ -309,26 +306,20 @@
   {
     "__type__": "proload_prefab",
     "attribute_key": "",
-    "load_prefab": {
-      "__uuid__": "b17b0a56-84d4-4bb9-ab01-0d5534538c1e",
-      "__expectedType__": "cc.Prefab"
-    },
+    "load_prefab": null,
     "layer": 2,
     "sort": 1,
-    "bundleName": "",
-    "resName": ""
+    "bundleName": "app_billiard",
+    "resName": "module/billiard_table/view/p_billiard_2d"
   },
   {
     "__type__": "proload_prefab",
     "attribute_key": "",
-    "load_prefab": {
-      "__uuid__": "96ffdff8-e702-464a-8fcf-127278431e75",
-      "__expectedType__": "cc.Prefab"
-    },
+    "load_prefab": null,
     "layer": 2,
     "sort": 1,
-    "bundleName": "",
-    "resName": ""
+    "bundleName": "app_billiard",
+    "resName": "module/billiard_menu/view/p_billiard_menu"
   },
   {
     "__type__": "cc.PrefabInfo",

@@ -18,8 +18,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass('BilliardScene')
 export class BilliardScene extends CasualCommonSceneBase implements ITemplateGameServiceListener {
-    @property(Prefab)
-    prefabBilliard3D: Prefab = null;
     @property([JsonAsset])
     protoJson: JsonAsset[] = [];
 
@@ -66,14 +64,14 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     }
 
 
-    protected start(): void {
-        let clone = instantiate(this.prefabBilliard3D);
-        director.getScene().addChild(clone);
-        yy.toast.setToastRes('app_common', 'toast/view/toast_view');
-        BilliardManager.instance.setRules(eRuleType.EightBall);
+    // protected start(): void {
+    //     // let clone = instantiate(this.prefabBilliard3D);
+    //     // director.getScene().addChild(clone);
+    //     // yy.toast.setToastRes('app_common', 'toast/view/toast_view');
+    //     // BilliardManager.instance.setRules(eRuleType.EightBall);
 
-        BilliardTools.instance.playBgm();
-    }
+    //     // BilliardTools.instance.playBgm();
+    // }
 
 
     addGameScoketConfig() {
@@ -132,6 +130,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     loadingResource() {
         // 预设预加载资源
         let pre = [
+            "module/billiard_table/view/p_billiard_3d",
             "module/billiard_match/view/p_billiard_match",
         ]
         // 音效预加载资源
@@ -145,7 +144,18 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         pre.forEach((name, i)=>{
             yy.loader.asyncLoadPrefab(BilliardConst.bundleName, name, (prefab)=>{
                 cur ++;
+
+                if (name === pre[0]) { // 实例化3d对象
+                    let clone = instantiate(prefab);
+                    director.getScene().addChild(clone);
+                    yy.toast.setToastRes('app_common', 'toast/view/toast_view');
+                    BilliardManager.instance.setRules(eRuleType.EightBall);
+            
+                    BilliardTools.instance.playBgm();
+                }
+
                 yy.event.emit(yy.Event_Name.billiard_loading_resource, cur/max);
+
             });
         })
     
