@@ -589,6 +589,12 @@ export class BilliardUIView extends BaseCommonScript {
         else {
             uiTran.setContentSize(100, uiTran.contentSize.y);
         }
+
+        // 自由球相关显示
+        if (BilliardData.instance.isFreeBall() && BilliardTools.instance.isMyAction()) {
+            this.freeBall.hideHand();
+            this.cue.ShowFreeBallAnim();
+        }
     }
 
     autoShotAt(node: Node) {

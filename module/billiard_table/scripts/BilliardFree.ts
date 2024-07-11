@@ -112,7 +112,7 @@ export class BilliardFree extends BaseCommonScript {
             if (BilliardTools.instance.isMyAction() && BilliardManager.instance.getTable().isValidFreeBall()) {
                 yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
                 this.touchMove = false;
-                btn.getComponent(Sprite).enabled = false;
+                this.hideHand();
                 
             }
         });
@@ -120,7 +120,7 @@ export class BilliardFree extends BaseCommonScript {
             if (BilliardTools.instance.isMyAction() && BilliardManager.instance.getTable().isValidFreeBall()) {
                 yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
                 this.touchMove = false;
-                btn.getComponent(Sprite).enabled = false;
+                this.hideHand();
             }
         });
     }
@@ -133,8 +133,8 @@ export class BilliardFree extends BaseCommonScript {
         BilliardManager.instance.camera3d.worldToScreen(outV3, vec3);
         BilliardManager.instance.camera2d.screenToWorld(vec3, outV3);
         this.nodeHand.setWorldPosition(outV3);
-        this.nodeHand.active = BilliardTools.instance.isMyAction();
-        this.nodeHand.getComponent(Sprite).enabled = true;
+        this.nodeHand.active = true;//BilliardTools.instance.isMyAction();
+        this.showHand();
         this.node.active = true;
     }
 
@@ -144,6 +144,13 @@ export class BilliardFree extends BaseCommonScript {
 
     setStartAreaHide() {
         this.nodeStart.active = false;
+    }
+
+    showHand() {
+        this.nodeHand.getComponent(Sprite).enabled = true;
+    }
+    hideHand() {
+        this.nodeHand.getComponent(Sprite).enabled = false;
     }
 }
 

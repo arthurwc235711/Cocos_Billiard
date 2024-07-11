@@ -50,10 +50,12 @@ export class BilliardData {
 
     private angleLimit: number = 100; // 微调参数
 
-    isOtherPlayExit = false;
+    isOtherPlayExit = false;// 对方是否退出游戏
 
 
-
+    isFreeBall(): boolean {
+        return this.actionType !== 0;
+    }
 
     getActionType(): number {
         return this.actionType;
