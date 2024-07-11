@@ -59,6 +59,11 @@ export class BilliardEightBall implements IBilliardRules {
                     if (this.hasBallType(balls, BilliardData.instance.getHitBallType()) && this.getBallType(o.ballB) !== BilliardData.instance.getHitBallType()){
                         freeBall();
                     }
+                    else { // 击打8球
+                        if (this.getBallType(o.ballB) !== eBallType.EightBall) {
+                            freeBall();
+                        }
+                    }
                 }
                 else {
                     // 定色前为首次击打8球则犯规
