@@ -133,9 +133,9 @@ export class BilliardManager extends BaseCommonInstance{
 
 
     onAllStationary() {
-        let view = this.getView();
-        // let table = this.getTable();
-        let rules = this.getRules();
+        // let view = this.getView();
+        // // let table = this.getTable();
+        // let rules = this.getRules();
         this.onResult();
         // this.getView().onAllStationary();
         // let ball = rules.onShotBall();
