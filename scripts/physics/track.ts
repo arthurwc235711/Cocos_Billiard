@@ -14,7 +14,7 @@ export class track {
     static updateInTrack(t: number) {
         if (this.inPocketBalls.length === 0) return;
         
-        this.inPocketBalls.forEach(ball=>{
+        this.inPocketBalls.forEach((ball, i)=>{
             const x = ball.pos.x;
             const y = ball.pos.y;
             let vx = 0, vy = 0;
@@ -27,6 +27,29 @@ export class track {
             else { // 只有向下速度
                 if (y > this.endPos.y) {
                     vy = -R * t * g;
+                }
+            }
+
+            if (i < this.inPocketBalls.length && i !== 0) {
+                if (this.isCollison(ball, this.inPocketBalls[i-1])) {
+                    let tmpBall = this.inPocketBalls[i-1]
+                    if (tmpBall.pos.x >= -1.67) { // 向左速度
+                        vx = ball.vel.x;
+                    }
+                    else if (tmpBall.pos.x > -1.74) { // 向左速度衰减 并拥有向下速度
+                        vy = ball.vel.y;
+                    }
+                    else { // 只有向下速度
+                        if (tmpBall.pos.y > this.endPos.y) {
+                            vy = ball.vel.y;
+                        }
+                    }
+                    tmpBall.vel.addScaledVector(Vec3.RIGHT, vx);
+                    tmpBall.vel.addScaledVector(Vec3.UP, vy);
+
+                    ball.vel.setX(0).setY(0);
+                    vx = 0;
+                    vy = 0;
                 }
             }
             
@@ -62,11 +85,7 @@ export class track {
     static setInTrack(ball: Ball) {
         ball.setStationaryByService();
         ball.setTrack();
-        this.inPocketBalls.length = 0;
-        let v3 = Vec3.ZERO.clone();
-        this.inTrackBalls.forEach((ball, i)=>{
-            ball.updatePosImmediately(v3.setX(this.endPos.x).setY(i * 2 * R));
-        });
+        this.inPocketBalls.push(ball);
     }
 
     static froceUpdateTrack(ball: Ball) {
@@ -77,6 +96,10 @@ export class track {
         ball.rvel.copy(Vec3.ZERO)
         ball.updatePosImmediately(v3.setX(this.endPos.x).setY(this.endPos.y + this.inTrackBalls.length * 2* R));
         this.inTrackBalls.push(ball);
+    }
+
+    static isCollison(a: Ball, b: Ball) :boolean {
+        return a.pos.distanceToSquared(b.pos) < 2*R * 2*R;
     }
 }
 
