@@ -87,7 +87,7 @@ export class BilliardWinsView extends BaseCommonScript {
                 this.nodeMy.getChildByName("NodeWiner").active = data.winnerid === p.uid;
                 this.myUI.nodeHalo.active = data.winnerid === p.uid;
 
-                this.isEnoughMoney = p.moneyTotal >= data.tablecfg.CarryLower;
+                this.isEnoughMoney = p.moneyTotal.toNumber() >= data.tablecfg.CarryLower;
             }
             else {
                 this.setPlayerInfo(this.otherUI, p.nick, p.icon, p.moneyTotal.toNumber());
