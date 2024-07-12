@@ -56,12 +56,16 @@ export class BilliardEightBall implements IBilliardRules {
             if (o) {
                 if (this.isSureBall()) { //定色后为首次击打自己颜色则犯规
                     let balls = BilliardManager.instance.getTable().getOnTableBalls();
-                    if (this.hasBallType(balls, BilliardData.instance.getHitBallType()) && this.getBallType(o.ballB) !== BilliardData.instance.getHitBallType()){
-                        freeBall();
-                    }
-                    else { // 击打8球
-                        if (this.getBallType(o.ballB) !== eBallType.EightBall) {
+                    if (this.hasBallType(balls, BilliardData.instance.getHitBallType())){
+                        if (this.getBallType(o.ballB) !== BilliardData.instance.getHitBallType()) {
                             freeBall();
+                        }
+                    }
+                    else { // 剩余8球 击打其他球犯规
+                        if (this.getBallType(o.ballB) !== BilliardData.instance.getHitBallType()) {
+                            if (this.getBallType(o.ballB) !== eBallType.EightBall) {
+                                freeBall();
+                            }
                         }
                     }
                 }
