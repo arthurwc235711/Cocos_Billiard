@@ -132,7 +132,7 @@ export class BilliardFree extends BaseCommonScript {
         outV3.setY(outV3.y - 4 * R).setX(outV3.x + R)
         BilliardManager.instance.camera3d.worldToScreen(outV3, vec3);
         BilliardManager.instance.camera2d.screenToWorld(vec3, outV3);
-        this.nodeHand.setWorldPosition(outV3);
+        this.nodeHand.setWorldPosition(outV3.setZ(0));
         this.nodeHand.active = true;//BilliardTools.instance.isMyAction();
         this.showHand();
         this.node.active = true;

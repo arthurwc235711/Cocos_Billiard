@@ -426,16 +426,20 @@ export class BilliardManager extends BaseCommonInstance{
         if (msg.action.type !== 0) {
             if (msg.action.round === 2 || msg.action.type === 1) {
                 view.freeBall.setStartAreaShow();
-                table.cueBall.updatePosImmediately(BilliardConst.startPos);
+                // table.cueBall.updatePosImmediately(BilliardConst.startPos); 使用服务器数据不强制赋值
             }
             else {
-                table.cueBall.updatePosImmediately(Vec3.ZERO);
+                view.freeBall.setStartAreaHide();
+                // table.cueBall.updatePosImmediately(Vec3.ZERO);  使用服务器数据不强制赋值
             }
 
             view.freeBall.node.active = true;
             view.freeBall.nodeForbid.active = !table.isValidFreeBall();
-            view.onFreeBall();
-            view.onFreeBallMove(!table.isValidFreeBall(), false, false);
+            table.scheduleOnce(()=>{ // 强制延迟一针处理不然坐标更新有概率有异常
+                view.onFreeBall();
+                view.onFreeBallMove(!table.isValidFreeBall(), false, false);
+            }, 0);
+
         }
 
         this.setSureBalls();
