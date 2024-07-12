@@ -10,6 +10,7 @@ import { BilliardScene } from "../scene/BilliardScene";
 import { SoundAudio } from "../../../../main/audio/SoundAudio";
 import { BilliardService } from "../net/BilliardService";
 import { ISubGameTableInfoItemData } from "../../../../main/data/SubGameData";
+import { RaySphereCollision } from "./physics/component/RaySphereCollision";
 
 export class BilliardTools {
     private static __instance__: BilliardTools;
@@ -58,7 +59,8 @@ export class BilliardTools {
         let sphereCenter = this.get3dTo2dSize(dis.worldPosition);
         let rayDirection = dir;
         let tmp1 = new Vec3(0, 0, 0);
-        let tmp2 = new Vec3(2*R, 0, 0);
+        let rayColliso = dis.getComponent(RaySphereCollision);
+        let tmp2 = new Vec3(R + rayColliso.radius, 0, 0);
         let cp1 = this.get3dTo2dSize(tmp1)//camera2d.screenToWorld(srcTmp);
         let cp2 = this.get3dTo2dSize(tmp2)//camera2d.screenToWorld(disTmp);
         let sphereRadius = Math.abs(cp1.x - cp2.x);

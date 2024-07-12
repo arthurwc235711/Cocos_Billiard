@@ -525,53 +525,66 @@ export class BilliardUIView extends BaseCommonScript {
             let ballArrow = this.cue.nodeBallArrow;
             let cueArrow = this.cue.nodeCueArrow;
             if (collision instanceof RaySphereCollision) {
-                this.isShotAtBall = true;
                 let shotAtBall = nodes[0].getComponent(Ball);
-                let isVaildShot = BilliardTools.instance.isVaildShot(shotAtBall.id);
-                this.cue.showBallArrow(isVaildShot);
-                ballArrow.active = true;
-                cueArrow.active = true;
-                let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction)
-                uiTran.setContentSize(k - R2d*2, uiTran.contentSize.y);//45.47 球直径2D摄像头尺寸
-                if (uiTran.width > 0) this.cue.showLine();
-                else this.cue.hideLine();
-                
-                let b2dPos = camera3DToCamera2DWPos(nodes[0].worldPosition);
-                let furCueNode = this.cue.nodeAllow;
-                furCueNode.getComponent(Widget).updateAlignment(); // 强制更新节点位置，不然当前帧数据会异常，需要等待下一帧计算才行
-                // yy.log.w("furCueNode", furCueNode.worldPosition)
-                let v1 = b2dPos.clone().subtract(direction.multiplyScalar(k).add(cue2dWp)).normalize();
-                let ballAngle = v1.angleTo(Vec3.RIGHT);;
-
-                let tmpBallAngle = ballAngle * Rtd;
-                if (furCueNode.worldPosition.y < b2dPos.y) {// 预判被撞球的运动方向
-                    ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle);
-                }
-                else {
-                    tmpBallAngle = 360 - tmpBallAngle;
-                    ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle);
-                }
-        
-                // 计算母球方向
-                let dirOD = b2dPos.clone().subtract(cue2dWp).normalize();
-                let dvAngle = dirOD.angleTo(v1);
-                if (Math.abs(Math.abs(cue2dWp.x) - Math.abs(b2dPos.x)) > Math.abs(Math.abs(cue2dWp.y) - Math.abs(b2dPos.y)) ) {
-                    if (dirOD.y > v1.y) {
-                        cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), cue2dWp.x < b2dPos.x ?  tmpBallAngle + 90 : tmpBallAngle - 90);
-                    }
-                    else {
-                        cueArrow.worldRotation = Quat.fromAngleZ(new Quat(),  cue2dWp.x < b2dPos.x ? tmpBallAngle - 90 : tmpBallAngle + 90);
-                    }
-                }
-                else {
-                    if (dirOD.x > v1.x) {
-                        cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), cue2dWp.y > b2dPos.y ?  tmpBallAngle + 90 : tmpBallAngle - 90);
-                    }
-                    else {
-                        cueArrow.worldRotation = Quat.fromAngleZ(new Quat(),  cue2dWp.y > b2dPos.y ? tmpBallAngle - 90 : tmpBallAngle + 90);
-                    }
-                }
+                if (shotAtBall) {
+                    this.isShotAtBall = true;
+                    let isVaildShot = BilliardTools.instance.isVaildShot(shotAtBall.id);
+                    this.cue.showBallArrow(isVaildShot);
+                    ballArrow.active = true;
+                    cueArrow.active = true;
+                    let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction)
+                    uiTran.setContentSize(k - R2d*2, uiTran.contentSize.y);//45.47 球直径2D摄像头尺寸
+                    if (uiTran.width > 0) this.cue.showLine();
+                    else this.cue.hideLine();
+                    
+                    let b2dPos = camera3DToCamera2DWPos(nodes[0].worldPosition);
+                    let furCueNode = this.cue.nodeAllow;
+                    furCueNode.getComponent(Widget).updateAlignment(); // 强制更新节点位置，不然当前帧数据会异常，需要等待下一帧计算才行
+                    // yy.log.w("furCueNode", furCueNode.worldPosition)
+                    let v1 = b2dPos.clone().subtract(direction.multiplyScalar(k).add(cue2dWp)).normalize();
+                    let ballAngle = v1.angleTo(Vec3.RIGHT);;
     
+                    let tmpBallAngle = ballAngle * Rtd;
+                    if (furCueNode.worldPosition.y < b2dPos.y) {// 预判被撞球的运动方向
+                        ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle);
+                    }
+                    else {
+                        tmpBallAngle = 360 - tmpBallAngle;
+                        ballArrow.worldRotation = Quat.fromAngleZ(new Quat(), tmpBallAngle);
+                    }
+            
+                    // 计算母球方向
+                    let dirOD = b2dPos.clone().subtract(cue2dWp).normalize();
+                    let dvAngle = dirOD.angleTo(v1);
+                    if (Math.abs(Math.abs(cue2dWp.x) - Math.abs(b2dPos.x)) > Math.abs(Math.abs(cue2dWp.y) - Math.abs(b2dPos.y)) ) {
+                        if (dirOD.y > v1.y) {
+                            cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), cue2dWp.x < b2dPos.x ?  tmpBallAngle + 90 : tmpBallAngle - 90);
+                        }
+                        else {
+                            cueArrow.worldRotation = Quat.fromAngleZ(new Quat(),  cue2dWp.x < b2dPos.x ? tmpBallAngle - 90 : tmpBallAngle + 90);
+                        }
+                    }
+                    else {
+                        if (dirOD.x > v1.x) {
+                            cueArrow.worldRotation = Quat.fromAngleZ(new Quat(), cue2dWp.y > b2dPos.y ?  tmpBallAngle + 90 : tmpBallAngle - 90);
+                        }
+                        else {
+                            cueArrow.worldRotation = Quat.fromAngleZ(new Quat(),  cue2dWp.y > b2dPos.y ? tmpBallAngle - 90 : tmpBallAngle + 90);
+                        }
+                    }
+                }
+                else {
+                    let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction)
+                    uiTran.setContentSize(k - R2d*2, uiTran.contentSize.y);//45.47 球直径2D摄像头尺寸
+                    this.cue.showBallArrow(true)
+                    let furCueNode = this.cue.nodeAllow;
+                    furCueNode.getComponent(Widget).updateAlignment(); // 强制更新节点位置，不然当前帧数据会异常，需要等待下一帧计算才行
+                    ballArrow.active = false;
+                    cueArrow.active = false;
+                    if (uiTran.width > 0) this.cue.showLine();
+                    else this.cue.hideLine();
+                }
+
                 // let maxLength = 60;
                 // let cosValue = Math.pow(Math.cos(dvAngle), 2);
                 // let ballLength = 60 * cosValue;
@@ -590,11 +603,14 @@ export class BilliardUIView extends BaseCommonScript {
                 cueArrow.active = false;
                 if (uiTran.width > 0) this.cue.showLine();
                 else this.cue.hideLine();
-                // yy.log.w("", "未检测出碰撞点");
+               
             }
+
+            // yy.log.w(nodes[0].name, "球与球之间的距离:" + uiTran.width);
 
         }
         else {
+            //  yy.log.w("", "未检测出碰撞点");
             uiTran.setContentSize(100, uiTran.contentSize.y);
         }
 

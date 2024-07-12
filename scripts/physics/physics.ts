@@ -215,7 +215,7 @@ export function rayHit(origin: Vec3, direction: Vec3) {
   
       const a = direction.x * direction.x + direction.y * direction.y;
       const b = 2 * (fx * direction.x + fy * direction.y);
-      const c = fx * fx + fy * fy - circle.radius * circle.radius;
+      const c = fx * fx + fy * fy - (circle.radius + R) * (circle.radius +R );
   
       const discriminant = b * b - 4 * a * c;
   
@@ -247,7 +247,7 @@ export function rayHit(origin: Vec3, direction: Vec3) {
 
   // if (sortNode.length === 0) {
     RayRectangleCollision.sRayRectangleCollisions.forEach((c, i)=>{
-      let point = rayRectangle3(origin, direction, c)
+      let point = rayRectangle14(origin, direction, c)
       if(point) {
         let source = origin;
         let target = c.node.worldPosition;
@@ -264,6 +264,9 @@ export function rayHit(origin: Vec3, direction: Vec3) {
             let h = direction.y/direction.x * w;
             c.sqrDeep = Math.sqrt(h*h + w*w)//- R*2;
         }
+
+        // let tmpSqr = Math.sqrt(Math.pow(Math.abs(point.x - origin.x),2) + Math.pow(Math.abs(point.y - origin.y), 2));
+        // yy.log.w(  "长度 ", c.sqrDeep, tmpSqr)
 
         // c.sqrDeep = origin.distanceToSquared(new Vec3(point.x, point.y, c.node.worldPosition.z))
         // yy.log.w('rayHit RayRectangleCollision' + c.node.name, c.sqrDeep, c.node.name, new Vec3(point.x, point.y, c.node.worldPosition.z))
@@ -285,7 +288,7 @@ function raySphere(origin: Vec3, direction: Vec3, raySphere: RaySphereCollision)
   let m = origin.clone().subtract(raySphere.node.worldPosition);
 
   let b = m.dot(direction);
-  let c = m.dot(m) - raySphere.radius * raySphere.radius;
+  let c = m.dot(m) - (raySphere.radius + R) * (raySphere.radius + R);
   // 如果c > 0且b > 0，射线起点在球体外部且在球心方向之外，没有交点
   if (c > 0 && b > 0)   {
     return false;
@@ -299,6 +302,59 @@ function raySphere(origin: Vec3, direction: Vec3, raySphere: RaySphereCollision)
   // yy.log.w('rayHit RaySphereCollision', raySphere.node.name, discriminant);
   // 射线与球体相交（判别式大于或等于0）
   return true;
+}
+
+function rayRectangle14(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision) {
+  let ox = origin.x, oy = origin.y;
+  let dx = direction.x, dy = direction.y;
+
+
+  if (dy > 0 && rectangle.node.position.y > 0) { // 上方裤边
+    let disY = rectangle.node.worldPosition.y - rectangle.halfLength - R;
+    let t = (disY - oy) / dy;
+    let disX = ox + t * dx;
+    let left = rectangle.node.worldPosition.x - rectangle.halfWidth - R;
+    let right = rectangle.node.worldPosition.x + rectangle.halfWidth + R;
+    // yy.log.w("rayRectangle14", origin, direction, rectangle.node.name, disX, left, right);
+    if (disX > left && disX < right && oy < disY) {
+      return {x: disX, y: disY};
+    }
+  }
+  else if (dy < 0 && rectangle.node.position.y < 0) { // 下方裤边
+    let disY = rectangle.node.worldPosition.y + rectangle.halfLength + R;
+    let t = (disY - oy) / dy;
+    let disX = ox + t * dx;
+    let left = rectangle.node.worldPosition.x - rectangle.halfWidth - R;
+    let right = rectangle.node.worldPosition.x + rectangle.halfWidth + R;
+    if (disX > left && disX < right && oy > disY) {
+      return {x: disX, y: disY};
+    }
+  }
+  else {
+    if (dx > 0 && rectangle.node.position.y === 0) {
+      let disX = rectangle.node.worldPosition.x - rectangle.halfWidth - R;
+      let t = (disX - ox) / dx;
+      let disY = oy + t * dy;
+      let top = rectangle.node.worldPosition.y + rectangle.halfLength + R;
+      let bottom = rectangle.node.worldPosition.y - rectangle.halfLength - R;
+      if (disY > bottom && disY < top && ox < disX) {
+        return {x: disX, y: disY};
+      }
+    }
+    else if (dx < 0 && rectangle.node.position.y === 0) {
+      let disX = rectangle.node.worldPosition.x + rectangle.halfWidth + R;
+      let t = (disX - ox) / dx;
+      let disY = oy + t * dy;
+      let top = rectangle.node.worldPosition.y + rectangle.halfLength + R;
+      let bottom = rectangle.node.worldPosition.y - rectangle.halfLength - R;
+      if (disY > bottom && disY < top && ox > disX) {
+        return {x: disX, y: disY};
+      }
+    }
+
+  }
+
+
 }
 
 function rayRectangle(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision){
@@ -396,10 +452,10 @@ function rayRectangle3(origin: Vec3, direction: Vec3, rectangle: RayRectangleCol
 
   // let wInc = rectangle.length === 1.5 ? R : 0;
   // let hInc = rectangle.width === 1.5 ? R : 0;
-  let rx1 = rectangle.node.worldPosition.x - rectangle.halfWidth, ry1 = rectangle.node.worldPosition.y;
-  let rx2 = rectangle.node.worldPosition.x + rectangle.halfWidth, ry2 = rectangle.node.worldPosition.y;
+  let rx1 = rectangle.node.worldPosition.x - rectangle.halfWidth - R, ry1 = rectangle.node.worldPosition.y;
+  let rx2 = rectangle.node.worldPosition.x + rectangle.halfWidth + R, ry2 = rectangle.node.worldPosition.y;
 
-  if (rectangle.node.position.y > 0) {
+  if (rectangle.node.position.y > 0 && rectangle.node.name !== "CenterTE") {
       ry1 -= (R + rectangle.halfLength);
       ry2 -= (R + rectangle.halfLength);
       if (direction.y >= 0) {
@@ -457,8 +513,8 @@ function rayRectangle3(origin: Vec3, direction: Vec3, rectangle: RayRectangleCol
     }
   }
   else {
-    rx1 = rectangle.node.worldPosition.x, ry1 = rectangle.node.worldPosition.y - rectangle.halfLength ;
-    rx2 = rectangle.node.worldPosition.x, ry2 = rectangle.node.worldPosition.y + rectangle.halfLength ;   
+    rx1 = rectangle.node.worldPosition.x, ry1 = rectangle.node.worldPosition.y - rectangle.halfLength - R;
+    rx2 = rectangle.node.worldPosition.x, ry2 = rectangle.node.worldPosition.y + rectangle.halfLength + R;   
     if (rectangle.node.position.x > 0){
       rx1 -= (R + rectangle.halfWidth);
       rx2 -= (R + rectangle.halfWidth);
