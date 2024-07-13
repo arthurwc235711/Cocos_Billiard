@@ -410,16 +410,41 @@ export class BilliardManager extends BaseCommonInstance{
             yy.event.emit(yy.Event_Name.billiard_hit);
             view.controlHide();
         }
-        else { // 指向处理
-            if (msg.cueAngle.curScreenPos.x === 0) { // 没有移动角度默认 指向最近目标
-                let ball = rules.onShotBall();
-                if (ball) {
-                    view.autoShotAt(ball.node);
+        else { 
+
+                    // 自由球处理
+            if (msg.action.type !== 0) {
+                if (msg.action.round === 2 || msg.action.type === 1) {
+                    view.freeBall.setStartAreaShow();
+                    // table.cueBall.updatePosImmediately(BilliardConst.startPos); 使用服务器数据不强制赋值
                 }
+                else {
+                    view.freeBall.setStartAreaHide();
+                    // table.cueBall.updatePosImmediately(Vec3.ZERO);  使用服务器数据不强制赋值
+                }
+
+                view.freeBall.node.active = true;
+                view.freeBall.nodeForbid.active = !table.isValidFreeBall();
+                table.scheduleOnce(()=>{ // 强制延迟一针处理不然坐标更新有概率有异常
+                    view.onFreeBall();
+                    view.onFreeBallMove(!table.isValidFreeBall(), false, false);
+                }, 0);
+
             }
             else {
-                yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg.cueAngle);
+                // 指向处理
+                if (msg.cueAngle.curScreenPos.x === 0) { // 没有移动角度默认 指向最近目标
+                    let ball = rules.onShotBall();
+                    if (ball) {
+                        view.autoShotAt(ball.node);
+                    }
+                }
+                else {
+                    yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg.cueAngle);
+                }
             }
+
+
             // 8球 定色球重连 提示添加
             if(rules instanceof BilliardEightBall) {
                 if (rules.isSureBall()) {
@@ -436,25 +461,7 @@ export class BilliardManager extends BaseCommonInstance{
 
         }
 
-        // 自由球处理
-        if (msg.action.type !== 0) {
-            if (msg.action.round === 2 || msg.action.type === 1) {
-                view.freeBall.setStartAreaShow();
-                // table.cueBall.updatePosImmediately(BilliardConst.startPos); 使用服务器数据不强制赋值
-            }
-            else {
-                view.freeBall.setStartAreaHide();
-                // table.cueBall.updatePosImmediately(Vec3.ZERO);  使用服务器数据不强制赋值
-            }
 
-            view.freeBall.node.active = true;
-            view.freeBall.nodeForbid.active = !table.isValidFreeBall();
-            table.scheduleOnce(()=>{ // 强制延迟一针处理不然坐标更新有概率有异常
-                view.onFreeBall();
-                view.onFreeBallMove(!table.isValidFreeBall(), false, false);
-            }, 0);
-
-        }
 
         this.setSureBalls();
     }
