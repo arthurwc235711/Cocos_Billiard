@@ -192,9 +192,11 @@ export class BilliardUIView extends BaseCommonScript {
 
                         let tran = this.nodeArrow.getComponent(UITransform);
                         let sin = R2d / 10  / (tran.width + R2d*2)
+                        if (Math.abs(sin) > 1 || Math.abs(sin) < 0.0001) {
+                            sin = 0.25;
+                        }
                         let asin = Math.asin(sin);
                         let incangle = asin * Rtd;
-
 
                         this.nodeCueArrow.angle = this.nodeCueArrow.angle + f * incangle * xs;
 
@@ -336,9 +338,11 @@ export class BilliardUIView extends BaseCommonScript {
 
             let tran = this.nodeArrow.getComponent(UITransform);
             let sin = R2d / BilliardData.instance.getAngleLimit()  / (tran.width + R2d*2)
+            if (Math.abs(sin) > 1 || Math.abs(sin) < 0.0001) {
+                sin = 0.25;
+            }
             let asin = Math.asin(sin);
             let angle = asin * Rtd;
-
             // yy.log.w("p角度:", this.nodeCueArrow.angle, angleInRadians);
             this.nodeCueArrow.angle = this.nodeCueArrow.angle + angleInRadians * angle * xs;
 
