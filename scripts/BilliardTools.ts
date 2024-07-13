@@ -109,7 +109,7 @@ export class BilliardTools {
         else {
             let w = Math.abs(target.x - source.x) - inc;
             let h = dir.y/dir.x * w;
-            return Math.sqrt(h*h + w*w)- R2d*2;
+            return Math.sqrt(h*h + w*w)- R2d*2 - 5; // 减少 5 像素差
         }
     }
 
