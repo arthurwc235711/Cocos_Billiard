@@ -420,6 +420,20 @@ export class BilliardManager extends BaseCommonInstance{
             else {
                 yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg.cueAngle);
             }
+            // 8球 定色球重连 提示添加
+            if(rules instanceof BilliardEightBall) {
+                if (rules.isSureBall()) {
+                    let table = BilliardManager.instance.getTable();
+                    let tBalls = table.getOnTableBalls();
+                    let hitType = BilliardData.instance.getHitBallType();
+                    for (let i = 1; i < tBalls.length; i++) {
+                        if (rules.getBallType(tBalls[i]) === hitType) {
+                            tBalls[i].showTips();
+                        }
+                    }
+                }
+            }
+
         }
 
         // 自由球处理
