@@ -29,7 +29,7 @@
       "wrapModeT": "repeat",
       "minfilter": "linear",
       "magfilter": "linear",
-      "mipfilter": "none",
+      "mipfilter": "linear",
       "anisotropy": 0
     }
   }
