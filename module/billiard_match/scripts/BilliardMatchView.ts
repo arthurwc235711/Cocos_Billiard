@@ -76,6 +76,7 @@ export class BilliardMatchView extends BaseCommonScript {
 
     onClickGoBack() {
         BilliardService.instance.sendLeaveMatching();
+        yy.user.setLobbyOpenGameLevel({ gameKey: "billiard" });
         if (yy.Event_Name.CasualCommonQuit) { // 桌球游戏内调用
             yy.event.emit(yy.Event_Name.CasualCommonQuit);
         }
