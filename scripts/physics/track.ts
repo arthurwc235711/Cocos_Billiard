@@ -1,7 +1,6 @@
 import { Vec3 } from "cc";
 import { Ball } from "../../module/billiard_table/scripts/Ball";
 import { g, R } from "./constants";
-import { yy } from "../../../../../yy";
 import { forceRoll } from "./physics";
 
 export class track {
@@ -21,8 +20,12 @@ export class track {
             if (x >= -1.67) { // 向左速度
                 vx = -R * t * g;
             }
-            else if (x > -1.74) { // 向左速度衰减 并拥有向下速度
+            else if (x > -1.74 && y < 0.741) { // 向左速度衰减 并拥有向下速度
                 vy = R * t * 0.1 * g;
+                // 碰撞后X速度为0则再给左移动速度
+                if (ball.vel.x === 0) { 
+                    vx = -R * t * g * 0.7;
+                }
             }
             else { // 只有向下速度
                 if (y > this.endPos.y) {
@@ -36,7 +39,7 @@ export class track {
                     if (tmpBall.pos.x >= -1.67) { // 向左速度
                         vx = ball.vel.x;
                     }
-                    else if (tmpBall.pos.x > -1.74) { // 向左速度衰减 并拥有向下速度
+                    else if (tmpBall.pos.x > -1.74 && tmpBall.pos.y < 0.741) { // 向左速度衰减 并拥有向下速度
                         vy = ball.vel.y;
                     }
                     else { // 只有向下速度
