@@ -1,5 +1,4 @@
-import { Camera, find, Vec3 } from "cc";
-import { yy } from "../../../../yy";
+import { Vec3 } from "cc";
 import { BilliardService } from "../net/BilliardService";
 
 
