@@ -108,6 +108,19 @@ export class BilliardGameTips extends BaseCommonScript {
         });
     }
 
+    cushionTips() {
+        BilliardGameTips.actionList.push(()=>{
+            this.isPlaying = true;
+            if (!BilliardTools.instance.isMyAction()) { // 行动切换完 所以是上一次行动玩家击球提示
+                this.labelTips.string = "No balls hit the rail after first contact";
+            }
+            else {
+                this.labelTips.string = `"${this.getNoActionName()}" No balls hit the rail after first contact`;
+            }
+            this.nodeTips.active = true;
+        });
+    }
+
     playComplete() {
         this.isPlaying = false;
     }

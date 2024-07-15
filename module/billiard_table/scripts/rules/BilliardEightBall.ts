@@ -198,6 +198,10 @@ export class BilliardEightBall implements IBilliardRules {
                     view.gameTips.cueInPocketTips();
                     view.gameTips.freeBallTips();
                 }
+                else if(Outcome.isCollisionNoCushion(table.outcome)) { // 没有撞库
+                    view.gameTips.cushionTips();
+                    view.gameTips.freeBallTips();
+                }
                 else {
                     view.gameTips.foulTips();
                     view.gameTips.freeBallTips();
