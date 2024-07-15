@@ -2,7 +2,6 @@ import { Camera, director, find, instantiate, misc, Node, Prefab, UITransform, V
 import { BilliardData } from "../data/BilliardData";
 import { yy } from "../../../../yy";
 import { R, R2d } from "./physics/constants";
-import { log } from "console";
 import { BilliardManager } from "./BilliardManager";
 import { BilliardConst, eAudio } from "../config/BilliardConst";
 import { BaseCommonScript } from "../../../../main/base/BaseCommonScript";
