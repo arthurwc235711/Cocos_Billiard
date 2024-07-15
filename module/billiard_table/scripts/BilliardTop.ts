@@ -1,6 +1,5 @@
 import { _decorator, Component, EventTouch, instantiate, Label, Node, Sprite, SpriteFrame, Vec3 } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
-import { ballsPathPoints } from '../../../../../poker_games/windrop/config/SlotsWindropConfig';
 import { BilliardData } from '../../../data/BilliardData';
 import { yy } from '../../../../../../yy';
 import { BilliardConst } from '../../../config/BilliardConst';
