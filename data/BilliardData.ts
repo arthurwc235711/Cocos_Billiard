@@ -1,6 +1,7 @@
 import { Vec3 } from "cc";
 import { BilliardService } from "../net/BilliardService";
 import { yy } from "../../../../yy";
+import { BilliardManager } from "../scripts/BilliardManager";
 
 
 interface BilliardPlayer {
@@ -31,6 +32,8 @@ export class BilliardData {
         if (BilliardService.instance.isStandAlone) {
             this.addPlayer(1, "Player", "", 0);
             this.addPlayer(2, "AI", "", 0);
+
+            this.setGameType(9);
         }
     }
 

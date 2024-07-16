@@ -3,6 +3,7 @@ import { BilliardConst } from '../config/BilliardConst';
 import { BilliardData } from '../data/BilliardData';
 import { TableGeometry } from '../module/billiard_table/scripts/TableGeometry';
 import { BilliardScene } from '../scene/BilliardScene';
+import { BilliardManager } from '../scripts/BilliardManager';
 import { R } from '../scripts/physics/constants';
 import { BilliardService } from './BilliardService';
 
@@ -57,38 +58,92 @@ export class BilliardSimulateService {
                 ball.rotation.w = 0;
             }
             else {
-                if (row === 1) {
-                    ball.position.x = x/2;//设置首行1球坐标
-                    ball.position.y = 0;
-                  }
-                  else {
-                    let space = 0// 0.001 //日后这里使用随机数取值则可保证 同样输入不同输出结果
-                    // yy.log.w("随机值", space)
-                    let y = (lNum+1)%2 === 0 ?  (r + space/2) +  (2*r + space) * (Math.ceil((lNum+1)/2)-1) : (2*r + space) * (Math.ceil((lNum+1)/2)-1);
-                    ball.position.x = x/2 + (2 * r / acos25  +  0.001) * (row - 1);//设置其他球
-                    ball.position.y = -y + (2 * r + space) * (lNum - cNum);
-                  }
-                  ball.rotation.x =  Math.random() * BilliardConst.multiple;
-                  ball.rotation.y =  Math.random() * BilliardConst.multiple;
-                  ball.rotation.z =  Math.random() * BilliardConst.multiple;
-                  ball.rotation.w =  Math.random() * BilliardConst.multiple;
-            
-                  cNum += 1;
-                  if (cNum - lNum === 1) {
-                    row += 1;
-                    lNum = cNum;
-                    cNum = 0;
-                  }
+                if (BilliardData.instance.is8Ball()) {
+                    if (row === 1) {
+                        ball.position.x = x/2;//设置首行1球坐标
+                        ball.position.y = 0;
+                      }
+                      else {
+                        let space =0// 0.001 //日后这里使用随机数取值则可保证 同样输入不同输出结果
+                        // yy.log.w("随机值", space)
+                        let y = (lNum+1)%2 === 0 ?  (r + space/2) +  (2*r + space) * (Math.ceil((lNum+1)/2)-1) : (2*r + space) * (Math.ceil((lNum+1)/2)-1);
+                        ball.position.x = x/2 + (2 * r / acos25  +  0.001) * (row - 1);//设置其他球
+                        ball.position.y = -y + (2 * r + space) * (lNum - cNum);
+                      }
+                      ball.rotation.x =  Math.random() * BilliardConst.multiple;
+                      ball.rotation.y =  Math.random() * BilliardConst.multiple;
+                      ball.rotation.z =  Math.random() * BilliardConst.multiple;
+                      ball.rotation.w =  Math.random() * BilliardConst.multiple;
+                
+                      cNum += 1;
+                      if (cNum - lNum === 1) {
+                        row += 1;
+                        lNum = cNum;
+                        cNum = 0;
+                      }
+                }
+
+                if (BilliardData.instance.is9Ball()) {
+                    notify.balls[9].val = 5;
+                    notify.balls[5].val = 9;
+                    if (row === 1) {
+                        ball.position.x = x/2;//设置首行1球坐标
+                        ball.position.y = 0;
+                      }
+                      else {
+                        let space = 0// 0.001 //日后这里使用随机数取值则可保证 同样输入不同输出结果
+                        // yy.log.w("随机值", space)
+
+                        function getY() {
+                            if (row < 4) {
+                                return (lNum+1)%2 === 0 ?  (r + space/2) +  (2*r + space) * (Math.ceil((lNum+1)/2)-1) : (2*r + space) * (Math.ceil((lNum+1)/2)-1);
+                            }
+                            else {
+                                let tmp = row - 3;
+                                return (tmp+1)%2 === 0 ?  (r + space/2) +  (2*r + space) * (Math.ceil((tmp+1)/2)-1) : (2*r + space) * (Math.ceil((tmp+1)/2)-1);
+                            }
+
+                        }
+
+                        let y = getY();
+                        ball.position.x = x/2 + (2 * r / acos25  +  0.001) * (row - 1);//设置其他球
+                        let inc = row > 3 ? (row - 3) * (2 * r + space) * 2 : 0;
+                        ball.position.y = -y + (2 * r + space) * (lNum - cNum ) - inc;
+
+                      }
+                      ball.rotation.x =  Math.random() * BilliardConst.multiple;
+                      ball.rotation.y =  Math.random() * BilliardConst.multiple;
+                      ball.rotation.z =  Math.random() * BilliardConst.multiple;
+                      ball.rotation.w =  Math.random() * BilliardConst.multiple;
+                
+                      cNum += 1;
+                      if (cNum - lNum === 1) {
+                        row += 1;
+                        lNum = cNum;
+                        cNum = 0;
+                      }else if (row > 3) {
+                        if (row === 4)  {
+                            if (cNum === 2) {
+                                row += 1;
+                                lNum = row;
+                                cNum = 0;
+                            }
+                        }
+                        
+                      }
+                }
+
             }
         }
+
+
         for(let i = 0; i < notify.balls.length; ++i) {
             let ball = notify.balls[i];
             ball.position.x =  Math.ceil(ball.position.x * BilliardConst.multiple);
             ball.position.y =  Math.ceil(ball.position.y * BilliardConst.multiple);
         }
 
-
-
+        BilliardManager.instance.setRules();
         this.delayAction(() => {
             BilliardService.instance.notifyStart({msg: notify});
         });

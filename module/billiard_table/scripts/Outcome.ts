@@ -109,6 +109,10 @@ export class Outcome {
     return outcomes.some((o) => o.type == OutcomeType.Pot && o.ballA!.id === 8)
   }
 
+  static is9BallPotted(outcomes: Outcome[]) {
+    return outcomes.some((o) => o.type == OutcomeType.Pot && o.ballA!.id === 9)
+  }
+
   static isFirstCushion(outcomes: Outcome[]) {
     return outcomes.length > 1 ? outcomes[1].type === OutcomeType.Cushion : false
   }
