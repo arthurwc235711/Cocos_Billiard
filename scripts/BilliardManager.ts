@@ -413,9 +413,12 @@ export class BilliardManager extends BaseCommonInstance{
 
                     // 自由球处理
             if (msg.action.type !== 0) {
-                if (msg.action.round === 2 || msg.action.type === 1) {
+                if (msg.action.type === 1) {
                     view.freeBall.setStartAreaShow();
                     // table.cueBall.updatePosImmediately(BilliardConst.startPos); 使用服务器数据不强制赋值
+                }
+                else if (msg.action.round === 2 && BilliardData.instance.is8Ball()) {
+                    view.freeBall.setStartAreaShow();
                 }
                 else {
                     view.freeBall.setStartAreaHide();

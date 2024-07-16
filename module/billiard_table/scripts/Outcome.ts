@@ -132,4 +132,8 @@ export class Outcome {
   static isIncludeValidPotted(outcome: Outcome[], ballsNum: number[]) {
     return outcome.some((o) => o.type == OutcomeType.Pot && ballsNum.includes(o.ballA!.id))
   }
+
+  static getCushions(outcomes: Outcome[]) {
+    return outcomes.filter((o) => o.type == OutcomeType.Cushion)
+  }
 }

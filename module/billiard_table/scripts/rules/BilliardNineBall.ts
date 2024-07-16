@@ -1,4 +1,4 @@
-import { Vec3 } from "cc";
+import { MATH_FLOAT_ARRAY, Vec3 } from "cc";
 import { yy } from "../../../../../../../yy";
 import { eRuleType, eOutcomeType, BilliardConst } from "../../../../config/BilliardConst";
 import { BilliardData } from "../../../../data/BilliardData";
@@ -37,13 +37,27 @@ export class BilliardNineBall implements IBilliardRules {
         }
 
         if (!result) {
-            if (Outcome.isCollisionNoCushion(outcome) && Outcome.potCount(outcome) ===0) { // 撞球后没有撞库  先撞库在撞自己球后不碰库算犯规
-                yy.log.w("撞球后没有撞库");
-                freeBall();
+            if (this.round === 1) {
+                const outs = Outcome.getCushions(outcome);
+                const Max = 4
+                const cushions: number[] = [];
+                for(let i = 0; i < outs.length; i++) {
+                    if (outs[i].ballA.id !== 0 && !cushions.includes(outs[i].ballA.id)) {
+                        cushions.push(outs[i].ballA.id);
+                    }
+                }
+                //最少要有4个子球碰到库边 或者 有球进袋
+                if (cushions.length < Max && Outcome.potCount(outcome) === 0) {
+                    freeBall();
+                }
+            }
+            else {
+                if (Outcome.isCollisionNoCushion(outcome) && Outcome.potCount(outcome) === 0) { // 撞球后没有撞库  先撞库在撞自己球后不碰库算犯规
+                    yy.log.w("撞球后没有撞库");
+                    freeBall();
+                }
             }
         }
-        
-
         
         return result;
     }
@@ -123,14 +137,8 @@ export class BilliardNineBall implements IBilliardRules {
                     view.gameTips.freeBallTips();
                 }
 
-                if (this.round === 2) {// 开局犯规后对方 限定发球区域摆球
-                    view.freeBall.setStartAreaShow();
-                    table.cueBall.updatePosImmediately(BilliardConst.startPos);
-                }
-                else {
-                    view.freeBall.setStartAreaHide();
-                    table.cueBall.updatePosImmediately(Vec3.ZERO);
-                }
+                view.freeBall.setStartAreaHide();
+                table.cueBall.updatePosImmediately(Vec3.ZERO);
 
 
                 view.freeBall.node.active = true;
