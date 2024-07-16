@@ -1,10 +1,10 @@
 import { Vec3 } from "cc";
 
 export const BilliardConst = {
-    gameKey: "billiard",
+    // gameKey: "billiard",  // 8 ball 9ball 
     bundleName: "app_billiard",
     startPos: new Vec3(-0.75, 0, 0),
-    gid: 47,
+    // gid: 47,
     multiple:100000,
 }
 

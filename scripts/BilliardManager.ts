@@ -12,6 +12,7 @@ import { BilliardConst, eOutcomeType, eRuleType } from "../config/BilliardConst"
 import { BilliardEightBall } from "../module/billiard_table/scripts/rules/BilliardEightBall";
 import { BilliardService } from "../net/BilliardService";
 import { BilliardTools } from "./BilliardTools";
+import { BilliardNineBall } from "../module/billiard_table/scripts/rules/BilliardNineBall";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -63,16 +64,16 @@ export class BilliardManager extends BaseCommonInstance{
         return this.getTable().cueBall;
     }
 
-    setRules(rules: eRuleType) {
-        switch (rules) {
-            case eRuleType.EightBall:
+    setRules() {
+        switch (BilliardData.instance.getGameType()) {
+            case 8:
                 this._rules = new BilliardEightBall();
                 break;
-            case eRuleType.NineBall:
+            case 9:
+                this._rules = new BilliardNineBall();
                 break;
-
             default: 
-                yy.log.e("error eRuleType:", rules);
+                yy.log.e("error eRuleType:", BilliardData.instance.getGameType());
         }
     }
 
@@ -339,11 +340,9 @@ export class BilliardManager extends BaseCommonInstance{
 
 
     onEnterGame() {
-        let table = this.getTable();
         let view = this.getView();
-        let rules = this.getRules();
-
         view.setPlayerInfo();
+        this.setRules();
     }
 
 

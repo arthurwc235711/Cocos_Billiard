@@ -151,7 +151,6 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
                     let clone = instantiate(prefab);
                     director.getScene().addChild(clone);
                     yy.toast.setToastRes('app_common', 'toast/view/toast_view');
-                    BilliardManager.instance.setRules(eRuleType.EightBall);
             
                     BilliardTools.instance.playBgm();
                 }

@@ -203,7 +203,7 @@ export class BilliardService extends StackListenerNew {
         msg.users.forEach(player=>{
             BilliardData.instance.addPlayer(player.uid, player.nick, player.icon, player.scoreboard);
         })
-
+        BilliardData.instance.setGameType(msg.gamePlay);
         yy.event.emit(yy.Event_Name.billiard_notify_entergame);
         yy.event.emit(yy.Event_Name.billiard_notify_setgold, msg.chipPot);
 

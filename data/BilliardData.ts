@@ -1,5 +1,6 @@
 import { Vec3 } from "cc";
 import { BilliardService } from "../net/BilliardService";
+import { yy } from "../../../../yy";
 
 
 interface BilliardPlayer {
@@ -35,14 +36,14 @@ export class BilliardData {
 
 
     static ballId: number = 0;
-    private _ballNums: number = 15 + 1; // 母球 + 1
+    private _ballNums: number = 0//15 + 1; // 母球 + 1
     private _angle: number = 0;
     private _power: number = 0;
     private readonly _offset: Vec3 = Vec3.ZERO.clone();
 
 
-    private actionUid: number = 0;
-    private actionTimes: number = 0;
+    private _actionUid: number = 0;
+    private _actionTimes: number = 0;
     private players: BilliardPlayer[] = [];
     private balls: protoBilliard.IBall[] = [];
     private actionType: number = 0;
@@ -50,6 +51,8 @@ export class BilliardData {
     private angleLimit: number = 100; // 微调参数
 
     isOtherPlayExit = false;// 对方是否退出游戏
+
+    private gameType = 0; // 8球类型 9球类型
 
 
     isFreeBall(): boolean {
@@ -64,16 +67,16 @@ export class BilliardData {
     }
 
     getActionUid(): number {
-        return this.actionUid;
+        return this._actionUid;
     }
     setActionUid(uid: number) {
-        this.actionUid = uid;
+        this._actionUid = uid;
     }
     getActionTimes(): number {
-        return this.actionTimes;
+        return this._actionTimes;
     }
     setActionTimes(times: number) {
-        this.actionTimes = times;
+        this._actionTimes = times;
     }
     getStartBalls() {
         return this.balls;
@@ -95,7 +98,7 @@ export class BilliardData {
 
     getHitBallType(): number {
         for(let i = 0; i < this.players.length; i++){
-            if(this.players[i].uid === this.actionUid){
+            if(this.players[i].uid === this._actionUid){
                 return this.players[i].hitType;
             }
         }
@@ -108,7 +111,7 @@ export class BilliardData {
         }
         else {
             for(let i = 0; i < this.players.length; i++){
-                if(this.players[i].uid === this.actionUid){
+                if(this.players[i].uid === this._actionUid){
                     this.players[i].hitType = type;
                     this.players[i === 0 ? 1 : 0].hitType = type === 1 ? 2 : 1;
                 }
@@ -118,7 +121,7 @@ export class BilliardData {
 
     }
     getHitBalls(uid = 0): number[] {
-        if(uid === 0) uid = this.actionUid;
+        if(uid === 0) uid = this._actionUid;
         for(let i = 0; i < this.players.length; i++){
             if(this.players[i].uid === uid){
                 let type = this.players[i].hitType;
@@ -160,7 +163,7 @@ export class BilliardData {
     }
 
     getNotActionUid() {
-        return this.players[0].uid === this.actionUid ? this.players[1].uid : this.players[0].uid;
+        return this.players[0].uid === this._actionUid ? this.players[1].uid : this.players[0].uid;
     }
 
     getPlayer(uid: number): BilliardPlayer {
@@ -185,6 +188,31 @@ export class BilliardData {
     clearData() {
         this.players.length = 0;
         BilliardData.ballId = 0;  
+    }
+
+    is8Ball() {
+        return this.gameType === 8;
+    }
+    is9Ball() {
+        return this.gameType === 9;
+    }
+    getGameType() {
+        return this.gameType;
+    }
+
+    setGameType(type: number) {
+        switch(type) {
+            case 8:
+                this._ballNums = 15 + 1;
+                this.gameType = 8;
+                break;
+            case 9:
+                this._ballNums = 9 + 1;
+                this.gameType = 9;
+                break;
+            default:
+                yy.log.e("Billiard GameType error: ", type);
+        }
     }
 }
 

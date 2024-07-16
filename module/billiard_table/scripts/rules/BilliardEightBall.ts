@@ -20,7 +20,7 @@ enum eBallType {
 
 export class BilliardEightBall implements IBilliardRules {
     ruleType: eRuleType;
-    ruleName: string = "8球";
+    ruleName: string = "8 Balls";
     round: number = 0;
     shotCount: number = 1;
 
