@@ -121,6 +121,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         yy.event.emit(yy.Event_Name.billiard_table_init);
         yy.log.w("onProgressComplete", this.levelData)
         if (this.levelData != null) {
+            BilliardData.instance.setGameType(this.levelData.maxBetMoney);// 匹配时设置 为了退出返回大厅的标签，开始游戏也会设置
             BilliardTools.instance.openMatchView(this.levelData, null);
         }
         else {

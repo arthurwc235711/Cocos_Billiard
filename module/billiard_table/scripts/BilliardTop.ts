@@ -23,14 +23,19 @@ interface PlayerUI {
 @ccclass('BilliardTop')
 export class BilliardTop extends BaseCommonScript {
     @property(Node)
-    player1: Node = null;
+    player1: Node;
     @property(Node)
-    player2: Node = null;
+    player2: Node;
     @property(Label)
-    labelGold: Label = null;
+    labelGold: Label;
     @property(Label)
-    labelScore: Label = null;
-
+    labelScore: Label; // 9球金币
+    @property(Node)
+    node8Gold: Node;
+    @property(Node)
+    node9Gold: Node;
+    @property(Node)
+    node9Balls: Node;
 
     mapAtlas:{ [key: string]: SpriteFrame }
 
@@ -113,11 +118,26 @@ export class BilliardTop extends BaseCommonScript {
         return this;
     }
     setPlayerBalls(balls: number[], uid: number = 0) {
-        if (uid === 0) uid = BilliardData.instance.getActionUid();
-        let player = this.getPlayerByUID(uid);
-        if (!this.mapAtlas) {
-            yy.loader.asyncLoadSpriteAtlas(BilliardConst.bundleName, "module/billiard_table/texture/auto-atlas", (map:{ [key: string]: SpriteFrame } )=>{
-                this.mapAtlas = map;
+        if (BilliardData.instance.is8Ball()) {
+            if (uid === 0) uid = BilliardData.instance.getActionUid();
+            let player = this.getPlayerByUID(uid);
+            if (!this.mapAtlas) {
+                yy.loader.asyncLoadSpriteAtlas(BilliardConst.bundleName, "module/billiard_table/texture/auto-atlas", (map:{ [key: string]: SpriteFrame } )=>{
+                    this.mapAtlas = map;
+                    if (player) {
+                        player.nodeBalls.children.forEach((c,i)=>{
+                            let val = balls[i];
+                            let isShow = val !== undefined;
+                            let bNode = c.getChildByName("SpriteBall")
+                            bNode.active = isShow;
+                            if (isShow) {
+                                bNode.getComponent(Sprite).spriteFrame = map[val.toString()];
+                            }
+                        });
+                    }      
+                });
+            }
+            else {
                 if (player) {
                     player.nodeBalls.children.forEach((c,i)=>{
                         let val = balls[i];
@@ -125,15 +145,29 @@ export class BilliardTop extends BaseCommonScript {
                         let bNode = c.getChildByName("SpriteBall")
                         bNode.active = isShow;
                         if (isShow) {
-                            bNode.getComponent(Sprite).spriteFrame = map[val.toString()];
+                            bNode.getComponent(Sprite).spriteFrame = this.mapAtlas[val.toString()];
                         }
                     });
-                }      
-            });
+                }
+            }
         }
         else {
-            if (player) {
-                player.nodeBalls.children.forEach((c,i)=>{
+            if (!this.mapAtlas) {
+                yy.loader.asyncLoadSpriteAtlas(BilliardConst.bundleName, "module/billiard_table/texture/auto-atlas", (map:{ [key: string]: SpriteFrame } )=>{
+                    this.mapAtlas = map;
+                    this.node9Balls.children.forEach((c,i)=>{
+                        let val = balls[i];
+                        let isShow = val !== undefined;
+                        let bNode = c.getChildByName("SpriteBall")
+                        bNode.active = isShow;
+                        if (isShow) {
+                            bNode.getComponent(Sprite).spriteFrame = this.mapAtlas[val.toString()];
+                        }
+                    });  
+                });
+            }
+            else {
+                this.node9Balls.children.forEach((c,i)=>{
                     let val = balls[i];
                     let isShow = val !== undefined;
                     let bNode = c.getChildByName("SpriteBall")
@@ -144,6 +178,7 @@ export class BilliardTop extends BaseCommonScript {
                 });
             }
         }
+
         return this;
     }
     setPlayerCountDown(countDown: number, uid: number = 0) {
@@ -229,13 +264,6 @@ export class BilliardTop extends BaseCommonScript {
     }
 
 
-    setScore() {
-        let mp = BilliardData.instance.getPlayer(this.playerUI[0].uid);
-        let op = BilliardData.instance.getPlayer(this.playerUI[1].uid);
-        this.labelScore.string = `${mp.score} : ${op.score}`;
-        return this;
-    }
-
     setGold(gold:number) {
         this.labelGold.string = yy.money.formatMoney(gold, false);
         return this;
@@ -301,6 +329,19 @@ export class BilliardTop extends BaseCommonScript {
                 bNode.active = false;
             });
         });
+    }
+
+
+    show8BallUI() {
+        this.playerUI.forEach(player => {
+            player.nodeBalls.active = true;
+        });
+
+        this.node8Gold.active = true;
+    }
+
+    show9BallUI() {
+        this.node9Gold.active = true;
     }
 }
 

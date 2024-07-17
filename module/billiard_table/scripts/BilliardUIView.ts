@@ -15,7 +15,6 @@ import { BilliardConst } from '../../../config/BilliardConst';
 import { BilliardGameTips } from './BilliardGameTips';
 import { Ball } from './Ball';
 import { BilliardCue } from './BilliardCue';
-import { off } from 'process';
 const { ccclass, property } = _decorator;
 
 // 力度杆最大强度 MaxPower * R
@@ -778,6 +777,15 @@ export class BilliardUIView extends BaseCommonScript {
     }
     
 
+    initUIShow() {
+        if(BilliardData.instance.is8Ball()) {
+            this.billiardTop.show8BallUI();
+        }
+        else {
+            this.billiardTop.show9BallUI();
+        }
+    }
+
     setPlayerInfo() {
         this.billiardTop.setBindLeftPlayerUID(1)
         .setBindRightPlayerUID(2)
@@ -803,9 +811,6 @@ export class BilliardUIView extends BaseCommonScript {
 
     setGold(gold: number) {
         this.billiardTop.setGold(gold);
-    }
-    setScore() {
-        this.billiardTop.setScore();
     }
 
     stopCountDown() {
@@ -860,6 +865,8 @@ export class BilliardUIView extends BaseCommonScript {
     onStopAnimations() {
         this.unschedule(this.onUpdateCueAngle);
     }
+
+
 }
 
 

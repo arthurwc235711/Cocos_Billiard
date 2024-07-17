@@ -342,6 +342,7 @@ export class BilliardManager extends BaseCommonInstance{
     onEnterGame() {
         let view = this.getView();
         view.setPlayerInfo();
+        view.initUIShow();
         this.setRules();
     }
 
