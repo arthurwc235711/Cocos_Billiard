@@ -27,6 +27,15 @@ export class BilliardSettingView extends BaseCommonPopup {
     @property(Toggle)
     toggleFast: Toggle = null;
 
+
+    public register_event() {
+        // 注册指定的监听方法，格式如下
+        this.event_func_map = {
+            [yy.Event_Name.billiard_notify_wins]: "close",
+        };
+        super.register_event();
+    }
+
     on_init() {
         super.on_init();
 

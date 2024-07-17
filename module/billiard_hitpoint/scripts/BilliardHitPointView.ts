@@ -13,6 +13,14 @@ export class BilliardHitPointView extends BaseCommonPopup {
     nodeDot: Node = null
 
 
+    public register_event() {
+        // 注册指定的监听方法，格式如下
+        this.event_func_map = {
+            [yy.Event_Name.billiard_notify_wins]: "close",
+        };
+        super.register_event();
+    }
+
     private touchMove: boolean = false;
     on_init(): void {
         let touchNode = this.node.getChildByName("TouchBall");

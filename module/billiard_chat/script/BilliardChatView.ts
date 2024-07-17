@@ -32,6 +32,14 @@ export class BilliardChatView extends BaseCommonScript  {
     nodeEmo: Node = null;
 
 
+    public register_event() {
+        // 注册指定的监听方法，格式如下
+        this.event_func_map = {
+            [yy.Event_Name.billiard_notify_wins]: "onClickClose",
+        };
+        super.register_event();
+    }
+
     on_init(): void {
 
         // yy.log.w("on_init", CMsgList);
