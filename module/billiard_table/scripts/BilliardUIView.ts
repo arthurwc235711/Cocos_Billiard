@@ -407,6 +407,12 @@ export class BilliardUIView extends BaseCommonScript {
             let slider = event.target.getComponent(Slider);
             let progress = 1 - this.powerSlider.progress;
             if (progress > 0) {
+                let rules = BilliardManager.instance.getRules();
+                let maxPower = MaxPower;
+                if (rules.round === 1) {
+                    maxPower += MaxPower * Math.random();
+                }
+
                 BilliardData.instance.setPower( Math.floor( progress * MaxPower ) * R );
                 BilliardService.instance.sendHit();
                 BilliardService.instance.sendHitReq();
