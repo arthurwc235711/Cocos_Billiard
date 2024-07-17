@@ -94,6 +94,9 @@ export class BilliardUIView extends BaseCommonScript {
     protected start(): void {
         // BilliardService.instance.sendEnterGame();
         this.nodeCueArrow.active = false;
+
+        let isLeft = BilliardTools.instance.isCacheCueLocationLeft();
+        this.onSettingCueLocation(isLeft);
     }
 
     onClickStroke() {

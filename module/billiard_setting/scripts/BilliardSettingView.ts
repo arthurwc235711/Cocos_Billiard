@@ -3,6 +3,7 @@ import { BaseCommonPopup } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardManager } from '../../../scripts/BilliardManager';
 import { BilliardData } from '../../../data/BilliardData';
+import { BilliardTools } from '../../../scripts/BilliardTools';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardSettingView')
@@ -83,22 +84,26 @@ export class BilliardSettingView extends BaseCommonPopup {
         switch(toggle.node.name) {
             case "ToggleSlow":
                 BilliardData.instance.setAngleLimit(200);
+                BilliardTools.instance.setCacheCueSensitivity(200);
                 break;
             case "ToggleNormal":
                 BilliardData.instance.setAngleLimit(100);
+                BilliardTools.instance.setCacheCueSensitivity(100);
                 break;
             case "ToggleFast":
                 BilliardData.instance.setAngleLimit(50);
+                BilliardTools.instance.setCacheCueSensitivity(50);
                 break;
             case "ToggleLeft":
                 yy.event.emit(yy.Event_Name.billiard_setting_cue_location, true);
+                BilliardTools.instance.setCacheCueLocation(true);
                 break;
             case "ToggleRight":
                 yy.event.emit(yy.Event_Name.billiard_setting_cue_location, false);
+                BilliardTools.instance.setCacheCueLocation(false);
                 break;
 
         }
-
     }
 
 }

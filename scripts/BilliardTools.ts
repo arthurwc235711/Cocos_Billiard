@@ -275,6 +275,25 @@ export class BilliardTools {
     playSoundFlyGold() {
         SoundAudio.playEffect(BilliardConst.bundleName, eAudio.FlyGold);
     }
+
+
+    setCacheCueLocation(isLeft: boolean) {
+        yy.storage.setValue(`${yy.user.getUid()}_CueLocation`, isLeft);
+    }
+    isCacheCueLocationLeft(): boolean {
+        let isLeft = yy.storage.getValue(`${yy.user.getUid()}_CueLocation`);
+        return isLeft === null ? true : isLeft;
+    }
+    // 50 slow 100 normal 200 fast
+    setCacheCueSensitivity(module: number) {
+        yy.storage.setValue(`${yy.user.getUid()}_CueSensitivity`, module);
+    }
+
+    getCacheCueSensitivity(): number {
+        return yy.storage.getValue(`${yy.user.getUid()}_CueSensitivity`) || 100;
+    }
+
+    
 }
 
 

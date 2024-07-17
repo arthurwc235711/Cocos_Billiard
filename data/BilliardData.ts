@@ -2,6 +2,7 @@ import { Vec3 } from "cc";
 import { BilliardService } from "../net/BilliardService";
 import { yy } from "../../../../yy";
 import { BilliardManager } from "../scripts/BilliardManager";
+import { BilliardTools } from "../scripts/BilliardTools";
 
 
 interface BilliardPlayer {
@@ -35,6 +36,8 @@ export class BilliardData {
 
             this.setGameType(9);
         }
+
+        this.angleLimit = BilliardTools.instance.getCacheCueSensitivity()
     }
 
 
@@ -51,7 +54,7 @@ export class BilliardData {
     private balls: protoBilliard.IBall[] = [];
     private actionType: number = 0;
 
-    private angleLimit: number = 100; // 微调参数
+    private angleLimit: number = 0; // 微调参数
 
     isOtherPlayExit = false;// 对方是否退出游戏
 
