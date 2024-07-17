@@ -5,6 +5,7 @@ import { yy } from '../../../../../../yy';
 import { BilliardService } from '../../../net/BilliardService';
 import { ISubGameTableInfoItemData } from '../../../../../../main/data/SubGameData';
 import { BilliardTools } from '../../../scripts/BilliardTools';
+import { BilliardData } from '../../../data/BilliardData';
 const { ccclass, property } = _decorator;
 
 interface BilliardMatchUI {
@@ -76,7 +77,13 @@ export class BilliardMatchView extends BaseCommonScript {
 
     onClickGoBack() {
         BilliardService.instance.sendLeaveMatching();
-        yy.user.setLobbyOpenGameLevel({ gameKey: "billiard8ball" });
+        if ( BilliardData.instance.is8Ball() ) {
+            yy.user.setLobbyOpenGameLevel({ gameKey: "billiard8ball" });
+        }
+        else {
+            yy.user.setLobbyOpenGameLevel({ gameKey: "billiard9ball" });
+        }
+
         if (yy.Event_Name.CasualCommonQuit) { // 桌球游戏内调用
             yy.event.emit(yy.Event_Name.CasualCommonQuit);
         }
