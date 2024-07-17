@@ -14,6 +14,8 @@ export class BilliardNineBall implements IBilliardRules {
     ruleName: string = "9 Balls";
     round: number;
     shotCount: number = 1;
+
+    disBallId: number = 1; // 默认1
     isFoul(outcome: Outcome[]): boolean {
         let result = false;
         let freeBall = function() {
@@ -97,6 +99,8 @@ export class BilliardNineBall implements IBilliardRules {
         this.round = round;
         yy.log.w(`nextTurn round: ${round}`);
 
+        let ball = this.onShotBall();
+        this.disBallId = ball.id;
         switch (type) {
             case 0:
                 if (puid === actionUid) {
@@ -111,7 +115,7 @@ export class BilliardNineBall implements IBilliardRules {
                     BilliardData.instance.setActionUid(actionUid)
                     view.gameTips.turnTips();
                 }
-                let ball = this.onShotBall();
+
                 if (ball) {
                     view.autoShotAt(ball.node);
                 }
@@ -158,17 +162,26 @@ export class BilliardNineBall implements IBilliardRules {
                 BilliardAI.instance.hitBall();
             }
         }
+        let table = BilliardManager.instance.getTable();
+        let tBalls = table.getOnTableBalls();
+        for (let i = 1; i < tBalls.length; i++) {
+            if (this.isValidBall(tBalls[i])) {
+                tBalls[i].showTips();
+            }
+        }
+
         view.setPlayerCountDown(BilliardData.instance.getActionTimes());
         yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
     }
     startTurn() {
-        let table = BilliardManager.instance.getTable();
+        // let table = BilliardManager.instance.getTable();
         let view = BilliardManager.instance.getView();
         this.round = 1; // 回合数 + 1
-        let ball = table.recentlyBall();
+        let ball = this.onShotBall();
         if (ball) {
             // view.autoShotAt(ball.node);
             view.onFreeBall();
+            ball.showTips();
         }
 
         // BilliardData.instance.setActionUid(1)//(Math.random() < 0.5 ? 1 : 2 );
@@ -206,7 +219,7 @@ export class BilliardNineBall implements IBilliardRules {
 
 
     isValidBall(ball: Ball) {
-        return true;
+        return ball.id === this.disBallId;
     }
 
 }

@@ -77,6 +77,9 @@ export class BilliardWinsView extends BaseCommonScript {
         }
 
         BilliardTools.instance.playSoundFlyGold();
+
+        let labelTitle = this.node.getChildByPath("SpriteTitle/Label").getComponent(Label);
+        labelTitle.string = BilliardData.instance.is8Ball() ? "8 Ball" : "9 Ball";
     }
 
     setData(data: protoBilliard.BroadcastGameResult) {

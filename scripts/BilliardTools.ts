@@ -10,6 +10,7 @@ import { SoundAudio } from "../../../../main/audio/SoundAudio";
 import { BilliardService } from "../net/BilliardService";
 import { ISubGameTableInfoItemData } from "../../../../main/data/SubGameData";
 import { RaySphereCollision } from "./physics/component/RaySphereCollision";
+import { BilliardNineBall } from "../module/billiard_table/scripts/rules/BilliardNineBall";
 
 export class BilliardTools {
     private static __instance__: BilliardTools;
@@ -118,29 +119,36 @@ export class BilliardTools {
     }
 
     isVaildShot(ballId: number) {
-        if (BilliardData.instance.getHitBallType() === 0) {
-            return ballId !== 8; // 8球为定色为无效击球
-        }
-        else {
-            let vaildBalls = BilliardData.instance.getHitBalls();
-            if (ballId !== 8) {
-                return vaildBalls.includes(ballId);
+        let billiard = BilliardData.instance;
+        if (billiard.is8Ball()) {
+            if (billiard.getHitBallType() === 0) {
+                return ballId !== 8; // 8球为定色为无效击球
             }
-            else { // 额外判断 黑 8
-                let potBalls = BilliardManager.instance.getTable().getInPocketBalls();
-                let maxNum = vaildBalls.length;
-                let pots = 0;
-                for (let i = 0; i < maxNum; ++i) {
-                    for (let j = 0; j < potBalls.length; ++j) {
-                        if (vaildBalls[i] === potBalls[j].id)  {
-                            ++pots;
+            else {
+                let vaildBalls = billiard.getHitBalls();
+                if (ballId !== 8) {
+                    return vaildBalls.includes(ballId);
+                }
+                else { // 额外判断 黑 8
+                    let potBalls = BilliardManager.instance.getTable().getInPocketBalls();
+                    let maxNum = vaildBalls.length;
+                    let pots = 0;
+                    for (let i = 0; i < maxNum; ++i) {
+                        for (let j = 0; j < potBalls.length; ++j) {
+                            if (vaildBalls[i] === potBalls[j].id)  {
+                                ++pots;
+                            }
                         }
                     }
+                    return pots === maxNum;
                 }
-                return pots === maxNum;
             }
-
         }
+        else {
+            let rules = BilliardManager.instance.getRules() as BilliardNineBall;
+            return ballId === rules.disBallId;
+        }
+
     }
     openView(path: string, call:Function|null = null, prefab: Prefab|null = null) {
         const s = director.getScene();

@@ -122,6 +122,8 @@ export class BilliardMatchView extends BaseCommonScript {
                 BilliardTools.instance.playSoundHeadRotate();
                 this.slotIcon.onClickStart();
                 this.schedule(onUpdate, 0);
+                let labelTitle = this.node.getChildByPath("SpriteTitle/Label").getComponent(Label);
+                labelTitle.string = BilliardData.instance.is8Ball() ? "8 Ball" : "9 Ball";
                 break;
             case BilliardMatchState.eMatchSucess:
                 this.unscheduleAllCallbacks();
