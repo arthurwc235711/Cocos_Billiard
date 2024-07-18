@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Sprite, SpriteFrame } from 'cc';
+import { _decorator, CCFloat, Component, Node, Sprite, SpriteFrame, UIOpacity } from 'cc';
 import { BilliardData } from '../../../data/BilliardData';
 import { BilliardTools } from '../../../scripts/BilliardTools';
 const { ccclass, property } = _decorator;
@@ -7,6 +7,8 @@ const { ccclass, property } = _decorator;
 export class BilliardSwitchFrame extends Component {    
     @property([SpriteFrame])
     frames: SpriteFrame[] = [];
+    @property(CCFloat)
+    ratio: number = 0;
     
     private _sprite: Sprite
     get sprite() { 
@@ -16,7 +18,13 @@ export class BilliardSwitchFrame extends Component {
 
     switchFrame() {
         let index = BilliardTools.instance.isMyAction() ? 0 : 1
-        this.sprite.spriteFrame = this.frames[index];
+        if (this.frames.length > 0) {
+            this.sprite.spriteFrame = this.frames[index];
+        }
+        else {
+            this.node.getComponent(UIOpacity).opacity = index == 0 ? 255 : 255 * this.ratio;
+        }
+
     }
 }
 
