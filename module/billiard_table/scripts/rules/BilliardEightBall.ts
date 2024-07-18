@@ -159,6 +159,7 @@ export class BilliardEightBall implements IBilliardRules {
         return result;
     }
     nextTurn(type: number, actionUid: number, round: number) {
+        let table = BilliardManager.instance.getTable();
         let view = BilliardManager.instance.getView();
         let puid = BilliardData.instance.getActionUid()
         this.round = round;
@@ -187,13 +188,40 @@ export class BilliardEightBall implements IBilliardRules {
                 }
                 break;
             case 1:
+                BilliardTools.instance.PlaySoundTurn();
+                this.shotCount = 1;
+                // yy.toast.addNow("击球犯规，下家放置自由球");
+                BilliardData.instance.setActionUid(actionUid)
+
+                if (Outcome.isCueBallPotted(BilliardManager.instance.getCueBall(), table.outcome)) {// 打进母球
+                    view.gameTips.cueInPocketTips();
+                    view.gameTips.freeBallTips();
+                }
+                else if(Outcome.isCollisionNoCushion(table.outcome)) { // 没有撞库
+                    view.gameTips.cushionTips();
+                    view.gameTips.freeBallTips();
+                }
+                else {
+                    view.gameTips.foulTips();
+                    view.gameTips.freeBallTips();
+                }
+
+
+                view.freeBall.setStartAreaShow();
+                table.cueBall.updatePosImmediately(BilliardConst.startPos);
+
+
+                view.freeBall.node.active = true;
+                view.freeBall.nodeForbid.active = !table.isValidFreeBall();
+                view.onFreeBall();
+                view.onFreeBallMove(!table.isValidFreeBall(), false, false);
                 break;
             case 2:
                 BilliardTools.instance.PlaySoundTurn();
                 this.shotCount = 1;
                 // yy.toast.addNow("击球犯规，下家放置自由球");
                 BilliardData.instance.setActionUid(actionUid)
-                let table = BilliardManager.instance.getTable();
+
                 if (Outcome.isCueBallPotted(BilliardManager.instance.getCueBall(), table.outcome)) {// 打进母球
                     view.gameTips.cueInPocketTips();
                     view.gameTips.freeBallTips();

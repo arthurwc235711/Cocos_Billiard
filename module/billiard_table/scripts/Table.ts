@@ -253,8 +253,6 @@ export class Table extends BaseCommonScript {
           // 将四元数应用到节点的旋转
           ball.ballMesh.node.rotation = quaternion;
         }
-
-
     }
   }
 
@@ -290,12 +288,12 @@ export class Table extends BaseCommonScript {
     });
   }
 
-  setBallsRotation(balls: protoBilliard.IBall[], round: number) {
+  setBallsRotation(balls: protoBilliard.IBall[], type: number) {
     const rotations = {x: 70711, y: 0, z: 0, w: 70711};
     balls.forEach(b => {
       let ball = this.balls[b.val];
       if (ball.onTable()) {
-        if (round === 1){ // 开球初始数据通过服务器随机4元素设置旋转
+        if (type === 1){ // 开球初始数据通过服务器随机4元素设置旋转
           const quaternion = ball.ballMesh.node.getRotation();
           const axis = new Vec3(b.rotation.x/BilliardConst.multiple,  b.rotation.y/BilliardConst.multiple, b.rotation.z/BilliardConst.multiple).normalize();
           const angle = b.rotation.w/BilliardConst.multiple * Math.PI * 2; //Math.random() * Math.PI * 2;//
