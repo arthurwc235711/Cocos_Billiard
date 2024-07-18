@@ -14,6 +14,7 @@ export class BilliardNineBall implements IBilliardRules {
     ruleName: string = "9 Balls";
     round: number;
     shotCount: number;
+    uidTimeOut: number ;
 
     disBallId: number = 1; // 默认1
     isFoul(outcome: Outcome[]): boolean {
@@ -127,30 +128,38 @@ export class BilliardNineBall implements IBilliardRules {
                 // yy.toast.addNow("击球犯规，下家放置自由球");
                 BilliardData.instance.setActionUid(actionUid)
 
-                if (Outcome.isCueBallPotted(BilliardManager.instance.getCueBall(), table.outcome)) {// 打进母球
-                    view.gameTips.cueInPocketTips();
-                    view.gameTips.freeBallTips();
-                }
-                else if(Outcome.isCollisionNoCushion(table.outcome)) { // 没有撞库
-                    let oc = Outcome.firstCollision(table.outcome);
-                    if (oc) {
-                        if (BilliardTools.instance.isVaildShot(oc.ballB.id)) {
-                            view.gameTips.cushionTips();
-                            view.gameTips.freeBallTips();
-                        }else {
+                if (this.uidTimeOut === 0) {
+                    if (Outcome.isCueBallPotted(BilliardManager.instance.getCueBall(), table.outcome)) {// 打进母球
+                        view.gameTips.cueInPocketTips();
+                        view.gameTips.freeBallTips();
+                    }
+                    else if(Outcome.isCollisionNoCushion(table.outcome)) { // 没有撞库
+                        let oc = Outcome.firstCollision(table.outcome);
+                        if (oc) {
+                            if (BilliardTools.instance.isVaildShot(oc.ballB.id)) {
+                                view.gameTips.cushionTips();
+                                view.gameTips.freeBallTips();
+                            }else {
+                                view.gameTips.foulTips();
+                                view.gameTips.freeBallTips();
+                            }
+                        }
+                        else { // 没有击球没有撞库
                             view.gameTips.foulTips();
                             view.gameTips.freeBallTips();
                         }
                     }
-                    else { // 没有击球没有撞库
+                    else {
                         view.gameTips.foulTips();
                         view.gameTips.freeBallTips();
                     }
                 }
-                else {
-                    view.gameTips.foulTips();
+                else { // 超时提示
+                    view.gameTips.timeOutTips(this.uidTimeOut);
                     view.gameTips.freeBallTips();
+                    this.uidTimeOut = 0;
                 }
+
 
                 view.freeBall.setStartAreaHide();
                 table.cueBall.updatePosImmediately(Vec3.ZERO);
@@ -167,30 +176,38 @@ export class BilliardNineBall implements IBilliardRules {
                 // yy.toast.addNow("击球犯规，下家放置自由球");
                 BilliardData.instance.setActionUid(actionUid)
 
-                if (Outcome.isCueBallPotted(BilliardManager.instance.getCueBall(), table.outcome)) {// 打进母球
-                    view.gameTips.cueInPocketTips();
-                    view.gameTips.freeBallTips();
-                }
-                else if(Outcome.isCollisionNoCushion(table.outcome)) { // 没有撞库
-                    let oc = Outcome.firstCollision(table.outcome);
-                    if (oc) {
-                        if (BilliardTools.instance.isVaildShot(oc.ballB.id)) {
-                            view.gameTips.cushionTips();
-                            view.gameTips.freeBallTips();
-                        }else {
+                if (this.uidTimeOut === 0) {
+                    if (Outcome.isCueBallPotted(BilliardManager.instance.getCueBall(), table.outcome)) {// 打进母球
+                        view.gameTips.cueInPocketTips();
+                        view.gameTips.freeBallTips();
+                    }
+                    else if(Outcome.isCollisionNoCushion(table.outcome)) { // 没有撞库
+                        let oc = Outcome.firstCollision(table.outcome);
+                        if (oc) {
+                            if (BilliardTools.instance.isVaildShot(oc.ballB.id)) {
+                                view.gameTips.cushionTips();
+                                view.gameTips.freeBallTips();
+                            }else {
+                                view.gameTips.foulTips();
+                                view.gameTips.freeBallTips();
+                            }
+                        }
+                        else { // 没有击球没有撞库
                             view.gameTips.foulTips();
                             view.gameTips.freeBallTips();
                         }
                     }
-                    else { // 没有击球没有撞库
+                    else {
                         view.gameTips.foulTips();
                         view.gameTips.freeBallTips();
                     }
                 }
-                else {
-                    view.gameTips.foulTips();
+                else { // 超时提示
+                    view.gameTips.timeOutTips(this.uidTimeOut);
                     view.gameTips.freeBallTips();
+                    this.uidTimeOut = 0;
                 }
+
 
                 view.freeBall.setStartAreaHide();
                 table.cueBall.updatePosImmediately(Vec3.ZERO);
@@ -229,6 +246,7 @@ export class BilliardNineBall implements IBilliardRules {
         let view = BilliardManager.instance.getView();
         this.round = 1; // 回合数 + 1
         this.disBallId = 1;
+        this.uidTimeOut = 0;
         let ball = this.onShotBall();
         if (ball) {
             // view.autoShotAt(ball.node);

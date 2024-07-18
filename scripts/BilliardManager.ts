@@ -104,6 +104,8 @@ export class BilliardManager extends BaseCommonInstance{
             [yy.Event_Name.billiard_rematch]: "onRematch",
             [yy.Event_Name.billiard_reconnect]: "onReconnect",
             [yy.Event_Name.billiard_notify_offline]: "onOffline",
+            [yy.Event_Name.billiard_notify_timeout]: "onActionTimeOut",
+            [yy.Event_Name.billiard_notify_foulstimes]: "onFoulsTimes",
         }
 
         super.register_event();
@@ -495,12 +497,22 @@ export class BilliardManager extends BaseCommonInstance{
         BilliardService.instance.sendForeBackstageReq(0);
     }
 
-    onOffline(msg: protoBilliard.NotifyUserNetStatus) {
-        if (msg.status === 1) {
+    onOffline(notify: protoBilliard.NotifyUserNetStatus) {
+        if (notify.status === 1) {
             let view = this.getView();
-            BilliardTools.instance.openWaitView(msg.timer);
+            BilliardTools.instance.openWaitView(notify.timer);
             view.billiardTop.pauseCountDown();
         }
+    }
+
+    onActionTimeOut(notify: protoBilliard.IHitTimeOut) {
+        this.getRules().uidTimeOut = notify.uid;
+        // this.getView().gameTips.timeOutTips(notify.uid);
+
+    }
+
+    onFoulsTimes(notify: protoBilliard.NotifyFoulAction) {
+
     }
 }
 

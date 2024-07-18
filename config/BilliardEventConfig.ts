@@ -37,6 +37,8 @@ export default [
 
     "billiard_notify_setgold",
     "billiard_notify_offline",
+    "billiard_notify_timeout",
+    "billiard_notify_foulstimes",
 
 
 

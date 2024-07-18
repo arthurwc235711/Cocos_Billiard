@@ -911,6 +911,68 @@ declare global {
 
 		}
 
+		/** Properties of a IHitTimeOut. */
+		interface IIHitTimeOut{
+
+			/** IHitTimeOut uid */
+			uid?: (number | null);
+
+			/** IHitTimeOut code */
+			code?: (number | null);
+
+		}
+
+		/** Represents a IHitTimeOut. */
+		class IHitTimeOut implements IIHitTimeOut {
+
+			/**
+			* Constructs a new %s.
+			* @param [properties] Properties to set
+			*/
+			constructor(properties?: protoBilliard.IIHitTimeOut);
+
+			/** IHitTimeOut uid */
+			public uid: number | null;
+
+			/** IHitTimeOut code */
+			public code: number | null;
+
+		}
+
+		/** Properties of a NotifyFoulAction. */
+		interface INotifyFoulAction{
+
+			/** NotifyFoulAction uid */
+			uid?: (number | null);
+
+			/** NotifyFoulAction count */
+			count?: (number | null);
+
+			/** NotifyFoulAction code */
+			code?: (number | null);
+
+		}
+
+		/** Represents a NotifyFoulAction. */
+		class NotifyFoulAction implements INotifyFoulAction {
+
+			/**
+			* Constructs a new %s.
+			* @param [properties] Properties to set
+			*/
+			constructor(properties?: protoBilliard.INotifyFoulAction);
+
+			/** NotifyFoulAction uid */
+			public uid: number | null;
+
+			/** NotifyFoulAction count */
+			public count: number | null;
+
+			/** NotifyFoulAction code */
+			public code: number | null;
+
+		}
+
 		/** Properties of a MatchingReq. */
 		interface IMatchingReq{
 

@@ -2,6 +2,7 @@ import { _decorator, Component, Label, Node } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { BilliardTools } from '../../../scripts/BilliardTools';
 import { BilliardData } from '../../../data/BilliardData';
+import { yy } from '../../../../../../yy';
 const { ccclass, property } = _decorator;
 
 
@@ -126,6 +127,20 @@ export class BilliardGameTips extends BaseCommonScript {
             }
             else {
                 this.labelTips.string = `"${this.getNoActionName()}" No balls hit the rail after first contact`;
+            }
+            this.nodeTips.active = true;
+        });
+    }
+
+    timeOutTips(uid: number) {
+        BilliardGameTips.actionList.push(()=>{
+            this.isPlaying = true;
+            if (uid === yy.user.getUid()) { // 行动切换完 所以是上一次行动玩家击球提示
+                this.labelTips.string = "You ran out of time";
+            }
+            else {
+                let p = BilliardData.instance.getPlayer(uid);
+                this.labelTips.string = `"${p.name}" is running out of time`;
             }
             this.nodeTips.active = true;
         });

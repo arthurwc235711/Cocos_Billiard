@@ -514,6 +514,34 @@
             }
           }
         },
+        "IHitTimeOut": {
+          "fields": {
+            "uid": {
+              "type": "int32",
+              "id": 1
+            },
+            "code": {
+              "type": "int32",
+              "id": 2
+            }
+          }
+        },
+        "NotifyFoulAction": {
+          "fields": {
+            "uid": {
+              "type": "int32",
+              "id": 1
+            },
+            "count": {
+              "type": "int32",
+              "id": 2
+            },
+            "code": {
+              "type": "int32",
+              "id": 3
+            }
+          }
+        },
         "MatchingReq": {
           "fields": {
             "basescore": {

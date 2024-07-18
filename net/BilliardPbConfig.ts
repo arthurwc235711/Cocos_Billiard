@@ -41,4 +41,6 @@ export let BilliardPbConfig = [
     {cmd: 0x6024, rsp: "protoBilliard.ChatMsg"}, // 聊天协议 ChatMsg
     {cmd: 0x6026, rsp: "protoBilliard.UserPlayBilliardDataRsp"}, // 玩家游戏数据 UserPlayBilliardDataRsp
     {cmd: 0x6028, rsp: "protoBilliard.ICueOffset"}, // 自由球偏移量 ICueOffset
+    {cmd: 0x6029, rsp: "protoBilliard.IHitTimeOut"}, // 操作超时
+    {cmd: 0x6030, rsp: "protoBilliard.NotifyFoulAction"}, // 违例提示
 ]

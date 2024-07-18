@@ -66,6 +66,8 @@ export class BilliardService extends StackListenerNew {
         ["cmd_0x6024"]: "notifyChat",
         ["cmd_0x6026"]: "notifyPersonal",
         ["cmd_0x6028"]: "notifyCueOffset",
+        ["cmd_0x6029"]: "notifyActionTimeOut",
+        ["cmd_0x6030"]: "notifyFoulTimes",
 
 
 
@@ -492,6 +494,16 @@ export class BilliardService extends StackListenerNew {
         if (notify.uid !== yy.user.getUid() && notify.timer !== -1) { // timer -1 为非 牌局状态不提示 等待
             yy.event.emit(yy.Event_Name.billiard_notify_offline, notify);
         }
+    }
+
+    notifyActionTimeOut(data: any) {
+        let notify: protoBilliard.IHitTimeOut = data.msg;
+        yy.event.emit(yy.Event_Name.billiard_notify_timeout, notify);
+    }
+
+    notifyFoulTimes(data: any) {
+        let notify: protoBilliard.NotifyFoulAction = data.msg;
+        yy.event.emit(yy.Event_Name.billiard_notify_foulstimes, notify);
     }
 
     //---------------------------------------------------------------------------------------

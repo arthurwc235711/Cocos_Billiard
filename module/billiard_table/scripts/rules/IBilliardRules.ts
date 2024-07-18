@@ -6,6 +6,7 @@ export interface IBilliardRules  {
     ruleType: eRuleType
     ruleName: string;
     round: number;
+    uidTimeOut: number;
 
 
     isFoul(outcome: Outcome[]): boolean;

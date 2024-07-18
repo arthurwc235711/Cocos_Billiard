@@ -717,7 +717,7 @@ export class BilliardUIView extends BaseCommonScript {
         this.freeBall.setFreeBallHand();
         this.nodeCueAnimations.active = true && BilliardTools.instance.isMyAction();
         let opacity = this.freeBall.getComponentInChildren(UIOpacity);
-        opacity.opacity = BilliardTools.instance.isMyAction() ? 255 : 125;
+        opacity.opacity = BilliardTools.instance.isMyAction() ? 255 : 178.5;
     }
 
     onFreeBallMove(isMove: boolean, isSend: boolean = true, isShowShot:boolean = true) {
