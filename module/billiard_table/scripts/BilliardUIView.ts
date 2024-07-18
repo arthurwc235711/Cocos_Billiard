@@ -15,6 +15,7 @@ import { BilliardConst } from '../../../config/BilliardConst';
 import { BilliardGameTips } from './BilliardGameTips';
 import { Ball } from './Ball';
 import { BilliardCue } from './BilliardCue';
+import { BilliardSwitchFrame } from './BilliardSwitchFrame';
 const { ccclass, property } = _decorator;
 
 // 力度杆最大强度 MaxPower * R
@@ -638,6 +639,11 @@ export class BilliardUIView extends BaseCommonScript {
     onAllStationary() {
         // yy.log.w("", "所有球都静止");
         this.controlShow();
+
+        let switchFrames = this.cue.getComponentsInChildren(BilliardSwitchFrame);
+        switchFrames.forEach((item) => {
+            item.switchFrame();
+        })
     }
 
     onSlider(slider: Slider) {
