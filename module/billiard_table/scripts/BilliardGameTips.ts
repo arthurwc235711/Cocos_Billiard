@@ -88,11 +88,21 @@ export class BilliardGameTips extends BaseCommonScript {
             
             
             if (hitType === 0) {
-                if (!BilliardTools.instance.isMyAction()) { // 行动切换完 所以是上一次行动玩家击球提示
-                    this.labelTips.string = "The cue ball did not strike another ball";
+                if (BilliardData.instance.is8Ball()) {
+                    if (!BilliardTools.instance.isMyAction()) { // 行动切换完 所以是上一次行动玩家击球提示
+                        this.labelTips.string = "The cue ball did not strike another ball";
+                    }
+                    else {
+                        this.labelTips.string = "Opponent's cue ball did not strike another ball";
+                    }
                 }
                 else {
-                    this.labelTips.string = "Opponent's cue ball did not strike another ball";
+                    if (!BilliardTools.instance.isMyAction()) { // 行动切换完 所以是上一次行动玩家击球提示
+                        this.labelTips.string = "You failed to hit the lowest-numbered ball first.";
+                    }
+                    else {
+                        this.labelTips.string = `"${this.getNoActionName()}" failed to hit the lowest-numbered ball first.`;
+                    }
                 }
             }
             else {
