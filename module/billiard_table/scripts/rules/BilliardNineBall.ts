@@ -13,7 +13,7 @@ export class BilliardNineBall implements IBilliardRules {
     ruleType: eRuleType;
     ruleName: string = "9 Balls";
     round: number;
-    shotCount: number = 1;
+    shotCount: number;
 
     disBallId: number = 1; // 默认1
     isFoul(outcome: Outcome[]): boolean {
@@ -228,6 +228,7 @@ export class BilliardNineBall implements IBilliardRules {
         // let table = BilliardManager.instance.getTable();
         let view = BilliardManager.instance.getView();
         this.round = 1; // 回合数 + 1
+        this.disBallId = 1;
         let ball = this.onShotBall();
         if (ball) {
             // view.autoShotAt(ball.node);
