@@ -266,6 +266,7 @@ export class BilliardTop extends BaseCommonScript {
             player.shadeCD.active = false;
             player.shadeHeadCD.active = false;
         }
+        this.unscheduleAllCallbacks();
     }
 
 

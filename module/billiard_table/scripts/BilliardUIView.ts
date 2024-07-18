@@ -832,6 +832,8 @@ export class BilliardUIView extends BaseCommonScript {
 
     resetData() {
         this.billiardTop.resetData();
+        
+        this.cue.hideLabel();
     }
 
     onActionArrowCd(cd: number) {
