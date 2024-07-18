@@ -497,7 +497,9 @@ export class BilliardManager extends BaseCommonInstance{
 
     onOffline(msg: protoBilliard.NotifyUserNetStatus) {
         if (msg.status === 1) {
+            let view = this.getView();
             BilliardTools.instance.openWaitView(msg.timer);
+            view.billiardTop.pauseCountDown();
         }
     }
 }

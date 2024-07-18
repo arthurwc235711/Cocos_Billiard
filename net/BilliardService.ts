@@ -512,6 +512,7 @@ export class BilliardService extends StackListenerNew {
             billiardData.setStartBalls(msg.balls);
             billiardData.setActionUid(msg.action.uid);
             billiardData.setActionTimes(msg.action.times);
+            billiardData.setActionMaxTimes(msg.action.maxtimes);
             billiardData.setActionType(msg.action.type);
             // yy.log.w("respStart");
             yy.event.emit(yy.Event_Name.billiard_notify_start);
@@ -641,6 +642,7 @@ export class BilliardService extends StackListenerNew {
         if (msg) {
             BilliardData.instance.setActionType(msg.type);
             BilliardData.instance.setActionTimes(msg.times);
+            BilliardData.instance.setActionMaxTimes(msg.maxtimes);
             yy.event.emit(yy.Event_Name.billiard_notify_action, msg);
         }
     }

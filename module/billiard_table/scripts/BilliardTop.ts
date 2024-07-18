@@ -184,7 +184,7 @@ export class BilliardTop extends BaseCommonScript {
     setPlayerCountDown(countDown: number, uid: number = 0) {
         if (uid === 0) uid = BilliardData.instance.getActionUid();
         let player = this.getPlayerByUID(uid);
-        const MaxTime = 20;
+        let MaxTime = BilliardData.instance.getActionMaxTimes();
         if (player) {
             player.spriteCD.node.active = true;
             player.labelCD.node.active = true;
@@ -251,6 +251,11 @@ export class BilliardTop extends BaseCommonScript {
             player.shadeHeadCD.active = false;
         }
         return this;
+    }
+
+    pauseCountDown() {
+        this.unscheduleAllCallbacks();
+        yy.audio.stopSound();
     }
 
     resetData() {

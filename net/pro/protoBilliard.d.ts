@@ -510,6 +510,9 @@ declare global {
 			/** IAction round */
 			round?: (number | null);
 
+			/** IAction maxtimes */
+			maxtimes?: (number | null);
+
 		}
 
 		/** Represents a IAction. */
@@ -532,6 +535,9 @@ declare global {
 
 			/** IAction round */
 			public round: number | null;
+
+			/** IAction maxtimes */
+			public maxtimes: number | null;
 
 		}
 
@@ -2112,6 +2118,120 @@ declare global {
 
 			/** UserPlayBilliardDataRsp datalist */
 			public datalist: UserPlayBilliardData[] | null;
+
+		}
+
+		/** Properties of a LogProtocol. */
+		interface ILogProtocol{
+
+			/** LogProtocol proid */
+			proid?: (number | null);
+
+			/** LogProtocol proname */
+			proname?: (string | null);
+
+			/** LogProtocol msg */
+			msg?: (Uint8Array | null);
+
+		}
+
+		/** Represents a LogProtocol. */
+		class LogProtocol implements ILogProtocol {
+
+			/**
+			* Constructs a new %s.
+			* @param [properties] Properties to set
+			*/
+			constructor(properties?: protoBilliard.ILogProtocol);
+
+			/** LogProtocol proid */
+			public proid: number | null;
+
+			/** LogProtocol proname */
+			public proname: string | null;
+
+			/** LogProtocol msg */
+			public msg: Uint8Array | null;
+
+		}
+
+		/** Properties of a LogPlayer. */
+		interface ILogPlayer{
+
+			/** LogPlayer uid */
+			uid?: (number | null);
+
+			/** LogPlayer nick */
+			nick?: (string | null);
+
+			/** LogPlayer icon */
+			icon?: (string | null);
+
+			/** LogPlayer gender */
+			gender?: (number | null);
+
+			/** LogPlayer chips */
+			chips?: (number | Long | null);
+
+			/** LogPlayer cid */
+			cid?: (number | null);
+
+		}
+
+		/** Represents a LogPlayer. */
+		class LogPlayer implements ILogPlayer {
+
+			/**
+			* Constructs a new %s.
+			* @param [properties] Properties to set
+			*/
+			constructor(properties?: protoBilliard.ILogPlayer);
+
+			/** LogPlayer uid */
+			public uid: number | null;
+
+			/** LogPlayer nick */
+			public nick: string | null;
+
+			/** LogPlayer icon */
+			public icon: string | null;
+
+			/** LogPlayer gender */
+			public gender: number | null;
+
+			/** LogPlayer chips */
+			public chips: number | Long | null;
+
+			/** LogPlayer cid */
+			public cid: number | null;
+
+		}
+
+		/** Properties of a LogMsg. */
+		interface ILogMsg{
+
+			/** LogMsg playerlist */
+			playerlist?: (LogPlayer[] | null);
+
+			/** LogMsg prolist */
+			prolist?: (LogProtocol[] | null);
+
+		}
+
+		/** Represents a LogMsg. */
+		class LogMsg implements ILogMsg {
+
+			/**
+			* Constructs a new %s.
+			* @param [properties] Properties to set
+			*/
+			constructor(properties?: protoBilliard.ILogMsg);
+
+			/** LogMsg playerlist */
+			public playerlist: LogPlayer[] | null;
+
+			/** LogMsg prolist */
+			public prolist: LogProtocol[] | null;
 
 		}
 

@@ -50,6 +50,7 @@ export class BilliardData {
 
     private _actionUid: number = 0;
     private _actionTimes: number = 0;
+    private _actionMaxTimes: number = 0;
     private players: BilliardPlayer[] = [];
     private balls: protoBilliard.IBall[] = [];
     private actionType: number = 0;
@@ -83,6 +84,12 @@ export class BilliardData {
     }
     setActionTimes(times: number) {
         this._actionTimes = times;
+    }
+    getActionMaxTimes(): number {
+        return this._actionMaxTimes === 0 ? 20 : this._actionMaxTimes;
+    }
+    setActionMaxTimes(times: number) {
+        this._actionMaxTimes = times;
     }
     getStartBalls() {
         return this.balls;

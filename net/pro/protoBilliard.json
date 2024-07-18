@@ -305,6 +305,10 @@
             "round": {
               "type": "int32",
               "id": 4
+            },
+            "maxtimes": {
+              "type": "int32",
+              "id": 5
             }
           }
         },
@@ -1134,6 +1138,64 @@
               "rule": "repeated",
               "type": "UserPlayBilliardData",
               "id": 5
+            }
+          }
+        },
+        "LogProtocol": {
+          "fields": {
+            "proid": {
+              "type": "int32",
+              "id": 1
+            },
+            "proname": {
+              "type": "string",
+              "id": 2
+            },
+            "msg": {
+              "type": "bytes",
+              "id": 3
+            }
+          }
+        },
+        "LogPlayer": {
+          "fields": {
+            "uid": {
+              "type": "int32",
+              "id": 1
+            },
+            "nick": {
+              "type": "string",
+              "id": 2
+            },
+            "icon": {
+              "type": "string",
+              "id": 3
+            },
+            "gender": {
+              "type": "int32",
+              "id": 4
+            },
+            "chips": {
+              "type": "int64",
+              "id": 5
+            },
+            "cid": {
+              "type": "int32",
+              "id": 6
+            }
+          }
+        },
+        "LogMsg": {
+          "fields": {
+            "playerlist": {
+              "rule": "repeated",
+              "type": "LogPlayer",
+              "id": 1
+            },
+            "prolist": {
+              "rule": "repeated",
+              "type": "LogProtocol",
+              "id": 2
             }
           }
         }
