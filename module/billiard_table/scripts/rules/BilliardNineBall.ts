@@ -213,7 +213,7 @@ export class BilliardNineBall implements IBilliardRules {
                 BilliardAI.instance.hitBall();
             }
         }
-        let table = BilliardManager.instance.getTable();
+        // let table = BilliardManager.instance.getTable();
         let tBalls = table.getOnTableBalls();
         for (let i = 1; i < tBalls.length; i++) {
             if (this.isValidBall(tBalls[i])) {
