@@ -198,8 +198,20 @@ export class BilliardEightBall implements IBilliardRules {
                     view.gameTips.freeBallTips();
                 }
                 else if(Outcome.isCollisionNoCushion(table.outcome)) { // 没有撞库
-                    view.gameTips.cushionTips();
-                    view.gameTips.freeBallTips();
+                    let oc = Outcome.firstCollision(table.outcome);
+                    if (oc) {
+                        if (this.isSureBall() && BilliardTools.instance.isVaildShot(oc.ballB.id)) {
+                            view.gameTips.cushionTips();
+                            view.gameTips.freeBallTips();
+                        }else {
+                            view.gameTips.foulTips();
+                            view.gameTips.freeBallTips();
+                        }
+                    }
+                    else { // 没有击球没有撞库
+                        view.gameTips.foulTips();
+                        view.gameTips.freeBallTips();
+                    }
                 }
                 else {
                     view.gameTips.foulTips();
@@ -227,8 +239,21 @@ export class BilliardEightBall implements IBilliardRules {
                     view.gameTips.freeBallTips();
                 }
                 else if(Outcome.isCollisionNoCushion(table.outcome)) { // 没有撞库
-                    view.gameTips.cushionTips();
-                    view.gameTips.freeBallTips();
+                    let oc = Outcome.firstCollision(table.outcome);
+                    if (oc) {
+                        if (this.isSureBall() && BilliardTools.instance.isVaildShot(oc.ballB.id)) {
+                            view.gameTips.cushionTips();
+                            view.gameTips.freeBallTips();
+                        }else {
+                            view.gameTips.foulTips();
+                            view.gameTips.freeBallTips();
+                        }
+                    }
+                    else { // 没有击球没有撞库
+                        view.gameTips.foulTips();
+                        view.gameTips.freeBallTips();
+                    }
+
                 }
                 else {
                     view.gameTips.foulTips();
