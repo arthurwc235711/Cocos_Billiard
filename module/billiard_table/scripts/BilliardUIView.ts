@@ -1,4 +1,4 @@
-import { _decorator, Button, Canvas, Component, director, EventTouch, find, game, Label, Node, physics, quat, Quat, Size, Slider, Sprite, tween, UITransform, Vec2, Vec3, Widget } from 'cc';
+import { _decorator, Button, Canvas, Component, director, EventTouch, find, game, Label, Node, physics, quat, Quat, Size, Slider, Sprite, tween, UIOpacity, UITransform, Vec2, Vec3, Widget } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
@@ -716,6 +716,8 @@ export class BilliardUIView extends BaseCommonScript {
     onFreeBall() {
         this.freeBall.setFreeBallHand();
         this.nodeCueAnimations.active = true && BilliardTools.instance.isMyAction();
+        let opacity = this.freeBall.getComponentInChildren(UIOpacity);
+        opacity.opacity = BilliardTools.instance.isMyAction() ? 255 : 125;
     }
 
     onFreeBallMove(isMove: boolean, isSend: boolean = true, isShowShot:boolean = true) {
