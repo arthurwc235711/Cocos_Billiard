@@ -134,11 +134,13 @@ export class BilliardWinsView extends BaseCommonScript {
         }
     }
 
-    onLeave() {
-        this.nodePao.active = true;
-        this.labelTips.string = "Have Left!";
-        this.btnPlayAgain.interactable = false;
-        this.btnRematch.interactable = true;
+    onLeave(reason: number = 0) {
+        if (reason !== 2) {// 强制退出
+            this.nodePao.active = true;
+            this.labelTips.string = "Have Left!";
+            this.btnPlayAgain.interactable = false;
+            this.btnRematch.interactable = true;
+        }
     }
 
 

@@ -176,7 +176,7 @@ export class BilliardService extends StackListenerNew {
         let notify: protoBilliard.NotifyUserExit = data.msg;
         if (notify) {
             BilliardData.instance.isOtherPlayExit = true;
-            yy.event.emit(yy.Event_Name.billiard_notify_leave);
+            yy.event.emit(yy.Event_Name.billiard_notify_leave, notify.reason);
         }
     }
 

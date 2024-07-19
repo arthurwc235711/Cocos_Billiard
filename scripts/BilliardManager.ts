@@ -107,6 +107,7 @@ export class BilliardManager extends BaseCommonInstance{
             [yy.Event_Name.billiard_notify_offline]: "onOffline",
             [yy.Event_Name.billiard_notify_timeout]: "onActionTimeOut",
             [yy.Event_Name.billiard_notify_foulstimes]: "onFoulsTimes",
+            [yy.Event_Name.billiard_notify_leave]: "onLeave",
         }
 
         super.register_event();
@@ -433,6 +434,27 @@ export class BilliardManager extends BaseCommonInstance{
 
     onFoulsTimes(notify: protoBilliard.NotifyFoulAction) {
 
+    }
+
+
+    onLeave(reason: number = 0) {
+        if (reason === 2) {// 强制退出
+            yy.dialog.show(
+                {
+                    title: "Tip",
+                    content: `Other players quit the game`,
+                    isCancelEnable: false,
+                    isConfirmEnable: true,
+                    confirmText: "OK",
+                    confirmCallback: () => {
+                        yy.event.emit(yy.Event_Name.CasualCommonQuit)
+                    },
+                    closeCallback: () => {
+                    },
+                    fontSize: 50,
+                    lineHeight: 60,
+            });
+        }
     }
 }
 
