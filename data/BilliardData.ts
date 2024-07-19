@@ -3,6 +3,7 @@ import { BilliardService } from "../net/BilliardService";
 import { yy } from "../../../../yy";
 import { BilliardManager } from "../scripts/BilliardManager";
 import { BilliardTools } from "../scripts/BilliardTools";
+import { BilliardConst } from "../config/BilliardConst";
 
 
 interface BilliardPlayer {
@@ -58,6 +59,7 @@ export class BilliardData {
     private angleLimit: number = 0; // 微调参数
 
     isOtherPlayExit = false;// 对方是否退出游戏
+    gid = 0; // 游戏id
 
     private gameType = 0; // 8球类型 9球类型
 
@@ -218,10 +220,12 @@ export class BilliardData {
             case 8:
                 this._ballNums = 15 + 1;
                 this.gameType = 8;
+                this.gid = BilliardConst.gid8Ball;
                 break;
             case 9:
                 this._ballNums = 9 + 1;
                 this.gameType = 9;
+                this.gid = BilliardConst.gid9Ball;
                 break;
             default:
                 yy.log.e("Billiard GameType error: ", type);

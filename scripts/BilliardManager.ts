@@ -13,6 +13,7 @@ import { BilliardEightBall } from "../module/billiard_table/scripts/rules/Billia
 import { BilliardService } from "../net/BilliardService";
 import { BilliardTools } from "./BilliardTools";
 import { BilliardNineBall } from "../module/billiard_table/scripts/rules/BilliardNineBall";
+import { ClientConfig } from "../../../../main/data/ClientConfig";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -324,7 +325,7 @@ export class BilliardManager extends BaseCommonInstance{
         }
         else { 
 
-                    // 自由球处理
+            // 自由球处理
             if (msg.action.type !== 0) {
                 if (msg.action.type === 1) {
                     view.freeBall.setStartAreaShow();
@@ -401,6 +402,9 @@ export class BilliardManager extends BaseCommonInstance{
             yy.loader.releaseBundle(BilliardConst.bundleName);
             yy.loader.releaseBundle('app_casual_common');
         });
+
+        // 历史记录
+        ClientConfig.instance()?.setPlayGame(BilliardData.instance.gid);
     }
 
     onPause() {

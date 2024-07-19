@@ -4,7 +4,8 @@ export const BilliardConst = {
     // gameKey: "billiard",  // 8 ball 9ball 
     bundleName: "app_billiard",
     startPos: new Vec3(-0.75, 0, 0),
-    // gid: 47,
+    gid8Ball: 47,
+    gid9Ball: 48,
     multiple:100000,
 }
 
