@@ -307,10 +307,11 @@ function raySphere(origin: Vec3, direction: Vec3, raySphere: RaySphereCollision)
 function rayRectangle14(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision) {
   let ox = origin.x, oy = origin.y;
   let dx = direction.x, dy = direction.y;
+  const DEVIATION = 0.0006; // 修正母球心到库的误差值
 
 
   if (dy > 0 && rectangle.node.position.y > 0) { // 上方裤边
-    let disY = rectangle.node.worldPosition.y - rectangle.halfLength - R;
+    let disY = rectangle.node.worldPosition.y - rectangle.halfLength - R + DEVIATION;
     let t = (disY - oy) / dy;
     let disX = ox + t * dx;
     let left = rectangle.node.worldPosition.x - rectangle.halfWidth - R;
@@ -321,7 +322,7 @@ function rayRectangle14(origin: Vec3, direction: Vec3, rectangle: RayRectangleCo
     }
   }
   else if (dy < 0 && rectangle.node.position.y < 0) { // 下方裤边
-    let disY = rectangle.node.worldPosition.y + rectangle.halfLength + R;
+    let disY = rectangle.node.worldPosition.y + rectangle.halfLength + R - DEVIATION;;
     let t = (disY - oy) / dy;
     let disX = ox + t * dx;
     let left = rectangle.node.worldPosition.x - rectangle.halfWidth - R;
@@ -332,7 +333,7 @@ function rayRectangle14(origin: Vec3, direction: Vec3, rectangle: RayRectangleCo
   }
   else {
     if (dx > 0 && rectangle.node.position.y === 0) {
-      let disX = rectangle.node.worldPosition.x - rectangle.halfWidth - R;
+      let disX = rectangle.node.worldPosition.x - rectangle.halfWidth - R + DEVIATION;
       let t = (disX - ox) / dx;
       let disY = oy + t * dy;
       let top = rectangle.node.worldPosition.y + rectangle.halfLength + R;
@@ -342,7 +343,7 @@ function rayRectangle14(origin: Vec3, direction: Vec3, rectangle: RayRectangleCo
       }
     }
     else if (dx < 0 && rectangle.node.position.y === 0) {
-      let disX = rectangle.node.worldPosition.x + rectangle.halfWidth + R;
+      let disX = rectangle.node.worldPosition.x + rectangle.halfWidth + R -  DEVIATION;
       let t = (disX - ox) / dx;
       let disY = oy + t * dy;
       let top = rectangle.node.worldPosition.y + rectangle.halfLength + R;
@@ -357,295 +358,9 @@ function rayRectangle14(origin: Vec3, direction: Vec3, rectangle: RayRectangleCo
 
 }
 
-function rayRectangle(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision){
-  const ox = origin.x, oy = origin.y;
-  const dx = direction.x, dy = direction.y;
-  const rx = rectangle.node.worldPosition.x, ry = rectangle.node.worldPosition.y;
-  const rw = rectangle.width, rl = rectangle.length;
-
-  const txmin = (rx - ox) / dx;
-  const txmax = (rx + rw - ox) / dx;
-  const tymin = (ry - oy) / dy;
-  const tymax = (ry + rl - oy) / dy;
-
-  const tmin = Math.max(Math.min(txmin, txmax), Math.min(tymin, tymax));
-  const tmax = Math.min(Math.max(txmin, txmax), Math.max(tymin, tymax));
-
-  if (tmin > tmax) {
-    return null;
-  }
-  const collisionT = tmin;
-  const collisionX = ox + collisionT * dx;
-  const collisionY = oy + collisionT * dy;
-
-  return {x: collisionX, y: collisionY};
-}
-
-
-function rayRectangle1(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision){
-  const ox = origin.x, oy = origin.y;
-  const dx = direction.x, dy = direction.y;
-  const rx = rectangle.node.worldPosition.x, ry = rectangle.node.worldPosition.y;
-  const hrw = rectangle.halfWidth, hrl = rectangle.halfLength;
-
-  let tx = 0, ty = 0;
-  if (direction.x >= 0) {
-    tx = (rx + hrw - ox) / dx
-  }
-  else {
-    tx = (rx - hrw - ox) / dx
-  }
-  if (direction.y >= 0) {
-    ty = (ry + hrl - oy) / dy
-  }
-  else {
-    ty = (ry - hrl - oy) / dy
-  }
-
-  const txmin = (rx - hrw - ox) / dx//Math.abs((rx - hrw - ox) / dx);
-  const txmax = (rx + hrw - ox) / dx//Math.abs((rx + hrw - ox) / dx);
-  const tymin = (ry - hrl - oy) / dy//Math.abs((ry - hrl - oy) / dy);
-  const tymax = (ry + hrl - oy) / dy//Math.abs((ry + hrl - oy) / dy);
-
-  yy.log.w("pos time: ", txmin, txmax, tymin, tymax);
-
-  yy.log.w("pos：" + rectangle.node.name , (rx - hrw - ox), (rx + hrw - ox), (ry - hrl - oy), (ry + hrl - oy))
-
-  const tmin = Math.max(Math.min(txmin, txmax), Math.min(tymin, tymax));
-  const tmax = Math.min(Math.max(txmin, txmax), Math.max(tymin, tymax));
-
-  yy.log.w("pos max", tmin, tmax);
-  if (tmin > tmax) {
-    return null;
-  }
-  const collisionT = tmin;
-  const collisionX = ox + collisionT * dx;
-  const collisionY = oy + collisionT * dy;
-
-  return {x: collisionX, y: collisionY};
-}
-
-function rayRectangle2(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision){
-  const ox = origin.x, oy = origin.y;
-  const dx = direction.x, dy = direction.y;
-  const rx1 = rectangle.node.worldPosition.x - rectangle.halfWidth, ry1 = rectangle.node.worldPosition.y ;
-  const rx2 = rectangle.node.worldPosition.x + rectangle.halfWidth, ry2 = rectangle.node.worldPosition.y ;
-
-  const t = (rx1 - ox) / dx;
-  const u = ((ry2 - ry1) * (rx1 - ox) - (rx2 - rx1) * (ry1 - oy)) / (dx * (ry2 - ry1) - dy * (rx2 - rx1));
-
-  if (t>= 0 && u >= 0 && u <=1) {
-    const intersectionX = ox + t * dx;
-    const intersectionY = oy + t * dy;
-    return { x: intersectionX, y: intersectionY };
-  }
-
-  return null;
-}
-
-
-function rayRectangle3(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision){
-  const ox = origin.x, oy = origin.y;
-  const dx = direction.x, dy = direction.y;
-  const rx = rectangle.node.worldPosition.x, ry = rectangle.node.worldPosition.y;
-  const hrw = rectangle.halfWidth, hrl = rectangle.halfLength;
-
-  // let wInc = rectangle.length === 1.5 ? R : 0;
-  // let hInc = rectangle.width === 1.5 ? R : 0;
-  let rx1 = rectangle.node.worldPosition.x - rectangle.halfWidth - R, ry1 = rectangle.node.worldPosition.y;
-  let rx2 = rectangle.node.worldPosition.x + rectangle.halfWidth + R, ry2 = rectangle.node.worldPosition.y;
-
-  if (rectangle.node.position.y > 0 && rectangle.node.name !== "CenterTE") {
-      ry1 -= (R + rectangle.halfLength);
-      ry2 -= (R + rectangle.halfLength);
-      if (direction.y >= 0) {
-        if (direction.x <= 0) {
-          if (origin.x >= rx1 && origin.x <= rx2) {
-            let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
-            return  Math.abs(maxDir.x/maxDir.y) >= Math.abs(dx/dy)
-          }
-          else {
-            let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
-            let minDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
-            return  Math.abs(maxDir.x/maxDir.y) >= Math.abs(dx/dy) && Math.abs(dx/dy) >= Math.abs(minDir.x/minDir.y); //  ture相交
-          }
-        }
-        else {
-          if (origin.x >= rx1 && origin.x <= rx2){
-            let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
-            return Math.abs(maxDir.x/maxDir.y) >= Math.abs(dx/dy)
-          }
-          else {
-            let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
-            let minDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
-            return Math.abs(maxDir.x/maxDir.y) >= Math.abs(dx/dy) && Math.abs(dx/dy) >= Math.abs(minDir.x/minDir.y); //  ture相交
-          }
-        }
-    }
-  }
-  else if(rectangle.node.position.y < 0) {
-    ry1 += (R + rectangle.halfLength);
-    ry2 += (R + rectangle.halfLength);
-    if (direction.y <= 0) {
-      if (direction.x <= 0) {
-        if (origin.x >= rx1 && origin.x <= rx2) {
-          let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
-          return  Math.abs(maxDir.x/maxDir.y) >= Math.abs(dx/dy); //  ture相交
-        }
-        else {
-          let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
-          let minDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
-          return  Math.abs(maxDir.x/maxDir.y) >= Math.abs(dx/dy) && Math.abs(dx/dy) >= Math.abs(minDir.x/minDir.y); //  ture相交
-        }
-      }
-      else {
-        if (origin.x >= rx1 && origin.x <= rx2){
-          let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
-          return Math.abs(maxDir.x/maxDir.y) >= Math.abs(dx/dy); //  ture相交
-        }
-        else {
-          let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
-          let minDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
-          return Math.abs(maxDir.x/maxDir.y) >= Math.abs(dx/dy) && Math.abs(dx/dy) >= Math.abs(minDir.x/minDir.y); //  ture相交
-        }
-
-      }
-    }
-  }
-  else {
-    rx1 = rectangle.node.worldPosition.x, ry1 = rectangle.node.worldPosition.y - rectangle.halfLength - R;
-    rx2 = rectangle.node.worldPosition.x, ry2 = rectangle.node.worldPosition.y + rectangle.halfLength + R;   
-    if (rectangle.node.position.x > 0){
-      rx1 -= (R + rectangle.halfWidth);
-      rx2 -= (R + rectangle.halfWidth);
-      if (direction.x >= 0) {
-        if (direction.y >= 0) {
-          let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
-          return  Math.abs(maxDir.y/maxDir.x) >= Math.abs(dy/dx); //  ture相交
-        }
-        else {
-          let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
-          return Math.abs(maxDir.y/maxDir.x) >= Math.abs(dy/dx); //  ture相交
-        }
-      }
-    }
-    else if (rectangle.node.position.x < 0) {
-      rx1 += (R + rectangle.halfWidth);
-      rx2 += (R + rectangle.halfWidth);
-      if (direction.x <= 0) {
-        if (direction.y >= 0) {
-          let maxDir = new Vec3(rx2, ry2, 0).subtract(origin).normalize();
-          return  Math.abs(maxDir.y/maxDir.x) >= Math.abs(dy/dx); //  ture相交
-        }
-        else {
-          let maxDir = new Vec3(rx1, ry1, 0).subtract(origin).normalize();
-          return Math.abs(maxDir.y/maxDir.x) >= Math.abs(dy/dx); //  ture相交
-        }
-      }
-    }
-  }
-}
-
-function rayRectangle4(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision) {
-  interface Point {
-    x: number;
-    y: number;
-  }
-      // 计算向量长度函数
-  function vectorLength(vector: Point): number {
-    return Math.sqrt(vector.x * vector.x + vector.y * vector.y);
-  }
-
-  // 计算单位向量函数
-  function unitVector(vector: Point): Point {
-    const length = vectorLength(vector);
-    return {
-        x: vector.x / length,
-        y: vector.y / length
-    };
-  }
-
-  // 计算两个点之间的距离
-function distance(point1: Point, point2: Point): number {
-  return Math.sqrt( Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
-}
-
-
-function detectCollision(): Point | null {
-    const unitDir = unitVector(direction);
-    const stepSize = 0.1; // 步长，可以调整精度
-    let t = 0;
-
-    while (t < 100000) { // 限制最大步数，防止无限循环
-        const currentPos: Point = {
-            x: origin.x + unitDir.x * t,
-            y: origin.y + unitDir.y * t
-        };
-
-        // 检查当前点是否与矩形碰撞
-        if (currentPos.x + R >= rectangle.node.worldPosition.x - rectangle.halfWidth &&
-            currentPos.x - R <= rectangle.node.worldPosition.x + rectangle.halfWidth &&
-            currentPos.y + R >= rectangle.node.worldPosition.y - rectangle.halfLength&&
-            currentPos.y - R <= rectangle.node.worldPosition.y + rectangle.halfLength) {
-            return currentPos;
-        }
-
-        t += stepSize;
-    }
-
-    return null;
-}
-
-const collisionPoint = detectCollision();
-const dis = distance(origin, collisionPoint);
-yy.log.w("rayRectangle4", dis);
-return dis;
-
-}
-
-function rayRectangle5(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision) {
-  // let rx1 = rectangle.node.worldPosition.x + rectangle.halfWidth
-  // let rx2 = rectangle.node.worldPosition.x - rectangle.halfWidth 
-  // let ry1 = 0;
 
 
 
-  if (rectangle.node.position.y > 0 ) {
-    let rx1 = rectangle.node.worldPosition.x + rectangle.halfWidth
-    let rx2 = rectangle.node.worldPosition.x - rectangle.halfWidth 
-    let ry1 = rectangle.node.worldPosition.y - rectangle.halfLength - R;
-    let dy = Math.abs(origin.y - ry1);
-    let dx = direction.x/direction.y * dy;
-    let x = origin.x + dx;
-    let y = origin.y + dy;
-    if (x <= rx1 && x >= rx2) {  
-      yy.log.w("xxx", x, rx1, rx2);
-      yy.log.w("yyy", y,  origin.y, ry1);
-        if(y <= ry1) {
-          yy.log.e("yyyy");
-          return Math.sqrt(dx*dx + dy*dy);
-        }
-    }
-  }
-  else if (rectangle.node.position.y < 0) {
-    let rx1 = rectangle.node.worldPosition.x + rectangle.halfWidth
-    let rx2 = rectangle.node.worldPosition.x - rectangle.halfWidth 
-    let ry1 = rectangle.node.worldPosition.y + rectangle.halfLength + R;
-    let dy = Math.abs(origin.y - ry1);
-    let dx = direction.x/direction.y * dy;
-    let x = origin.x + dx;
-    let y = origin.y - dy;
-    yy.log.w("xxx" + rectangle.node.name,origin.x, dx, x, rx1, rx2);
-    if (x <= rx1 && x >= rx2) {  
-
-      yy.log.w("yyy", y,  origin.y, ry1);
-        if(y >= ry1) {
-          yy.log.e("yyyy");
-          return Math.sqrt(dx*dx + dy*dy);
-        }
-    }
-  }
 
 
-  return undefined;
-}
+
