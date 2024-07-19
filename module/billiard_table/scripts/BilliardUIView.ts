@@ -755,7 +755,7 @@ export class BilliardUIView extends BaseCommonScript {
         table.cueBall.updatePosImmediately(new Vec3(msg.curPosition.x/BilliardConst.multiple, msg.curPosition.y/BilliardConst.multiple, 0));
         this.onFreeBall();
         this.onFreeBallMove(false, false);
-        this.freeBall.hideHand();
+        // this.freeBall.hideHand();
         this.cue.onlyShowFreeBallAnim();
 
         yy.log.w("onCueMove", msg)
