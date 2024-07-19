@@ -250,6 +250,7 @@ export class BilliardManager extends BaseCommonInstance{
         rules.placeBalls(true);
         view.scheduleOnce(()=>{
             view.setPlayerInfo();
+            view.initUIShow();
             rules.startTurn();
             view.onAllStationary();
 

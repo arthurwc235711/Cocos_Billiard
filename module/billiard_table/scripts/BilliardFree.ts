@@ -33,12 +33,16 @@ export class BilliardFree extends BaseCommonScript {
         let btn = this.nodeHand;
         let vec3 = new Vec3();
         let outV3 = new Vec3();
+        let table = BilliardManager.instance.getTable();
+        let view = BilliardManager.instance.getView();
+        let cueStartPos = new Vec3();
         
         btn.on(Node.EventType.TOUCH_START, (event: EventTouch) => {
             this.touchMove = false;
+            cueStartPos.set(table.cueBall.pos);
         });
         btn.on(Node.EventType.TOUCH_MOVE, (event: EventTouch) => {
-            let table = BilliardManager.instance.getTable();
+
             let touch = event.touch;
             let local = touch.getLocation();
             let perLocal = touch.getPreviousLocation();
@@ -109,18 +113,35 @@ export class BilliardFree extends BaseCommonScript {
             }
         });
         btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
-            if (BilliardTools.instance.isMyAction() && BilliardManager.instance.getTable().isValidFreeBall()) {
-                yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
-                this.touchMove = false;
-                this.hideHand();
-                
+            if (BilliardTools.instance.isMyAction()) {
+                if (BilliardManager.instance.getTable().isValidFreeBall()) {
+                    yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
+                    this.touchMove = false;
+                    // this.hideHand();
+                }
+                else {
+                    table.cueBall.updatePosImmediately(cueStartPos);
+                    view.onFreeBall();
+                    view.onFreeBallMove(false);
+                    this.nodeForbid.active = false;
+                }
             }
+
+               
         });
         btn.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
-            if (BilliardTools.instance.isMyAction() && BilliardManager.instance.getTable().isValidFreeBall()) {
-                yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
-                this.touchMove = false;
-                this.hideHand();
+            if (BilliardTools.instance.isMyAction()) {
+                if (BilliardManager.instance.getTable().isValidFreeBall()) {
+                    yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
+                    this.touchMove = false;
+                    // this.hideHand();
+                }
+                else {
+                    table.cueBall.updatePosImmediately(cueStartPos);
+                    view.onFreeBall();
+                    view.onFreeBallMove(false);
+                    this.nodeForbid.active = false;
+                }
             }
         });
     }
