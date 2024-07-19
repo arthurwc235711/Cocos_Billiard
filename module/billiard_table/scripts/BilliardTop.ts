@@ -156,24 +156,42 @@ export class BilliardTop extends BaseCommonScript {
                 yy.loader.asyncLoadSpriteAtlas(BilliardConst.bundleName, "module/billiard_table/texture/auto-atlas", (map:{ [key: string]: SpriteFrame } )=>{
                     this.mapAtlas = map;
                     this.node9Balls.children.forEach((c,i)=>{
-                        let val = balls[i];
-                        let isShow = val !== undefined;
+                        function showId() {
+                            for(let index = 0; index < balls.length; index++) {
+                                if (balls[index] - 1 === i) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+
+                        // let val = balls[i];
+                        let isShow = showId()//val !== undefined;
                         let bNode = c.getChildByName("SpriteBall")
                         bNode.active = isShow;
                         if (isShow) {
-                            bNode.getComponent(Sprite).spriteFrame = this.mapAtlas[val.toString()];
+                            bNode.getComponent(Sprite).spriteFrame = this.mapAtlas[(i+1).toString()];
                         }
                     });  
                 });
             }
             else {
                 this.node9Balls.children.forEach((c,i)=>{
-                    let val = balls[i];
-                    let isShow = val !== undefined;
+                    function showId() {
+                        for(let index = 0; index < balls.length; index++) {
+                            if (balls[index] - 1 === i) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+
+                    // let val = balls[i];
+                    let isShow = showId()//val !== undefined;
                     let bNode = c.getChildByName("SpriteBall")
                     bNode.active = isShow;
                     if (isShow) {
-                        bNode.getComponent(Sprite).spriteFrame = this.mapAtlas[val.toString()];
+                        bNode.getComponent(Sprite).spriteFrame = this.mapAtlas[(i+1).toString()];
                     }
                 });
             }

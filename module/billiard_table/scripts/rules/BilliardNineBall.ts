@@ -268,6 +268,8 @@ export class BilliardNineBall implements IBilliardRules {
 
         view.freeBall.setStartAreaShow();
         view.gameTips.startTips();
+
+        view.billiardTop.setPlayerBalls(this.getShowBalls(0));
     }
     onShotBall(): Ball {
         let table = BilliardManager.instance.getTable();
