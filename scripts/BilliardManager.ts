@@ -389,6 +389,12 @@ export class BilliardManager extends BaseCommonInstance{
 
 
     onQuit() {
+        if ( BilliardData.instance.is8Ball() ) {
+            yy.user.setLobbyOpenGameLevel({ gameKey: "billiard8ball" });
+        }
+        else {
+            yy.user.setLobbyOpenGameLevel({ gameKey: "billiard9ball" });
+        }
         yy.audio.stopMusic()
         yy.audio.stopSound()
         yy.scene.change_bundle_scene('app_lobby', 'lobby_scene', () => {

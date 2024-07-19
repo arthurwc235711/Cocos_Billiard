@@ -109,18 +109,8 @@ export class BilliardWinsView extends BaseCommonScript {
 
 
     onClickGoBack() {
-        yy.audio.stopMusic()
-        yy.audio.stopSound()
-        yy.scene.change_bundle_scene('app_lobby', 'lobby_scene', () => {
-            let gameBundleName = this.sGameBundleName;
-            if (typeof gameBundleName === 'string' && gameBundleName.length > 0) {
-                yy.loader.releaseBundle(gameBundleName);
-            }
-            yy.loader.releaseBundle('app_casual_common');
-        });
-        yy.event.emit(yy.Event_Name.CasualCommonQuit)
-
         BilliardService.instance.sendExit();
+        yy.event.emit(yy.Event_Name.CasualCommonQuit)
     }
 
 
