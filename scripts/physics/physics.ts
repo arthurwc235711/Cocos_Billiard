@@ -307,7 +307,7 @@ function raySphere(origin: Vec3, direction: Vec3, raySphere: RaySphereCollision)
 function rayRectangle14(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision) {
   let ox = origin.x, oy = origin.y;
   let dx = direction.x, dy = direction.y;
-  const DEVIATION = 0.0006; // 修正母球心到库的误差值
+  const DEVIATION = 0.00065; // 修正母球心到库的误差值
 
 
   if (dy > 0 && rectangle.node.position.y > 0) { // 上方裤边
