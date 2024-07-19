@@ -155,72 +155,22 @@ export class BilliardManager extends BaseCommonInstance{
         if (rules.isFoul(table.outcome)) {
             result.type = eOutcomeType.FreeBall;
             if (rules.isGameEnd(table.outcome, result)) {
-                yy.log.w("游戏结束");
+                yy.log.w("Game End");
                 BilliardService.instance.sendResult(result.type);
                 BilliardService.instance.sendResultReq(result.type);
-                // let uid = BilliardData.instance.getNotActionUid();
-                // let p = BilliardData.instance.getPlayer(uid);
-                // yy.dialog.show(
-                //     {
-                //         title: "Tip",
-                //         content: `游戏结束 ${p.name} 获胜`,
-                //         isCancelEnable: false,
-                //         isConfirmEnable: true,
-                //         confirmText: "OK",
-                //         confirmCallback: () => {
-                //         },
-                //         closeCallback: () => {
-                //         },
-                //         fontSize: 50,
-                //         lineHeight: 60,
-                //     }
-                // )
                 return;
             }
         }
         else if (rules.isGameEnd(table.outcome, result)) {
-            yy.log.w("游戏结束");
+            yy.log.w("Game End");
             BilliardService.instance.sendResult(result.type);
             BilliardService.instance.sendResultReq(result.type);
-            // let uid = BilliardData.instance.getActionUid();
-            // let p = BilliardData.instance.getPlayer(uid);
-
-            // if (result.type === eOutcomeType.Failed) {
-            //     uid = BilliardData.instance.getNotActionUid();
-            //     p = BilliardData.instance.getPlayer(uid);
-            // }
-
-            // yy.dialog.show(
-            //     {
-            //         title: "Tip",
-            //         content: `游戏结束 ${p.name} 获胜`,
-            //         isCancelEnable: false,
-            //         isConfirmEnable: true,
-            //         confirmText: "OK",
-            //         confirmCallback: () => {
-            //         },
-            //         closeCallback: () => {
-            //         },
-            //         fontSize: 50,
-            //         lineHeight: 60,
-            //     }
-            // )
-
             return;
         } 
 
         BilliardService.instance.sendResult(result.type);
         BilliardService.instance.sendResultReq(result.type);
-        // view.resetData();
-        // rules.nextTurn(result.type);
-        // // view.setPlayerCountDown(20);
-        // this.setSureBalls();
 
-
-        // let firstCollision = Outcome.firstCollision(table.outcome);
-        // if (firstCollision) {
-        //     yy.log.w("firstCollision", firstCollision.ballB.name);
-        // }
     }
 
     onHitCdStop() {
@@ -268,63 +218,22 @@ export class BilliardManager extends BaseCommonInstance{
             case eOutcomeType.Continue:
                 table.onSetServiceData(result);
                 BilliardService.instance.sendAction(uid, 6, 0);
-                // view.resetData();
-                // rules.nextTurn(result.type);
-                // this.setSureBalls();
                 break;
             case eOutcomeType.Turn:
                 table.onSetServiceData(result);
                 // BilliardService.instance.sendAction(uid === 1 ? 2 : 1, 10, 0);
                 BilliardService.instance.sendAction(1, 6, 0);
-                // view.resetData();
-                // rules.nextTurn(result.type);
-                // this.setSureBalls();
                 break;
             case eOutcomeType.FreeBall:
                 table.onSetServiceData(result);
                 // BilliardService.instance.sendAction(uid === 1 ? 2 : 1, 10, 2);
                 BilliardService.instance.sendAction(1, 6, 2);
-                // view.resetData();
-                // rules.nextTurn(result.type);
-                // this.setSureBalls();
                 break;
             case eOutcomeType.Failed:
-                // uid = BilliardData.instance.getNotActionUid();
-                // let p = BilliardData.instance.getPlayer(uid);
-                // yy.dialog.show(
-                //     {
-                //         title: "Tip",
-                //         content: `游戏结束 ${p.name} 获胜`,
-                //         isCancelEnable: false,
-                //         isConfirmEnable: true,
-                //         confirmText: "OK",
-                //         confirmCallback: () => {
-                //         },
-                //         closeCallback: () => {
-                //         },
-                //         fontSize: 50,
-                //         lineHeight: 60,
-                //     }
-                // );
+
                 break;
             case eOutcomeType.Win:
-                // uid = BilliardData.instance.getActionUid();
-                // p = BilliardData.instance.getPlayer(uid);
-                // yy.dialog.show(
-                //     {
-                //         title: "Tip",
-                //         content: `游戏结束 ${p.name} 获胜`,
-                //         isCancelEnable: false,
-                //         isConfirmEnable: true,
-                //         confirmText: "OK",
-                //         confirmCallback: () => {
-                //         },
-                //         closeCallback: () => {
-                //         },
-                //         fontSize: 50,
-                //         lineHeight: 60,
-                //     }
-                // );
+
                 break;
             default:
                 yy.log.e("onServiceResult error:", result);
