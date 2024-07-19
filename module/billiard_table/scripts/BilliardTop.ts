@@ -289,7 +289,10 @@ export class BilliardTop extends BaseCommonScript {
 
 
     setGold(gold:number) {
-        this.labelGold.string = yy.money.formatMoney(gold, false);
+        if (BilliardData.instance.is8Ball()) 
+            this.labelGold.string = yy.money.formatMoney(gold, false);
+        else 
+            this.labelScore.string = yy.money.formatMoney(gold, false);
         return this;
     }
 
