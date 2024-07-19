@@ -116,8 +116,7 @@ export class BilliardFree extends BaseCommonScript {
             if (BilliardTools.instance.isMyAction()) {
                 if (BilliardManager.instance.getTable().isValidFreeBall()) {
                     yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
-                    this.touchMove = false;
-                    // this.hideHand();
+                    this.showHand();
                 }
                 else {
                     table.cueBall.updatePosImmediately(cueStartPos);
@@ -125,6 +124,7 @@ export class BilliardFree extends BaseCommonScript {
                     view.onFreeBallMove(false);
                     this.nodeForbid.active = false;
                 }
+                this.touchMove = false;
             }
 
                
@@ -133,8 +133,7 @@ export class BilliardFree extends BaseCommonScript {
             if (BilliardTools.instance.isMyAction()) {
                 if (BilliardManager.instance.getTable().isValidFreeBall()) {
                     yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
-                    this.touchMove = false;
-                    // this.hideHand();
+                    this.showHand();
                 }
                 else {
                     table.cueBall.updatePosImmediately(cueStartPos);
@@ -142,6 +141,7 @@ export class BilliardFree extends BaseCommonScript {
                     view.onFreeBallMove(false);
                     this.nodeForbid.active = false;
                 }
+                this.touchMove = false;
             }
         });
     }
