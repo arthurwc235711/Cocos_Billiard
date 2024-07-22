@@ -438,7 +438,7 @@ export class BilliardManager extends BaseCommonInstance{
 
 
     onLeave(reason: number = 0) {
-        if (reason === 2) {// 强制退出
+        if (reason !== 0) {// 强制退出  不为0 代表玩家异常ready前异常中断
             yy.dialog.show(
                 {
                     title: "Tip",
@@ -450,6 +450,7 @@ export class BilliardManager extends BaseCommonInstance{
                         yy.event.emit(yy.Event_Name.CasualCommonQuit)
                     },
                     closeCallback: () => {
+                        yy.event.emit(yy.Event_Name.CasualCommonQuit)
                     },
                     fontSize: 50,
                     lineHeight: 60,

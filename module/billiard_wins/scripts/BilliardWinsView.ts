@@ -135,7 +135,7 @@ export class BilliardWinsView extends BaseCommonScript {
     }
 
     onLeave(reason: number = 0) {
-        if (reason !== 2) {// 强制退出
+        if (reason === 0) {// 强制退出
             this.nodePao.active = true;
             this.labelTips.string = "Have Left!";
             this.btnPlayAgain.interactable = false;
