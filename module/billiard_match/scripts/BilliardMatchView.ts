@@ -77,13 +77,14 @@ export class BilliardMatchView extends BaseCommonScript {
 
     onClickGoBack() {
         BilliardService.instance.sendLeaveMatching();
-        yy.event.emit(yy.Event_Name.CasualCommonQuit);
+        // yy.event.emit(yy.Event_Name.CasualCommonQuit);
     }
 
     onMatchingCancel() {
-        this.scheduleOnce(()=>{
-            this.onClickGoBack();
-        }, 2);
+        yy.event.emit(yy.Event_Name.CasualCommonQuit);
+        // this.scheduleOnce(()=>{
+        //     this.onClickGoBack();
+        // }, 2);
     }
 
     

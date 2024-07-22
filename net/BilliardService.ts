@@ -32,9 +32,9 @@ export class BilliardService extends StackListenerNew {
     eventFuncMap: { [key: string]: string } = {
         ////////////////////////////////////////////// 桌球匹配相关 以下 //////////////////////////////////////////////
         ['BilliardAllocService_EnterMatching']: 'respEnterMatching',
-        ["BilliardAllocService_EnterMatching.timeout"]: "respEnterMatching",
+        ["BilliardAllocService_EnterMatching_timeout"]: "respEnterMatching",
         ["BilliardAllocService_LeaveMatching"]: "respLeaveMatching",
-        ["BilliardAllocService_LeaveMatching.timeout"]: "respLeaveMatching",
+        ["BilliardAllocService_LeaveMatching_timeout"]: "respLeaveMatching",
         ["cmd_0x6000"]: "notifyMatchingTable",
         ////////////////////////////////////////////// 桌球匹配相关 以上 //////////////////////////////////////////////
 
@@ -116,14 +116,22 @@ export class BilliardService extends StackListenerNew {
 
     respLeaveMatching(data: any, req: any) {
         let resp = data.msg as protoBilliard.CommonRsp;
-        if(data.code == 0 &&  resp && resp.code  == 0) {
-            
+        if(data.code === 0 &&  resp ) {
+            if (resp.code === 0) {// 成功退出
+                yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
+            }
+            else if (resp.code === -1) {
+                // 匹配成功不允许退出
+            }
+            else {
+                this.errorTips(resp);
+                yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
+            }
         }
         else {
-             this.errorTips(resp);
+            yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
+            this.errorTips(resp);
         }
-
-        yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
     }
 
     notifyMatchingTable(data: any) {
