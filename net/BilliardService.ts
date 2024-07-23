@@ -23,7 +23,7 @@ export class BilliardService extends StackListenerNew {
     }
 
 
-    public isStandAlone = true;
+    public isStandAlone = false;
 
     private tid: number;
     private levelData: protoBilliard.MatchingReq;

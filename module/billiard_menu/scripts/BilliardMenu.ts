@@ -8,10 +8,16 @@ const { ccclass, property } = _decorator;
 @ccclass('BilliardMenu')
 export class BilliardMenu extends BaseCommonScript {
     @property(Node)
-    nodeMore: Node = null;
+    nodeMore: Node;
+    @property(Node)
+    nodeButton: Node;
 
 
     private bMusicOn: boolean = true;
+
+    on_init(): void {
+        this.nodeButton.active = !BilliardTools.instance.isNeedGuide();
+    }
 
     onClickMore() {
         this.nodeMore.active = !this.nodeMore.active;

@@ -22,7 +22,7 @@ export class BilliardTools {
     }
 
     isMyAction() {
-        return  BilliardData.instance.getActionUid() === 1//yy.user.getUid()//1;
+        return  BilliardData.instance.getActionUid() === yy.user.getUid()//1;
     }
 
     // 摄像头之间坐标转换
@@ -297,7 +297,13 @@ export class BilliardTools {
         return yy.storage.getValue(`${yy.user.getUid()}_CueSensitivity`) || 100;
     }
 
-    
+    isNeedGuide() {
+        return yy.storage.getValue(`${yy.user.getUid()}_BilliardGuide`) === null;
+    }
+
+    setNeedGuide(){
+        yy.storage.setValue(`${yy.user.getUid()}_BilliardGuide`, true);
+    }
 }
 
 

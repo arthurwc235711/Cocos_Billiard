@@ -25,7 +25,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     levelData: ISubGameTableInfoItemData;
 
     get isGuide() {
-        return true;
+        return BilliardTools.instance.isNeedGuide();
     }
     private commonBtnClickSound: ()=>void;
     async onLoad() {
@@ -119,15 +119,21 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     }
 
     onProgressComplete() {
-        yy.event.emit(yy.Event_Name.billiard_table_init);
-        yy.log.w("onProgressComplete", this.levelData)
         if (this.levelData != null) {
-            BilliardData.instance.setGameType(this.levelData.maxBetMoney);// 匹配时设置 为了退出返回大厅的标签，开始游戏也会设置
-            BilliardTools.instance.openMatchView(this.levelData, null);
+            if (this.isGuide) {
+                BilliardService.instance.isStandAlone = true;
+                BilliardData.instance.setGameType(0);
+            }
+            else {
+                BilliardData.instance.setGameType(this.levelData.maxBetMoney);// 匹配时设置 为了退出返回大厅的标签，开始游戏也会设置
+                BilliardTools.instance.openMatchView(this.levelData, null);
+            }
         }
         else {
             BilliardService.instance.sendEnterGame();
         }
+        yy.event.emit(yy.Event_Name.billiard_table_init);
+        yy.log.w("onProgressComplete", this.levelData)
     }
 
 

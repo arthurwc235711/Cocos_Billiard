@@ -18,6 +18,7 @@ export class BilliardGuideRules implements IBilliardRules {
 
     showLeft: boolean = false;
     showRight: boolean = false;
+
     isFoul(outcome: Outcome[]): boolean {
         return false;
     }
@@ -39,9 +40,8 @@ export class BilliardGuideRules implements IBilliardRules {
         let view = BilliardManager.instance.getView();
         this.round = 1; // 回合数 + 1
         this.uidTimeOut = 0;
-        view.freeBall.hideHand
 
-        // let fun = view.onClickTable.bind(view);
+
         view.onClickTable = (local)=>{
             // yy.log.w("onClickTable", local)
             view.cue.showCueLine();
@@ -50,6 +50,7 @@ export class BilliardGuideRules implements IBilliardRules {
             view.onShotAt(wp);
     
 
+            // yy.log.w("----------", wp);
             view.nodeLeft.active = this.showLeft;
             view.nodeRight.active = this.showRight;
         };
@@ -60,7 +61,7 @@ export class BilliardGuideRules implements IBilliardRules {
         sliderNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
             let progress = 1 - view.powerSlider.progress;
             if (progress > 0) {
-                yy.log.w("----------");
+                // yy.log.w("----------");
                 BilliardData.instance.setPower( Math.floor( 0.7 * MaxPower ) * R );
                 BilliardService.instance.sendHit();
                 // BilliardService.instance.sendHitReq();
@@ -107,6 +108,60 @@ export class BilliardGuideRules implements IBilliardRules {
     }
     getShowBalls(type: any): number[] {
         return [];
+    }
+
+
+    restData() {
+        let view = BilliardManager.instance.getView();
+        view.onClickTable = (local)=>{
+            view.cue.showCueLine();
+            view.nodeRight.active = BilliardTools.instance.isMyAction();
+            view.nodeLeft.active = BilliardTools.instance.isMyAction();
+            let screenPos = local;
+            let wp = BilliardManager.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
+            view.onShotAt(wp);
+    
+            // 自由球相关显示
+            if (BilliardData.instance.isFreeBall()) {
+                view.freeBall.hideHand();
+                view.cue.ShowFreeBallAnim();
+            }
+        };
+
+        let sliderNode = view.nodeLeft.getChildByPath("ExpSlider");
+        const MaxPower = 120;
+        sliderNode.off(Node.EventType.TOUCH_END);
+        sliderNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
+            let progress = 1 - view.powerSlider.progress;
+            if (progress > 0) {
+                BilliardData.instance.setPower( Math.floor( progress * MaxPower ) * R );
+                BilliardService.instance.sendHit();
+                BilliardService.instance.sendHitReq();
+            }
+            else {
+                view.nodeRight.getChildByName("NodeAngle").active = true;
+            }
+        });
+        sliderNode.off(Node.EventType.TOUCH_CANCEL);
+        sliderNode.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
+            let progress = 1 - view.powerSlider.progress;
+            if (progress > 0) {
+                let rules = BilliardManager.instance.getRules();
+                let maxPower = MaxPower;
+                if (rules.round === 1) {
+                    maxPower += MaxPower * Math.random();
+                }
+
+                BilliardData.instance.setPower( Math.floor( progress * MaxPower ) * R );
+                BilliardService.instance.sendHit();
+                BilliardService.instance.sendHitReq();
+            }
+            else {
+                view.nodeRight.getChildByName("NodeAngle").active = true;
+            }
+        });
+
+        view.isAngleDisable = false;
     }
 
 }

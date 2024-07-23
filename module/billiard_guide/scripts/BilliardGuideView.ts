@@ -1,4 +1,4 @@
-import { _decorator, BlockInputEvents, Component, Node, Slider, UITransform, Vec2, Vec3 } from 'cc';
+import { _decorator, BlockInputEvents, Component, director, Node, Slider, UITransform, Vec2, Vec3 } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardService } from '../../../net/BilliardService';
@@ -8,6 +8,10 @@ import { BilliardTools } from '../../../scripts/BilliardTools';
 import { R2d, Rtd } from '../../../scripts/physics/constants';
 import { rayHit } from '../../../scripts/physics/physics';
 import { BilliardGuideRules } from '../../billiard_table/scripts/rules/BilliardGuideRules';
+import { dir } from 'console';
+import { BilliardScene } from '../../../scene/BilliardScene';
+import { BilliardData } from '../../../data/BilliardData';
+import { BilliardMenu } from '../../billiard_menu/scripts/BilliardMenu';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardGuideView')
@@ -49,6 +53,8 @@ export class BilliardGuideView extends BaseCommonScript {
         switch(curIndex) {
             case 0:
                 this.showGuide(curIndex);
+                let billiardScene = director.getScene().getComponentInChildren(BilliardScene);
+                this.nodeGuide.children[0].getChildByName(`Label${billiardScene.levelData.maxBetMoney}`).active = true;
                 this.lockClick();
                 break;  
             case 1:
@@ -79,7 +85,7 @@ export class BilliardGuideView extends BaseCommonScript {
                 this.showGuide(curIndex);
                 wp = BilliardManager.instance.camera3d.worldToScreen(table.balls[1].node.worldPosition)
                 sw = BilliardManager.instance.camera2d.screenToWorld(wp).setZ(0);
-                this.nodeClick.worldPosition = sw;
+                this.nodeClick.worldPosition = sw; 
                 view.nodeLeft.active = false;
                 view.nodeRight.active = false;
                 view.interactableTableTouch = false;
@@ -128,11 +134,24 @@ export class BilliardGuideView extends BaseCommonScript {
     }
 
     onClickStartGame() {
+        let rules = BilliardManager.instance.getRules();
+        (rules as BilliardGuideRules).restData();
+        yy.event.emit(yy.Event_Name.billiard_clear_game_data);
+        let billiardScene = director.getScene().getComponentInChildren(BilliardScene);
+        BilliardService.instance.isStandAlone = false;
+        BilliardData.instance.setGameType(billiardScene.levelData.maxBetMoney);
+        BilliardTools.instance.openMatchView(billiardScene.levelData, null);
 
+        let menu = director.getScene().getComponentInChildren(BilliardMenu);
+        menu.nodeButton.active = true;
+        this.node.destroy();
+
+        BilliardTools.instance.setNeedGuide();
     }
 
     onClickQuit() {
-
+        yy.event.emit(yy.Event_Name.CasualCommonQuit)
+        BilliardTools.instance.setNeedGuide();
     }
 
     onHit() {
