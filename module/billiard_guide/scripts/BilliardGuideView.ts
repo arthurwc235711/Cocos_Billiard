@@ -24,6 +24,7 @@ export class BilliardGuideView extends BaseCommonScript {
         this.event_func_map = {
             // [yy.Event_Name.billiard_touch_end]: "onTouchEnd",
             [yy.Event_Name.billiard_notify_hit]: "onHit",
+            [yy.Event_Name.billiard_guide_next]: "nextGuid"
         };
         super.register_event();
     }
@@ -36,6 +37,7 @@ export class BilliardGuideView extends BaseCommonScript {
         let curIndex = index;
         let view = BilliardManager.instance.getView();
         let table = BilliardManager.instance.getTable();
+        let rules = BilliardManager.instance.getRules();
         if (index === -1) curIndex = this.curStep;
         switch(curIndex) {
             case 0:
@@ -44,8 +46,6 @@ export class BilliardGuideView extends BaseCommonScript {
                 break;  
             case 1:
                 this.showGuide(curIndex);
-
-
                 let v2 = new Vec2(1007, 314.5);
                 view.onClickTable(v2);
                 let v3 = new Vec3(table.balls[1].node.worldPosition.x, table.balls[1].node.worldPosition.y - 0.03, 0);
@@ -54,10 +54,20 @@ export class BilliardGuideView extends BaseCommonScript {
                 break;
             case 2:
                 this.showGuide(curIndex);
-
                 view.interactableTableTouch = false;
                 view.nodeLeft.active = true;
                 break;
+            case 3:
+                this.showGuide(curIndex);
+                yy.event.emit(yy.Event_Name.billiard_clear_game_data);
+                BilliardService.instance.sendStart()// 单机测试用
+                view.nodeLeft.active = false;
+                view.nodeRight.active = false;
+                this.lockClick();
+                break;
+
+            default:
+                yy.log.e("nextGuid error", curIndex)
         }
 
         this.curStep ++;

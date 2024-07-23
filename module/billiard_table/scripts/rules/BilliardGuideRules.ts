@@ -19,7 +19,7 @@ export class BilliardGuideRules implements IBilliardRules {
     showLeft: boolean = false;
     showRight: boolean = false;
     isFoul(outcome: Outcome[]): boolean {
-        throw new Error("Method not implemented.");
+        return false;
     }
     placeBalls(isStart: boolean) {
         let table = BilliardManager.instance.getTable();
@@ -27,10 +27,12 @@ export class BilliardGuideRules implements IBilliardRules {
         table.initTable();
     }
     isGameEnd(outcome: Outcome[], reslut: { type: eOutcomeType; }): boolean {
-        throw new Error("Method not implemented.");
+        reslut.type = eOutcomeType.Continue;
+        return false
+        // throw new Error("Method not implemented.");
     }
     nextTurn(type: number, actionUid: number, round: number) {
-        throw new Error("Method not implemented.");
+        yy.event.emit(yy.Event_Name.billiard_guide_next);
     }
     startTurn() {
         let table = BilliardManager.instance.getTable();
@@ -98,7 +100,7 @@ export class BilliardGuideRules implements IBilliardRules {
         throw new Error("Method not implemented.");
     }
     getShowBalls(type: any): number[] {
-        throw new Error("Method not implemented.");
+        return [];
     }
 
 }

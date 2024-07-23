@@ -151,7 +151,7 @@ export class BilliardTop extends BaseCommonScript {
                 }
             }
         }
-        if (BilliardData.instance.is9Ball()) {
+        else if (BilliardData.instance.is9Ball()) {
             if (!this.mapAtlas) {
                 yy.loader.asyncLoadSpriteAtlas(BilliardConst.bundleName, "module/billiard_table/texture/auto-atlas", (map:{ [key: string]: SpriteFrame } )=>{
                     this.mapAtlas = map;
