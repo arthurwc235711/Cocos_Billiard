@@ -7,6 +7,7 @@ import { BilliardConst } from '../../../config/BilliardConst';
 import { BilliardTools } from '../../../scripts/BilliardTools';
 import { R2d, Rtd } from '../../../scripts/physics/constants';
 import { rayHit } from '../../../scripts/physics/physics';
+import { BilliardGuideRules } from '../../billiard_table/scripts/rules/BilliardGuideRules';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardGuideView')
@@ -17,6 +18,10 @@ export class BilliardGuideView extends BaseCommonScript {
     nodeLockClick: Node;
     @property(Node)
     nodeLine: Node;
+    @property(Node)
+    nodeClick: Node;
+    @property(Node)
+    nodeArrow: Node;
 
     private curStep:number = 0;
     register_event() {
@@ -38,6 +43,8 @@ export class BilliardGuideView extends BaseCommonScript {
         let view = BilliardManager.instance.getView();
         let table = BilliardManager.instance.getTable();
         let rules = BilliardManager.instance.getRules();
+        let wp;
+        let sw;
         if (index === -1) curIndex = this.curStep;
         switch(curIndex) {
             case 0:
@@ -53,9 +60,12 @@ export class BilliardGuideView extends BaseCommonScript {
                 this.unlockClick();
                 break;
             case 2:
-                this.showGuide(curIndex);
+            case 6:
+                this.showGuide(2);
                 view.interactableTableTouch = false;
+                view.isAngleDisable = true;
                 view.nodeLeft.active = true;
+                view.nodeRight.active = false;
                 break;
             case 3:
                 this.showGuide(curIndex);
@@ -63,6 +73,31 @@ export class BilliardGuideView extends BaseCommonScript {
                 BilliardService.instance.sendStart()// 单机测试用
                 view.nodeLeft.active = false;
                 view.nodeRight.active = false;
+                this.lockClick();
+                break;
+            case 4:
+                this.showGuide(curIndex);
+                wp = BilliardManager.instance.camera3d.worldToScreen(table.balls[1].node.worldPosition)
+                sw = BilliardManager.instance.camera2d.screenToWorld(wp).setZ(0);
+                this.nodeClick.worldPosition = sw;
+                view.nodeLeft.active = false;
+                view.nodeRight.active = false;
+                view.interactableTableTouch = false;
+                this.unlockClick();
+                break;
+            case 5:
+                this.showGuide(curIndex);
+                let v2t = new Vec2(1110, 517);
+                view.onClickTable(v2t);
+                view.nodeRight.active = true;
+                (rules as BilliardGuideRules).showRight = true;
+                wp = BilliardManager.instance.camera3d.worldToScreen(table.balls[1].node.worldPosition)
+                sw = BilliardManager.instance.camera2d.screenToWorld(wp).setZ(0);
+                this.nodeArrow.worldPosition = sw;
+                view.isAngleDisable = false;
+                break;
+            case 7:
+                this.showGuide(curIndex);
                 this.lockClick();
                 break;
 
@@ -90,6 +125,14 @@ export class BilliardGuideView extends BaseCommonScript {
 
     onClickGuide() {
         this.nextGuid();
+    }
+
+    onClickStartGame() {
+
+    }
+
+    onClickQuit() {
+
     }
 
     onHit() {
@@ -130,6 +173,14 @@ export class BilliardGuideView extends BaseCommonScript {
                 // yy.log.e("有效重叠")
                 this.nextGuid();
                 // this.nodeLine.active = false;
+            }
+        }
+        else if(this.curStep === 6) {
+            let view = BilliardManager.instance.getView();
+            // yy.log.w("worldRotation", view.cue.nodeBallArrow.worldRotation, this.nodeArrow.worldRotation)
+            if( Math.abs(view.cue.nodeBallArrow.worldRotation.z - this.nodeArrow.worldRotation.z) < 0.01) {
+                this.nextGuid();
+                
             }
         }
     }

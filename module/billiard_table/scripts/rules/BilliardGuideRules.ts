@@ -1,4 +1,4 @@
-import { EventTouch, Node, Slider } from "cc";
+import { EventTouch, Node, Slider, Vec3 } from "cc";
 import { yy } from "../../../../../../../yy";
 import { eRuleType, eOutcomeType, BilliardConst } from "../../../../config/BilliardConst";
 import { BilliardData } from "../../../../data/BilliardData";
@@ -41,9 +41,15 @@ export class BilliardGuideRules implements IBilliardRules {
         this.uidTimeOut = 0;
         view.freeBall.hideHand
 
-        let fun = view.onClickTable.bind(view);
-        view.onClickTable = (v)=>{
-            fun(v);
+        // let fun = view.onClickTable.bind(view);
+        view.onClickTable = (local)=>{
+            // yy.log.w("onClickTable", local)
+            view.cue.showCueLine();
+            let screenPos = local;
+            let wp = BilliardManager.instance.camera3d.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).setZ(0);
+            view.onShotAt(wp);
+    
+
             view.nodeLeft.active = this.showLeft;
             view.nodeRight.active = this.showRight;
         };
