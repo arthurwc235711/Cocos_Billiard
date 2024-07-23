@@ -51,9 +51,9 @@ export class BilliardGuideRules implements IBilliardRules {
         sliderNode.off(Node.EventType.TOUCH_END);
         sliderNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
             let progress = 1 - view.powerSlider.progress;
-            if (progress > 0.25) {
+            if (progress > 0) {
                 yy.log.w("----------");
-                BilliardData.instance.setPower( Math.floor( progress * MaxPower ) * R );
+                BilliardData.instance.setPower( Math.floor( 0.7 * MaxPower ) * R );
                 BilliardService.instance.sendHit();
                 // BilliardService.instance.sendHitReq();
             }
@@ -61,14 +61,14 @@ export class BilliardGuideRules implements IBilliardRules {
         sliderNode.off(Node.EventType.TOUCH_CANCEL);
         sliderNode.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
             let progress = 1 - view.powerSlider.progress;
-            if (progress > 0.25) {
+            if (progress > 0) {
                 let rules = BilliardManager.instance.getRules();
                 let maxPower = MaxPower;
                 if (rules.round === 1) {
                     maxPower += MaxPower * Math.random();
                 }
 
-                BilliardData.instance.setPower( Math.floor( progress * MaxPower ) * R );
+                BilliardData.instance.setPower( Math.floor( 0.7 * MaxPower ) * R );
                 BilliardService.instance.sendHit();
                 // BilliardService.instance.sendHitReq();
             }

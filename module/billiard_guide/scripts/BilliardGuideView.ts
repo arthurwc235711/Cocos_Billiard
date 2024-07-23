@@ -22,7 +22,8 @@ export class BilliardGuideView extends BaseCommonScript {
     register_event() {
         // 注册指定的监听方法，格式如下
         this.event_func_map = {
-            [yy.Event_Name.billiard_touch_end]: "onTouchEnd",
+            // [yy.Event_Name.billiard_touch_end]: "onTouchEnd",
+            [yy.Event_Name.billiard_notify_hit]: "onHit",
         };
         super.register_event();
     }
@@ -33,6 +34,8 @@ export class BilliardGuideView extends BaseCommonScript {
 
     nextGuid(index: number = -1) {
         let curIndex = index;
+        let view = BilliardManager.instance.getView();
+        let table = BilliardManager.instance.getTable();
         if (index === -1) curIndex = this.curStep;
         switch(curIndex) {
             case 0:
@@ -42,29 +45,18 @@ export class BilliardGuideView extends BaseCommonScript {
             case 1:
                 this.showGuide(curIndex);
 
-                let view = BilliardManager.instance.getView();
-                let table = BilliardManager.instance.getTable();
 
-
-                // let powerSlider = view.nodeLeft.getChildByPath("ExpSlider").getComponent(Slider);
-                // powerSlider.enabled = false;
-                // view.isAngleDisable = true;
-                // view.nodeCueAnimations.active = false;
-        
-
-                // let lastSc = BilliardManager.instance.camera3d.worldToScreen(new Vec3(1007, 314.5, 0)).setZ(0);
                 let v2 = new Vec2(1007, 314.5);
                 view.onClickTable(v2);
-
-                table.balls[1]
-
                 let v3 = new Vec3(table.balls[1].node.worldPosition.x, table.balls[1].node.worldPosition.y - 0.03, 0);
                 this.shotLine(v3);
-                // yy.event.emit(yy.Event_Name.billiard_notify_cueangle, tmp);
-
-                // view.nodeLeft.active = false;
-                // view.nodeRight.active = false;
                 this.unlockClick();
+                break;
+            case 2:
+                this.showGuide(curIndex);
+
+                view.interactableTableTouch = false;
+                view.nodeLeft.active = true;
                 break;
         }
 
@@ -90,6 +82,13 @@ export class BilliardGuideView extends BaseCommonScript {
         this.nextGuid();
     }
 
+    onHit() {
+        let view = BilliardManager.instance.getView();
+        view.nodeLeft.active = false;
+        this.nodeGuide.children.forEach(c=>{
+            if(c.active) c.active = false;
+        })
+    }
 
     shotLine(wp: Vec3) {
         let nodeCueArrow = this.nodeLine;
@@ -114,14 +113,13 @@ export class BilliardGuideView extends BaseCommonScript {
         }
     }
 
-    protected onTouchEnd(dt: number): void {
+    protected update(dt: number): void {
         if (this.curStep === 2) {
             let view = BilliardManager.instance.getView();
             if (Math.abs(this.nodeLine.angle - view.nodeCueArrow.angle) < 0.1){
-                yy.log.e("有效重叠")
-                view.interactableTableTouch = false;
-                view.nodeLeft.active = true;
-                this.nodeLine.active = false;
+                // yy.log.e("有效重叠")
+                this.nextGuid();
+                // this.nodeLine.active = false;
             }
         }
     }
