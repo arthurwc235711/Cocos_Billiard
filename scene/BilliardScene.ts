@@ -24,12 +24,13 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
 
     levelData: ISubGameTableInfoItemData;
 
+    get isGuide() {
+        return true;
+    }
     private commonBtnClickSound: ()=>void;
     async onLoad() {
         yy.scene.reset_scene_size(true)
         super.onLoad();
-
-        
     }
 
     public register_event() {
@@ -132,10 +133,14 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
 
     loadingResource() {
         // 预设预加载资源
+        let guidePath = "module/billiard_guide/view/p_billiard_guide";
         let pre = [
             "module/billiard_table/view/p_billiard_3d",
             "module/billiard_match/view/p_billiard_match",
         ]
+        if (this.isGuide) {
+            pre.push(guidePath);
+        }
         // 音效预加载资源
         let preSound:string[] = [
             eAudio.Match.toString(),
@@ -146,14 +151,18 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         let cur = 0;
         pre.forEach((name, i)=>{
             yy.loader.asyncLoadPrefab(BilliardConst.bundleName, name, (prefab)=>{
-
-
                 if (name === pre[0]) { // 实例化3d对象
                     let clone = instantiate(prefab);
                     director.getScene().addChild(clone);
                     yy.toast.setToastRes('app_common', 'toast/view/toast_view');
             
                     BilliardTools.instance.playBgm();
+                }
+                if (this.isGuide) {
+                    if (name === guidePath) {
+                        let clone = instantiate(prefab);
+                        this.get_scene_layer_popup().addChild(clone);
+                    }
                 }
                 cur ++;
                 yy.event.emit(yy.Event_Name.billiard_loading_resource, cur/max);

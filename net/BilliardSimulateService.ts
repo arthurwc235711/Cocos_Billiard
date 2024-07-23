@@ -133,6 +133,21 @@ export class BilliardSimulateService {
                       }
                 }
 
+                if (BilliardData.instance.isGuide()) {
+                    // let cueBall = notify.balls[0];
+                    // cueBall.position.x = -1.185;
+                    ball.position.x = 1.369;
+                    ball.position.y = 0.632;
+
+
+                    ball.rotation.x =  Math.random() * BilliardConst.multiple;
+                    ball.rotation.y =  Math.random() * BilliardConst.multiple;
+                    ball.rotation.z =  Math.random() * BilliardConst.multiple;
+                    ball.rotation.w =  Math.random() * BilliardConst.multiple;
+                
+                }
+
+
             }
         }
 

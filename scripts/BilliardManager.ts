@@ -14,6 +14,7 @@ import { BilliardService } from "../net/BilliardService";
 import { BilliardTools } from "./BilliardTools";
 import { BilliardNineBall } from "../module/billiard_table/scripts/rules/BilliardNineBall";
 import { ClientConfig } from "../../../../main/data/ClientConfig";
+import { BilliardGuideRules } from "../module/billiard_table/scripts/rules/BilliardGuideRules";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -67,6 +68,9 @@ export class BilliardManager extends BaseCommonInstance{
 
     setRules() {
         switch (BilliardData.instance.getGameType()) {
+            case 0:
+                this._rules = new BilliardGuideRules();
+                break;
             case 8:
                 this._rules = new BilliardEightBall();
                 break;
@@ -394,7 +398,7 @@ export class BilliardManager extends BaseCommonInstance{
         if ( BilliardData.instance.is8Ball() ) {
             yy.user.setLobbyOpenGameLevel({ gameKey: "billiard8ball" });
         }
-        else {
+        if ( BilliardData.instance.is9Ball() ) {
             yy.user.setLobbyOpenGameLevel({ gameKey: "billiard9ball" });
         }
         yy.audio.stopMusic()

@@ -23,7 +23,7 @@ export class BilliardService extends StackListenerNew {
     }
 
 
-    public isStandAlone = false;
+    public isStandAlone = true;
 
     private tid: number;
     private levelData: protoBilliard.MatchingReq;
@@ -326,6 +326,7 @@ export class BilliardService extends StackListenerNew {
     notifyCueAngle(data: any) {
         let msg: protoBilliard.ICueAngle = data.msg;
         if(msg) {
+            // yy.log.w("notifyCueAngle",data)
             if (!BilliardTools.instance.isMyAction()) { // 其他人操作才设置坐标
                 yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg);
             }

@@ -56,6 +56,9 @@ export class BilliardUIView extends BaseCommonScript {
 
     private isShotAtBall = false;
 
+
+    public isAngleDisable = false;
+
     get interactableTableTouch() {
         return this._interactableTableTouch && BilliardTools.instance.isMyAction();
     }
@@ -262,6 +265,7 @@ export class BilliardUIView extends BaseCommonScript {
                 BilliardService.instance.sendCueAngleReq(wp.x, wp.y);
 
                 BilliardTools.instance.playSoundPress();
+                yy.event.emit(yy.Event_Name.billiard_touch_end);
             }
             else if (this.interactableTableTouch && !isFreeBallMove) {
                 // this.preTouchLocation = event.getLocation();
@@ -273,6 +277,7 @@ export class BilliardUIView extends BaseCommonScript {
                 // yy.log.w("cueAngle2", this.preTouchLocation)
                 BilliardService.instance.sendCueAngle(this.preTouchLocation.x, this.preTouchLocation.y);
                 BilliardService.instance.sendCueAngleReq(wp.x, wp.y);
+                yy.event.emit(yy.Event_Name.billiard_touch_end);
             }
 
             this.touchMove = false;
@@ -291,6 +296,7 @@ export class BilliardUIView extends BaseCommonScript {
                 // yy.log.w("cueAngle1", this.preTouchLocation)
                 BilliardService.instance.sendCueAngle(this.preTouchLocation.x, this.preTouchLocation.y);
                 BilliardService.instance.sendCueAngleReq(wp.x, wp.y);
+                yy.event.emit(yy.Event_Name.billiard_touch_end);
             }
             else if (this.interactableTableTouch && !isFreeBallMove) {
                 // this.preTouchLocation = event.getLocation();
@@ -302,6 +308,7 @@ export class BilliardUIView extends BaseCommonScript {
                 // yy.log.w("cueAngle2", this.preTouchLocation)
                 BilliardService.instance.sendCueAngle(this.preTouchLocation.x, this.preTouchLocation.y);
                 BilliardService.instance.sendCueAngleReq(wp.x, wp.y);
+                yy.event.emit(yy.Event_Name.billiard_touch_end);
             }
 
             this.touchMove = false;
@@ -317,6 +324,7 @@ export class BilliardUIView extends BaseCommonScript {
 
         let times = 0;
         nodeAngle.on(Node.EventType.TOUCH_MOVE, (event: EventTouch) => {
+            if (this.isAngleDisable) return ;
             let touch = event.touch;
             let local = touch.getLocation();
             let perLocal = touch.getPreviousLocation();
@@ -364,6 +372,7 @@ export class BilliardUIView extends BaseCommonScript {
         });
 
         nodeAngle.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
+            if (this.isAngleDisable) return ;
             this.preTouchLocation.x = BilliardTools.instance.roundToFiveDecimalPlaces(this.preTouchLocation.x);
             this.preTouchLocation.y = BilliardTools.instance.roundToFiveDecimalPlaces(this.preTouchLocation.y);
 
@@ -375,6 +384,7 @@ export class BilliardUIView extends BaseCommonScript {
             times = 0;
         });
         nodeAngle.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
+            if (this.isAngleDisable) return ;
             this.preTouchLocation.x = BilliardTools.instance.roundToFiveDecimalPlaces(this.preTouchLocation.x);
             this.preTouchLocation.y = BilliardTools.instance.roundToFiveDecimalPlaces(this.preTouchLocation.y);
 
@@ -798,8 +808,13 @@ export class BilliardUIView extends BaseCommonScript {
         if(BilliardData.instance.is8Ball()) {
             this.billiardTop.show8BallUI();
         }
-        else {
+        else if(BilliardData.instance.is9Ball()) {
             this.billiardTop.show9BallUI();
+        }
+        else if(BilliardData.instance.isGuide()) {
+            this.billiardTop.showGuide();
+            this.node.getChildByName("ButtonChat").active = false;
+            this.node.getChildByName("NodeHitPoint").active = false;
         }
     }
 

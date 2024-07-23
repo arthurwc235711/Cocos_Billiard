@@ -35,7 +35,7 @@ export class BilliardData {
             this.addPlayer(1, "Player", "", 0);
             this.addPlayer(2, "AI", "", 0);
 
-            this.setGameType(9);
+            this.setGameType(0);
         }
 
         this.angleLimit = BilliardTools.instance.getCacheCueSensitivity()
@@ -211,12 +211,20 @@ export class BilliardData {
     is9Ball() {
         return this.gameType === 9;
     }
+    isGuide() {
+        return this.gameType === 0;
+    }
     getGameType() {
         return this.gameType;
     }
 
     setGameType(type: number) {
         switch(type) {
+            case 0: // 新手引导
+                this._ballNums = 1 + 1;
+                this.gameType = 0;
+                this.gid = 0;
+                break;
             case 8:
                 this._ballNums = 15 + 1;
                 this.gameType = 8;

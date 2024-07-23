@@ -1,0 +1,13 @@
+{
+  "ver": "1.1.43",
+  "importer": "prefab",
+  "imported": true,
+  "uuid": "93e231a7-74a6-4c3c-8400-1da5ff94eeca",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "syncNodeName": "p_billiard_guide"
+  }
+}

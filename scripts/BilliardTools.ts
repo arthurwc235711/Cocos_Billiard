@@ -22,7 +22,7 @@ export class BilliardTools {
     }
 
     isMyAction() {
-        return  BilliardData.instance.getActionUid() === yy.user.getUid()//1;
+        return  BilliardData.instance.getActionUid() === 1//yy.user.getUid()//1;
     }
 
     // 摄像头之间坐标转换
@@ -144,9 +144,13 @@ export class BilliardTools {
                 }
             }
         }
-        else {
+        if (billiard.is9Ball()) {
             let rules = BilliardManager.instance.getRules() as BilliardNineBall;
             return ballId === rules.disBallId;
+        }
+
+        if (billiard.isGuide()) {
+            return true;
         }
 
     }

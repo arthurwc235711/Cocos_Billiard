@@ -19,6 +19,7 @@ export default [
     // "billiard_wait_close",
 
     "billiard_stop_animations",
+    "billiard_touch_end",
 
     // 游戏协议
     "billiard_reconnect",

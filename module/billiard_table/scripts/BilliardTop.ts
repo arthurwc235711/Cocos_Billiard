@@ -151,7 +151,7 @@ export class BilliardTop extends BaseCommonScript {
                 }
             }
         }
-        else {
+        if (BilliardData.instance.is9Ball()) {
             if (!this.mapAtlas) {
                 yy.loader.asyncLoadSpriteAtlas(BilliardConst.bundleName, "module/billiard_table/texture/auto-atlas", (map:{ [key: string]: SpriteFrame } )=>{
                     this.mapAtlas = map;
@@ -291,7 +291,7 @@ export class BilliardTop extends BaseCommonScript {
     setGold(gold:number) {
         if (BilliardData.instance.is8Ball()) 
             this.labelGold.string = yy.money.formatMoney(gold, false);
-        else 
+        if (BilliardData.instance.is9Ball()) 
             this.labelScore.string = yy.money.formatMoney(gold, false);
         return this;
     }
@@ -360,6 +360,7 @@ export class BilliardTop extends BaseCommonScript {
 
 
     show8BallUI() {
+        this.node.active = true;
         this.playerUI.forEach(player => {
             player.nodeBalls.active = true;
         });
@@ -368,7 +369,12 @@ export class BilliardTop extends BaseCommonScript {
     }
 
     show9BallUI() {
+        this.node.active = true;
         this.node9Gold.active = true;
+    }
+
+    showGuide() {
+        this.node.active = false;
     }
 }
 
