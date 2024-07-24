@@ -483,7 +483,7 @@
         "__id__": 98
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 104
@@ -2500,7 +2500,7 @@
         "__id__": 138
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 154
@@ -3873,7 +3873,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 716.95,
+      "width": 711.52,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3915,7 +3915,7 @@
     "_fontSize": 38,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
-    "_overflow": 3,
+    "_overflow": 0,
     "_enableWrapText": true,
     "_font": null,
     "_isSystemFontUsed": true,
