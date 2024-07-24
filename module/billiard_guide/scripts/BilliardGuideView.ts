@@ -150,6 +150,9 @@ export class BilliardGuideView extends BaseCommonScript {
     }
 
     onClickQuit() {
+        let billiardScene = director.getScene().getComponentInChildren(BilliardScene);
+        BilliardService.instance.isStandAlone = false;
+        BilliardData.instance.setGameType(billiardScene.levelData.maxBetMoney);
         yy.event.emit(yy.Event_Name.CasualCommonQuit)
         BilliardTools.instance.setNeedGuide();
     }
