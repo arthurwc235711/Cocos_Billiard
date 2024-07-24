@@ -93,7 +93,9 @@ export class BilliardGuideView extends BaseCommonScript {
                 break;
             case 5:
                 this.showGuide(curIndex);
-                let v2t = new Vec2(1110, 517);
+                wp = BilliardManager.instance.camera3d.worldToScreen(table.balls[1].node.worldPosition)
+                // sw = BilliardManager.instance.camera2d.screenToWorld(wp).setZ(0);
+                let v2t = new Vec2(wp.x, wp.y);
                 view.onClickTable(v2t);
                 view.nodeRight.active = true;
                 (rules as BilliardGuideRules).showRight = true;
