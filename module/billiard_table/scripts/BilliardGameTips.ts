@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, Node } from 'cc';
+import { _decorator, Component, Label, Node, RichText } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { BilliardTools } from '../../../scripts/BilliardTools';
 import { BilliardData } from '../../../data/BilliardData';
@@ -22,12 +22,20 @@ export class BilliardGameTips extends BaseCommonScript {
     nodeYouTurn: Node;
     @property(Node)
     nodeFouls: Node;
+    @property(RichText)
+    labelFouls: RichText;
 
     static actionList:Function[] = [];
 
     isPlaying:boolean = false;
 
-
+    register_event() {
+        // 注册指定的监听方法，格式如下
+        this.event_func_map = {
+            [yy.Event_Name.billiard_notify_foulstimes]: "onFoulsTimes",
+        };
+        super.register_event();
+    }
 
     startTips() {
         BilliardGameTips.actionList.push(()=>{
@@ -233,6 +241,18 @@ export class BilliardGameTips extends BaseCommonScript {
             this.labelTips.string = `"${player.name}" Wins`;
             this.nodeTips.active = true;
         });
+    }
+
+
+    onFoulsTimes(notify: protoBilliard.NotifyFoulAction) {
+        if (notify.uid === yy.user.getUid()){
+            this.nodeFouls.active = true;
+            this.scheduleOnce(()=>{
+                this.nodeFouls.active = false;
+            }, 2);
+            this.labelFouls.string = `You already got <size=48><color=#FFE102>${notify.count}</color></size> consecutive fouls\n 3 consecutive fouls will lose`
+        }
+
     }
 
 }
