@@ -194,6 +194,10 @@ export class BilliardTools {
         yy.popup.show_popup(BilliardConst.bundleName, "module/billiard_personal/view/p_billiard_personal", null, uid);
     }
 
+    openRuleView() {
+        yy.popup.show_popup("app_lobby", "module/billiardLevel/view/p_billiard_rule", null, BilliardData.instance.getGameType());
+    }
+
     openReMatchView(call:Function) {
         BilliardService.instance.sendExit();
         const s = director.getScene();
@@ -227,7 +231,6 @@ export class BilliardTools {
             base["setWaitTime"](time);
         });
     }
-
 
     playBgm() {
         yy.audio.playMusic(BilliardConst.bundleName, eAudio.BGM);

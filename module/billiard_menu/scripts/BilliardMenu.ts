@@ -43,6 +43,7 @@ export class BilliardMenu extends BaseCommonScript {
 
     onClickRule() {
         this.onClickMask();
+        BilliardTools.instance.openRuleView();
         yy.event.emit(yy.Event_Name.CasualCommonRule)
     }
 
