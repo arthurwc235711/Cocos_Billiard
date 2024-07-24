@@ -160,6 +160,8 @@ export class BilliardGuideRules implements IBilliardRules {
                 view.nodeRight.getChildByName("NodeAngle").active = true;
             }
         });
+        view.node.getChildByName("ButtonChat").active = true;
+        view.node.getChildByName("NodeHitPoint").active = true;
 
         view.isAngleDisable = false;
     }
