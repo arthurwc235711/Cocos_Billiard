@@ -9,15 +9,19 @@ const { ccclass, property } = _decorator;
 @ccclass('BilliardGameTips')
 export class BilliardGameTips extends BaseCommonScript {
     @property(Label)
-    labelTips: Label = null;
+    labelTips: Label;
     @property(Node)
-    nodeTips: Node = null;
+    nodeTips: Node;
     @property(Node)
-    nodeSolids: Node = null;
+    nodeSolids: Node;
     @property(Node)
-    nodeStripes: Node = null;
+    nodeStripes: Node;
     @property(Node)
-    nodeWin: Node = null;
+    nodeWin: Node;
+    @property(Node)
+    nodeYouTurn: Node;
+    @property(Node)
+    nodeFouls: Node;
 
     static actionList:Function[] = [];
 
@@ -39,13 +43,20 @@ export class BilliardGameTips extends BaseCommonScript {
     }
 
     turnTips() {
-        BilliardGameTips.actionList.push(()=>{
-            if (BilliardTools.instance.isMyAction()) {
-                this.isPlaying = true;
-                this.labelTips.string = "It's your turn";
-                this.nodeTips.active = true;
-            }
-        });
+        if (BilliardTools.instance.isMyAction()) {
+            this.nodeYouTurn.active = true;
+            this.scheduleOnce(()=>{
+                this.nodeYouTurn.active = false;
+            }, 2);
+        }
+
+        // BilliardGameTips.actionList.push(()=>{
+        //     if (BilliardTools.instance.isMyAction()) {
+        //         this.isPlaying = true;
+        //         this.labelTips.string = "It's your turn";
+        //         this.nodeTips.active = true;
+        //     }
+        // });
     }
 
     cueInPocketTips() {
