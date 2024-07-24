@@ -3,12 +3,10 @@ import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardService } from '../../../net/BilliardService';
 import { BilliardManager } from '../../../scripts/BilliardManager';
-import { BilliardConst } from '../../../config/BilliardConst';
 import { BilliardTools } from '../../../scripts/BilliardTools';
 import { R2d, Rtd } from '../../../scripts/physics/constants';
 import { rayHit } from '../../../scripts/physics/physics';
 import { BilliardGuideRules } from '../../billiard_table/scripts/rules/BilliardGuideRules';
-import { dir } from 'console';
 import { BilliardScene } from '../../../scene/BilliardScene';
 import { BilliardData } from '../../../data/BilliardData';
 import { BilliardMenu } from '../../billiard_menu/scripts/BilliardMenu';
@@ -165,7 +163,7 @@ export class BilliardGuideView extends BaseCommonScript {
     }
 
     shotLine(wp: Vec3) {
-        let nodeCueArrow = this.nodeLine;
+        let nodeCueArrow = this.nodeLine.parent;
         let cueBall = BilliardManager.instance.getCueBall();
         let camera3DToCamera2DWPos = BilliardTools.instance.camera3DToCamera2DWPos.bind(BilliardTools.instance);
         let cue2dWp = camera3DToCamera2DWPos(cueBall.node.worldPosition);
@@ -180,17 +178,17 @@ export class BilliardGuideView extends BaseCommonScript {
         }
 
         let nodes = rayHit(cueBall.node.worldPosition, direction);
-        let uiTran = nodeCueArrow.getComponent(UITransform);
+        let uiTran = this.nodeLine.getComponent(UITransform);
         if (nodes.length > 0) {
             let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction)
-            uiTran.setContentSize(k + R2d, uiTran.contentSize.y);//45.47 球直径2D摄像头尺寸
+            uiTran.setContentSize(k, uiTran.contentSize.y);//45.47 球直径2D摄像头尺寸
         }
     }
 
     protected update(dt: number): void {
         if (this.curStep === 2) {
             let view = BilliardManager.instance.getView();
-            if (Math.abs(this.nodeLine.angle - view.nodeCueArrow.angle) < 0.1){
+            if (Math.abs(this.nodeLine.parent.angle - view.nodeCueArrow.angle) < 0.1){
                 // yy.log.e("有效重叠")
                 this.nextGuid();
                 // this.nodeLine.active = false;
