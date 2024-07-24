@@ -110,6 +110,10 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         if (enterData.enterType !== GameEnterTypeEnum.RECONNECT) {
             this.levelData = enterData.tableInfo.data;
             yy.log.w("BilliardScene onLevelData", this.levelData)
+            if(this.isGuide){
+                BilliardTools.instance.openGuideView()
+            }
+
             // BilliardTools.instance.openMatchView(enterData.tableInfo.data);
         }
         else {
@@ -164,12 +168,12 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             
                     BilliardTools.instance.playBgm();
                 }
-                if (this.isGuide) {
-                    if (name === guidePath) {
-                        let clone = instantiate(prefab);
-                        this.get_scene_layer_popup().addChild(clone);
-                    }
-                }
+                // if (this.isGuide) {
+                //     if (name === guidePath) {
+                //         let clone = instantiate(prefab);
+                //         this.get_scene_layer_popup().addChild(clone);
+                //     }
+                // }
                 cur ++;
                 yy.event.emit(yy.Event_Name.billiard_loading_resource, cur/max);
 
