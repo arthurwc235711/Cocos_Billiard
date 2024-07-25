@@ -1,0 +1,216 @@
+
+TX_Touxiang.png
+size: 2048,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+kuang_tx/kuang_tx_00000
+  rotate: false
+  xy: 1228, 8
+  size: 121, 117
+  orig: 175, 161
+  offset: 28, 25
+  index: -1
+kuang_tx/kuang_tx_00001
+  rotate: false
+  xy: 860, 9
+  size: 121, 118
+  orig: 175, 161
+  offset: 28, 24
+  index: -1
+kuang_tx/kuang_tx_00002
+  rotate: false
+  xy: 983, 9
+  size: 121, 118
+  orig: 175, 161
+  offset: 28, 24
+  index: -1
+kuang_tx/kuang_tx_00003
+  rotate: false
+  xy: 125, 2
+  size: 123, 120
+  orig: 175, 161
+  offset: 26, 24
+  index: -1
+kuang_tx/kuang_tx_00004
+  rotate: false
+  xy: 1, 1
+  size: 122, 121
+  orig: 175, 161
+  offset: 27, 23
+  index: -1
+kuang_tx/kuang_tx_00005
+  rotate: false
+  xy: 373, 6
+  size: 120, 121
+  orig: 175, 161
+  offset: 28, 23
+  index: -1
+kuang_tx/kuang_tx_00006
+  rotate: false
+  xy: 739, 7
+  size: 119, 120
+  orig: 175, 161
+  offset: 29, 23
+  index: -1
+kuang_tx/kuang_tx_00007
+  rotate: false
+  xy: 250, 4
+  size: 121, 121
+  orig: 175, 161
+  offset: 28, 23
+  index: -1
+kuang_tx/kuang_tx_00008
+  rotate: false
+  xy: 495, 5
+  size: 118, 122
+  orig: 175, 161
+  offset: 28, 22
+  index: -1
+kuang_tx/kuang_tx_00009
+  rotate: false
+  xy: 1, 124
+  size: 123, 121
+  orig: 175, 161
+  offset: 25, 23
+  index: -1
+kuang_tx/kuang_tx_00010
+  rotate: false
+  xy: 126, 127
+  size: 125, 118
+  orig: 175, 161
+  offset: 24, 24
+  index: -1
+kuang_tx/kuang_tx_00011
+  rotate: false
+  xy: 253, 129
+  size: 126, 116
+  orig: 175, 161
+  offset: 22, 25
+  index: -1
+kuang_tx/kuang_tx_00012
+  rotate: false
+  xy: 381, 129
+  size: 123, 116
+  orig: 175, 161
+  offset: 23, 24
+  index: -1
+kuang_tx/kuang_tx_00013
+  rotate: false
+  xy: 506, 129
+  size: 121, 116
+  orig: 175, 161
+  offset: 24, 24
+  index: -1
+kuang_tx/kuang_tx_00014
+  rotate: false
+  xy: 1229, 128
+  size: 116, 117
+  orig: 175, 161
+  offset: 29, 24
+  index: -1
+kuang_tx/kuang_tx_00015
+  rotate: false
+  xy: 629, 129
+  size: 119, 116
+  orig: 175, 161
+  offset: 28, 24
+  index: -1
+kuang_tx/kuang_tx_00016
+  rotate: false
+  xy: 615, 9
+  size: 122, 118
+  orig: 175, 161
+  offset: 25, 24
+  index: -1
+kuang_tx/kuang_tx_00017
+  rotate: false
+  xy: 1106, 127
+  size: 121, 118
+  orig: 175, 161
+  offset: 24, 24
+  index: -1
+kuang_tx/kuang_tx_00018
+  rotate: false
+  xy: 1106, 7
+  size: 120, 118
+  orig: 175, 161
+  offset: 25, 24
+  index: -1
+kuang_tx/kuang_tx_00019
+  rotate: false
+  xy: 750, 129
+  size: 119, 116
+  orig: 175, 161
+  offset: 26, 26
+  index: -1
+kuang_tx/kuang_tx_00020
+  rotate: false
+  xy: 987, 132
+  size: 117, 113
+  orig: 175, 161
+  offset: 29, 28
+  index: -1
+kuang_tx/kuang_tx_00021
+  rotate: false
+  xy: 871, 129
+  size: 114, 116
+  orig: 175, 161
+  offset: 30, 26
+  index: -1
+kuang_tx/kuang_tx_00022
+  rotate: false
+  xy: 1585, 11
+  size: 113, 120
+  orig: 175, 161
+  offset: 33, 22
+  index: -1
+kuang_tx/kuang_tx_00023
+  rotate: false
+  xy: 1351, 5
+  size: 115, 120
+  orig: 175, 161
+  offset: 34, 22
+  index: -1
+kuang_tx/kuang_tx_00024
+  rotate: false
+  xy: 1468, 6
+  size: 115, 119
+  orig: 175, 161
+  offset: 34, 22
+  index: -1
+kuang_tx/kuang_tx_00025
+  rotate: false
+  xy: 1347, 127
+  size: 111, 118
+  orig: 175, 161
+  offset: 36, 24
+  index: -1
+kuang_tx/kuang_tx_00026
+  rotate: false
+  xy: 1460, 127
+  size: 110, 118
+  orig: 175, 161
+  offset: 35, 24
+  index: -1
+kuang_tx/kuang_tx_00027
+  rotate: false
+  xy: 1700, 18
+  size: 108, 114
+  orig: 175, 161
+  offset: 34, 26
+  index: -1
+kuang_tx/kuang_tx_00028
+  rotate: false
+  xy: 1689, 134
+  size: 110, 111
+  orig: 175, 161
+  offset: 34, 28
+  index: -1
+kuang_tx/kuang_tx_00029
+  rotate: false
+  xy: 1572, 133
+  size: 115, 112
+  orig: 175, 161
+  offset: 31, 27
+  index: -1

@@ -4,6 +4,7 @@ import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { BilliardService } from '../../../net/BilliardService';
 import { BilliardTools } from '../../../scripts/BilliardTools';
 import { BilliardData } from '../../../data/BilliardData';
+import { OnEnablePlaySpine } from '../../../../../../common/scripts/component/OnEnablePlaySpine';
 const { ccclass, property } = _decorator;
 
 
@@ -18,24 +19,25 @@ interface BilliardMatchUI {
 @ccclass('BilliardWinsView')
 export class BilliardWinsView extends BaseCommonScript {
     @property(Node)
-    nodeMy: Node = null;
+    nodeMy: Node;
     @property(Node)
-    nodeOther: Node = null;
+    nodeOther: Node;
     @property(Label)
-    labelGold: Label = null;
+    labelGold: Label;
     @property(Label)
-    labelMyGold: Label = null;
+    labelMyGold: Label;
     @property(Node)
-    nodeMyPao: Node = null;
+    nodeMyPao: Node;
     @property(Node)
-    nodePao: Node = null;
+    nodePao: Node;
     @property(Label)
-    labelTips: Label = null;
+    labelTips: Label;
     @property(Button)
-    btnPlayAgain:Button = null;
+    btnPlayAgain:Button;
     @property(Button)
-    btnRematch: Button = null;
-
+    btnRematch: Button;
+    @property(OnEnablePlaySpine)
+    playSpine: OnEnablePlaySpine;
     
 
     myUI: BilliardMatchUI = {labelName: null, spriteUrl: null, labelGold: null, nodeHalo: null};
@@ -65,7 +67,7 @@ export class BilliardWinsView extends BaseCommonScript {
         this.otherUI.labelGold = this.nodeOther.getChildByPath("Layout/Label").getComponent(Label);
         this.otherUI.nodeHalo = this.nodeOther.getChildByName("Halo");
 
-        this.labelMyGold.string = yy.money.formatMoney( yy.user.getTotalMoney(), false);
+        
 
         this.scheduleOnce(()=>{
             yy.event.emit(yy.Event_Name.billiard_clear_game_data);
@@ -91,19 +93,58 @@ export class BilliardWinsView extends BaseCommonScript {
                 this.myUI.nodeHalo.active = data.winnerid === p.uid;
 
                 this.isEnoughMoney = p.moneyTotal.toNumber() >= data.tablecfg.CarryLower;
+                if (data.winnerid === p.uid) this.playSpine.animName = "ani1";
+
+
+                this.labelMyGold.string = yy.money.formatMoney( yy.user.getTotalMoney() - data.ChipPot.toNumber(), false);
+
             }
             else {
                 this.setPlayerInfo(this.otherUI, p.nick, p.icon, p.moneyTotal.toNumber());
                 this.nodeOther.getChildByName("NodeWiner").active = data.winnerid === p.uid;
                 this.otherUI.nodeHalo.active = data.winnerid === p.uid;
+
+                if (data.winnerid === p.uid) this.playSpine.animName = "ani2";
+                
             }
         }
 
-        this.labelGold.string = yy.money.formatMoney( data.ChipPot.toNumber(), false);
+        this.playSpine.node.active = true;
+
+            this.rollNum(this.labelMyGold, yy.user.getTotalMoney() - data.ChipPot.toNumber(), yy.user.getTotalMoney(), 3);
+            this.rollNum(this.labelGold, data.ChipPot.toNumber(), 0, 3);
+
+        // this.labelGold.string = yy.money.formatMoney( data.ChipPot.toNumber(), false);
 
         // if (data.winnerid === yy.user.getUid()) {
         BilliardTools.instance.playSoundWin();
         // }
+    }
+
+    rollNum(label:Label, orgNum:number, distNum: number, totalTimes: number) {
+        let num = orgNum;
+        let onUpdate = (dt)=>{
+            if (orgNum < distNum) {
+                num += dt/totalTimes * (distNum - orgNum);
+                if (num >= distNum)  {
+                    num = distNum
+                    label.string = yy.money.formatMoney(num, false);
+                    this.unschedule(onUpdate);
+                }
+            }
+            else {
+                num -= dt/totalTimes * orgNum;
+                if (num <= 0)  {
+                    num = distNum
+                    label.string = ""//yy.money.formatMoney(num, false);
+                    this.unschedule(onUpdate);
+                }
+            }
+
+            label.string = yy.money.formatMoney(Math.floor(num/1000)*1000, false);
+        }
+        // this.schedule(this.loopUpdate, 0); 
+        this.schedule(onUpdate, 0);
     }
 
 
@@ -118,7 +159,7 @@ export class BilliardWinsView extends BaseCommonScript {
     setPlayerInfo(ui: BilliardMatchUI, name: string = null, url: string = null, gold: number = null) {
         ui.labelName.string = name;
         yy.ui.updateHeadIcon(url, ui.spriteUrl);
-        ui.labelGold.string = yy.money.formatMoney(gold, false);
+        // ui.labelGold.string = yy.money.formatMoney(gold, false);
     }
 
 
