@@ -23,7 +23,7 @@ export class BilliardEightBall implements IBilliardRules {
     ruleName: string = "8 Balls";
     round: number = 0;
     shotCount: number = 1;
-    uidTimeOut: number ;
+    uidTimeOut: number = 0 ;
 
     isFoul(outcome: Outcome[]): boolean {
         let result = false;
