@@ -171,7 +171,7 @@ export class BilliardMatchView extends BaseCommonScript {
         ui.labelName.string = info.nick;
         // yy.ui.updateHeadIcon(info.icon, ui.spriteUrl);
         // ui.labelGold.string = yy.money.formatMoney(score, false);
-        this.rollNum(ui.labelGold, score, 2.5);
+        this.rollNum(ui.labelGold, score, 0, 2.5);
     }
 
 
@@ -188,20 +188,31 @@ export class BilliardMatchView extends BaseCommonScript {
 
         this.setPlayerInfo(this.myUI, myInfo[0], msg.basescore);
         this.setPlayerInfo(this.otherUI, otherInfo[0], msg.basescore);
-        this.rollNum(this.nodeAddGold.getChildByName("Label").getComponent(Label), msg.basescore * 2, 2.5);
+        this.rollNum(this.nodeAddGold.getChildByName("Label").getComponent(Label), 0, msg.basescore * 2, 2.5);
 
         this.lableMyGold.string = yy.money.formatMoney(yy.user.getTotalMoney() - msg.basescore, false);
     }
 
-    rollNum(label:Label, distNum: number, totalTimes: number) {
-        let num = 0;
+    rollNum(label:Label, orgNum:number, distNum: number, totalTimes: number) {
+        let num = orgNum;
         let onUpdate = (dt)=>{
-            num += dt/totalTimes * distNum;
-            if (num >= distNum)  {
-                num = distNum
-                label.string = yy.money.formatMoney(num, false);
-                this.unschedule(onUpdate);
+            if (orgNum < distNum) {
+                num += dt/totalTimes * (distNum - orgNum);
+                if (num >= distNum)  {
+                    num = distNum
+                    label.string = yy.money.formatMoney(num, false);
+                    this.unschedule(onUpdate);
+                }
             }
+            else {
+                num -= dt/totalTimes * orgNum;
+                if (num <= 0)  {
+                    num = distNum
+                    label.string = ""//yy.money.formatMoney(num, false);
+                    this.unschedule(onUpdate);
+                }
+            }
+
             label.string = yy.money.formatMoney(Math.floor(num/1000)*1000, false);
         }
         // this.schedule(this.loopUpdate, 0); 
