@@ -79,7 +79,7 @@ export class PocketGeometry {
       pocketNW: {
         pocket: new Pocket(
           new Vec3(-PocketGeometry.PX, PocketGeometry.PY, 0),
-          PocketGeometry.cornerRadius
+          PocketGeometry.cornerRadius, 0
         ),
         knuckleNE: new Knuckle(
           new Vec3(
@@ -101,7 +101,7 @@ export class PocketGeometry {
       pocketN: {
         pocket: new Pocket(
           new Vec3(0, PocketGeometry.PY + (R * 0.7) / 0.5, 0),
-          PocketGeometry.middleRadius
+          PocketGeometry.middleRadius, 1
         ),
         knuckleNE: new Knuckle(
           new Vec3(
@@ -123,7 +123,7 @@ export class PocketGeometry {
       pocketS: {
         pocket: new Pocket(
           new Vec3(0, -PocketGeometry.PY - (R * 0.7) / 0.5, 0),
-          PocketGeometry.middleRadius
+          PocketGeometry.middleRadius, 4
         ),
         knuckleSE: new Knuckle(
           new Vec3(
@@ -145,7 +145,7 @@ export class PocketGeometry {
       pocketNE: {
         pocket: new Pocket(
           new Vec3(PocketGeometry.PX, PocketGeometry.PY, 0),
-          PocketGeometry.cornerRadius
+          PocketGeometry.cornerRadius, 2
         ),
         knuckleNW: new Knuckle(
           new Vec3(
@@ -167,7 +167,7 @@ export class PocketGeometry {
       pocketSE: {
         pocket: new Pocket(
           new Vec3(PocketGeometry.PX, -PocketGeometry.PY, 0),
-          PocketGeometry.cornerRadius
+          PocketGeometry.cornerRadius, 3
         ),
         knuckleNE: new Knuckle(
           new Vec3(
@@ -189,7 +189,7 @@ export class PocketGeometry {
       pocketSW: {
         pocket: new Pocket(
           new Vec3(-PocketGeometry.PX, -PocketGeometry.PY, 0),
-          PocketGeometry.cornerRadius
+          PocketGeometry.cornerRadius, 5
         ),
         knuckleSE: new Knuckle(
           new Vec3(

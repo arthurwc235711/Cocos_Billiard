@@ -171,6 +171,7 @@ export class Table extends BaseCommonScript {
       const pocketIncidentSpeed = p.fall(a, t)
       this.outcome.push(Outcome.pot(a, pocketIncidentSpeed))
       BilliardTools.instance.playSoundBallInPocket();
+      BilliardManager.instance.getView().spinePockets[p.id].active = true;
       return false
     }
 

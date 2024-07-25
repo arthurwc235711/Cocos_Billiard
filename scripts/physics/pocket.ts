@@ -9,10 +9,12 @@ import { yy } from "../../../../../yy"
 export class Pocket {
   pos: Vec3
   radius: number
+  id: number
 
-  constructor(pos, radius) {
+  constructor(pos, radius, id) {
     this.pos = pos
     this.radius = radius
+    this.id = id
   }
 
   private static willFall(pocket, futurePosition) {

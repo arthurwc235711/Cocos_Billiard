@@ -1,0 +1,55 @@
+
+Youwin.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+tx_gq_a
+  rotate: false
+  xy: 106, 7
+  size: 148, 122
+  orig: 155, 148
+  offset: 7, 12
+  index: -1
+tx_gq_c
+  rotate: false
+  xy: 38, 150
+  size: 61, 56
+  orig: 64, 64
+  offset: 1, 5
+  index: -1
+tx_gq_d
+  rotate: false
+  xy: 1, 38
+  size: 103, 103
+  orig: 103, 103
+  offset: 0, 0
+  index: -1
+tx_gq_e
+  rotate: false
+  xy: 256, 1
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tx_lizi
+  rotate: false
+  xy: 101, 143
+  size: 63, 63
+  orig: 63, 63
+  offset: 0, 0
+  index: -1
+tx_xingguang
+  rotate: false
+  xy: 1, 171
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+youwin
+  rotate: false
+  xy: 166, 131
+  size: 313, 75
+  orig: 318, 79
+  offset: 3, 1
+  index: -1

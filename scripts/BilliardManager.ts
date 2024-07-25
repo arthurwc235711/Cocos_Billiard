@@ -130,7 +130,7 @@ export class BilliardManager extends BaseCommonInstance{
 
         // rules.placeBalls();
         view.scheduleOnce(()=>{
-            view.initBtnTable(table.node.getChildByName("Plane"));
+            view.initBtnTable(table.node.getChildByName("Plane"), table.node.getChildByName("PocketPosition").children);
             // view.setPlayerInfo();
             // rules.startTurn();
 

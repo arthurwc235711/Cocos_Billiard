@@ -56,6 +56,8 @@ export class BilliardUIView extends BaseCommonScript {
 
     private isShotAtBall = false;
 
+    spinePockets: Node[];
+
 
     public isAngleDisable = false;
 
@@ -109,7 +111,7 @@ export class BilliardUIView extends BaseCommonScript {
         }
     }
 
-    initBtnTable(node3d:Node) {
+    initBtnTable(node3d:Node, pockets:Node[]) {
         let worldToScreen3d = BilliardManager.instance.camera3d.worldToScreen.bind(BilliardManager.instance.camera3d);
         let worldPosition = node3d.worldPosition;
         let worldScale = node3d.worldScale;
@@ -132,6 +134,14 @@ export class BilliardUIView extends BaseCommonScript {
         let centerScreenPos = worldToScreen3d(worldPosition.clone().setY(worldPosition.y));
         let cWp = canvas.cameraComponent.screenToWorld(centerScreenPos);
         tran.node.worldPosition = cWp;
+
+        let spinePockets = tran.node.getChildByName("NodePockets").children;
+        pockets.forEach((pocket, index) => {
+            let sw = worldToScreen3d(pocket.worldPosition);
+            spinePockets[index].worldPosition = BilliardManager.instance.camera2d.screenToWorld(sw);
+        })
+
+        this.spinePockets = spinePockets
     }
 
     initBtnTableClick() {

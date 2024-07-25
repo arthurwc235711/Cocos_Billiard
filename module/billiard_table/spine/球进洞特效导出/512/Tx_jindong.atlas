@@ -1,0 +1,41 @@
+
+Tx_jindong.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+tx_gy_a
+  rotate: false
+  xy: 156, 49
+  size: 110, 106
+  orig: 118, 118
+  offset: 3, 6
+  index: -1
+tx_gy_b
+  rotate: false
+  xy: 1, 1
+  size: 153, 154
+  orig: 163, 161
+  offset: 6, 1
+  index: -1
+tx_gy_c
+  rotate: false
+  xy: 268, 91
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+tx_gy_d
+  rotate: false
+  xy: 268, 35
+  size: 45, 54
+  orig: 64, 64
+  offset: 10, 5
+  index: -1
+tx_lizi
+  rotate: false
+  xy: 156, 9
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1

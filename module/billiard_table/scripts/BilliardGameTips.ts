@@ -3,6 +3,7 @@ import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { BilliardTools } from '../../../scripts/BilliardTools';
 import { BilliardData } from '../../../data/BilliardData';
 import { yy } from '../../../../../../yy';
+import { OnEnablePlaySpine } from '../../../../../../common/scripts/component/OnEnablePlaySpine';
 const { ccclass, property } = _decorator;
 
 
@@ -24,6 +25,8 @@ export class BilliardGameTips extends BaseCommonScript {
     nodeFouls: Node;
     @property(RichText)
     labelFouls: RichText;
+    @property(OnEnablePlaySpine)
+    playSpine: OnEnablePlaySpine;
 
     static actionList:Function[] = [];
 
@@ -164,6 +167,14 @@ export class BilliardGameTips extends BaseCommonScript {
             }
             this.nodeTips.active = true;
         });
+    }
+
+    comboTips(index: number) {
+        this.playSpine.animName = `ani${index - 1}`;
+        this.playSpine.node.active = true;
+        this.scheduleOnce(()=>{
+            this.playSpine.node.active = false;
+        }, 2);
     }
 
     playComplete() {
