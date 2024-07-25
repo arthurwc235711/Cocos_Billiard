@@ -94,10 +94,6 @@ export class BilliardWinsView extends BaseCommonScript {
 
                 this.isEnoughMoney = p.moneyTotal.toNumber() >= data.tablecfg.CarryLower;
                 if (data.winnerid === p.uid) this.playSpine.animName = "ani1";
-
-
-                this.labelMyGold.string = yy.money.formatMoney( yy.user.getTotalMoney() - data.ChipPot.toNumber(), false);
-
             }
             else {
                 this.setPlayerInfo(this.otherUI, p.nick, p.icon, p.moneyTotal.toNumber());
@@ -111,8 +107,14 @@ export class BilliardWinsView extends BaseCommonScript {
 
         this.playSpine.node.active = true;
 
+        if (yy.user.getUid() === data.winnerid) {
+            this.labelMyGold.string = yy.money.formatMoney( yy.user.getTotalMoney() - data.ChipPot.toNumber(), false);
             this.rollNum(this.labelMyGold, yy.user.getTotalMoney() - data.ChipPot.toNumber(), yy.user.getTotalMoney(), 3);
-            this.rollNum(this.labelGold, data.ChipPot.toNumber(), 0, 3);
+        }
+        else {
+            this.labelMyGold.string = yy.money.formatMoney( yy.user.getTotalMoney(), false);
+        }
+        this.rollNum(this.labelGold, data.ChipPot.toNumber(), 0, 3);
 
         // this.labelGold.string = yy.money.formatMoney( data.ChipPot.toNumber(), false);
 
