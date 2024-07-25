@@ -158,6 +158,7 @@ export class BilliardGameTips extends BaseCommonScript {
                 this.labelTips.string = "You ran out of time";
             }
             else {
+                yy.log.w(`timeOutTips uid ${uid}`)
                 let p = BilliardData.instance.getPlayer(uid);
                 this.labelTips.string = `"${p.name}" is running out of time`;
             }

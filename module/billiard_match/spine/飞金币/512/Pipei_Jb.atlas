@@ -1,0 +1,13 @@
+
+Pipei_Jb.png
+size: 64,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+coin
+  rotate: false
+  xy: 1, 1
+  size: 48, 50
+  orig: 50, 50
+  offset: 1, 0
+  index: -1

@@ -73,17 +73,19 @@ export class BilliardSlotIcon extends Component {
     // 在需要开始滚动的时机调用 startScroll() 方法
     }
   
-    stopScroll() {
+    stopScroll(url: string = "") {
+      if (this.slotsData === undefined)  this.slotsData = url;
       this.isScrolling = false;
       this.unscheduleAllCallbacks();
       let times = 0;
+      this.slotsCells[0].setData(this.slotsData);// = dis.toString();
       let onUpdate = (dt: number) => {
         this.deltaTime += dt;
         // yy.log.w(this.deltaTime, this.scrollTime)
         this.container.position = this.container.position.add3f(0, -1 * this.scrollSlowSpeed * dt, 0);
   
   
-        this.slotsCells[0].setData(this.slotsData);// = dis.toString();
+       
   
   
           if (this.container.position.y <= -this.nCell * 2) {

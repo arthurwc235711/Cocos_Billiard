@@ -1,0 +1,132 @@
+
+Vs.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+VS_tx
+  rotate: false
+  xy: 1, 162
+  size: 89, 90
+  orig: 90, 93
+  offset: 1, 1
+  index: -1
+lizi/lizi_00000
+  rotate: false
+  xy: 92, 166
+  size: 32, 20
+  orig: 97, 89
+  offset: 5, 32
+  index: -1
+lizi/lizi_00001
+  rotate: false
+  xy: 158, 163
+  size: 43, 25
+  orig: 97, 89
+  offset: 5, 30
+  index: -1
+lizi/lizi_00002
+  rotate: false
+  xy: 250, 1
+  size: 52, 31
+  orig: 97, 89
+  offset: 5, 27
+  index: -1
+lizi/lizi_00003
+  rotate: false
+  xy: 224, 166
+  size: 65, 41
+  orig: 97, 89
+  offset: 5, 23
+  index: -1
+lizi/lizi_00004
+  rotate: false
+  xy: 224, 209
+  size: 69, 43
+  orig: 97, 89
+  offset: 6, 22
+  index: -1
+lizi/lizi_00005
+  rotate: false
+  xy: 89, 111
+  size: 74, 49
+  orig: 97, 89
+  offset: 6, 20
+  index: -1
+lizi/lizi_00006
+  rotate: false
+  xy: 87, 57
+  size: 76, 50
+  orig: 97, 89
+  offset: 6, 19
+  index: -1
+lizi/lizi_00007
+  rotate: false
+  xy: 85, 2
+  size: 79, 51
+  orig: 97, 89
+  offset: 6, 19
+  index: -1
+lizi/lizi_00008
+  rotate: false
+  xy: 1, 1
+  size: 82, 52
+  orig: 97, 89
+  offset: 7, 19
+  index: -1
+lizi/lizi_00009
+  rotate: false
+  xy: 1, 55
+  size: 84, 52
+  orig: 97, 89
+  offset: 7, 19
+  index: -1
+lizi/lizi_00010
+  rotate: false
+  xy: 1, 109
+  size: 86, 51
+  orig: 97, 89
+  offset: 8, 20
+  index: -1
+lizi/lizi_00011
+  rotate: false
+  xy: 165, 119
+  size: 86, 42
+  orig: 97, 89
+  offset: 8, 21
+  index: -1
+lizi/lizi_00012
+  rotate: false
+  xy: 165, 75
+  size: 86, 42
+  orig: 97, 89
+  offset: 9, 22
+  index: -1
+lizi/lizi_00013
+  rotate: false
+  xy: 166, 34
+  size: 85, 39
+  orig: 97, 89
+  offset: 10, 25
+  index: -1
+lizi/lizi_00014
+  rotate: false
+  xy: 166, 3
+  size: 82, 29
+  orig: 97, 89
+  offset: 12, 35
+  index: -1
+tx_vs_guang_a
+  rotate: false
+  xy: 92, 188
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+vs
+  rotate: false
+  xy: 158, 190
+  size: 64, 62
+  orig: 64, 62
+  offset: 0, 0
+  index: -1

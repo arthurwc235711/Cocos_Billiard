@@ -24,17 +24,21 @@ enum BilliardMatchState {
 @ccclass('BilliardMatchView')
 export class BilliardMatchView extends BaseCommonScript {
     @property(Node)
-    nodeMy: Node = null;
+    nodeMy: Node;
     @property(Node)
-    nodeOther: Node = null;
+    nodeOther: Node;
+    @property(Sprite)
+    spriteVs: Sprite;
     @property(Node)
-    nodeVs: Node = null;
-    @property(Node)
-    nodeAddGold: Node = null;
+    nodeAddGold: Node;
     @property(BilliardSlotIcon)
-    slotIcon: BilliardSlotIcon = null;
+    slotIcon: BilliardSlotIcon;
     @property(Label)
-    lableMyGold: Label = null;
+    lableMyGold: Label;
+    @property(Node)
+    nodeSpineGod:Node;
+    @property(Node)
+    nodeSpineHead:Node
 
 
     myUI: BilliardMatchUI = {labelName: null, spriteUrl: null, labelGold: null};
@@ -122,7 +126,8 @@ export class BilliardMatchView extends BaseCommonScript {
 
                 yy.audio.stopSound();
                 BilliardTools.instance.playSoundMatch();
-                this.slotIcon.stopScroll();
+
+                this.nodeSpineHead.active = true
                 tween(this.nodeOther)
                 .to(0.5, {position: new Vec3(453, 0, 0)})
                 .start();
@@ -131,11 +136,13 @@ export class BilliardMatchView extends BaseCommonScript {
                 .to(0.5, {position: new Vec3(-453, 0, 0)})
                 .start();
 
-                tween(this.nodeVs)
+                this.spriteVs.enabled = false;
+                this.spriteVs.node.children[0].active = true;
+                tween(this.spriteVs.node)
                 .to(0.5, {position: new Vec3(3, 89, 0)})
                 .call(()=>{
                     this.nodeAddGold.active = true;
-                    
+                    this.nodeSpineGod.active = true;
                 })
                 .start();
 
@@ -152,7 +159,7 @@ export class BilliardMatchView extends BaseCommonScript {
                     // else {
                     //     yy.subGameData.enterSubGame("billiard", { isPractice: false });  
                     // }
-                }, 1)
+                }, 3)
 
                 break;
             case BilliardMatchState.eEnterGame:
@@ -162,23 +169,43 @@ export class BilliardMatchView extends BaseCommonScript {
 
     setPlayerInfo(ui: BilliardMatchUI, info: protoBilliardAlloc.MatchingUserInfo, score: number) {
         ui.labelName.string = info.nick;
-        yy.ui.updateHeadIcon(info.icon, ui.spriteUrl);
-        ui.labelGold.string = yy.money.formatMoney(score, false);
+        // yy.ui.updateHeadIcon(info.icon, ui.spriteUrl);
+        // ui.labelGold.string = yy.money.formatMoney(score, false);
+        this.rollNum(ui.labelGold, score, 2.5);
     }
 
 
     onMatchingSuccess(msg: protoBilliardAlloc.MatchingTableMsg) {
         let myInfo = msg.userList.filter((v)=>v.uid === yy.user.getUid());
         let otherInfo = msg.userList.filter((v)=>v.uid !== yy.user.getUid());
-        this.setPlayerInfo(this.myUI, myInfo[0], msg.basescore);
-        this.setPlayerInfo(this.otherUI, otherInfo[0], msg.basescore);
         this.otherUI.labelGold.node.parent.active = true;
         this.myUI.labelGold.node.parent.active = true;
 
-        this.nodeAddGold.getChildByName("Label").getComponent(Label).string = yy.money.formatMoney(msg.basescore * 2, false);
+        // this.nodeAddGold.getChildByName("Label").getComponent(Label).string = yy.money.formatMoney(msg.basescore * 2, false);
+
+        this.slotIcon.stopScroll(otherInfo[0].icon);
         this.setState(BilliardMatchState.eMatchSucess);
 
+        this.setPlayerInfo(this.myUI, myInfo[0], msg.basescore);
+        this.setPlayerInfo(this.otherUI, otherInfo[0], msg.basescore);
+        this.rollNum(this.nodeAddGold.getChildByName("Label").getComponent(Label), msg.basescore * 2, 2.5);
+
         this.lableMyGold.string = yy.money.formatMoney(yy.user.getTotalMoney() - msg.basescore, false);
+    }
+
+    rollNum(label:Label, distNum: number, totalTimes: number) {
+        let num = 0;
+        let onUpdate = (dt)=>{
+            num += dt/totalTimes * distNum;
+            if (num >= distNum)  {
+                num = distNum
+                label.string = yy.money.formatMoney(num, false);
+                this.unschedule(onUpdate);
+            }
+            label.string = yy.money.formatMoney(Math.floor(num/1000)*1000, false);
+        }
+        // this.schedule(this.loopUpdate, 0); 
+        this.schedule(onUpdate, 0);
     }
 }
 
