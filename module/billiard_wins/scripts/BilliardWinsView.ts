@@ -38,6 +38,8 @@ export class BilliardWinsView extends BaseCommonScript {
     btnRematch: Button;
     @property(OnEnablePlaySpine)
     playSpine: OnEnablePlaySpine;
+    @property(Label)
+    labelMyTips: Label;
     
 
     myUI: BilliardMatchUI = {labelName: null, spriteUrl: null, labelGold: null, nodeHalo: null};
@@ -170,10 +172,13 @@ export class BilliardWinsView extends BaseCommonScript {
             this.btnPlayAgain.interactable = false;
             // this.btnRematch.interactable = false;
             this.nodeMyPao.active = true;
+            if (!this.nodePao.active) this.labelTips.string = "May I play with you one more time?";//"Let's play another round!";
+            else this.labelTips.string = "Sure!";
         }
         else {
             this.nodePao.active = true;
-            this.labelTips.string = "Let's play another round!";
+            if (!this.nodeMyPao.active) this.labelTips.string = "May I play with you one more time?";//"Let's play another round!";
+            else this.labelTips.string = "Sure!";
         }
     }
 

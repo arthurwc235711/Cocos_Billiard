@@ -107,6 +107,9 @@ export class BilliardNineBall implements IBilliardRules {
             case 0:
                 if (puid === actionUid) {
                     this.shotCount ++;
+                    if (this.shotCount > 2) {
+                        view.gameTips.comboTips(this.shotCount)
+                    }
                     if (this.shotCount >= 3) {
                         BilliardTools.instance.playSoundApplause();
                     }
