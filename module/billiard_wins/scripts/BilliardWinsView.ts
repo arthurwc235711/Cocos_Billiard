@@ -172,8 +172,8 @@ export class BilliardWinsView extends BaseCommonScript {
             this.btnPlayAgain.interactable = false;
             // this.btnRematch.interactable = false;
             this.nodeMyPao.active = true;
-            if (!this.nodePao.active) this.labelTips.string = "May I play with you one more time?";//"Let's play another round!";
-            else this.labelTips.string = "Sure!";
+            if (!this.nodePao.active) this.labelMyTips.string = "May I play with you one more time?";//"Let's play another round!";
+            else this.labelMyTips.string = "Sure!";
         }
         else {
             this.nodePao.active = true;

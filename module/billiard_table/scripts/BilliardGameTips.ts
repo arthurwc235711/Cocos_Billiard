@@ -170,7 +170,7 @@ export class BilliardGameTips extends BaseCommonScript {
     }
 
     comboTips(index: number) {
-        this.playSpine.animName = `ani${index - 1}`;
+        this.playSpine.animName = `ani${index - 2}`;
         this.playSpine.node.active = true;
         this.scheduleOnce(()=>{
             this.playSpine.node.active = false;
