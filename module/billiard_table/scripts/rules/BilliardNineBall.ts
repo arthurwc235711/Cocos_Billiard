@@ -13,7 +13,6 @@ export class BilliardNineBall implements IBilliardRules {
     ruleType: eRuleType;
     ruleName: string = "9 Balls";
     round: number;
-    shotCount: number;
     uidTimeOut: number ;
 
     disBallId: number = 1; // 默认1
@@ -99,23 +98,21 @@ export class BilliardNineBall implements IBilliardRules {
         let view = BilliardManager.instance.getView();
         let puid = BilliardData.instance.getActionUid()
         this.round = round;
+        const hitCount = BilliardData.instance.getHitCount();
         yy.log.w(`nextTurn round: ${round}`);
-
         let ball = this.onShotBall();
         this.disBallId = ball.id;
         switch (type) {
             case 0:
                 if (puid === actionUid) {
-                    this.shotCount ++;
-                    if (this.shotCount > 2) {
-                        view.gameTips.comboTips(this.shotCount)
+                    if (hitCount > 2) {
+                        view.gameTips.comboTips(hitCount)
                     }
-                    if (this.shotCount >= 3) {
+                    if (hitCount >= 3) {
                         BilliardTools.instance.playSoundApplause();
                     }
                 }
                 else {
-                    this.shotCount = 1;
                     BilliardTools.instance.PlaySoundTurn();
                     BilliardData.instance.setActionUid(actionUid)
                     view.gameTips.turnTips();
@@ -127,7 +124,6 @@ export class BilliardNineBall implements IBilliardRules {
                 break;
             case 1:
                 BilliardTools.instance.PlaySoundTurn();
-                this.shotCount = 1;
                 // yy.toast.addNow("击球犯规，下家放置自由球");
                 BilliardData.instance.setActionUid(actionUid)
 
@@ -175,7 +171,6 @@ export class BilliardNineBall implements IBilliardRules {
                 break;
             case 2:
                 BilliardTools.instance.PlaySoundTurn();
-                this.shotCount = 1;
                 // yy.toast.addNow("击球犯规，下家放置自由球");
                 BilliardData.instance.setActionUid(actionUid)
 

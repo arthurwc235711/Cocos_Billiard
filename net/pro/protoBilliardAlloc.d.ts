@@ -665,6 +665,46 @@ declare global {
 
 		}
 
+		/** Properties of a QueryGameTableReq. */
+		interface IQueryGameTableReq{
+
+			/** QueryGameTableReq app */
+			app?: (number | null);
+
+			/** QueryGameTableReq gid */
+			gid?: (number | null);
+
+			/** QueryGameTableReq srvID */
+			srvID?: (number | null);
+
+			/** QueryGameTableReq tid */
+			tid?: (number | Long | null);
+
+		}
+
+		/** Represents a QueryGameTableReq. */
+		class QueryGameTableReq implements IQueryGameTableReq {
+
+			/**
+			* Constructs a new %s.
+			* @param [properties] Properties to set
+			*/
+			constructor(properties?: protoBilliardAlloc.IQueryGameTableReq);
+
+			/** QueryGameTableReq app */
+			public app: number | null;
+
+			/** QueryGameTableReq gid */
+			public gid: number | null;
+
+			/** QueryGameTableReq srvID */
+			public srvID: number | null;
+
+			/** QueryGameTableReq tid */
+			public tid: number | Long | null;
+
+		}
+
 		/** Properties of a TableLevelParams. */
 		interface ITableLevelParams{
 

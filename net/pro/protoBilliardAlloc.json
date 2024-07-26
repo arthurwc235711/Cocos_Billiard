@@ -353,6 +353,26 @@
             }
           }
         },
+        "QueryGameTableReq": {
+          "fields": {
+            "app": {
+              "type": "int32",
+              "id": 1
+            },
+            "gid": {
+              "type": "int32",
+              "id": 2
+            },
+            "srvID": {
+              "type": "int32",
+              "id": 3
+            },
+            "tid": {
+              "type": "int64",
+              "id": 4
+            }
+          }
+        },
         "TableLevelParams": {
           "fields": {
             "tableMoney": {

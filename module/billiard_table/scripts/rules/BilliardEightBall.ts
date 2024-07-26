@@ -22,7 +22,6 @@ export class BilliardEightBall implements IBilliardRules {
     ruleType: eRuleType;
     ruleName: string = "8 Balls";
     round: number = 0;
-    shotCount: number = 1;
     uidTimeOut: number = 0 ;
 
     isFoul(outcome: Outcome[]): boolean {
@@ -163,22 +162,21 @@ export class BilliardEightBall implements IBilliardRules {
         let view = BilliardManager.instance.getView();
         let puid = BilliardData.instance.getActionUid()
         this.round = round;
+        const hitCount = BilliardData.instance.getHitCount();
         yy.log.w(`nextTurn round: ${round}`);
         switch(type) {
             case 0:
                 if (puid === actionUid) {
-                    this.shotCount ++;
-                    if (this.shotCount > 2) {
-                        view.gameTips.comboTips(this.shotCount)
+                    if (hitCount > 2) {
+                        view.gameTips.comboTips(hitCount)
                     }
-                    if (this.shotCount >= 3) {
+                    if (hitCount >= 3) {
                         BilliardTools.instance.playSoundApplause();
                     }
                     // view.gameTips.startTips();
                     // yy.toast.addNow("继续击球");
                 }
                 else {
-                    this.shotCount = 1;
                     BilliardTools.instance.PlaySoundTurn();
                     // yy.toast.addNow("正常击球，交换击球权");
                     BilliardData.instance.setActionUid(actionUid)
@@ -192,7 +190,6 @@ export class BilliardEightBall implements IBilliardRules {
                 break;
             case 1:
                 BilliardTools.instance.PlaySoundTurn();
-                this.shotCount = 1;
                 // yy.toast.addNow("击球犯规，下家放置自由球");
                 BilliardData.instance.setActionUid(actionUid)
 
@@ -241,7 +238,6 @@ export class BilliardEightBall implements IBilliardRules {
                 break;
             case 2:
                 BilliardTools.instance.PlaySoundTurn();
-                this.shotCount = 1;
                 // yy.toast.addNow("击球犯规，下家放置自由球");
                 BilliardData.instance.setActionUid(actionUid)
                 if (this.uidTimeOut === 0) {

@@ -309,6 +309,10 @@
             "maxtimes": {
               "type": "int32",
               "id": 5
+            },
+            "hitcount": {
+              "type": "int32",
+              "id": 6
             }
           }
         },
@@ -392,7 +396,8 @@
             "turn": 2,
             "freeBall": 3,
             "failed": 4,
-            "win": 5
+            "win": 5,
+            "tee": 6
           }
         },
         "IResult": {
@@ -615,6 +620,10 @@
             "MatchingTime": {
               "type": "int64",
               "id": 18
+            },
+            "MatchingPower": {
+              "type": "int64",
+              "id": 19
             }
           }
         },
@@ -1010,6 +1019,10 @@
             "tableFee": {
               "type": "int32",
               "id": 13
+            },
+            "gamereplay": {
+              "type": "bytes",
+              "id": 14
             }
           }
         },

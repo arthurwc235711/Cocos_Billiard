@@ -232,6 +232,7 @@ export class BilliardService extends StackListenerNew {
             }
             msg.validResult.balls.sort((a, b)=>a.val - b.val);
             let billiardData = BilliardData.instance;
+            billiardData.setHitCount(msg.action.hitcount);
             billiardData.setActionType(msg.action.type);
             billiardData.setStartBalls(msg.validResult.balls);
             billiardData.setAngle(msg.hitReq.angle/BilliardConst.multiple);
@@ -535,6 +536,7 @@ export class BilliardService extends StackListenerNew {
             billiardData.setActionTimes(msg.action.times);
             billiardData.setActionMaxTimes(msg.action.maxtimes);
             billiardData.setActionType(msg.action.type);
+            billiardData.setHitCount(msg.action.hitcount);
             // yy.log.w("respStart");
             yy.event.emit(yy.Event_Name.billiard_notify_start);
             yy.event.emit(yy.Event_Name.billiard_notify_setgold, msg.chipPot);
@@ -660,10 +662,12 @@ export class BilliardService extends StackListenerNew {
     }
     notifyAction(data: any) {
         let msg: protoBilliard.IAction = data.msg;
+        const billiardData = BilliardData.instance;
         if (msg) {
-            BilliardData.instance.setActionType(msg.type);
-            BilliardData.instance.setActionTimes(msg.times);
-            BilliardData.instance.setActionMaxTimes(msg.maxtimes);
+            billiardData.setHitCount(msg.hitcount);
+            billiardData.setActionType(msg.type);
+            billiardData.setActionTimes(msg.times);
+            billiardData.setActionMaxTimes(msg.maxtimes);
             yy.event.emit(yy.Event_Name.billiard_notify_action, msg);
         }
     }

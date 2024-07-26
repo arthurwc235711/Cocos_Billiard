@@ -63,6 +63,8 @@ export class BilliardData {
 
     private gameType = 0; // 8球类型 9球类型
 
+    private _hitCount = 0; // 当前行动玩家连杆数
+
 
     isFreeBall(): boolean {
         return this.actionType !== 0;
@@ -238,6 +240,14 @@ export class BilliardData {
             default:
                 yy.log.e("Billiard GameType error: ", type);
         }
+    }
+
+
+    getHitCount() {
+        return this._hitCount;
+    }
+    setHitCount(count: number){
+        this._hitCount = count;
     }
 }
 

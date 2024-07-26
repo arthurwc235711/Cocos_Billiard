@@ -513,6 +513,9 @@ declare global {
 			/** IAction maxtimes */
 			maxtimes?: (number | null);
 
+			/** IAction hitcount */
+			hitcount?: (number | null);
+
 		}
 
 		/** Represents a IAction. */
@@ -538,6 +541,9 @@ declare global {
 
 			/** IAction maxtimes */
 			public maxtimes: number | null;
+
+			/** IAction hitcount */
+			public hitcount: number | null;
 
 		}
 
@@ -707,6 +713,7 @@ declare global {
 			freeBall = 3,
 			failed = 4,
 			win = 5,
+			tee = 6,
 		}
 
 		/** Properties of a IResult. */
@@ -1030,6 +1037,9 @@ declare global {
 			/** MatchingReq MatchingTime */
 			MatchingTime?: (number | Long | null);
 
+			/** MatchingReq MatchingPower */
+			MatchingPower?: (number | Long | null);
+
 		}
 
 		/** Represents a MatchingReq. */
@@ -1094,6 +1104,9 @@ declare global {
 
 			/** MatchingReq MatchingTime */
 			public MatchingTime: number | Long | null;
+
+			/** MatchingReq MatchingPower */
+			public MatchingPower: number | Long | null;
 
 		}
 
@@ -1841,6 +1854,9 @@ declare global {
 			/** GameLog tableFee */
 			tableFee?: (number | null);
 
+			/** GameLog gamereplay */
+			gamereplay?: (Uint8Array | null);
+
 		}
 
 		/** Represents a GameLog. */
@@ -1890,6 +1906,9 @@ declare global {
 
 			/** GameLog tableFee */
 			public tableFee: number | null;
+
+			/** GameLog gamereplay */
+			public gamereplay: Uint8Array | null;
 
 		}
 
