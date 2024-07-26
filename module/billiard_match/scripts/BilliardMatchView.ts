@@ -210,6 +210,7 @@ export class BilliardMatchView extends BaseCommonScript {
                     num = distNum
                     label.string = ""//yy.money.formatMoney(num, false);
                     this.unschedule(onUpdate);
+                    label.node.parent.active = false;
                 }
             }
 
