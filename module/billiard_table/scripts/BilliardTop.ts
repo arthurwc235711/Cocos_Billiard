@@ -256,8 +256,10 @@ export class BilliardTop extends BaseCommonScript {
                 // }
 
 
-                if (countDown < 5 && BilliardTools.instance.isMyAction()) {
-                    yy.event.emit(yy.Event_Name.billiard_action_arrow_cd, cd + 1)
+                if (countDown < 5) {
+                    if (BilliardTools.instance.isMyAction()){
+                        yy.event.emit(yy.Event_Name.billiard_action_arrow_cd, cd + 1)
+                    }
                     switchCD.switchSprite(1);
                     switchShader.switchSprite(1);
                     player.labelCD.fontSize = 80;
