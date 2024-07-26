@@ -235,6 +235,8 @@ export class BilliardService extends StackListenerNew {
             billiardData.setHitCount(msg.action.hitcount);
             billiardData.setActionType(msg.action.type);
             billiardData.setStartBalls(msg.validResult.balls);
+            billiardData.setActionTimes(msg.action.times);
+            billiardData.setActionMaxTimes(msg.action.maxtimes);
             billiardData.setAngle(msg.hitReq.angle/BilliardConst.multiple);
             billiardData.setPower(msg.hitReq.power/BilliardConst.multiple);
             if (msg.hitReq.power !== 0) billiardData.getOffset().setX(msg.hitReq.offset.x/BilliardConst.multiple).setY(msg.hitReq.offset.y/BilliardConst.multiple);

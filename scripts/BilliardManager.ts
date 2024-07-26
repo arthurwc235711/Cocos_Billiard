@@ -320,7 +320,7 @@ export class BilliardManager extends BaseCommonInstance{
             }
         }
         table.setBallsRotation(msg.validResult.balls, msg.action.type);
-
+        view.setPlayerCountDown(BilliardData.instance.getActionTimes());
 
 
         // 动态重连

@@ -178,6 +178,7 @@ export class BilliardFree extends BaseCommonScript {
     }
     hideHand() {
         this.nodeHandSprite.active = false;
+        this.nodeFistTips.active = false;
     }
 }
 
