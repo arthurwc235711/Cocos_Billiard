@@ -2,7 +2,7 @@
   "ver": "1.0.25",
   "importer": "image",
   "imported": true,
-  "uuid": "be6b263e-0485-4d73-a573-f2ac07b34fbd",
+  "uuid": "5e8704d0-5520-42d9-adf5-b2147fec516d",
   "files": [
     ".json",
     ".png"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "be6b263e-0485-4d73-a573-f2ac07b34fbd@6c48a",
-      "displayName": "名字底框",
+      "uuid": "5e8704d0-5520-42d9-adf5-b2147fec516d@6c48a",
+      "displayName": "击球倒计时-红色",
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-        "imageUuidOrDatabaseUri": "be6b263e-0485-4d73-a573-f2ac07b34fbd",
+        "imageUuidOrDatabaseUri": "5e8704d0-5520-42d9-adf5-b2147fec516d",
         "isUuid": true,
         "visible": false,
         "minfilter": "linear",
@@ -34,8 +34,8 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "be6b263e-0485-4d73-a573-f2ac07b34fbd@f9941",
-      "displayName": "名字底框",
+      "uuid": "5e8704d0-5520-42d9-adf5-b2147fec516d@f9941",
+      "displayName": "击球倒计时-红色",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -46,10 +46,10 @@
         "offsetY": 0,
         "trimX": 0,
         "trimY": 0,
-        "width": 360,
-        "height": 54,
-        "rawWidth": 360,
-        "rawHeight": 54,
+        "width": 642,
+        "height": 134,
+        "rawWidth": 642,
+        "rawHeight": 134,
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
@@ -61,17 +61,17 @@
         "meshType": 0,
         "vertices": {
           "rawPosition": [
-            -180,
-            -27,
+            -321,
+            -67,
             0,
-            180,
-            -27,
+            321,
+            -67,
             0,
-            -180,
-            27,
+            -321,
+            67,
             0,
-            180,
-            27,
+            321,
+            67,
             0
           ],
           "indexes": [
@@ -84,12 +84,12 @@
           ],
           "uv": [
             0,
-            54,
-            360,
-            54,
+            134,
+            642,
+            134,
             0,
             0,
-            360,
+            642,
             0
           ],
           "nuv": [
@@ -103,18 +103,18 @@
             1
           ],
           "minPos": [
-            -180,
-            -27,
+            -321,
+            -67,
             0
           ],
           "maxPos": [
-            180,
-            27,
+            321,
+            67,
             0
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "be6b263e-0485-4d73-a573-f2ac07b34fbd@6c48a",
+        "imageUuidOrDatabaseUri": "5e8704d0-5520-42d9-adf5-b2147fec516d@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.11",
@@ -129,6 +129,6 @@
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": true,
     "hasAlpha": true,
-    "redirect": "be6b263e-0485-4d73-a573-f2ac07b34fbd@f9941"
+    "redirect": "5e8704d0-5520-42d9-adf5-b2147fec516d@f9941"
   }
 }

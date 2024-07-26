@@ -1,9 +1,10 @@
-import { _decorator, Component, EventTouch, instantiate, Label, Node, Sprite, SpriteFrame, Vec3 } from 'cc';
+import { _decorator, Color, Component, EventTouch, instantiate, Label, Node, Sprite, SpriteFrame, Vec3 } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { BilliardData } from '../../../data/BilliardData';
 import { yy } from '../../../../../../yy';
 import { BilliardConst } from '../../../config/BilliardConst';
 import { BilliardTools } from '../../../scripts/BilliardTools';
+import { BilliardSwitchFrame } from './BilliardSwitchFrame';
 const { ccclass, property } = _decorator;
 
 interface PlayerUI {
@@ -209,6 +210,13 @@ export class BilliardTop extends BaseCommonScript {
             player.shadeCD.active = true;
             player.shadeHeadCD.active = true;
 
+            const switchCD = player.spriteCD.node.getComponent(BilliardSwitchFrame);
+            const switchShader = player.shadeCD.getComponent(BilliardSwitchFrame);
+            switchCD.switchSprite(0);
+            switchShader.switchSprite(0);
+
+            player.labelCD.fontSize = 48;
+            player.labelCD.color = Color.WHITE;
             let onUpdate = (dt)=>{
                 let perCD = countDown;
                 countDown -= dt;
@@ -218,13 +226,13 @@ export class BilliardTop extends BaseCommonScript {
                         yy.event.emit(yy.Event_Name.billiard_action_arrow_cd, countDown);
                     }
                     this.unschedule(onUpdate);
-                    player.labelCD.string = `${countDown}s`;
+                    player.labelCD.string = `${countDown}`;
                     yy.audio.stopSound();
                     return;
                 }
                 let cd = Math.floor(countDown);
 
-                player.labelCD.string = `${cd + 1}s`;
+                player.labelCD.string = `${cd + 1}`;
                 player.spriteCD.fillRange = (countDown / MaxTime);
 
                 if (perCD > 5.05 && countDown <= 5.05) {
@@ -250,6 +258,10 @@ export class BilliardTop extends BaseCommonScript {
 
                 if (countDown < 5 && BilliardTools.instance.isMyAction()) {
                     yy.event.emit(yy.Event_Name.billiard_action_arrow_cd, cd + 1)
+                    switchCD.switchSprite(1);
+                    switchShader.switchSprite(1);
+                    player.labelCD.fontSize = 80;
+                    player.labelCD.color = Color.RED;
                 }
             }
             player.labelCD.string = `${Math.floor(countDown) + 1}s`;

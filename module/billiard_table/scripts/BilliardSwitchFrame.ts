@@ -26,6 +26,12 @@ export class BilliardSwitchFrame extends Component {
         }
 
     }
+
+    switchSprite(index: number) {
+        if (this.frames.length > 0) {
+            this.sprite.spriteFrame = this.frames[index];
+        }
+    }
 }
 
 

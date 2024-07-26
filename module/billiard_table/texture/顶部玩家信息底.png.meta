@@ -2,7 +2,7 @@
   "ver": "1.0.25",
   "importer": "image",
   "imported": true,
-  "uuid": "cc648872-1996-45b1-a67b-f5bbae693ca7",
+  "uuid": "cbd98934-a5c9-4e47-b55d-63d9c96a3296",
   "files": [
     ".json",
     ".png"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "cc648872-1996-45b1-a67b-f5bbae693ca7@6c48a",
-      "displayName": "击球倒计时",
+      "uuid": "cbd98934-a5c9-4e47-b55d-63d9c96a3296@6c48a",
+      "displayName": "顶部玩家信息底",
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-        "imageUuidOrDatabaseUri": "cc648872-1996-45b1-a67b-f5bbae693ca7",
+        "imageUuidOrDatabaseUri": "cbd98934-a5c9-4e47-b55d-63d9c96a3296",
         "isUuid": true,
         "visible": false,
         "minfilter": "linear",
@@ -34,8 +34,8 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "cc648872-1996-45b1-a67b-f5bbae693ca7@f9941",
-      "displayName": "击球倒计时",
+      "uuid": "cbd98934-a5c9-4e47-b55d-63d9c96a3296@f9941",
+      "displayName": "顶部玩家信息底",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -46,10 +46,10 @@
         "offsetY": 0,
         "trimX": 0,
         "trimY": 0,
-        "width": 642,
-        "height": 134,
-        "rawWidth": 642,
-        "rawHeight": 134,
+        "width": 648,
+        "height": 140,
+        "rawWidth": 648,
+        "rawHeight": 140,
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
@@ -61,17 +61,17 @@
         "meshType": 0,
         "vertices": {
           "rawPosition": [
-            -321,
-            -67,
+            -324,
+            -70,
             0,
-            321,
-            -67,
+            324,
+            -70,
             0,
-            -321,
-            67,
+            -324,
+            70,
             0,
-            321,
-            67,
+            324,
+            70,
             0
           ],
           "indexes": [
@@ -84,12 +84,12 @@
           ],
           "uv": [
             0,
-            134,
-            642,
-            134,
+            140,
+            648,
+            140,
             0,
             0,
-            642,
+            648,
             0
           ],
           "nuv": [
@@ -103,18 +103,18 @@
             1
           ],
           "minPos": [
-            -321,
-            -67,
+            -324,
+            -70,
             0
           ],
           "maxPos": [
-            321,
-            67,
+            324,
+            70,
             0
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "cc648872-1996-45b1-a67b-f5bbae693ca7@6c48a",
+        "imageUuidOrDatabaseUri": "cbd98934-a5c9-4e47-b55d-63d9c96a3296@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.11",
@@ -129,6 +129,6 @@
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": true,
     "hasAlpha": true,
-    "redirect": "cc648872-1996-45b1-a67b-f5bbae693ca7@f9941"
+    "redirect": "cbd98934-a5c9-4e47-b55d-63d9c96a3296@f9941"
   }
 }
