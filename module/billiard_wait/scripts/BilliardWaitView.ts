@@ -1,12 +1,12 @@
-import { _decorator, Component, game, Label, Node } from 'cc';
+import { _decorator, Component, game, RichText, Node } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardWaitView')
 export class BilliardWaitView extends BaseCommonScript {
-    @property(Label)
-    labelWait: Label;
+    @property(RichText)
+    labelWait: RichText;
 
     public register_event() {
         // 注册指定的监听方法，格式如下
@@ -20,7 +20,7 @@ export class BilliardWaitView extends BaseCommonScript {
     setWaitTime(time: number) {
         let onUpdate = function() {
             time -= game.deltaTime;
-            this.labelWait.string = `等待${Math.max(Math.floor(time), 0)}秒`;     
+            this.labelWait.string = `Opponent's disconnected(<color=#FBC21EFF>${Math.max(Math.floor(time), 0)}</color>)`//`等待}秒`;     
             if (time <= 0) {
                 this.unschedule(onUpdate);
                 this.scheduleOnce(()=> this.node.destroy(), 1);
