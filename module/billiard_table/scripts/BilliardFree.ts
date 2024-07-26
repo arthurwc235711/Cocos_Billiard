@@ -11,11 +11,15 @@ const { ccclass, property } = _decorator;
 @ccclass('BilliardFree')
 export class BilliardFree extends BaseCommonScript {
     @property(Node)
-    nodeHand: Node = null;
+    nodeHand: Node;
     @property(Node)
-    nodeStart: Node = null;
+    nodeStart: Node;
     @property(Node)
-    nodeForbid: Node = null;
+    nodeForbid: Node;
+    @property(Node)
+    nodeFistTips: Node;
+    @property(Node)
+    nodeHandSprite: Node;
 
     touchMove: boolean = false;
 
@@ -117,6 +121,7 @@ export class BilliardFree extends BaseCommonScript {
                 if (BilliardManager.instance.getTable().isValidFreeBall()) {
                     yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
                     this.showHand();
+                    this.nodeFistTips.active = false;
                 }
                 else {
                     table.cueBall.updatePosImmediately(cueStartPos);
@@ -134,6 +139,7 @@ export class BilliardFree extends BaseCommonScript {
                 if (BilliardManager.instance.getTable().isValidFreeBall()) {
                     yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
                     this.showHand();
+                    this.nodeFistTips.active = false;
                 }
                 else {
                     table.cueBall.updatePosImmediately(cueStartPos);
@@ -168,10 +174,10 @@ export class BilliardFree extends BaseCommonScript {
     }
 
     showHand() {
-        this.nodeHand.getComponent(Sprite).enabled = true;
+        this.nodeHandSprite.active = true;
     }
     hideHand() {
-        this.nodeHand.getComponent(Sprite).enabled = false;
+        this.nodeHandSprite.active = false;
     }
 }
 

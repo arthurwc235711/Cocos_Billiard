@@ -659,7 +659,7 @@ export class BilliardUIView extends BaseCommonScript {
     onAllStationary() {
         // yy.log.w("", "所有球都静止");
         this.controlShow();
-
+        this.freeBall.nodeFistTips.active = BilliardTools.instance.isMyAction();
         let switchFrames = this.cue.getComponentsInChildren(BilliardSwitchFrame);
         switchFrames.forEach((item) => {
             item.switchFrame();
