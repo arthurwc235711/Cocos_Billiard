@@ -128,7 +128,7 @@ export class BilliardFree extends BaseCommonScript {
                     table.cueBall.updatePosImmediately(cueStartPos);
                     view.onFreeBall();
                     view.onFreeBallMove(false);
-                    view.interactableTableTouch = false;
+                    view.interactableTableTouch = table.isValidFreeBall();
                 }
                 this.touchMove = false;
             }
@@ -147,7 +147,7 @@ export class BilliardFree extends BaseCommonScript {
                     table.cueBall.updatePosImmediately(cueStartPos);
                     view.onFreeBall();
                     view.onFreeBallMove(false);
-                    view.interactableTableTouch = false;
+                    view.interactableTableTouch = table.isValidFreeBall();
                 }
                 this.touchMove = false;
             }
