@@ -279,7 +279,7 @@ export class BilliardTop extends BaseCommonScript {
         if (player) {
             player.spriteCD.node.active = false;
             player.labelCD.node.active = false;
-            // player.shadeCD.active = false;
+            player.shadeCD.active = false;
             player.shadeHeadCD.active = false;
         }
         return this;
