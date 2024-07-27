@@ -232,7 +232,6 @@ export class BilliardEightBall implements IBilliardRules {
 
 
                 view.freeBall.node.active = true;
-                view.freeBall.nodeForbid.active = !table.isValidFreeBall();
                 view.onFreeBall();
                 view.onFreeBallMove(!table.isValidFreeBall(), false, false);
                 break;
@@ -285,7 +284,6 @@ export class BilliardEightBall implements IBilliardRules {
 
 
                 view.freeBall.node.active = true;
-                view.freeBall.nodeForbid.active = !table.isValidFreeBall();
                 view.onFreeBall();
                 view.onFreeBallMove(!table.isValidFreeBall(), false, false);
                 break;

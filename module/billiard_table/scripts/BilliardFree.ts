@@ -118,16 +118,17 @@ export class BilliardFree extends BaseCommonScript {
         });
         btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
             if (BilliardTools.instance.isMyAction()) {
-                if (BilliardManager.instance.getTable().isValidFreeBall()) {
+                if (table.isValidFreeBall()) {
                     yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
                     this.showHand();
                     this.nodeFistTips.active = false;
+                    view.interactableTableTouch = true;
                 }
                 else {
                     table.cueBall.updatePosImmediately(cueStartPos);
                     view.onFreeBall();
                     view.onFreeBallMove(false);
-                    this.nodeForbid.active = false;
+                    view.interactableTableTouch = false;
                 }
                 this.touchMove = false;
             }
@@ -136,16 +137,17 @@ export class BilliardFree extends BaseCommonScript {
         });
         btn.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
             if (BilliardTools.instance.isMyAction()) {
-                if (BilliardManager.instance.getTable().isValidFreeBall()) {
+                if (table.isValidFreeBall()) {
                     yy.event.emit(yy.Event_Name.billiard_free_ball_move, false);
                     this.showHand();
                     this.nodeFistTips.active = false;
+                    view.interactableTableTouch = true;
                 }
                 else {
                     table.cueBall.updatePosImmediately(cueStartPos);
                     view.onFreeBall();
                     view.onFreeBallMove(false);
-                    this.nodeForbid.active = false;
+                    view.interactableTableTouch = false;
                 }
                 this.touchMove = false;
             }
@@ -163,6 +165,9 @@ export class BilliardFree extends BaseCommonScript {
         this.nodeHand.active = true;//BilliardTools.instance.isMyAction();
         this.showHand();
         this.node.active = true;
+
+        const  isValidFreeBall = table.isValidFreeBall();
+        this.nodeForbid.active = !isValidFreeBall;
     }
 
     setStartAreaShow() {
