@@ -172,12 +172,12 @@ export class BilliardWinsView extends BaseCommonScript {
             this.btnPlayAgain.interactable = false;
             // this.btnRematch.interactable = false;
             this.nodeMyPao.active = true;
-            if (!this.nodePao.active) this.labelMyTips.string = "May I play with you one more time?";//"Let's play another round!";
+            if (!this.nodePao.active) this.labelMyTips.string = "Let's play again.";//"Let's play another round!";
             else this.labelMyTips.string = "Sure!";
         }
         else {
             this.nodePao.active = true;
-            if (!this.nodeMyPao.active) this.labelTips.string = "May I play with you one more time?";//"Let's play another round!";
+            if (!this.nodeMyPao.active) this.labelTips.string = "Let's play again.";//"Let's play another round!";
             else this.labelTips.string = "Sure!";
         }
     }
@@ -185,7 +185,7 @@ export class BilliardWinsView extends BaseCommonScript {
     onLeave(reason: number = 0) {
         if (reason === 0) {// 强制退出
             this.nodePao.active = true;
-            this.labelTips.string = "Have Left!";
+            this.labelTips.string = "Opponent has left.";
             this.btnPlayAgain.interactable = false;
             this.btnRematch.interactable = true;
         }
