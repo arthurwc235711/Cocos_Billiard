@@ -1,4 +1,4 @@
-import { _decorator, Camera, Component, director, find, game, instantiate, macro, Node, Prefab, Vec3, UITransform, Canvas, geometry, quat, Quat } from 'cc';
+import { _decorator, Camera, Component, director, find, game, instantiate, macro, Node, Prefab, Vec3, UITransform, Canvas, geometry, quat, Quat, screen } from 'cc';
 import { Ball } from './Ball';
 import { Collision } from '../../../scripts/physics/collision';
 import { TableGeometry } from './TableGeometry';
@@ -46,12 +46,15 @@ export class Table extends BaseCommonScript {
       // 注册指定的监听方法，格式如下
       this.event_func_map = {
           [yy.Event_Name.billiard_hit]: "hit",
+          [yy.System_Event.Screen_Size_Changed]: "onScreenSizeChanged",
       };
       super.register_event();
     }
 
     public on_init(): void {
       BilliardManager.instance.setTable(this);
+
+      this.onScreenSizeChanged();
     }
 
 
@@ -314,6 +317,23 @@ export class Table extends BaseCommonScript {
     this.nodeBalls.removeAllChildren();
     track.clear();
   }
+
+  // 适配小于16:9 时屏幕尺寸
+  onScreenSizeChanged() {
+    const camera3d = BilliardManager.instance.camera3d;
+    const ratio = 16/9;
+    const aspectRatio = screen.windowSize.width / screen.windowSize.height;
+    const oHeight = 1.05; // 原有16:9时尺寸
+    const rHeight = screen.windowSize.width / ratio;
+    // yy.log.w("onScreenSizeChange", screen.windowSize,  camera3d.orthoHeight, rHeight);
+    const xs = screen.windowSize.height / rHeight;
+    if (ratio > aspectRatio) {
+      camera3d.orthoHeight = xs * oHeight;
+    }
+    else {
+      camera3d.orthoHeight = oHeight;
+    }
+}
 
 }
 
