@@ -132,8 +132,12 @@ export class BilliardService extends StackListenerNew {
             if (resp.code === 0) {// 成功退出
                 yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
             }
-            else if (resp.code === -1) {
-                // 匹配成功不允许退出
+            else if (resp.code === 2806) {//取消失败，已经在桌子上
+                // 匹配中不能返回大厅
+            }
+            else if (resp.code === 2807) {//服务器正在分配，不能取消
+                // 匹配中不能返回大厅
+                this.errorTips(resp);  // 这种情况先提示一个错误码标记下
             }
             else {
                 this.errorTips(resp);
@@ -141,8 +145,8 @@ export class BilliardService extends StackListenerNew {
             }
         }
         else {
-            yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
             this.errorTips(resp);
+            yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
         }
     }
 
