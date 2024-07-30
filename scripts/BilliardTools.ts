@@ -21,6 +21,8 @@ export class BilliardTools {
         return this.__instance__;
     }
 
+    waitPerfab: Prefab = null;
+
     isMyAction() {
         return  BilliardData.instance.getActionUid() === yy.user.getUid()//1;
     }
@@ -160,7 +162,7 @@ export class BilliardTools {
             let clone = instantiate(prefab) as Node;
             let cmp = clone.getComponent(BaseCommonScript)
             const scene = s.getComponentInChildren(BilliardScene)
-            scene.get_scene_layer_game().addChild(clone);
+            scene.get_scene_layer_popup().addChild(clone);
             call && call(cmp);
         }
         else {
@@ -168,7 +170,7 @@ export class BilliardTools {
                 let clone = instantiate(p) as Node;
                 let cmp = clone.getComponent(BaseCommonScript)
                 const scene = s.getComponentInChildren(BilliardScene)
-                scene.get_scene_layer_game().addChild(clone);
+                scene.get_scene_layer_popup().addChild(clone);
                 call && call(cmp);
             });
         }
@@ -207,7 +209,7 @@ export class BilliardTools {
             let clone = instantiate(p) as Node;
             let cmp = clone.getComponent(BaseCommonScript)
             const scene = s.getComponentInChildren(BilliardScene)
-            scene.get_scene_layer_game().addChild(clone);
+            scene.get_scene_layer_popup().addChild(clone);
             if (cmp) {
                 cmp.reqGameSceneMatching()
                 BilliardService.instance.sendEnterReMatching();
@@ -229,7 +231,7 @@ export class BilliardTools {
         this.openView("module/billiard_wait/view/p_billiard_wait", (base)=>{
             yy.wait.hide("openWaitView");
             base["setWaitTime"](time);
-        });
+        }, this.waitPerfab);
     }
 
     openGuideView() {

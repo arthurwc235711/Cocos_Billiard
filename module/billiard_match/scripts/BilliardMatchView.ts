@@ -46,6 +46,7 @@ export class BilliardMatchView extends BaseCommonScript {
     otherUI: BilliardMatchUI = {labelName: null, spriteUrl: null, labelGold: null};
     state: BilliardMatchState = BilliardMatchState.eNone;
 
+    loopSend: Function;
 
     public register_event() {
         // 注册指定的监听方法，格式如下
@@ -73,6 +74,11 @@ export class BilliardMatchView extends BaseCommonScript {
 
     reqMatching(data: ISubGameTableInfoItemData) {
         BilliardService.instance.sendEnterMatching(data);
+
+        this.loopSend = ()=>{
+            BilliardService.instance.sendEnterMatching(data);
+        }
+        this.schedule(this.loopSend, 1);
     }
 
     reqGameSceneMatching() {
@@ -85,6 +91,7 @@ export class BilliardMatchView extends BaseCommonScript {
     }
 
     onMatchingCancel() {
+        this.unschedule(this.loopSend);
         yy.event.emit(yy.Event_Name.CasualCommonQuit);
         // this.scheduleOnce(()=>{
         //     this.onClickGoBack();
@@ -151,14 +158,6 @@ export class BilliardMatchView extends BaseCommonScript {
                     yy.event.emit(yy.Event_Name.billiard_rematch);
                     yy.audio.stopSound();
                     this.node.destroy();
-                    // if (director.getScene().name === "billiard") {
-                    //     yy.event.emit(yy.Event_Name.billiard_rematch);
-                    //     yy.audio.stopSound();
-                    //     this.node.destroy();
-                    // }
-                    // else {
-                    //     yy.subGameData.enterSubGame("billiard", { isPractice: false });  
-                    // }
                 }, 3)
 
                 break;
@@ -167,7 +166,7 @@ export class BilliardMatchView extends BaseCommonScript {
         }
     }
 
-    setPlayerInfo(ui: BilliardMatchUI, info: protoBilliardAlloc.MatchingUserInfo, score: number) {
+    setPlayerInfo(ui: BilliardMatchUI, info: protoBilliard.UserInfo, score: number) {
         ui.labelName.string = info.nick;
         // yy.ui.updateHeadIcon(info.icon, ui.spriteUrl);
         // ui.labelGold.string = yy.money.formatMoney(score, false);
@@ -175,9 +174,10 @@ export class BilliardMatchView extends BaseCommonScript {
     }
 
 
-    onMatchingSuccess(msg: protoBilliardAlloc.MatchingTableMsg) {
-        let myInfo = msg.userList.filter((v)=>v.uid === yy.user.getUid());
-        let otherInfo = msg.userList.filter((v)=>v.uid !== yy.user.getUid());
+    onMatchingSuccess(msg: protoBilliard.GameStatus) {
+        this.unschedule(this.loopSend);
+        let myInfo = msg.users.filter((v)=>v.uid === yy.user.getUid());
+        let otherInfo = msg.users.filter((v)=>v.uid !== yy.user.getUid());
         this.otherUI.labelGold.node.parent.active = true;
         this.myUI.labelGold.node.parent.active = true;
 
@@ -186,11 +186,11 @@ export class BilliardMatchView extends BaseCommonScript {
         this.slotIcon.stopScroll(otherInfo[0].icon);
         this.setState(BilliardMatchState.eMatchSucess);
 
-        this.setPlayerInfo(this.myUI, myInfo[0], msg.basescore);
-        this.setPlayerInfo(this.otherUI, otherInfo[0], msg.basescore);
-        this.rollNum(this.nodeAddGold.getChildByName("Label").getComponent(Label), 0, msg.basescore * 2, 2.5);
+        this.setPlayerInfo(this.myUI, myInfo[0], myInfo[0].moneyBet);
+        this.setPlayerInfo(this.otherUI, otherInfo[0], otherInfo[0].moneyBet);
+        this.rollNum(this.nodeAddGold.getChildByName("Label").getComponent(Label), 0, msg.chipPot * 2, 2.5);
 
-        this.lableMyGold.string = yy.money.formatMoney(yy.user.getTotalMoney() - msg.basescore, false);
+        this.lableMyGold.string = yy.money.formatMoney(yy.user.getTotalMoney() - msg.chipPot, false);
     }
 
     rollNum(label:Label, orgNum:number, distNum: number, totalTimes: number) {

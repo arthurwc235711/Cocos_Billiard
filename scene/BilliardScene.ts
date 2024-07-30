@@ -1,4 +1,4 @@
-import { _decorator, Component, director, instantiate, JsonAsset, Node, Prefab } from 'cc';
+import { _decorator, Component, director, instantiate, JsonAsset, Node, Prefab, ResolutionPolicy, screen, view } from 'cc';
 import { CasualCommonSceneBase } from '../../../casual_common/scripts/base/CasualCommonSceneBase';
 import { yy } from '../../../../yy';
 import BilliardEventConfig from '../config/BilliardEventConfig';
@@ -14,6 +14,11 @@ import { BilliardTools } from '../scripts/BilliardTools';
 import { SoundAudio } from '../../../../main/audio/SoundAudio';
 import { GameEnterTypeEnum, IEnterGameEmitData, ISubGameTableInfoItemData } from '../../../../main/data/SubGameData';
 import { BilliardData } from '../data/BilliardData';
+import { IOnlineInfo } from '../../../../main/data/UserData';
+import { table } from 'console';
+import CasualMenuEventConfig from '../../../casual_common/module/menu/config/CasualMenuEventConfig';
+import { CasualMenuButtonEnum, ICasualMenuButtonConfig } from '../../../casual_common/module/menu/config/CasualMenuConfig';
+import { CasualMenuData } from '../../../casual_common/module/menu/data/CasualMenuData';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardScene')
@@ -29,6 +34,8 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     }
     private commonBtnClickSound: ()=>void;
     async onLoad() {
+
+        // view.setDesignResolutionSize(2341, 1080, ResolutionPolicy.FIXED_WIDTH + ResolutionPolicy.FIXED_HEIGHT);
         yy.scene.reset_scene_size(true)
         super.onLoad();
     }
@@ -39,8 +46,12 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         this.event_func_map = {
             [yy.Event_Name.Common_Enter_SubGame_Success] : "onLevelData",
             [yy.Event_Name.CasualProgressComplete]: "onProgressComplete",
+            [yy.Event_Name.reconnect_game_table] : "reconnectGameTable",
+
             // [yy.Event_Name.PPSlotsEventClickHistory]: "onClickHistory",
             // [yy.Event_Name.reset_all_view]: 'onEventResetAllView',
+
+            ['AccountService.OnlineStatus']: 'onlineStatus',
         };
         super.register_event();
     }
@@ -62,6 +73,27 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         SoundAudio.clickGameSound = BilliardTools.instance.playSoundPress;
 
         this.loadingResource();
+
+        this.addMenuConfig();
+    }
+
+
+    addMenuConfig(){
+        yy.event.addEventNameList(CasualMenuEventConfig); // 初始化事件配置
+        let list :Array<ICasualMenuButtonConfig> = []
+        list.push({type:CasualMenuButtonEnum.GAME_RULE,event: yy.Event_Name.on_click_game_rule,buttonText: "Rules"});
+        list.push({type:CasualMenuButtonEnum.SETTING,event: yy.Event_Name.on_click_settings,  buttonText: "Settings"}),
+        list.push({type:CasualMenuButtonEnum.EXIT_TO_LOBBY,event: yy.Event_Name.on_click_exit_to_lobby});
+        // list.push({type:CasualMenuButtonEnum.VOICE,event: null,backPannalAcitive: true,buttonText: "Sound"})
+
+        // list.push({type:CasualMenuButtonEnum.RECORD_VERTICAL,event: yy.Event_Name.on_click_menu,buttonText: "Record", extendData: {gameKey: "piggytap", lock: true}})
+
+        // list.push({type:CasualMenuButtonEnum.FULL_SCREEN, buttonText: "Full Screen"})
+        // list.push({type:CasualMenuButtonEnum.FULL_SCREEN_EXIT, buttonText: "Esc"})
+
+        CasualMenuData.instance().setButtonConfig(list)
+        //支付打点上报
+        // CasualMenuData.instance().setReportDepositEventId(PiggytapConst.DepositId);
     }
 
 
@@ -91,6 +123,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         SoundAudio.clickGameSound = this.commonBtnClickSound;
         this.removeGameSocketConfig();
         yy.event.removeEventNameList(BilliardEventConfig);
+        yy.event.removeEventNameList(CasualMenuEventConfig); // 初始化事件配置
         BilliardManager.instance.release();
 
         GameMessageStack.instance().release();
@@ -117,7 +150,8 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             // BilliardTools.instance.openMatchView(enterData.tableInfo.data);
         }
         else {
-            yy.log.e("BilliardScene onLevelData", "enterType is RECONNECT")
+            yy.log.e("BilliardScene onLevelData", "enterType is RECONNECT", enterData)
+            BilliardService.instance.setTid(enterData.tid );
             this.levelData = null;
         }
     }
@@ -134,7 +168,8 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             }
         }
         else {
-            BilliardService.instance.sendEnterGame();
+            yy.log.w("onProgressComplete", "sendEnterByTable");
+            BilliardService.instance.sendEnterByTable();
         }
         yy.event.emit(yy.Event_Name.billiard_table_init);
         yy.log.w("onProgressComplete", this.levelData)
@@ -147,6 +182,8 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         let pre = [
             "module/billiard_table/view/p_billiard_3d",
             "module/billiard_match/view/p_billiard_match",
+            "module/billiard_hitpoint/view/p_billiard_hit_point",
+            "module/billiard_wait/view/p_billiard_wait",
         ]
         if (this.isGuide) {
             pre.push(guidePath);
@@ -168,6 +205,11 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             
                     BilliardTools.instance.playBgm();
                 }
+                
+                if (name === pre[3]) {
+                    // 缓存当前帧实例化
+                    BilliardTools.instance.waitPerfab = prefab;
+                }
                 // if (this.isGuide) {
                 //     if (name === guidePath) {
                 //         let clone = instantiate(prefab);
@@ -186,6 +228,23 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
                 yy.event.emit(yy.Event_Name.billiard_loading_resource, cur/max);
             })
         });
+    }
+
+    reconnectGameTable() {
+        let pb = new protoAccount.OnlineStatusReq();
+        yy.socket.send('AccountService.OnlineStatus', pb);
+    }
+    
+    private onlineStatus(e_data: any){
+        let online_info: IOnlineInfo = yy.user.getOnlineInfo();
+        if (online_info?.playStatus == null || e_data?.timeOut ){
+            yy.event.emit(yy.Event_Name.CasualCommonQuit);
+        }else if(online_info.playStatus == 0){
+            yy.event.emit(yy.Event_Name.CasualCommonQuit);
+        } else if(online_info.playStatus > 0){
+            BilliardService.instance.sendEnterByTable();
+            yy.user.resetOnlineInfo();
+        }
     }
 
 }

@@ -279,9 +279,6 @@ export class BilliardManager extends BaseCommonInstance{
         view.scheduleOnce(()=>{
             BilliardTools.instance.openWinsView(notify);
         }, 2);
-
-
-        // this.clearGameData();
     }
 
 
@@ -294,12 +291,13 @@ export class BilliardManager extends BaseCommonInstance{
     }
 
     onRematch() {
-        BilliardService.instance.sendEnterGame();
+        // BilliardService.instance.sendEnterByTable();
+        BilliardService.instance.sendReady();
         let view = this.getView();
         let table = this.getTable();
         view.clearData();
         table.clearData();
-        BilliardData.instance.clearData();
+        // BilliardData.instance.clearData();
     }
 
     onReconnect(msg: protoBilliard.GameStatus) {

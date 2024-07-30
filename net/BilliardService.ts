@@ -29,13 +29,18 @@ export class BilliardService extends StackListenerNew {
     private levelData: protoBilliard.MatchingReq;
     private rematchData: protoBilliard.BilliardsTableCfg
 
+    setTid(nTid: any) {
+        this.tid = typeof nTid === 'number'?  nTid : nTid.toNumber();
+    }
+
     eventFuncMap: { [key: string]: string } = {
         ////////////////////////////////////////////// 桌球匹配相关 以下 //////////////////////////////////////////////
         ['BilliardAllocService_EnterMatching']: 'respEnterMatching',
         ["BilliardAllocService_EnterMatching_timeout"]: "respEnterMatching",
         ["BilliardAllocService_LeaveMatching"]: "respLeaveMatching",
         ["BilliardAllocService_LeaveMatching_timeout"]: "respLeaveMatching",
-        ["cmd_0x6000"]: "notifyMatchingTable",
+        // ["cmd_0x6000"]: "notifyMatchingTable",
+        ["cmd_0x2100"]: "notifyMatchingTable",
         ////////////////////////////////////////////// 桌球匹配相关 以上 //////////////////////////////////////////////
 
         ["BilliardAllocService_EnterByTable"]: "BilliardAllocService_EnterByTable",
@@ -49,7 +54,7 @@ export class BilliardService extends StackListenerNew {
         ["BilliardService_ClientEvent"]: "respClientEvent",
 
 
-
+        ['AccountService.OnlineStatus']: 'onlineStatus',
 
         ["cmd_0x6003"]: "notifyReady",
         ["cmd_0x6004"]: "notifyExit",
@@ -71,6 +76,7 @@ export class BilliardService extends StackListenerNew {
 
 
 
+    /*测试协议*/
         ["BilliardAllocService_Start"]: "notifyStart",
         ["BilliardAllocService_CueMove"]: "notifyCueMove",
         ["BilliardAllocService_CueAngle"]: "notifyCueAngle",
@@ -78,6 +84,8 @@ export class BilliardService extends StackListenerNew {
         ["BilliardAllocService_Result"]: "notifyResult",
         ["BilliardAllocService_Action"]: "notifyAction",
     }
+
+
 
 
     /********************************************匹配相关  开始**************************************** */
@@ -98,14 +106,18 @@ export class BilliardService extends StackListenerNew {
     respEnterMatching(data: any, req: any) {
         let resp = data.msg as protoBilliard.CommonRsp;
         // yy.log.w("respEnterMatching", data, req);
-        if(data.code === 0 &&  resp && resp.code  === 0) {
-            yy.event.emit(yy.Event_Name.Billiard_Matching);
+        if(data.code === 0 &&  resp) {
+            if (resp.code === 0) {
+                yy.event.emit(yy.Event_Name.Billiard_Matching);
+            }
+            else if( resp.code === 2083 || resp.code === 2084 || resp.code === 2081) {
+
+            }
         }
         else {
             yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
              this.errorTips(resp);
         }
-        // 
     }
 
 
@@ -135,9 +147,24 @@ export class BilliardService extends StackListenerNew {
     }
 
     notifyMatchingTable(data: any) {
-        let notify: protoBilliardAlloc.MatchingTableMsg = data.msg;
-        yy.log.w("BilliardService   notifyMatchingTable");
-        yy.event.emit(yy.Event_Name.Billiard_Matching_Success, notify);
+        let notify: protoAlloc.NoticeClientWaitEnterTableResult = data.msg;
+        yy.log.w("BilliardService   notifyMatchingTable", notify);
+        if (notify.code === 0) {
+            this.setTid(notify.tid);
+            // let protoObj = ProtoHelper.Ins.getProto("protoBeauty", "BeautyExtendSpinRsp")
+            // let beautyMsg = protoObj.decode(msg.ExtendPlayModeRsp);
+            // yy.event.emit(yy.Event_Name.Billiard_Matching_Success, notify);
+            // this.sendEnterByTable();
+        }
+        else if(notify.code === 2805) {//找桌子失败，重新排队入桌
+
+        }
+        else if(notify.code === 2809) {//分配失败，不够人数分配到新的桌子，需要重新排队
+
+        }
+        else {
+            this.errorTips(notify);
+        }
     }
     /********************************************匹配相关  结束**************************************** */
 
@@ -166,6 +193,9 @@ export class BilliardService extends StackListenerNew {
         if(data.code === 0 && msg && msg.code === 0) {
 
         }
+        else { // 异常重连 退出大厅
+            // yy.event.emit(yy.Event_Name.CasualCommonQuit);
+        }
     }
 
     sendExit() {
@@ -188,12 +218,20 @@ export class BilliardService extends StackListenerNew {
         }
     }
 
-    sendEnterGame() {
-        let req = new protoBilliard.EnterGameReq();
-        req.uid = yy.user.getUid();
-        this.send("BilliardService.EnterGame", req);
-        // yy.socket.send("BilliardService.EnterGame", req);
+
+    sendEnterByTable() {
+        yy.log.e("sendEnterByTable")
+        const req = new protoBilliard.EnterReq();
+        req.tid = this.tid;
+        this.send("BilliardAllocService.EnterByTable", req);
     }
+
+    // sendEnterGame() {
+    //     let req = new protoBilliard.EnterGameReq();
+    //     req.uid = yy.user.getUid();
+    //     this.send("BilliardService.EnterGame", req);
+    //     // yy.socket.send("BilliardService.EnterGame", req);
+    // }
     respEnterGame(data: any) {
         let msg: protoBilliard.CommonRsp = data.msg;   
         if(data.code == 0 && msg && msg.code == 0) {
@@ -219,7 +257,7 @@ export class BilliardService extends StackListenerNew {
 
 
 
-        if (msg.stage === 3) { //牌局阶段(0:无牌局,1:牌局开始,2:已结算,3:已结束，注意：结算状态不发送) 
+        if (msg.stage === 3) { //牌局阶段(0:无牌局,1:准备,2:Start,3:再玩，注意：结算状态不发送) 
             let cueBall = msg.validResult.balls.filter(b=>b.val === 0)[0];
             cueBall.position.x = msg.freeBall.curPosition.x 
             cueBall.position.y = msg.freeBall.curPosition.y;
@@ -249,7 +287,9 @@ export class BilliardService extends StackListenerNew {
             yy.event.emit(yy.Event_Name.billiard_reconnect, msg);
         }
         else {
-            this.sendReady();
+
+            yy.event.emit(yy.Event_Name.Billiard_Matching_Success, msg);
+            // this.sendReady();
         }
 
         // yy.log.w("notifyEnterGame", msg);
@@ -519,6 +559,8 @@ export class BilliardService extends StackListenerNew {
     }
 
     //---------------------------------------------------------------------------------------
+
+
     sendStart() {
         let req = new protoBilliard.IStart ();
         this.standAloneSend("BilliardAllocService.Start", req)
