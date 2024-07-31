@@ -40,6 +40,8 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         super.onLoad();
     }
 
+    
+
     public register_event() {
         yy.event.addEventNameList(BilliardEventConfig);
         // 注册指定的监听方法，格式如下
@@ -164,6 +166,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             }
             else {
                 BilliardData.instance.setGameType(this.levelData.maxBetMoney);// 匹配时设置 为了退出返回大厅的标签，开始游戏也会设置
+                BilliardService.instance.setServiceName(this.levelData.maxBetMoney);
                 BilliardTools.instance.openMatchView(this.levelData, null);
             }
         }

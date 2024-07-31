@@ -8,6 +8,36 @@ import { BilliardData } from '../data/BilliardData';
 import { BilliardManager } from '../scripts/BilliardManager';
 import { BilliardTools } from '../scripts/BilliardTools';
 
+interface ServiceName {
+    enterMatching: string;
+    leaveMatching: string;
+    exit: string;
+    enterByTable: string;
+    ready: string;
+    clientEvent: string;
+    foreBackStageEvent: string;
+}
+
+class ServiceName8Ball implements ServiceName {
+    enterMatching = "BilliardAllocService.EnterMatching";
+    leaveMatching = "BilliardAllocService.LeaveMatching";
+    exit = "BilliardService.Exit";
+    enterByTable = "BilliardAllocService.EnterByTable";
+    ready = "BilliardService.Ready";
+    clientEvent = "BilliardService.ClientEvent";
+    foreBackStageEvent = "BilliardService.ForeBackStageEvent";
+}
+
+class ServiceName9Ball implements ServiceName {
+    enterMatching = "Billiard9BallAllocService.EnterMatching";
+    leaveMatching = "Billiard9BallAllocService.LeaveMatching";
+    exit = "Billiard9BallService.Exit";
+    enterByTable = "Billiard9BallAllocService.EnterByTable";
+    ready = "Billiard9BallService.Ready";
+    clientEvent = "Billiard9BallService.ClientEvent";
+    foreBackStageEvent = "Billiard9BallService.ForeBackStageEvent";
+}
+
 export class BilliardService extends StackListenerNew {
     private static __instance__: BilliardService;
 
@@ -28,6 +58,20 @@ export class BilliardService extends StackListenerNew {
     private tid: number;
     private levelData: protoBilliard.MatchingReq;
     private rematchData: protoBilliard.BilliardsTableCfg
+    private serviceName: ServiceName;
+
+
+    setServiceName(gameType: number) {
+        if (gameType === 8) {
+            this.serviceName = new ServiceName8Ball();
+        }
+        else if (gameType === 9) {
+            this.serviceName = new ServiceName9Ball();
+        }
+        else {
+            yy.log.e("billiard type error", gameType);
+        }
+    }
 
     setTid(nTid: any) {
         this.tid = typeof nTid === 'number'?  nTid : nTid.toNumber();
@@ -85,6 +129,7 @@ export class BilliardService extends StackListenerNew {
         ["BilliardAllocService_Action"]: "notifyAction",
     }
 
+    
 
 
 
@@ -100,7 +145,8 @@ export class BilliardService extends StackListenerNew {
         req.seq = data.id;
 
         this.levelData = req;
-        yy.socket.send("BilliardAllocService.EnterMatching", req);
+        yy.socket.send(this.serviceName.enterMatching, req);
+
     }
     
     respEnterMatching(data: any, req: any) {
@@ -123,7 +169,7 @@ export class BilliardService extends StackListenerNew {
 
     sendLeaveMatching() {
         let req: protoBilliard.MatchingReq = this.levelData;
-        yy.socket.send("BilliardAllocService.LeaveMatching", req);
+        yy.socket.send(this.serviceName.leaveMatching, req);
     }
 
     respLeaveMatching(data: any, req: any) {
@@ -204,7 +250,7 @@ export class BilliardService extends StackListenerNew {
 
     sendExit() {
         let req = new protoBilliard.ExitReq();
-        this.send("BilliardService.Exit", req);
+        this.send(this.serviceName.exit, req);
         // yy.socket.send("BilliardService.Exit", req);
     }
 
@@ -227,7 +273,7 @@ export class BilliardService extends StackListenerNew {
         yy.log.e("sendEnterByTable")
         const req = new protoBilliard.EnterReq();
         req.tid = this.tid;
-        this.send("BilliardAllocService.EnterByTable", req);
+        this.send(this.serviceName.enterByTable, req);
     }
 
     // sendEnterGame() {
@@ -304,7 +350,7 @@ export class BilliardService extends StackListenerNew {
     sendReady() {
         let req = new protoBilliard.ReadyReq();
         req.uid = yy.user.getUid();
-        this.send("BilliardService.Ready", req);
+        this.send(this.serviceName.ready, req);
         // yy.socket.send("BilliardService.Ready", req);
     }
 
@@ -344,7 +390,7 @@ export class BilliardService extends StackListenerNew {
         pb.TableId = this.tid;
         pb.databody = newMsg;
 
-        this.send("BilliardService.ClientEvent", pb);
+        this.send(this.serviceName.clientEvent, pb);
         // yy.socket.send("BilliardService.ClientEvent", pb);
     }
     notifyFreeBall(data: {msg:protoBilliard.IFreeBall }) {
@@ -367,7 +413,7 @@ export class BilliardService extends StackListenerNew {
         pb.TableId = this.tid;
         pb.databody = newMsg;
         yy.log.w("sendCueAngleReq", req);
-        this.send("BilliardService.ClientEvent", pb);
+        this.send(this.serviceName.clientEvent, pb);
         // yy.socket.send("BilliardService.ClientEvent", pb);
     }
     notifyCueAngle(data: any) {
@@ -391,7 +437,7 @@ export class BilliardService extends StackListenerNew {
         pb.TableId = this.tid;
         pb.databody = newMsg;
         yy.log.w("sendCueOffsetReq", req);
-        this.send("BilliardService.ClientEvent", pb);
+        this.send(this.serviceName.clientEvent, pb);
         // yy.socket.send("BilliardService.ClientEvent", pb);
     }
     notifyCueOffset(data: any) {
@@ -419,7 +465,7 @@ export class BilliardService extends StackListenerNew {
         pb.databody = newMsg;
         yy.log.w("sendHitReq", req);
         yy.wait.showDelay("HitReq");
-        this.send("BilliardService.ClientEvent", pb);
+        this.send(this.serviceName.clientEvent, pb);
     }
 
     sendResultReq(outComeType: number) {
@@ -461,7 +507,7 @@ export class BilliardService extends StackListenerNew {
         pb.TableId = this.tid;
         pb.databody = newMsg;
         yy.log.w("sendResultReq", req);
-        this.send("BilliardService.ClientEvent", pb)
+        this.send(this.serviceName.clientEvent, pb)
         // yy.socket.send("BilliardAllocService.Result", req);
     }
 
@@ -486,7 +532,7 @@ export class BilliardService extends StackListenerNew {
         pb.TableId = this.tid;
         pb.databody = newMsg;
         yy.log.w("sendChatReq", req);
-        this.send("BilliardService.ClientEvent", pb);
+        this.send(this.serviceName.clientEvent, pb);
     }
 
     notifyChat(data: any) {
@@ -508,7 +554,7 @@ export class BilliardService extends StackListenerNew {
         pb.TableId = this.tid;
         pb.databody = newMsg;
         yy.log.w("sendPersonalReq", req);
-        this.send("BilliardService.ClientEvent", pb);
+        this.send(this.serviceName.clientEvent, pb);
     }
 
     notifyPersonal(data: any) {
@@ -531,7 +577,7 @@ export class BilliardService extends StackListenerNew {
         req.seq = data.Seq;
 
         this.levelData = req;
-        yy.socket.send("BilliardAllocService.EnterMatching", req);
+        yy.socket.send(this.serviceName.enterMatching, req);
     }
 
 
@@ -542,7 +588,7 @@ export class BilliardService extends StackListenerNew {
         let req: protoBilliard.ForeBackstageReq = new protoBilliard.ForeBackstageReq();
         req.uid = yy.user.getUid();
         req.status = status;
-        yy.socket.send("BilliardService.ForeBackStageEvent", req);
+        yy.socket.send(this.serviceName.foreBackStageEvent, req);
     }
 
     notifyOffLine(data: any) {
