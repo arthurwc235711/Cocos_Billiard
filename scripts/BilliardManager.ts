@@ -236,10 +236,13 @@ export class BilliardManager extends BaseCommonInstance{
                 BilliardService.instance.sendAction(1, 6, 2);
                 break;
             case eOutcomeType.Failed:
-
                 break;
             case eOutcomeType.Win:
-
+                // break;
+                let hitCount = BilliardData.instance.getHitCount() + 1;// 
+                if (hitCount > 2) {
+                    view.gameTips.comboTips(hitCount)
+                }
                 break;
             default:
                 yy.log.e("onServiceResult error:", result);

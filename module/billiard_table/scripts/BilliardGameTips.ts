@@ -28,9 +28,11 @@ export class BilliardGameTips extends BaseCommonScript {
     @property(OnEnablePlaySpine)
     playSpine: OnEnablePlaySpine;
 
-    static actionList:Function[] = [];
+    private static actionList:Function[] = [];
+    private static animList:Function[] = [];
 
-    isPlaying:boolean = false;
+    private isPlaying:boolean = false;
+    private isAnimPlaying:boolean = false;
 
     register_event() {
         // 注册指定的监听方法，格式如下
@@ -170,11 +172,16 @@ export class BilliardGameTips extends BaseCommonScript {
     }
 
     comboTips(index: number) {
-        this.playSpine.animName = `ani${index - 2}`;
-        this.playSpine.node.active = true;
-        this.scheduleOnce(()=>{
-            this.playSpine.node.active = false;
-        }, 2);
+        BilliardGameTips.actionList.push(()=>{
+            this.isAnimPlaying = true;
+            this.playSpine.animName = `ani${index - 2}`;
+            this.playSpine.node.active = true;
+            this.scheduleOnce(()=>{
+                this.playSpine.node.active = false;
+                this.isAnimPlaying = false;
+            }, 2);
+        })
+
     }
 
     playComplete() {
@@ -199,6 +206,11 @@ export class BilliardGameTips extends BaseCommonScript {
         if (!this.isPlaying && BilliardGameTips.actionList.length > 0) {
             let action = BilliardGameTips.actionList.shift();
             action();
+        }
+
+        if (!this.isAnimPlaying && BilliardGameTips.animList.length > 0) {
+            let anim = BilliardGameTips.animList.shift();
+            anim();
         }
     }
 
@@ -240,10 +252,14 @@ export class BilliardGameTips extends BaseCommonScript {
 
 
     showWinTips() {
-        this.nodeWin.active = true;
-        this.scheduleOnce(()=>{
-            this.nodeWin.active = false;
-        }, 2);
+        BilliardGameTips.animList.push(()=>{
+            this.isAnimPlaying = true;
+            this.nodeWin.active = true;
+            this.scheduleOnce(()=>{
+                this.nodeWin.active = false;
+                this.isAnimPlaying = false;
+            }, 2);
+        });
     }
 
     showLoseTips(winUid: number) {
