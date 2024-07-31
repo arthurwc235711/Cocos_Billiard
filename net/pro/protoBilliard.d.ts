@@ -1140,6 +1140,12 @@ declare global {
 			/** EnterReq sync */
 			sync?: (boolean | null);
 
+			/** EnterReq tableMoney */
+			tableMoney?: (number | Long | null);
+
+			/** EnterReq practice */
+			practice?: (boolean | null);
+
 		}
 
 		/** Represents a EnterReq. */
@@ -1177,6 +1183,12 @@ declare global {
 
 			/** EnterReq sync */
 			public sync: boolean | null;
+
+			/** EnterReq tableMoney */
+			public tableMoney: number | Long | null;
+
+			/** EnterReq practice */
+			public practice: boolean | null;
 
 		}
 

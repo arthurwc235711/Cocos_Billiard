@@ -4,6 +4,9 @@ export let BilliardPbConfig = [
     ////////////////////////////////////////////// 桌球匹配相关 以下 //////////////////////////////////////////////
     { router: 'BilliardAllocService.EnterMatching', rsp: 'protoBilliard.CommonRsp' },
     { router: 'BilliardAllocService.LeaveMatching', rsp: 'protoBilliard.CommonRsp' },
+
+    { router: 'Billiard9BallAllocService.EnterMatching', rsp: 'protoBilliard.CommonRsp' },
+    { router: 'Billiard9BallAllocService.LeaveMatching', rsp: 'protoBilliard.CommonRsp' },
     // {cmd: 0x6000, rsp: 'protoBilliardAlloc.MatchingTableMsg'},
     {cmd: 0x2100, rsp: "protoAlloc.NoticeClientWaitEnterTableResult"},
     ////////////////////////////////////////////// 桌球匹配相关 以上 //////////////////////////////////////////////
@@ -18,12 +21,22 @@ export let BilliardPbConfig = [
     {router: "BilliardService.Ready",  rsp: "protoBilliard.CommonRsp" },
     {router: "BilliardService.Exit",  rsp: "protoBilliard.CommonRsp" },
 
-    {router: "BilliardAllocService.Start",  rsp: "protoBilliard.EnterRsp" },
-    {router: "BilliardAllocService.CueMove",  rsp: "protoBilliard.EnterRsp" },
-    {router: "BilliardAllocService.CueAngle",  rsp: "protoBilliard.EnterRsp" },
-    {router: "BilliardAllocService.Hit",  rsp: "protoBilliard.EnterRsp" },
-    {router: "BilliardAllocService.Result",  rsp: "protoBilliard.EnterRsp" },
-    {router: "BilliardAllocService.Action",  rsp: "protoBilliard.EnterRsp" },
+    // {router: "BilliardAllocService.Start",  rsp: "protoBilliard.EnterRsp" },
+    // {router: "BilliardAllocService.CueMove",  rsp: "protoBilliard.EnterRsp" },
+    // {router: "BilliardAllocService.CueAngle",  rsp: "protoBilliard.EnterRsp" },
+    // {router: "BilliardAllocService.Hit",  rsp: "protoBilliard.EnterRsp" },
+    // {router: "BilliardAllocService.Result",  rsp: "protoBilliard.EnterRsp" },
+    // {router: "BilliardAllocService.Action",  rsp: "protoBilliard.EnterRsp" },
+
+
+    // 快速开始
+    {router: "Billiard9BallAllocService.EnterByTable",  rsp: "protoBilliard.EnterRsp" },
+    {router: "Billiard9BallService.EnterGame",  rsp: "protoBilliard.CommonRsp" },//请求桌子数据协议
+    {router: "Billiard9BallService.ClientEvent",  rsp: "protoBilliard.GameProtocol" },//游戏交互协议
+    {router: "Billiard9BallService.Ready",  rsp: "protoBilliard.CommonRsp" },
+    {router: "Billiard9BallService.Exit",  rsp: "protoBilliard.CommonRsp" },
+    
+
 
 
 

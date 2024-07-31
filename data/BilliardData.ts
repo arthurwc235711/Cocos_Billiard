@@ -35,7 +35,7 @@ export class BilliardData {
             this.addPlayer(1, "Player", "", 0);
             this.addPlayer(2, "AI", "", 0);
 
-            this.setGameType(8);
+            this.setGameType(9);
         }
 
         this.angleLimit = BilliardTools.instance.getCacheCueSensitivity()

@@ -56,9 +56,9 @@ export class BilliardService extends StackListenerNew {
     public isStandAlone = false;
 
     private tid: number;
-    private levelData: protoBilliard.MatchingReq;
+    private levelData: protoBilliard.EnterReq;
     private rematchData: protoBilliard.BilliardsTableCfg
-    private serviceName: ServiceName;
+    private serviceName: ServiceName = new ServiceName9Ball();
 
 
     setServiceName(gameType: number) {
@@ -85,17 +85,26 @@ export class BilliardService extends StackListenerNew {
         ["BilliardAllocService_LeaveMatching_timeout"]: "respLeaveMatching",
         // ["cmd_0x6000"]: "notifyMatchingTable",
         ["cmd_0x2100"]: "notifyMatchingTable",
+
+        ['Billiard9BallAllocService_EnterMatching']: 'respEnterMatching',
+        ["Billiard9BallAllocService_EnterMatching_timeout"]: "respEnterMatching",
+        ["Billiard9BallAllocService_LeaveMatching"]: "respLeaveMatching",
+        ["Billiard9BallAllocService_LeaveMatching_timeout"]: "respLeaveMatching",
         ////////////////////////////////////////////// 桌球匹配相关 以上 //////////////////////////////////////////////
 
         ["BilliardAllocService_EnterByTable"]: "BilliardAllocService_EnterByTable",
-
         ["BilliardService_EnterGame"]: "respEnterGame",
-
-        // ["BilliardService_Sit"]: "respSit",
         ["BilliardService_Ready"]: "respReady",
         ["BilliardService_Exit"]: "respExit",
-
         ["BilliardService_ClientEvent"]: "respClientEvent",
+
+
+
+        ["Billiard9BallAllocService_EnterByTable"]: "BilliardAllocService_EnterByTable",
+        ["Billiard9BallService_EnterGame"]: "respEnterGame",
+        ["Billiard9BallService_Ready"]: "respReady",
+        ["Billiard9BallService_Exit"]: "respExit",
+        ["Billiard9BallService_ClientEvent"]: "respClientEvent",
 
 
         ['AccountService.OnlineStatus']: 'onlineStatus',
@@ -135,14 +144,16 @@ export class BilliardService extends StackListenerNew {
 
     /********************************************匹配相关  开始**************************************** */
     sendEnterMatching(data: ISubGameTableInfoItemData) {
-        let req: protoBilliard.MatchingReq = new protoBilliard.MatchingReq();
-        req.minCarry = data.carryLower;
-        req.maxCarry = data.carryUpper;
-        req.seatNumber = data.seats % 100;
-        req.matchingUserCount = Math.floor(data.seats / 100)  //data.playerNumber;
-        req.basescore = data.tableMoney;
-        req.ballcount = data.maxBetMoney;
-        req.seq = data.id;
+        let req: protoBilliard.EnterReq = new protoBilliard.EnterReq();
+        req.tableMoney = data.tableMoney;
+        
+        // req.minCarry = data.carryLower;
+        // req.maxCarry = data.carryUpper;
+        // req.seatNumber = data.seats % 100;
+        // req.matchingUserCount = Math.floor(data.seats / 100)  //data.playerNumber;
+        // req.basescore = data.tableMoney;
+        // req.ballcount = data.maxBetMoney;
+        // req.seq = data.id;
 
         this.levelData = req;
         yy.socket.send(this.serviceName.enterMatching, req);
@@ -151,13 +162,15 @@ export class BilliardService extends StackListenerNew {
     
     respEnterMatching(data: any, req: any) {
         let resp = data.msg as protoBilliard.CommonRsp;
-        // yy.log.w("respEnterMatching", data, req);
         if(data.code === 0 &&  resp) {
             if (resp.code === 0) {
                 yy.event.emit(yy.Event_Name.Billiard_Matching);
             }
             else if( resp.code === 2083 || resp.code === 2084 || resp.code === 2081) {
 
+            }
+            else {
+                // this.errorTips(resp);
             }
         }
         else {
@@ -168,7 +181,7 @@ export class BilliardService extends StackListenerNew {
 
 
     sendLeaveMatching() {
-        let req: protoBilliard.MatchingReq = this.levelData;
+        let req: protoBilliard.EnterReq = this.levelData;
         yy.socket.send(this.serviceName.leaveMatching, req);
     }
 
@@ -566,15 +579,9 @@ export class BilliardService extends StackListenerNew {
 
     
     sendEnterReMatching() {
-        let req: protoBilliard.MatchingReq = new protoBilliard.MatchingReq();
+        let req: protoBilliard.EnterReq = new protoBilliard.EnterReq();
         let data = this.rematchData;
-        req.minCarry = data.CarryLower.toNumber();
-        req.maxCarry = data.CarryUpper.toNumber();
-        req.seatNumber = data.TableMaxPlayerNum;
-        req.matchingUserCount = data.MatchingPlayerNum;
-        req.basescore = data.BaseScore.toNumber();
-        req.ballcount = data.BallCount;
-        req.seq = data.Seq;
+        req.tableMoney = data.BaseScore.toNumber();
 
         this.levelData = req;
         yy.socket.send(this.serviceName.enterMatching, req);

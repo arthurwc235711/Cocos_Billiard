@@ -664,6 +664,14 @@
             "sync": {
               "type": "bool",
               "id": 9
+            },
+            "tableMoney": {
+              "type": "int64",
+              "id": 10
+            },
+            "practice": {
+              "type": "bool",
+              "id": 11
             }
           }
         },
