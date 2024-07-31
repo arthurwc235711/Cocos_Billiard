@@ -288,6 +288,9 @@ export class BilliardTop extends BaseCommonScript {
     pauseCountDown() {
         this.unscheduleAllCallbacks();
         yy.audio.stopSound();
+        if (!BilliardTools.instance.isMyAction()) {
+            this.stopCountDown();
+        }
     }
 
     resetData() {
