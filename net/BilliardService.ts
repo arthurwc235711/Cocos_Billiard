@@ -166,11 +166,11 @@ export class BilliardService extends StackListenerNew {
             if (resp.code === 0) {
                 yy.event.emit(yy.Event_Name.Billiard_Matching);
             }
-            else if( resp.code === 2083 || resp.code === 2084 || resp.code === 2081) {
+            else if( resp.code === 2803 || resp.code == 2804 || resp.code == 2801) {
 
             }
             else {
-                // this.errorTips(resp);
+                this.errorTips(resp);
             }
         }
         else {
