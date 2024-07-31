@@ -2,7 +2,7 @@
   "ver": "1.0.25",
   "importer": "image",
   "imported": true,
-  "uuid": "82565383-3dd0-417b-b450-7c9f9e1e8254",
+  "uuid": "1b88c0e7-9d63-4e07-b1a9-6ec16cdb2034",
   "files": [
     ".json",
     ".png"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "82565383-3dd0-417b-b450-7c9f9e1e8254@6c48a",
+      "uuid": "1b88c0e7-9d63-4e07-b1a9-6ec16cdb2034@6c48a",
       "displayName": "Pipei_Jb",
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-        "imageUuidOrDatabaseUri": "82565383-3dd0-417b-b450-7c9f9e1e8254",
+        "imageUuidOrDatabaseUri": "1b88c0e7-9d63-4e07-b1a9-6ec16cdb2034",
         "isUuid": true,
         "visible": false,
         "minfilter": "linear",
@@ -34,7 +34,7 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "82565383-3dd0-417b-b450-7c9f9e1e8254@f9941",
+      "uuid": "1b88c0e7-9d63-4e07-b1a9-6ec16cdb2034@f9941",
       "displayName": "Pipei_Jb",
       "id": "f9941",
       "name": "spriteFrame",
@@ -114,7 +114,7 @@
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "82565383-3dd0-417b-b450-7c9f9e1e8254@6c48a",
+        "imageUuidOrDatabaseUri": "1b88c0e7-9d63-4e07-b1a9-6ec16cdb2034@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.11",
@@ -129,6 +129,6 @@
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": true,
     "hasAlpha": true,
-    "redirect": "82565383-3dd0-417b-b450-7c9f9e1e8254@f9941"
+    "redirect": "1b88c0e7-9d63-4e07-b1a9-6ec16cdb2034@f9941"
   }
 }
