@@ -15,14 +15,14 @@
       "id": "6c48a",
       "name": "texture",
       "userData": {
-        "wrapModeS": "clamp-to-edge",
-        "wrapModeT": "clamp-to-edge",
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
         "imageUuidOrDatabaseUri": "9fbb1762-3a09-4d93-b68e-3bf7ac44cfbc",
         "isUuid": true,
         "visible": false,
         "minfilter": "linear",
         "magfilter": "linear",
-        "mipfilter": "none",
+        "mipfilter": "linear",
         "anisotropy": 0
       },
       "ver": "1.0.22",
@@ -129,6 +129,9 @@
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": true,
     "hasAlpha": true,
-    "redirect": "9fbb1762-3a09-4d93-b68e-3bf7ac44cfbc@f9941"
+    "redirect": "9fbb1762-3a09-4d93-b68e-3bf7ac44cfbc@f9941",
+    "compressSettings": {
+      "useCompressTexture": false
+    }
   }
 }
