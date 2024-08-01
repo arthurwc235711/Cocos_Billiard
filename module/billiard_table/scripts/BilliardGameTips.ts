@@ -277,7 +277,7 @@ export class BilliardGameTips extends BaseCommonScript {
             this.nodeFouls.active = true;
             this.scheduleOnce(()=>{
                 this.nodeFouls.active = false;
-            }, 2);
+            }, 3);
             this.labelFouls.string = `You already got <size=48><color=#FFE102>${notify.count}</color></size> consecutive fouls\n 3 consecutive fouls will lose`
         }
 
