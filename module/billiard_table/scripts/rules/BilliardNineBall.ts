@@ -13,7 +13,7 @@ export class BilliardNineBall implements IBilliardRules {
     ruleType: eRuleType;
     ruleName: string = "9 Balls";
     round: number;
-    uidTimeOut: number ;
+    uidTimeOut: number = 0;
 
     disBallId: number = 1; // 默认1
     isFoul(outcome: Outcome[]): boolean {
