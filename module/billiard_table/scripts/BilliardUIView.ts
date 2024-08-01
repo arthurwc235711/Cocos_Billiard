@@ -610,9 +610,9 @@ export class BilliardUIView extends BaseCommonScript {
                     let cosValue = Math.pow(Math.cos(dvAngle), 2);
                     let ballLength = 65 * cosValue;
                     let bTrans = ballArrow.getChildByName("Sprite").getComponent(UITransform);
-                    bTrans.setContentSize(Math.max(ballLength, 5), bTrans.contentSize.y);
+                    bTrans.setContentSize(Math.max(ballLength, 20), bTrans.contentSize.y);
                     let cueTrans = cueArrow.getChildByName("Sprite").getComponent(UITransform);
-                    cueTrans.setContentSize(Math.max(maxLength - ballLength, 5), cueTrans.contentSize.y);
+                    cueTrans.setContentSize(Math.max(maxLength - ballLength, 20), cueTrans.contentSize.y);
 
                 }
                 else {
