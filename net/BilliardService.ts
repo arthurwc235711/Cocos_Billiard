@@ -93,6 +93,7 @@ export class BilliardService extends StackListenerNew {
         ////////////////////////////////////////////// 桌球匹配相关 以上 //////////////////////////////////////////////
 
         ["BilliardAllocService_EnterByTable"]: "BilliardAllocService_EnterByTable",
+        ["BilliardAllocService_EnterByTable_timeout"]: "BilliardAllocService_EnterByTable_Timeout",
         ["BilliardService_EnterGame"]: "respEnterGame",
         ["BilliardService_Ready"]: "respReady",
         ["BilliardService_Exit"]: "respExit",
@@ -101,6 +102,7 @@ export class BilliardService extends StackListenerNew {
 
 
         ["Billiard9BallAllocService_EnterByTable"]: "BilliardAllocService_EnterByTable",
+        ["Billiard9BallAllocService_EnterByTable_timeout"]: "BilliardAllocService_EnterByTable_Timeout",
         ["Billiard9BallService_EnterGame"]: "respEnterGame",
         ["Billiard9BallService_Ready"]: "respReady",
         ["Billiard9BallService_Exit"]: "respExit",
@@ -157,7 +159,6 @@ export class BilliardService extends StackListenerNew {
 
         this.levelData = req;
         yy.socket.send(this.serviceName.enterMatching, req);
-
     }
     
     respEnterMatching(data: any, req: any) {
@@ -253,12 +254,19 @@ export class BilliardService extends StackListenerNew {
 
     BilliardAllocService_EnterByTable(data: any, elapsedTime: number) {
         let msg: protoBilliard.EnterRsp = data.msg;
-        if(data.code === 0 && msg && msg.code === 0) {
-
+        if(data.code === 0 && msg) {
+            if (msg.code !== 0) {
+                yy.event.emit(yy.Event_Name.CasualCommonQuit);
+            }
         }
         else { // 异常重连 退出大厅
-            // yy.event.emit(yy.Event_Name.CasualCommonQuit);
+             yy.event.emit(yy.Event_Name.CasualCommonQuit);
         }
+    }
+
+    BilliardAllocService_EnterByTable_Timeout() {
+        let pb = new protoAccount.OnlineStatusReq();
+        yy.socket.send('AccountService.OnlineStatus', pb);
     }
 
     sendExit() {

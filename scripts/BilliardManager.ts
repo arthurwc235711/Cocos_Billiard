@@ -420,7 +420,9 @@ export class BilliardManager extends BaseCommonInstance{
 
     onResume() {
         yy.log.w("onResume");
-        BilliardService.instance.sendForeBackstageReq(0);
+        let pb = new protoAccount.OnlineStatusReq();
+        yy.socket.send('AccountService.OnlineStatus', pb);
+        // BilliardService.instance.sendForeBackstageReq(0);
     }
 
     onOffline(notify: protoBilliard.NotifyUserNetStatus) {
