@@ -605,6 +605,15 @@ export class BilliardUIView extends BaseCommonScript {
                             cueArrow.worldRotation = Quat.fromAngleZ(new Quat(),  cue2dWp.y > b2dPos.y ? tmpBallAngle - 90 : tmpBallAngle + 90);
                         }
                     }
+
+                    let maxLength = 65;
+                    let cosValue = Math.pow(Math.cos(dvAngle), 2);
+                    let ballLength = 65 * cosValue;
+                    let bTrans = ballArrow.getChildByName("Sprite").getComponent(UITransform);
+                    bTrans.setContentSize(Math.max(ballLength, 5), bTrans.contentSize.y);
+                    let cueTrans = cueArrow.getChildByName("Sprite").getComponent(UITransform);
+                    cueTrans.setContentSize(Math.max(maxLength - ballLength, 5), cueTrans.contentSize.y);
+
                 }
                 else {
                     let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction)
@@ -618,13 +627,7 @@ export class BilliardUIView extends BaseCommonScript {
                     else this.cue.hideLine();
                 }
 
-                // let maxLength = 60;
-                // let cosValue = Math.pow(Math.cos(dvAngle), 2);
-                // let ballLength = 60 * cosValue;
-                // let bTrans = ballArrow.getChildByName("Sprite").getComponent(UITransform);
-                // bTrans.setContentSize(ballLength, bTrans.contentSize.y);
-                // let cueTrans = cueArrow.getChildByName("Sprite").getComponent(UITransform);
-                // cueTrans.setContentSize(maxLength - ballLength, cueTrans.contentSize.y);
+
             }
             else {
 
