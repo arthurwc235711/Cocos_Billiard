@@ -154,6 +154,13 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         else {
             yy.log.e("BilliardScene onLevelData", "enterType is RECONNECT", enterData)
             BilliardService.instance.setTid(enterData.tid );
+            if (enterData.gameKey === "billiard8ball") {
+                BilliardService.instance.setServiceName(8);
+            }
+            else if( enterData.gameKey === "billiard9ball") {
+                BilliardService.instance.setServiceName(9);
+            }
+                
             this.levelData = null;
         }
     }
