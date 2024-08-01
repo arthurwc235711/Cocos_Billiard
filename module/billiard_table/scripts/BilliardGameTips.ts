@@ -255,6 +255,7 @@ export class BilliardGameTips extends BaseCommonScript {
         BilliardGameTips.animList.push(()=>{
             this.isAnimPlaying = true;
             this.nodeWin.active = true;
+            BilliardTools.instance.playSoundWin();
             this.scheduleOnce(()=>{
                 this.nodeWin.active = false;
                 this.isAnimPlaying = false;

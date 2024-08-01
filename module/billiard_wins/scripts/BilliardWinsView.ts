@@ -130,7 +130,7 @@ export class BilliardWinsView extends BaseCommonScript {
         // this.labelGold.string = yy.money.formatMoney( data.ChipPot.toNumber(), false);
 
         // if (data.winnerid === yy.user.getUid()) {
-        BilliardTools.instance.playSoundWin();
+
         // }
     }
 
