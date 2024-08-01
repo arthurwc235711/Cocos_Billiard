@@ -86,12 +86,12 @@ export class BilliardTop extends BaseCommonScript {
 
     setBindLeftPlayerUID(uid: number) {
         this.playerUI[0].uid = uid;
-        this.playerUI[0].emojiPos.setX(100).setY(-55);
+        this.playerUI[0].emojiPos.setX(88).setY(-60);
         return this;
     }
     setBindRightPlayerUID(uid: number) {
         this.playerUI[1].uid = uid;
-        this.playerUI[1].emojiPos.setX(100).setY(-55);
+        this.playerUI[1].emojiPos.setX(88).setY(-60);
         return this;
     }
 
