@@ -171,11 +171,12 @@ export class BilliardService extends StackListenerNew {
 
             }
             else {
+                yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel)
                 this.errorTips(resp);
             }
         }
         else {
-            yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
+   ;         yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel)
              this.errorTips(resp);
         }
     }
