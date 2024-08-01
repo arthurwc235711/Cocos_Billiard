@@ -47,6 +47,7 @@ export class BilliardManager extends BaseCommonInstance{
     private _table: Table;
     private _view: BilliardUIView;
     private _rules: IBilliardRules;
+    private _delayTime: number = 0; // 结算界面延时打开
 
     setTable(table: Table) {
         this._table = table;
@@ -242,7 +243,9 @@ export class BilliardManager extends BaseCommonInstance{
                 let hitCount = BilliardData.instance.getHitCount() + 1;// 
                 if (hitCount > 2) {
                     view.gameTips.comboTips(hitCount)
+                    this._delayTime = 2;
                 }
+                else this._delayTime = 0;
                 break;
             default:
                 yy.log.e("onServiceResult error:", result);
@@ -281,7 +284,7 @@ export class BilliardManager extends BaseCommonInstance{
 
         view.scheduleOnce(()=>{
             BilliardTools.instance.openWinsView(notify);
-        }, 2);
+        }, 2 + this._delayTime);
     }
 
 
