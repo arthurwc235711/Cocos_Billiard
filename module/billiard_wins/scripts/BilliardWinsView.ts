@@ -46,7 +46,7 @@ export class BilliardWinsView extends BaseCommonScript {
     otherUI: BilliardMatchUI = {labelName: null, spriteUrl: null, labelGold: null, nodeHalo: null};
 
 
-    private isEnoughMoney: boolean = true;
+    private moneyType: number = 0; //  0 金币足有， 1 金币不足 2 金币超出
     // private sData: protoBilliard.BroadcastGameResult;
     public register_event() {
         // 注册指定的监听方法，格式如下
@@ -90,11 +90,20 @@ export class BilliardWinsView extends BaseCommonScript {
         for(let i = 0; i < data.playerResult.length; i++) {
             let p = data.playerResult[i];
             if(p.uid === yy.user.getUid()) {
-                this.setPlayerInfo(this.myUI, p.nick, p.icon, p.moneyTotal.toNumber());
+                const myMoney = p.moneyTotal.toNumber()
+                this.setPlayerInfo(this.myUI, p.nick, p.icon, myMoney);
                 this.nodeMy.getChildByName("NodeWiner").active = data.winnerid === p.uid;
                 this.myUI.nodeHalo.active = data.winnerid === p.uid;
+                if(myMoney < data.tablecfg.CarryLower) {
+                    this.moneyType = 1;
+                }
+                else if (myMoney > data.tablecfg.CarryUpper) {
+                    this.moneyType = 2;
+                }
+                else {
+                    this.moneyType = 0;
+                }
 
-                this.isEnoughMoney = p.moneyTotal.toNumber() >= data.tablecfg.CarryLower;
                 if (data.winnerid === p.uid) this.playSpine.animName = "ani1";
             }
             else {
@@ -198,10 +207,10 @@ export class BilliardWinsView extends BaseCommonScript {
 
 
     onClickReady() {
-        if (this.isEnoughMoney) {
+        if (this.moneyType === 0) {
             BilliardService.instance.sendReady();
         }
-        else {
+        else if (this.moneyType === 1) {
             yy.dialog.show(
                 {
                     title: "Tip",
@@ -220,16 +229,36 @@ export class BilliardWinsView extends BaseCommonScript {
                 }
             )
         }
+        else if(this.moneyType === 2) {
+            yy.dialog.show(
+                {
+                    title: "Tip",
+                    content: "You need more money to enter the room.",
+                    isCancelEnable: false,
+                    isConfirmEnable: true,
+                    confirmText: "OK",
+                    confirmCallback: () => {
+                    },
+                    closeCallback: () => {
+                    },
+                    fontSize: 50,
+                    lineHeight: 60,
+                    // horizontalAlign: HorizontalTextAlignment.CENTER,
+                    // verticalAlign: VerticalTextAlignment.CENTER,
+                }
+            )
+        }
+        else yy.log.e("moneyType error", this.moneyType);
 
     }
 
     onClickRematch() {
-        if (this.isEnoughMoney) {
+        if (this.moneyType === 0) {
             BilliardTools.instance.openReMatchView(()=>{
                 this.node.destroy();
             });
         }
-        else {
+        else if (this.moneyType === 1) {
             yy.dialog.show(
                 {
                     title: "Tip",
@@ -248,6 +277,26 @@ export class BilliardWinsView extends BaseCommonScript {
                 }
             )
         }
+        else if(this.moneyType === 2) {
+            yy.dialog.show(
+                {
+                    title: "Tip",
+                    content: "You need more money to enter the room.",
+                    isCancelEnable: false,
+                    isConfirmEnable: true,
+                    confirmText: "OK",
+                    confirmCallback: () => {
+                    },
+                    closeCallback: () => {
+                    },
+                    fontSize: 50,
+                    lineHeight: 60,
+                    // horizontalAlign: HorizontalTextAlignment.CENTER,
+                    // verticalAlign: VerticalTextAlignment.CENTER,
+                }
+            )
+        }
+        else yy.log.e("moneyType error", this.moneyType);
 
     }
 }
