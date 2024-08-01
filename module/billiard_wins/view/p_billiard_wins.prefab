@@ -7136,8 +7136,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": -69.80000000000001,
+      "x": -449.019,
+      "y": 32.039,
       "z": 0
     },
     "_lrot": {
@@ -7220,12 +7220,12 @@
     "_debugBones": false,
     "_debugSlots": false,
     "_skeletonData": {
-      "__uuid__": "edff0f27-e140-411c-a366-d3d55507b252",
+      "__uuid__": "004900ad-1c8d-4e93-8588-0e252c92c6aa",
       "__expectedType__": "sp.SkeletonData"
     },
     "_premultipliedAlpha": false,
     "defaultSkin": "default",
-    "defaultAnimation": "ani1",
+    "defaultAnimation": "ani2",
     "_enableBatch": false,
     "_sockets": [],
     "_debugMesh": false,
