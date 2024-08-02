@@ -250,7 +250,8 @@ export class BilliardUIView extends BaseCommonScript {
                     }
 
               
-
+                    this.preTouchLocation.x = BilliardTools.instance.roundToFiveDecimalPlaces(this.preTouchLocation.x);
+                    this.preTouchLocation.y = BilliardTools.instance.roundToFiveDecimalPlaces(this.preTouchLocation.y);
 
                     // let x = local.x - perLocal.x;
                     // let y = local.y - perLocal.y;
