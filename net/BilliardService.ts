@@ -143,7 +143,7 @@ export class BilliardService extends StackListenerNew {
     
 
 
-
+    private isUseMatch = false;  // 用于区分重连时的异常状态
     /********************************************匹配相关  开始**************************************** */
     sendEnterMatching(data: ISubGameTableInfoItemData) {
         let req: protoBilliard.EnterReq = new protoBilliard.EnterReq();
@@ -159,6 +159,8 @@ export class BilliardService extends StackListenerNew {
 
         this.levelData = req;
         yy.socket.send(this.serviceName.enterMatching, req);
+
+        this.isUseMatch = true;
     }
     
     respEnterMatching(data: any, req: any) {
@@ -176,7 +178,7 @@ export class BilliardService extends StackListenerNew {
             }
         }
         else {
-   ;         yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel)
+             yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel)
              this.errorTips(resp);
         }
     }
@@ -316,6 +318,19 @@ export class BilliardService extends StackListenerNew {
 
     notifyEnterGame(data: any) {
         let msg: protoBilliard.GameStatus = data.msg;   
+
+        if (msg.users.length === 1) {
+            if (this.isUseMatch)  {
+                yy.log.w("illegal match user  one");
+                this.isUseMatch = false; // 重置
+                return; 
+            }
+            else {
+                // 数据异常退出
+                yy.event.emit(yy.Event_Name.CasualCommonQuit);
+                return;
+            }
+        }
 
         this.tid = msg.tid;
         BilliardData.instance.clearData();
