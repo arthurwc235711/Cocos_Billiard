@@ -29,9 +29,10 @@ export class BilliardSimulateService {
         notify.balls = [];
         notify.action = new protoBilliard.IAction();
         notify.action.uid = 1//(Math.random() < 0.5 ? 1 : 2 );
-        notify.action.times = 6//20;
+        notify.action.times = 30;
         notify.action.round = 1;
         notify.action.type = 1;
+        notify.action.maxtimes = 30
         for(let i = 0; i < BilliardData.instance.getBallNums(); ++i) {
             let ball = new protoBilliard.IBall();
             ball.val = i;
@@ -216,6 +217,7 @@ export class BilliardSimulateService {
 
     notifyAction(req: protoBilliard.IAction) {
         let notify = req//new protoBilliard.IAction();
+        notify.maxtimes = 30;
         this.delayAction(() => {
             BilliardService.instance.notifyAction({msg: notify});
         });

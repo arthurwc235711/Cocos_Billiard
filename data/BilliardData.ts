@@ -35,7 +35,7 @@ export class BilliardData {
             this.addPlayer(1, "Player", "", 0);
             this.addPlayer(2, "AI", "", 0);
 
-            this.setGameType(9);
+            this.setGameType(8);
         }
 
         this.angleLimit = BilliardTools.instance.getCacheCueSensitivity()
@@ -51,8 +51,8 @@ export class BilliardData {
 
     private _actionUid: number = 0;
     private _actionTimes: number = 0;
-    private _actionMaxTimes: number = 0;
     private players: BilliardPlayer[] = [];
+    private _actionMaxTimes: number = 0;
     private balls: protoBilliard.IBall[] = [];
     private actionType: number = 0;
 
@@ -90,7 +90,7 @@ export class BilliardData {
         this._actionTimes = times;
     }
     getActionMaxTimes(): number {
-        return this._actionMaxTimes === 0 ? 20 : this._actionMaxTimes;
+        return this._actionMaxTimes === 0 ? 30 : this._actionMaxTimes;
     }
     setActionMaxTimes(times: number) {
         this._actionMaxTimes = times;
