@@ -185,8 +185,9 @@ export class BilliardService extends StackListenerNew {
 
 
     sendLeaveMatching() {
-        let req: protoBilliard.EnterReq = this.levelData;
-        yy.socket.send(this.serviceName.leaveMatching, req);
+        let b: protoAlloc.CancelWaitQueueReq = new protoAlloc.CancelWaitQueueReq();
+        b.tableMoney = this.levelData.tableMoney;
+        yy.socket.send(this.serviceName.leaveMatching, b);
     }
 
     respLeaveMatching(data: any, req: any) {
