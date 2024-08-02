@@ -385,6 +385,7 @@ export class BilliardManager extends BaseCommonInstance{
             }
             else if(rules instanceof BilliardNineBall) {
                 let ball= rules.onShotBall();
+                rules.disBallId = ball.id;
                 if(rules.isValidBall(ball)) {
                     ball.showTips();
                 }
