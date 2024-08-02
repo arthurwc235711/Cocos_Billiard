@@ -42,8 +42,21 @@ export class BilliardMenu extends CasualCommonMenu {
     }
 
     onClickQuit() {
-        yy.event.emit(yy.Event_Name.CasualCommonQuit)
-        BilliardService.instance.sendExit();
+        yy.dialog.show({
+            title: "Tips",
+            content: "Your opponent will win if you leave!",
+            confirmText: "Keep playing",
+            confirmCallback: () => {
+            },
+            cancelText: "Leave",
+            cancelCallback: () => {
+                yy.log.d("点击了返回大厅按钮")
+                yy.event.emit(yy.Event_Name.CasualCommonQuit)
+                BilliardService.instance.sendExit();
+            }
+        });
+
+
     }
 
     onClickSound() {
