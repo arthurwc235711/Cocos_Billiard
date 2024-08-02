@@ -9,7 +9,7 @@ const { ccclass, property } = _decorator;
 
 interface PlayerUI {
     uid: number,
-    shadeCD: Node, 
+    nodeShade: Node, 
     labelName: Label,
     spriteHead: Sprite,
     shadeHeadCD: Node,
@@ -18,6 +18,7 @@ interface PlayerUI {
     nodeBalls: Node,
     nodeMsg: Node,
     emojiPos: Vec3,
+    nodeDot: Node;
 }
 
 
@@ -30,19 +31,22 @@ export class BilliardTop extends BaseCommonScript {
     @property(Label)
     labelGold: Label;
     @property(Label)
-    labelScore: Label; // 9球金币
+    labelGold9: Label; // 9球金币
     @property(Node)
     node8Gold: Node;
     @property(Node)
     node9Gold: Node;
     @property(Node)
     node9Balls: Node;
+    @property(Label)
+    lablelScore: Label;
 
     mapAtlas:{ [key: string]: SpriteFrame }
 
     private playerUI: PlayerUI[] = [];
     private actionList:Function[] = [];
     private isPlaying = false;
+    private maxLeng: number;
 
     public register_event() {
         // 注册指定的监听方法，格式如下
@@ -57,7 +61,7 @@ export class BilliardTop extends BaseCommonScript {
         players.forEach(p => {
             this.playerUI.push({
                 uid: 0,
-                shadeCD: p.getChildByName('SpriteCD'),
+                nodeShade: p.getChildByName('Sprite'),
                 labelName: p.getChildByPath('SpriteName/Label').getComponent(Label),
                 spriteHead: p.getChildByPath('p_head_billiard/head_mask/img_head').getComponent(Sprite),
                 shadeHeadCD: p.getChildByPath('p_head_billiard/head_mask/CDShade'),
@@ -66,6 +70,7 @@ export class BilliardTop extends BaseCommonScript {
                 nodeBalls:  p.getChildByName('NodeBalls'),
                 nodeMsg: p.getChildByName('NodeMsg'),
                 emojiPos: Vec3.ZERO.clone(),
+                nodeDot: p.getChildByPath('p_head_billiard/SpriteHeadCD/NodeDot'),
             });
         });
     }
@@ -206,17 +211,18 @@ export class BilliardTop extends BaseCommonScript {
         let MaxTime = BilliardData.instance.getActionMaxTimes();
         if (player) {
             player.spriteCD.node.active = true;
-            player.labelCD.node.active = true;
-            player.shadeCD.active = true;
-            player.shadeHeadCD.active = true;
+            // player.labelCD.node.active = true;
+            // player.shadeCD.active = true;
+            // player.shadeHeadCD.active = true;
+            player.nodeDot.active = true;
 
             const switchCD = player.spriteCD.node.getComponent(BilliardSwitchFrame);
-            const switchShader = player.shadeCD.getComponent(BilliardSwitchFrame);
+            // const switchShader = player.shadeCD.getComponent(BilliardSwitchFrame);
             switchCD.switchSprite(0);
-            switchShader.switchSprite(0);
+            // switchShader.switchSprite(0);
 
-            player.labelCD.fontSize = 48;
-            player.labelCD.color = Color.WHITE;
+            // player.labelCD.fontSize = 48;
+            // player.labelCD.color = Color.WHITE;
             let onUpdate = (dt)=>{
                 let perCD = countDown;
                 countDown -= dt;
@@ -226,16 +232,22 @@ export class BilliardTop extends BaseCommonScript {
                         yy.event.emit(yy.Event_Name.billiard_action_arrow_cd, countDown);
                     }
                     this.unschedule(onUpdate);
-                    player.labelCD.string = `${countDown}`;
+                    // player.labelCD.string = `${countDown}`;
                     yy.audio.stopSound();
                     return;
                 }
                 let cd = Math.floor(countDown);
 
-                player.labelCD.string = `${cd + 1}`;
+                // player.labelCD.string = `${cd + 1}`;
                 player.spriteCD.fillRange = (countDown / MaxTime);
+                player.nodeDot.position = player.nodeDot.position.setX(this.maxLeng * player.spriteCD.fillRange);
 
-                if (perCD > 5.05 && countDown <= 5.05) {
+                if (countDown > 5.05 && countDown <= 15.05) {
+                    switchCD.switchSprite(1);
+                    BilliardTools.instance.playSoundCD();
+                }
+                else if (countDown > 0 && countDown <= 5.05) {
+                    switchCD.switchSprite(2);
                     BilliardTools.instance.playSoundCD();
                 }
                 // else if (perCD > 4.05 && countDown <= 4.05) {
@@ -260,13 +272,13 @@ export class BilliardTop extends BaseCommonScript {
                     if (BilliardTools.instance.isMyAction()){
                         yy.event.emit(yy.Event_Name.billiard_action_arrow_cd, cd + 1)
                     }
-                    switchCD.switchSprite(1);
-                    switchShader.switchSprite(1);
-                    player.labelCD.fontSize = 80;
-                    player.labelCD.color = Color.RED;
+                    // switchCD.switchSprite(1);
+                    // switchShader.switchSprite(1);
+                    // player.labelCD.fontSize = 80;
+                    // player.labelCD.color = Color.RED;
                 }
             }
-            player.labelCD.string = `${Math.floor(countDown) + 1}s`;
+            // player.labelCD.string = `${Math.floor(countDown) + 1}s`;
             this.schedule(onUpdate, 0);
         }
         return this;
@@ -278,9 +290,9 @@ export class BilliardTop extends BaseCommonScript {
         let player = this.getPlayerByUID(BilliardData.instance.getActionUid());
         if (player) {
             player.spriteCD.node.active = false;
-            player.labelCD.node.active = false;
-            player.shadeCD.active = false;
-            player.shadeHeadCD.active = false;
+            // player.labelCD.node.active = false;
+            // player.shadeCD.active = false;
+            // player.shadeHeadCD.active = false;
         }
         return this;
     }
@@ -297,9 +309,9 @@ export class BilliardTop extends BaseCommonScript {
         let player = this.getPlayerByUID(BilliardData.instance.getActionUid());
         if (player) {
             player.spriteCD.node.active = false;
-            player.labelCD.node.active = false;
-            player.shadeCD.active = false;
-            player.shadeHeadCD.active = false;
+            // player.labelCD.node.active = false;
+            // player.shadeCD.active = false;
+            // player.shadeHeadCD.active = false;
         }
         this.unscheduleAllCallbacks();
     }
@@ -309,7 +321,7 @@ export class BilliardTop extends BaseCommonScript {
         if (BilliardData.instance.is8Ball()) 
             this.labelGold.string = yy.money.formatMoney(gold, false);
         if (BilliardData.instance.is9Ball()) 
-            this.labelScore.string = yy.money.formatMoney(gold, false);
+            this.labelGold9.string = yy.money.formatMoney(gold, false);
         return this;
     }
 
@@ -380,14 +392,22 @@ export class BilliardTop extends BaseCommonScript {
         this.node.active = true;
         this.playerUI.forEach(player => {
             player.nodeBalls.active = true;
+            player.nodeShade.active = true;
         });
 
+        this.maxLeng = 640;
         this.node8Gold.active = true;
     }
 
     show9BallUI() {
+        this.maxLeng = 560;
         this.node.active = true;
         this.node9Gold.active = true;
+
+        this.playerUI.forEach(player => {
+            player.spriteCD = player.spriteCD.node.parent.getChildByPath('SpriteHeadCD9').getComponent(Sprite);
+            player.nodeDot = player.spriteCD.node.getChildByName("NodeDot");
+        });
     }
 
     showGuide() {
