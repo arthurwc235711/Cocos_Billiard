@@ -52,6 +52,7 @@ export class BilliardTop extends BaseCommonScript {
         // 注册指定的监听方法，格式如下
         this.event_func_map = {
             [yy.Event_Name.billiard_send_msg]: "onMsg",
+            [yy.Event_Name.billiard_set_score]: "onSetScore",
         };
         super.register_event();
     }
@@ -397,12 +398,14 @@ export class BilliardTop extends BaseCommonScript {
 
         this.maxLeng = 640;
         this.node8Gold.active = true;
+        this.lablelScore.fontSize = 42;
     }
 
     show9BallUI() {
         this.maxLeng = 560;
         this.node.active = true;
         this.node9Gold.active = true;
+        this.lablelScore.fontSize = 30;
 
         this.playerUI.forEach(player => {
             player.spriteCD = player.spriteCD.node.parent.getChildByPath('SpriteHeadCD9').getComponent(Sprite);
@@ -413,6 +416,21 @@ export class BilliardTop extends BaseCommonScript {
     showGuide() {
         this.node.active = false;
     }
+
+    onSetScore(socres: protoBilliard.ScoreBoardData[]) {
+        if (socres) {
+            const m = socres.filter(s => s.uid === yy.user.getUid())[0];
+            const o = socres.filter(s => s.uid !== yy.user.getUid())[0];
+            if (m && o && (m.scoreboard > 0 || o.scoreboard > 0)) {
+                this.lablelScore.string = `${m.scoreboard} - ${o.scoreboard}`;
+                this.lablelScore.node.active = true;
+            }
+            else {
+                this.lablelScore.node.active = false;
+            }
+        }
+    }
+
 }
 
 

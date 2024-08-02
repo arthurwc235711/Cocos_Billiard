@@ -393,6 +393,34 @@ declare global {
 
 		}
 
+		/** Properties of a ScoreBoardData. */
+		interface IScoreBoardData{
+
+			/** ScoreBoardData uid */
+			uid?: (number | null);
+
+			/** ScoreBoardData scoreboard */
+			scoreboard?: (number | null);
+
+		}
+
+		/** Represents a ScoreBoardData. */
+		class ScoreBoardData implements IScoreBoardData {
+
+			/**
+			* Constructs a new %s.
+			* @param [properties] Properties to set
+			*/
+			constructor(properties?: protoBilliard.IScoreBoardData);
+
+			/** ScoreBoardData uid */
+			public uid: number | null;
+
+			/** ScoreBoardData scoreboard */
+			public scoreboard: number | null;
+
+		}
+
 		/** Properties of a IPosition. */
 		interface IIPosition{
 
@@ -562,6 +590,9 @@ declare global {
 			/** IStart chipPot */
 			chipPot?: (number | null);
 
+			/** IStart scoreBoardVS */
+			scoreBoardVS?: (ScoreBoardData[] | null);
+
 		}
 
 		/** Represents a IStart. */
@@ -584,6 +615,9 @@ declare global {
 
 			/** IStart chipPot */
 			public chipPot: number | null;
+
+			/** IStart scoreBoardVS */
+			public scoreBoardVS: ScoreBoardData[] | null;
 
 		}
 
@@ -2325,6 +2359,52 @@ declare global {
 
 			/** LogMsg prolist */
 			public prolist: LogProtocol[] | null;
+
+		}
+
+		/** Properties of a UserEnterGame. */
+		interface IUserEnterGame{
+
+			/** UserEnterGame tid */
+			tid?: (number | Long | null);
+
+			/** UserEnterGame stage */
+			stage?: (number | null);
+
+			/** UserEnterGame user */
+			user?: (UserInfo | null);
+
+			/** UserEnterGame chipPot */
+			chipPot?: (number | null);
+
+			/** UserEnterGame tableplayercount */
+			tableplayercount?: (number | null);
+
+		}
+
+		/** Represents a UserEnterGame. */
+		class UserEnterGame implements IUserEnterGame {
+
+			/**
+			* Constructs a new %s.
+			* @param [properties] Properties to set
+			*/
+			constructor(properties?: protoBilliard.IUserEnterGame);
+
+			/** UserEnterGame tid */
+			public tid: number | Long | null;
+
+			/** UserEnterGame stage */
+			public stage: number | null;
+
+			/** UserEnterGame user */
+			public user: UserInfo | null;
+
+			/** UserEnterGame chipPot */
+			public chipPot: number | null;
+
+			/** UserEnterGame tableplayercount */
+			public tableplayercount: number | null;
 
 		}
 

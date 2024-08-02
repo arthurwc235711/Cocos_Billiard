@@ -22,6 +22,8 @@ export default [
     "billiard_touch_end",
     "billiard_guide_next",
 
+    "billiard_set_score",
+
     // 游戏协议
     "billiard_reconnect",
 

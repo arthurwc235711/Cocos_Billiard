@@ -335,8 +335,13 @@ export class BilliardService extends StackListenerNew {
         this.tid = msg.tid;
         BilliardData.instance.clearData();
 
+        const scores: protoBilliard.ScoreBoardData[] = [];
         msg.users.forEach(player=>{
             BilliardData.instance.addPlayer(player.uid, player.nick, player.icon, player.scoreboard);
+            let t = new protoBilliard.ScoreBoardData();
+            t.uid = player.uid;
+            t.scoreboard = player.scoreboard;
+            scores.push(t);
         })
         BilliardData.instance.setGameType(msg.gamePlay);
         yy.event.emit(yy.Event_Name.billiard_notify_entergame);
@@ -372,6 +377,10 @@ export class BilliardService extends StackListenerNew {
             let hitType = msg.users.filter(u=>u.uid === msg.action.uid)[0].hitType;
             billiardData.setHitBallType(hitType);
             yy.event.emit(yy.Event_Name.billiard_reconnect, msg);
+
+
+
+            yy.event.emit(yy.Event_Name.billiard_set_score, scores);
         }
         else {
 
@@ -665,6 +674,10 @@ export class BilliardService extends StackListenerNew {
             // yy.log.w("respStart");
             yy.event.emit(yy.Event_Name.billiard_notify_start);
             yy.event.emit(yy.Event_Name.billiard_notify_setgold, msg.chipPot);
+
+
+
+            yy.event.emit(yy.Event_Name.billiard_set_score, msg.scoreBoardVS);
         }
     }
 
