@@ -337,7 +337,8 @@ export class BilliardService extends StackListenerNew {
                 return;
             }
         }
-
+        
+        this.isUseMatch = false; // 重置
 
         this.tid = msg.tid;
         BilliardData.instance.clearData();
