@@ -1,4 +1,4 @@
-import { _decorator, Button, Component, Label, Node, Sprite, tiledLayerAssembler, Vec3 } from 'cc';
+import { _decorator, Button, Component, Label, Node, Sprite, tiledLayerAssembler, tween, Vec3 } from 'cc';
 import { yy } from '../../../../../../yy';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { BilliardService } from '../../../net/BilliardService';
@@ -195,8 +195,11 @@ export class BilliardWinsView extends BaseCommonScript {
         if (reason === 0) {// 强制退出
             this.nodePao.active = true;
             this.labelTips.string = "Opponent has left.";
-            this.btnPlayAgain.interactable = false;
+            this.btnPlayAgain.node.active = false;
             this.btnRematch.interactable = true;
+            tween(this.btnRematch.node)
+            .to(0.3, {position:Vec3.ZERO})
+            .start();
         }
     }
 
