@@ -319,18 +319,25 @@ export class BilliardService extends StackListenerNew {
     notifyEnterGame(data: any) {
         let msg: protoBilliard.GameStatus = data.msg;   
 
-        if (msg.users.length === 1) {
-            if (this.isUseMatch)  {
+        // 重连异常数据判断
+        if (this.isUseMatch) {
+            if (msg.users.length === 1) {
                 yy.log.w("illegal match user  one");
-                this.isUseMatch = false; // 重置
+                // this.isUseMatch = false; // 重置
                 return; 
             }
-            else {
-                // 数据异常退出
-                yy.event.emit(yy.Event_Name.CasualCommonQuit);
+        }
+        else {
+            if (msg.users.length === 1) {
+                yy.event.emit(yy.Event_Name.CasualCommonQuit);// 数据异常退出
+                return;
+            }
+            else if (msg.stage === 0) {
+                yy.event.emit(yy.Event_Name.CasualCommonQuit);// 数据异常退出
                 return;
             }
         }
+
 
         this.tid = msg.tid;
         BilliardData.instance.clearData();
