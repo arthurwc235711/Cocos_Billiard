@@ -56,20 +56,20 @@ export class BilliardGameTips extends BaseCommonScript {
     }
 
     turnTips() {
-        if (BilliardTools.instance.isMyAction()) {
-            this.nodeYouTurn.active = true;
-            this.scheduleOnce(()=>{
-                this.nodeYouTurn.active = false;
-            }, 2);
-        }
+        // if (BilliardTools.instance.isMyAction()) {
+        //     this.nodeYouTurn.active = true;
+        //     this.scheduleOnce(()=>{
+        //         this.nodeYouTurn.active = false;
+        //     }, 2);
+        // }
 
-        // BilliardGameTips.actionList.push(()=>{
-        //     if (BilliardTools.instance.isMyAction()) {
-        //         this.isPlaying = true;
-        //         this.labelTips.string = "It's your turn";
-        //         this.nodeTips.active = true;
-        //     }
-        // });
+        BilliardGameTips.actionList.push(()=>{
+            if (BilliardTools.instance.isMyAction()) {
+                this.isPlaying = true;
+                this.labelTips.string = "It's your turn";
+                this.nodeTips.active = true;
+            }
+        });
     }
 
     cueInPocketTips() {
