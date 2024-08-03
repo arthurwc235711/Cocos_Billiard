@@ -288,6 +288,11 @@ function raySphere(origin: Vec3, direction: Vec3, raySphere: RaySphereCollision)
   let m = origin.clone().subtract(raySphere.node.worldPosition);
 
   let b = m.dot(direction);
+  return (m.lengthSqr() - b*b) < ((raySphere.radius + R) * (raySphere.radius + R))
+  // return result;
+
+  
+
   let c = m.dot(m) - (raySphere.radius + R) * (raySphere.radius + R);
   // 如果c > 0且b > 0，射线起点在球体外部且在球心方向之外，没有交点
   if (c > 0 && b > 0)   {
