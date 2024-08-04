@@ -549,7 +549,8 @@ export class BilliardUIView extends BaseCommonScript {
         }
         // yy.log.w("setAngle angle", angle, nodeArrow.angle);
         BilliardData.instance.setAngle(angle);
-
+        const directionVector3D = new Vec3(Math.cos(angle), Math.sin(angle), 0);
+        direction = directionVector3D;// 当前弧度转为方向向量防止 保留5小数的弧度进度异常
         let nodes = rayHit(cueBall.node.worldPosition, direction);
         let uiTran = this.cue.nodeCueLine.getComponent(UITransform);
         this.isShotAtBall = false;
@@ -561,6 +562,7 @@ export class BilliardUIView extends BaseCommonScript {
             if (collision instanceof RaySphereCollision) {
                 let shotAtBall = nodes[0].getComponent(Ball);
                 if (shotAtBall) {
+                    BilliardManager.instance.getTable().shotBall = shotAtBall;
                     this.isShotAtBall = true;
                     let isVaildShot = BilliardTools.instance.isVaildShot(shotAtBall.id);
                     this.cue.showBallArrow(isVaildShot);
@@ -631,7 +633,7 @@ export class BilliardUIView extends BaseCommonScript {
 
             }
             else {
-
+                BilliardManager.instance.getTable().shotBall = null;
                 uiTran.setContentSize(BilliardTools.instance.getRectangleDisanceBy2dCamera(cueBall.node, nodes[0], direction), uiTran.contentSize.y);
                 this.cue.showBallArrow(true)
                 let furCueNode = this.cue.nodeAllow;
@@ -648,6 +650,7 @@ export class BilliardUIView extends BaseCommonScript {
         }
         else {
             //  yy.log.w("", "未检测出碰撞点");
+            BilliardManager.instance.getTable().shotBall = null;
             uiTran.setContentSize(100, uiTran.contentSize.y);
         }
 

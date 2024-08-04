@@ -181,6 +181,9 @@ export class Ball extends Component {
       this.rvel.copy(Vec3.ZERO)
       this.state = State.Stationary
     }
+    isStationary() {
+        return this.state === State.Stationary;
+    }
 
     setSliding() {
         this.state = State.Sliding
