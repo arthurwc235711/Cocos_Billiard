@@ -2,7 +2,7 @@
 import { R, g } from "./constants"
 import { Vec3 } from "cc"
 import { Ball, State } from "../../module/billiard_table/scripts/Ball"
-import { up, upCross, zero } from "../utils"
+import { up, zero } from "../utils"
 import { track } from "./track"
 import { yy } from "../../../../../yy"
 
@@ -37,7 +37,6 @@ export class Pocket {
       const toCentre = this.pos.clone().subtract(ball.pos).normalize().setZ(0)
       if (z > -R / 2) {
         ball.vel.addScaledVector(toCentre, R * 7 * t * g)
-        ball.rvel.addScaledVector(upCross(toCentre), 7 * t * g)
       }
       if (ball.vel.dot(toCentre) < 0) {
         // ball.ballmesh.trace.forceTrace(ball.pos)

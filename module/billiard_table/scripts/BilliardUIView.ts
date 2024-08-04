@@ -203,7 +203,7 @@ export class BilliardUIView extends BaseCommonScript {
                         let inc = Math.max(Math.abs(local.x - perLocal.x), Math.abs(local.y - perLocal.y));
                         let xs = 1;
                         if (this.isShotAtBall) {
-                            xs = inc < 5 ? 0.5 : 1;
+                            xs = inc < 5 ? 0.1 : 1;
                         }
 
                         let tran = this.nodeArrow.getComponent(UITransform);
@@ -222,11 +222,11 @@ export class BilliardUIView extends BaseCommonScript {
                         this.preTouchLocation.y = cs.y;
                     }
                     else {
-                        // let inc = Math.max(Math.abs(local.x - perLocal.x), Math.abs(local.y - perLocal.y));
+                        let inc = Math.max(Math.abs(local.x - perLocal.x), Math.abs(local.y - perLocal.y));
                         let xs = 1;
-                        // if (this.isShotAtBall) {
-                        //     xs = inc < 5 ? 0.25 : 0.5;
-                        // }
+                        if (this.isShotAtBall) {
+                            xs = inc < 5 ? 0.25 : 0.5;
+                        }
                         function getAngle(a) {
                             let tmp = a + angle * f * xs;
                             if (tmp >360) {
@@ -356,7 +356,7 @@ export class BilliardUIView extends BaseCommonScript {
             }
 
             let dealtInc = Math.max(Math.abs(local.x - perLocal.x), Math.abs(local.y - perLocal.y));
-            let xs = dealtInc < 3 ? 0.5 : 1;
+            let xs = dealtInc < 3 ? 0.1 : 1;
 
             let tran = this.nodeArrow.getComponent(UITransform);
             let sin = R2d / BilliardData.instance.getAngleLimit()  / (tran.width + R2d*2)
@@ -539,7 +539,6 @@ export class BilliardUIView extends BaseCommonScript {
         // this.setArrowLine(true);
         this.cue.showLine()
         let direction = wp.clone().subtract(cueBall.node.worldPosition).normalize();
-        let tmp = direction.angleTo(Vec3.RIGHT)
         let angle = BilliardTools.instance.roundToFiveDecimalPlaces(direction.angleTo(Vec3.RIGHT));// 返回弧度
         if (wp.y > cueBall.node.worldPosition.y) {
             nodeCueArrow.angle = angle * Rtd;// 返回角度
@@ -550,8 +549,7 @@ export class BilliardUIView extends BaseCommonScript {
         }
         // yy.log.w("setAngle angle", angle, nodeArrow.angle);
         BilliardData.instance.setAngle(angle);
-        const directionVector3D = new Vec3(Math.cos(angle), Math.sin(angle), 0);
-        direction = directionVector3D;// 当前弧度转为方向向量防止 保留5小数的弧度进度异常
+
         let nodes = rayHit(cueBall.node.worldPosition, direction);
         let uiTran = this.cue.nodeCueLine.getComponent(UITransform);
         this.isShotAtBall = false;
