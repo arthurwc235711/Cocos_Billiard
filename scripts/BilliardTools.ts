@@ -212,7 +212,6 @@ export class BilliardTools {
             scene.get_scene_layer_popup().addChild(clone);
             if (cmp) {
                 cmp.reqGameSceneMatching()
-                BilliardService.instance.sendEnterReMatching();
                 call && call(cmp);
             }
         });

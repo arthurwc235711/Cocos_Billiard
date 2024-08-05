@@ -82,7 +82,11 @@ export class BilliardMatchView extends BaseCommonScript {
     }
 
     reqGameSceneMatching() {
-        yy.log.w("reqGameSceneMatching");
+        // yy.log.w("reqGameSceneMatching");
+        this.loopSend = ()=>{
+            BilliardService.instance.sendEnterReMatching();
+        }
+        this.schedule(this.loopSend, 1);
     }
 
     onClickGoBack() {

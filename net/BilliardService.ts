@@ -627,6 +627,7 @@ export class BilliardService extends StackListenerNew {
 
         this.levelData = req;
         yy.socket.send(this.serviceName.enterMatching, req);
+        this.isUseMatch = true;
     }
 
 
