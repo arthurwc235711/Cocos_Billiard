@@ -444,13 +444,15 @@ export class BilliardTop extends BaseCommonScript {
             if (m && o && (m.scoreboard > 0 || o.scoreboard > 0)) {
                 this.lablelScore.string = `${m.scoreboard} - ${o.scoreboard}`;
                 this.lablelScore.node.active = true;
+                if (BilliardData.instance.is8Ball()) {
+                    this.labelGold.node.parent.parent.position = new Vec3(0, 23, 0);
+                }
             }
             else {
                 this.lablelScore.node.active = false;
             }
         }
     }
-
 }
 
 
