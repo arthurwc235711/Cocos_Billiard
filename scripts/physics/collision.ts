@@ -6,7 +6,7 @@ import { BilliardManager } from "../BilliardManager"
 import { R } from "./constants"
 
 export class Collision {
-  static isPointPerpendicularToSegment(A, B, C) {
+  private static isPointPerpendicularToSegment(A, B, C) {
     // 计算向量 BC
     const BC = { x: C.x - B.x, y: C.y - B.y };
     
