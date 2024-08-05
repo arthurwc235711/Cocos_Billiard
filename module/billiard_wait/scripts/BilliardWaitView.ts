@@ -33,7 +33,7 @@ export class BilliardWaitView extends BaseCommonScript {
         yy.log.w("BilliardWaitView", msg);
         let isUnlock = true;
         msg.users.forEach(player=>{
-            if (player.status !== 3) {
+            if (player.status === 4) {
                 isUnlock = false;
             }
         });

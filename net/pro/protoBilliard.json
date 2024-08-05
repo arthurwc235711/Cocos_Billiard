@@ -97,6 +97,10 @@
             "hitType": {
               "type": "int32",
               "id": 14
+            },
+            "offlineTimer": {
+              "type": "int32",
+              "id": 15
             }
           }
         },

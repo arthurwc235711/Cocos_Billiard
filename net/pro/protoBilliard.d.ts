@@ -114,6 +114,9 @@ declare global {
 			/** UserInfo hitType */
 			hitType?: (number | null);
 
+			/** UserInfo offlineTimer */
+			offlineTimer?: (number | null);
+
 		}
 
 		/** Represents a UserInfo. */
@@ -166,6 +169,9 @@ declare global {
 
 			/** UserInfo hitType */
 			public hitType: number | null;
+
+			/** UserInfo offlineTimer */
+			public offlineTimer: number | null;
 
 		}
 

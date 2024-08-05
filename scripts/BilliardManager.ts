@@ -15,6 +15,7 @@ import { BilliardTools } from "./BilliardTools";
 import { BilliardNineBall } from "../module/billiard_table/scripts/rules/BilliardNineBall";
 import { ClientConfig } from "../../../../main/data/ClientConfig";
 import { BilliardGuideRules } from "../module/billiard_table/scripts/rules/BilliardGuideRules";
+import { BilliardScene } from "../scene/BilliardScene";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -396,6 +397,21 @@ export class BilliardManager extends BaseCommonInstance{
 
 
         this.setSureBalls();
+
+        let lockTime = 0;
+        // 锁屏判断
+        msg.users.forEach(player=>{
+            if (player.status === 4) {
+                lockTime = player.offlineTimer;
+            }
+        });
+        if(lockTime > 0) {
+            const scene = director.getScene().getComponentInChildren(BilliardScene)
+            const p = scene.get_scene_layer_popup().getChildByName("p_billiard_wait");
+            if (!p) {
+                BilliardTools.instance.openWaitView(lockTime);
+            }
+        }
     }
 
 
