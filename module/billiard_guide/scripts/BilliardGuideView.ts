@@ -134,17 +134,61 @@ export class BilliardGuideView extends BaseCommonScript {
     }
 
     onClickStartGame() {
-        let rules = BilliardManager.instance.getRules();
-        (rules as BilliardGuideRules).restData();
-        yy.event.emit(yy.Event_Name.billiard_clear_game_data);
         let billiardScene = director.getScene().getComponentInChildren(BilliardScene);
-        BilliardService.instance.isStandAlone = false;
-        BilliardData.instance.setGameType(billiardScene.levelData.maxBetMoney);
-        BilliardTools.instance.openMatchView(billiardScene.levelData, null);
+        let data = billiardScene.levelData;
+        const money = yy.user.getTotalMoney();
+        if (money < data.carryLower) {
+            yy.dialog.show(
+                {
+                    title: "Tip",
+                    content: "You need more money to enter the room.",
+                    isCancelEnable: false,
+                    isConfirmEnable: true,
+                    confirmText: "OK",
+                    confirmCallback: () => {
+                    },
+                    closeCallback: () => {
+                    },
+                    fontSize: 50,
+                    lineHeight: 60,
+                    // horizontalAlign: HorizontalTextAlignment.CENTER,
+                    // verticalAlign: VerticalTextAlignment.CENTER,
+                }
+            )
+        }
+        else if (money > data.carryUpper) {
+            yy.dialog.show(
+                {
+                    title: "Tip",
+                    content: "Please enter a more advanced room.",
+                    isCancelEnable: false,
+                    isConfirmEnable: true,
+                    confirmText: "OK",
+                    confirmCallback: () => {
+                    },
+                    closeCallback: () => {
+                    },
+                    fontSize: 50,
+                    lineHeight: 60,
+                    // horizontalAlign: HorizontalTextAlignment.CENTER,
+                    // verticalAlign: VerticalTextAlignment.CENTER,
+                }
+            )
+        }
+        else {
+            let rules = BilliardManager.instance.getRules();
+            (rules as BilliardGuideRules).restData();
+            yy.event.emit(yy.Event_Name.billiard_clear_game_data);
+    
+            BilliardService.instance.isStandAlone = false;
+            BilliardData.instance.setGameType(billiardScene.levelData.maxBetMoney);
+            BilliardTools.instance.openMatchView(billiardScene.levelData, null);
+    
+            let menu = director.getScene().getComponentInChildren(BilliardMenu);
+            menu.nodeButton.active = true;
+            this.node.destroy();
+        }
 
-        let menu = director.getScene().getComponentInChildren(BilliardMenu);
-        menu.nodeButton.active = true;
-        this.node.destroy();
 
         BilliardTools.instance.setNeedGuide();
     }
