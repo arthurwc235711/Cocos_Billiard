@@ -1,4 +1,4 @@
-import { Camera, director, find, instantiate, misc, Node, Prefab, UITransform, Vec3 } from "cc";
+import { Camera, director, find, instantiate, isValid, misc, Node, Prefab, UITransform, Vec3 } from "cc";
 import { BilliardData } from "../data/BilliardData";
 import { yy } from "../../../../yy";
 import { R, R2d } from "./physics/constants";
@@ -169,9 +169,11 @@ export class BilliardTools {
             yy.loader.asyncLoadPrefab(BilliardConst.bundleName, path, (p)=>{
                 let clone = instantiate(p) as Node;
                 let cmp = clone.getComponent(BaseCommonScript)
-                const scene = s.getComponentInChildren(BilliardScene)
-                scene.get_scene_layer_popup().addChild(clone);
-                call && call(cmp);
+                if (isValid(s)) {
+                    const scene = s.getComponentInChildren(BilliardScene)
+                    scene.get_scene_layer_popup().addChild(clone);
+                    call && call(cmp);
+                }
             });
         }
 

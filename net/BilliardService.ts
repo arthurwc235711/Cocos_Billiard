@@ -106,7 +106,7 @@ export class BilliardService extends StackListenerNew {
         ["Billiard9BallService_EnterGame"]: "respEnterGame",
         ["Billiard9BallService_Ready"]: "respReady",
         ["Billiard9BallService_Exit"]: "respExit",
-        ["Billiard9BallService_ClientEvent"]: "respClientEvent",
+        ["Billiard9BallService_ClientEevnt"]: "respClientEvent",
 
 
         ['AccountService.OnlineStatus']: 'onlineStatus',
@@ -197,6 +197,7 @@ export class BilliardService extends StackListenerNew {
                 yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
             }
             else if (resp.code === 2806) {//取消失败，已经在桌子上
+                this.sendEnterByTable();
                 // 匹配中不能返回大厅
             }
             else if (resp.code === 2807) {//服务器正在分配，不能取消
@@ -222,7 +223,7 @@ export class BilliardService extends StackListenerNew {
             // let protoObj = ProtoHelper.Ins.getProto("protoBeauty", "BeautyExtendSpinRsp")
             // let beautyMsg = protoObj.decode(msg.ExtendPlayModeRsp);
             // yy.event.emit(yy.Event_Name.Billiard_Matching_Success, notify);
-            // this.sendEnterByTable();
+            this.sendEnterByTable();
         }
         else if(notify.code === 2805) {//找桌子失败，重新排队入桌
 
@@ -261,6 +262,9 @@ export class BilliardService extends StackListenerNew {
         if(data.code === 0 && msg) {
             if (msg.code !== 0) {
                 yy.event.emit(yy.Event_Name.CasualCommonQuit);
+            }
+            else {
+                this.notifyEnterGame( {msg:msg.gameStatus} );
             }
         }
         else { // 异常重连 退出大厅
