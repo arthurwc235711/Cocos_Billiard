@@ -1,4 +1,4 @@
-import { _decorator, Color, Component, EventTouch, instantiate, Label, Node, Sprite, SpriteFrame, Vec3 } from 'cc';
+import { _decorator, Color, Component, EventTouch, instantiate, Label, Node, Sprite, SpriteFrame, UIOpacity, Vec3 } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { BilliardData } from '../../../data/BilliardData';
 import { yy } from '../../../../../../yy';
@@ -19,6 +19,7 @@ interface PlayerUI {
     nodeMsg: Node,
     emojiPos: Vec3,
     nodeDot: Node;
+    nodeBallMask: Node;
 }
 
 
@@ -40,6 +41,7 @@ export class BilliardTop extends BaseCommonScript {
     node9Balls: Node;
     @property(Label)
     lablelScore: Label;
+
 
     mapAtlas:{ [key: string]: SpriteFrame }
 
@@ -72,6 +74,7 @@ export class BilliardTop extends BaseCommonScript {
                 nodeMsg: p.getChildByName('NodeMsg'),
                 emojiPos: Vec3.ZERO.clone(),
                 nodeDot: p.getChildByPath('p_head_billiard/SpriteHeadCD/NodeDot'),
+                nodeBallMask: p.getChildByPath('BallsMask'),
             });
         });
     }
@@ -208,7 +211,14 @@ export class BilliardTop extends BaseCommonScript {
     }
     setPlayerCountDown(countDown: number, uid: number = 0) {
         if (uid === 0) uid = BilliardData.instance.getActionUid();
-        let player = this.getPlayerByUID(uid);
+        const player = this.getPlayerByUID(uid);
+        const oPlayer = this.playerUI.filter(p => p.uid !== uid)[0];
+        if (oPlayer) { // 置灰非行动玩家
+            oPlayer.labelName.node.getComponent(UIOpacity).opacity = 128;
+            if(BilliardData.instance.is8Ball() ) {
+                oPlayer.nodeBallMask.active = true;
+            }
+        }
         let MaxTime = BilliardData.instance.getActionMaxTimes();
         if (player) {
             player.spriteCD.node.active = true;
@@ -288,6 +298,11 @@ export class BilliardTop extends BaseCommonScript {
     stopCountDown() {
         this.unscheduleAllCallbacks();
         yy.audio.stopSound();
+  
+        this.playerUI.forEach(p=>{
+            p.labelName.node.getComponent(UIOpacity).opacity = 255;
+            p.nodeBallMask.active = false;
+        });
         let player = this.getPlayerByUID(BilliardData.instance.getActionUid());
         if (player) {
             player.spriteCD.node.active = false;
@@ -314,6 +329,11 @@ export class BilliardTop extends BaseCommonScript {
             // player.shadeCD.active = false;
             // player.shadeHeadCD.active = false;
         }
+
+        this.playerUI.forEach(p=>{
+            p.labelName.node.getComponent(UIOpacity).opacity = 255;
+            p.nodeBallMask.active = false;
+        });
         this.unscheduleAllCallbacks();
     }
 
