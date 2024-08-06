@@ -214,10 +214,14 @@ export class BilliardTop extends BaseCommonScript {
         const player = this.getPlayerByUID(uid);
         const oPlayer = this.playerUI.filter(p => p.uid !== uid)[0];
         if (oPlayer) { // 置灰非行动玩家
-            oPlayer.labelName.node.getComponent(UIOpacity).opacity = 128;
             if(BilliardData.instance.is8Ball() ) {
+                this.playerUI.forEach(p=>{
+                p.labelName.node.getComponent(UIOpacity).opacity = 255;
+                p.nodeBallMask.active = false;
+                });
                 oPlayer.nodeBallMask.active = true;
             }
+            oPlayer.labelName.node.getComponent(UIOpacity).opacity = 128;
         }
         let MaxTime = BilliardData.instance.getActionMaxTimes();
         if (player) {
@@ -299,10 +303,10 @@ export class BilliardTop extends BaseCommonScript {
         this.unscheduleAllCallbacks();
         yy.audio.stopSound();
   
-        this.playerUI.forEach(p=>{
-            p.labelName.node.getComponent(UIOpacity).opacity = 255;
-            p.nodeBallMask.active = false;
-        });
+        // this.playerUI.forEach(p=>{
+        //     p.labelName.node.getComponent(UIOpacity).opacity = 255;
+        //     p.nodeBallMask.active = false;
+        // });
         let player = this.getPlayerByUID(BilliardData.instance.getActionUid());
         if (player) {
             player.spriteCD.node.active = false;
