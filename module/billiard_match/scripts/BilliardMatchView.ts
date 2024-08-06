@@ -159,6 +159,8 @@ export class BilliardMatchView extends BaseCommonScript {
                 .call(()=>{
                     this.nodeAddGold.active = true;
                     this.nodeSpineGod.active = true;
+                    BilliardTools.instance.playSoundFlyGold();
+
                 })
                 .start();
 
