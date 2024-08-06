@@ -125,7 +125,7 @@ export class BilliardWinsView extends BaseCommonScript {
         else {
             this.labelMyGold.string = yy.money.formatMoney( yy.user.getTotalMoney(), false);
         }
-        this.rollNum(this.labelGold, data.ChipPot.toNumber(), 0, 3);
+        this.rollNum(this.labelGold, data.ChipPot.toNumber(), 0, 2);
 
         // this.labelGold.string = yy.money.formatMoney( data.ChipPot.toNumber(), false);
 
@@ -150,6 +150,7 @@ export class BilliardWinsView extends BaseCommonScript {
                 if (num <= 0)  {
                     num = distNum
                     label.string = ""//yy.money.formatMoney(num, false);
+                    label.node.parent.active = false;
                     this.unschedule(onUpdate);
                 }
             }

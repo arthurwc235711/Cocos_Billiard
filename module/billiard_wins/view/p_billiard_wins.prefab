@@ -3944,7 +3944,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 3.307,
-      "y": 102.686,
+      "y": 45,
       "z": 0
     },
     "_lrot": {
@@ -6735,7 +6735,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -73.992,
+      "y": -127.053,
       "z": 0
     },
     "_lrot": {
@@ -7119,7 +7119,7 @@
       "__id__": 53
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 321
@@ -7176,13 +7176,13 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1922,
-      "height": 1082
+      "width": 1920,
+      "height": 1081
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.2676586888657649,
-      "y": 0.5369500924214418
+      "x": 0.2674166666666667,
+      "y": 0.5365217391304348
     },
     "_id": ""
   },
@@ -7220,7 +7220,7 @@
     "_debugBones": false,
     "_debugSlots": false,
     "_skeletonData": {
-      "__uuid__": "004900ad-1c8d-4e93-8588-0e252c92c6aa",
+      "__uuid__": "afd328dc-d943-4ec5-86da-bc057b0d95ed",
       "__expectedType__": "sp.SkeletonData"
     },
     "_premultipliedAlpha": false,
