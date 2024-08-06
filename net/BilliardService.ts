@@ -55,6 +55,8 @@ export class BilliardService extends StackListenerNew {
 
     public isStandAlone = false;
 
+    public isUserEnterByTable = false;
+
     private tid: number;
     private levelData: protoBilliard.EnterReq;
     private rematchData: protoBilliard.BilliardsTableCfg
@@ -143,7 +145,7 @@ export class BilliardService extends StackListenerNew {
     
 
 
-    private isUseMatch = false;  // 用于区分重连时的异常状态
+    public isUseMatch = false;  // 用于区分重连时的异常状态
     /********************************************匹配相关  开始**************************************** */
     sendEnterMatching(data: ISubGameTableInfoItemData) {
         let req: protoBilliard.EnterReq = new protoBilliard.EnterReq();
@@ -164,30 +166,38 @@ export class BilliardService extends StackListenerNew {
     }
     
     respEnterMatching(data: any, req: any) {
-        let resp = data.msg as protoBilliard.CommonRsp;
+        let resp = data.msg as protoBilliard.EnterRsp;//protoBilliard.CommonRsp
         if(data.code === 0 &&  resp) {
             if (resp.code === 0) {
-                yy.event.emit(yy.Event_Name.Billiard_Matching);
+                this.setTid(resp.tid);
+                this.sendEnterByTable();
+                // yy.event.emit(yy.Event_Name.Billiard_Matching);
             }
             else if( resp.code === 2803 || resp.code == 2804 || resp.code == 2801) {
 
             }
             else {
                 yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel)
-                this.errorTips(resp);
+                // this.errorTips(resp);
             }
         }
         else {
              yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel)
-             this.errorTips(resp);
+            //  this.errorTips(resp);
         }
     }
 
 
     sendLeaveMatching() {
-        let b: protoAlloc.CancelWaitQueueReq = new protoAlloc.CancelWaitQueueReq();
-        b.tableMoney = this.levelData.tableMoney;
-        yy.socket.send(this.serviceName.leaveMatching, b);
+        if (this.isUserEnterByTable) { // 已经进入桌子就发退出房间协议
+            BilliardService.instance.sendExit();
+            yy.event.emit(yy.Event_Name.CasualCommonQuit)
+        }
+        else {
+            let b: protoAlloc.CancelWaitQueueReq = new protoAlloc.CancelWaitQueueReq();
+            b.tableMoney = this.levelData.tableMoney;
+            yy.socket.send(this.serviceName.leaveMatching, b);
+        }
     }
 
     respLeaveMatching(data: any, req: any) {
@@ -197,7 +207,7 @@ export class BilliardService extends StackListenerNew {
                 yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
             }
             else if (resp.code === 2806) {//取消失败，已经在桌子上
-                this.sendEnterByTable();
+                // this.sendEnterByTable();
                 // 匹配中不能返回大厅
             }
             else if (resp.code === 2807) {//服务器正在分配，不能取消
@@ -260,11 +270,11 @@ export class BilliardService extends StackListenerNew {
     BilliardAllocService_EnterByTable(data: any, elapsedTime: number) {
         let msg: protoBilliard.EnterRsp = data.msg;
         if(data.code === 0 && msg) {
-            if (msg.code !== 0) {
-                yy.event.emit(yy.Event_Name.CasualCommonQuit);
+            if (msg.code === 0) {
+                this.notifyEnterGame( {msg:msg.gameStatus} );
             }
             else {
-                this.notifyEnterGame( {msg:msg.gameStatus} );
+                yy.event.emit(yy.Event_Name.CasualCommonQuit);
             }
         }
         else { // 异常重连 退出大厅
@@ -303,6 +313,8 @@ export class BilliardService extends StackListenerNew {
         const req = new protoBilliard.EnterReq();
         req.tid = this.tid;
         this.send(this.serviceName.enterByTable, req);
+
+        this.isUserEnterByTable = true;
     }
 
     // sendEnterGame() {
@@ -343,7 +355,7 @@ export class BilliardService extends StackListenerNew {
             }
         }
         
-        this.isUseMatch = false; // 重置
+
 
         this.tid = msg.tid;
         BilliardData.instance.clearData();
@@ -574,6 +586,7 @@ export class BilliardService extends StackListenerNew {
         if(msg) {
             this.rematchData = msg.tablecfg;
             yy.event.emit(yy.Event_Name.billiard_notify_wins, msg);
+            this.isUserEnterByTable = false;
         }
     }
 

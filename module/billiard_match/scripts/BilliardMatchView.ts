@@ -72,6 +72,11 @@ export class BilliardMatchView extends BaseCommonScript {
         this.setState(BilliardMatchState.eMatching);
     }
 
+    on_uninit(): void {
+        super.on_uninit();
+        BilliardService.instance.isUseMatch = false; // 重置匹配状态 用于特殊重连判断
+    }
+
     reqMatching(data: ISubGameTableInfoItemData) {
         BilliardService.instance.sendEnterMatching(data);
 
