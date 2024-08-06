@@ -51,8 +51,8 @@ export class BilliardMenu extends CasualCommonMenu {
             cancelText: "Leave",
             cancelCallback: () => {
                 yy.log.d("点击了返回大厅按钮")
-                yy.event.emit(yy.Event_Name.CasualCommonQuit)
                 BilliardService.instance.sendExit();
+                yy.event.emit(yy.Event_Name.CasualCommonQuit)
             }
         });
 
