@@ -184,6 +184,7 @@ export class BilliardMatchView extends BaseCommonScript {
 
 
     onMatchingSuccess(msg: protoBilliard.GameStatus) {
+        this.node.getChildByName("ButtonGoBack").active = false;// 隐藏返回按钮
         this.unschedule(this.loopSend);
         let myInfo = msg.users.filter((v)=>v.uid === yy.user.getUid());
         let otherInfo = msg.users.filter((v)=>v.uid !== yy.user.getUid());
