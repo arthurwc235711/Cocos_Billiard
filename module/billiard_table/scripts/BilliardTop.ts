@@ -259,10 +259,14 @@ export class BilliardTop extends BaseCommonScript {
 
                 if (countDown > 5.05 && countDown <= 15.05) {
                     switchCD.switchSprite(1);
-                    BilliardTools.instance.playSoundCD();
+                    // BilliardTools.instance.playSoundCD();
                 }
                 else if (countDown > 0 && countDown <= 5.05) {
                     switchCD.switchSprite(2);
+                    // BilliardTools.instance.playSoundCD();
+                }
+
+                if (perCD > 5.05 && countDown <= 5.05) { // 5秒超时 倒计时播放
                     BilliardTools.instance.playSoundCD();
                 }
                 // else if (perCD > 4.05 && countDown <= 4.05) {
