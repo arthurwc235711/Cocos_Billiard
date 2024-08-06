@@ -450,6 +450,7 @@ export class BilliardTop extends BaseCommonScript {
                 this.lablelScore.node.active = true;
                 if (BilliardData.instance.is8Ball()) {
                     this.labelGold.node.parent.parent.position = new Vec3(0, 23, 0);
+                    this.lablelScore.node.position = new Vec3(0, -56, 0);
                 }
             }
             else {
