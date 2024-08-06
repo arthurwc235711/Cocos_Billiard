@@ -203,7 +203,7 @@ export class BilliardService extends StackListenerNew {
     respLeaveMatching(data: any, req: any) {
         let resp = data.msg as protoBilliard.CommonRsp;
         if(data.code === 0 &&  resp ) {
-            if (resp.code === 0) {// 成功退出
+            if (resp.code === 0|| resp.code === 2808) {// 成功退出
                 yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel);
             }
             else if (resp.code === 2806) {//取消失败，已经在桌子上
