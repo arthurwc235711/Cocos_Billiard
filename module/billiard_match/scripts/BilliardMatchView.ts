@@ -78,7 +78,7 @@ export class BilliardMatchView extends BaseCommonScript {
         this.loopSend = ()=>{
             BilliardService.instance.sendEnterMatching(data);
         }
-        this.schedule(this.loopSend, 1);
+        this.schedule(this.loopSend, 5);
     }
 
     reqGameSceneMatching() {
@@ -86,7 +86,7 @@ export class BilliardMatchView extends BaseCommonScript {
         this.loopSend = ()=>{
             BilliardService.instance.sendEnterReMatching();
         }
-        this.schedule(this.loopSend, 1);
+        this.schedule(this.loopSend, 5);
     }
 
     onClickGoBack() {
