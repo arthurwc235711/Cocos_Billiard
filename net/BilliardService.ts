@@ -527,8 +527,8 @@ export class BilliardService extends StackListenerNew {
         req.angle = billiardData.getAngle() * BilliardConst.multiple;
         req.power = billiardData.getPower() * BilliardConst.multiple;
         req.offset = new protoBilliard.IPosition();
-        req.offset.x = billiardData.getOffset().x * BilliardConst.multiple;;
-        req.offset.y = billiardData.getOffset().y * BilliardConst.multiple;;
+        req.offset.x = billiardData.getOffset().x * BilliardConst.multiple;
+        req.offset.y = billiardData.getOffset().y * BilliardConst.multiple;
         let newMsg = responseMsg.encode(req).finish();
         pb.Cmd = 0x6018;
         pb.TableId = this.tid;
