@@ -219,7 +219,7 @@ export class BilliardTop extends BaseCommonScript {
                 p.labelName.node.getComponent(UIOpacity).opacity = 255;
                 p.nodeBallMask.active = false;
                 });
-                oPlayer.nodeBallMask.active = true;
+                oPlayer.nodeBallMask.active = true && BilliardData.instance.getHitBallType() !== 0; // 为定色不置灰凹槽
             }
             oPlayer.labelName.node.getComponent(UIOpacity).opacity = 128;
         }
