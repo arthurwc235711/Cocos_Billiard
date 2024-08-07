@@ -7,36 +7,6 @@ export class BilliardWriter extends ws_base_writer {
         return super.on_send(service_name, func_name, pb, callback);
     }
 
-    BilliardService_Sit(req:any) {
-        yy.log.w("BilliardService_Sit", req);
-        // BilliardSimulateService.instance.notifySit(req);
-        // BilliardSimulateService.instance.notifySit(req);
-    }
-
-    BilliardAllocService_Start(req:any) {
-        BilliardSimulateService.instance.notifyStart();
-    }
-
-    BilliardAllocService_CueMove(req:any) {
-        BilliardSimulateService.instance.notifyCueMove();
-    }
-
-    BilliardAllocService_CueAngle(req:any) {
-        BilliardSimulateService.instance.notifyCueAngle();
-    }
-
-    BilliardAllocService_Hit(req:any) {
-        BilliardSimulateService.instance.notifyHit();
-    }
-
-    BilliardAllocService_Result(req: any) {
-        // yy.log.w("BilliardAllocService_Result", req);
-        BilliardSimulateService.instance.notifyResult(req);
-    }
-
-    BilliardAllocService_Action(req: any) {
-        BilliardSimulateService.instance.notifyAction(req);
-    }
 }
 
 
