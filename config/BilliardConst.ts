@@ -45,3 +45,10 @@ export enum eAudio {
     HeadRotate = "audio/sound/headRotate",
     FlyGold = "audio/sound/flyGold",
 }
+
+export enum eUI {
+    None,
+    Match = "module/billiard_match/view/p_billiard_match",
+    Wait = "module/billiard_wait/view/p_billiard_wait",
+    WaitEnter = "module/billiard_wait/view/p_billiard_wait_enter",
+}

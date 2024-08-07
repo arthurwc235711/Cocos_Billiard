@@ -3,7 +3,7 @@ import { BilliardData } from "../data/BilliardData";
 import { yy } from "../../../../yy";
 import { R, R2d } from "./physics/constants";
 import { BilliardManager } from "./BilliardManager";
-import { BilliardConst, eAudio } from "../config/BilliardConst";
+import { BilliardConst, eAudio, eUI } from "../config/BilliardConst";
 import { BaseCommonScript } from "../../../../main/base/BaseCommonScript";
 import { BilliardScene } from "../scene/BilliardScene";
 import { SoundAudio } from "../../../../main/audio/SoundAudio";
@@ -21,7 +21,7 @@ export class BilliardTools {
         return this.__instance__;
     }
 
-    waitPerfab: Prefab = null;
+    mapPerfab = new Map<string, Prefab>();
 
     isMyAction() {
         return  BilliardData.instance.getActionUid() === yy.user.getUid()//1;
@@ -206,7 +206,7 @@ export class BilliardTools {
         BilliardService.instance.sendExit();
         const s = director.getScene();
         yy.wait.show("BilliardMatchView");
-        yy.loader.asyncLoadPrefab(BilliardConst.bundleName, "module/billiard_match/view/p_billiard_match", (p)=>{
+        yy.loader.asyncLoadPrefab(BilliardConst.bundleName, eUI.Match, (p)=>{
             yy.wait.hide("BilliardMatchView");
             let clone = instantiate(p) as Node;
             let cmp = clone.getComponent(BaseCommonScript)
@@ -221,18 +221,26 @@ export class BilliardTools {
 
     openMatchView(data: ISubGameTableInfoItemData, perfab: Prefab) {
         yy.wait.show("BilliardMatchView");
-        this.openView("module/billiard_match/view/p_billiard_match", (base)=>{
+        this.openView(eUI.Match, (base)=>{
             yy.wait.hide("BilliardMatchView");
             base["reqMatching"](data);
-        }, perfab);
+        }, this.mapPerfab.get(eUI.Match));
     }
 
     openWaitView(time: number) {
         yy.wait.show("openWaitView");
-        this.openView("module/billiard_wait/view/p_billiard_wait", (base)=>{
+        this.openView(eUI.Wait, (base)=>{
             yy.wait.hide("openWaitView");
             base["setWaitTime"](time);
-        }, this.waitPerfab);
+        }, this.mapPerfab.get(eUI.Wait));
+    }
+
+    openWaitEnterView(time: number) {
+        yy.wait.show("openWaitEnterView");
+        this.openView(eUI.WaitEnter, (base)=>{
+            yy.wait.hide("openWaitEnterView");
+            base["setWaitTime"](time);
+        }, this.mapPerfab.get(eUI.WaitEnter));
     }
 
     openGuideView() {

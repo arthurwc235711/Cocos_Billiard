@@ -3,7 +3,7 @@ import { CasualCommonSceneBase } from '../../../casual_common/scripts/base/Casua
 import { yy } from '../../../../yy';
 import BilliardEventConfig from '../config/BilliardEventConfig';
 import { BilliardManager } from '../scripts/BilliardManager';
-import { BilliardConst, eAudio, eRuleType } from '../config/BilliardConst';
+import { BilliardConst, eAudio, eRuleType, eUI } from '../config/BilliardConst';
 import { GameMessageStack, ITemplateGameServiceListener } from '../../../../main/data/GameMessageStack';
 import { BilliardService } from '../net/BilliardService';
 import { BilliardPbConfig } from '../net/BilliardPbConfig';
@@ -191,9 +191,10 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         let guidePath = "module/billiard_guide/view/p_billiard_guide";
         let pre = [
             "module/billiard_table/view/p_billiard_3d",
-            "module/billiard_match/view/p_billiard_match",
             "module/billiard_hitpoint/view/p_billiard_hit_point",
-            "module/billiard_wait/view/p_billiard_wait",
+            eUI.Match.toString(),
+            eUI.Wait.toString(),
+            eUI.WaitEnter.toString(),
         ]
         if (this.isGuide) {
             pre.push(guidePath);
@@ -219,10 +220,14 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
                     BilliardTools.instance.playBgm();
                 }
                 
-                if (name === pre[3]) {
-                    // 缓存当前帧实例化
-                    BilliardTools.instance.waitPerfab = prefab;
+                if (i > 1) {
+                    BilliardTools.instance.mapPerfab.set(name, prefab);
                 }
+
+                // if (name == eUI.Wait) {
+                //     // 缓存当前帧实例化
+                //     BilliardTools.instance.waitPerfab = prefab;
+                // }
                 // if (this.isGuide) {
                 //     if (name === guidePath) {
                 //         let clone = instantiate(prefab);
