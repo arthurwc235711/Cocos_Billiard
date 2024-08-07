@@ -135,7 +135,7 @@ export class BilliardEightBall implements IBilliardRules {
             else {// 未定色
                 let potBalls = Outcome.pots(outcome);
                 if (potBalls.length > 0) {
-                    if (this.round === 1) {// 开球进球不定色   且开球必定进不了黑8
+                    if (this.round === 1) {// 开球进球不定色   
                         resultType.type = eOutcomeType.Continue;
                         yy.log.w("开球进球不定色");
                     }

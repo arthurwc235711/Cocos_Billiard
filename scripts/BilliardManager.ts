@@ -314,6 +314,7 @@ export class BilliardManager extends BaseCommonInstance{
         view.clearData();
         table.clearData();
 
+        rules.round = msg.action.round;// 同步回合数据
         // 球摆法处理
         rules.placeBalls(false);
         for (let i = 0; i < msg.validResult.potBalls.length; i++) {
