@@ -203,6 +203,9 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             eAudio.Match.toString(),
             eAudio.HeadRotate.toString(),
             eAudio.Turn.toString(),
+            eAudio.Win.toString(),
+            eAudio.Applause.toString(),
+            eAudio.BallInPocket.toString(),
         ]
         const max = pre.length + preSound.length;
         let cur = 0;
