@@ -178,6 +178,15 @@ export class BilliardService extends StackListenerNew {
 
             }
             else {
+                switch(resp.code) {
+                    case 2027: 
+                        yy.toast.addNow(`error code:${resp.code}: You need more money to enter the room.`);
+                    break;
+                    case 2040: 
+                        yy.toast.addNow(`error code:${resp.code}: You need more money to enter the room.`);
+                    break;
+                }
+
                 yy.event.emit(yy.Event_Name.Billiard_Matching_Cancel)
                 // this.errorTips(resp);
             }
