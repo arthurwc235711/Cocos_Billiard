@@ -117,6 +117,14 @@ export class Outcome {
     return outcomes.length > 1 ? outcomes[1].type === OutcomeType.Cushion : false
   }
 
+  static isSolidPots(outcomes: Outcome[]) {
+    return this.pots(outcomes).every((b) => b.id < 8);
+  }
+
+  static isStripedPots(outcomes: Outcome[]) {
+    return this.pots(outcomes).every((b) => b.id > 8);
+  }
+
   static isCollisionNoCushion(outcomes: Outcome[]) {
     let index = 0;
     const hadCollision = outcomes.some((o, i) =>{ index = i;  return o.type === OutcomeType.Collision })
