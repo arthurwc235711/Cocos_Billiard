@@ -376,7 +376,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 596,
+      "width": 516.76,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -411,7 +411,7 @@
       "b": 255,
       "a": 255
     },
-    "_string": "Wait for opponent to enter(30)...",
+    "_string": "Wait for opponent to enter...",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 42,

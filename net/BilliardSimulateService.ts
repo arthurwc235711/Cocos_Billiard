@@ -195,8 +195,8 @@ export class BilliardSimulateService {
         notify.angle = billiardData.getAngle() * BilliardConst.multiple;
         notify.power = billiardData.getPower() * BilliardConst.multiple;
         notify.offset = new protoBilliard.IPosition();
-        notify.offset.x = billiardData.getOffset().x * BilliardConst.multiple;
         notify.offset.y = billiardData.getOffset().y * BilliardConst.multiple;
+        notify.offset.x = billiardData.getOffset().x * BilliardConst.multiple;
 
         this.delayAction(() => {
             BilliardService.instance.notifyHit({msg: notify});

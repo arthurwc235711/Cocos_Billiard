@@ -26,7 +26,8 @@ export default [
 
     // 游戏协议
     "billiard_reconnect",
-    "billiard_wait_enter",
+    "billiard_wait_enter_settime",
+    "billiard_wait_enter_close",
 
     "billiard_notify_entergame",
     "billiard_notify_ready",

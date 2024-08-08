@@ -769,6 +769,27 @@
             "ready": {
               "type": "int32",
               "id": 3
+            },
+            "gameStatus": {
+              "type": "int32",
+              "id": 4
+            },
+            "beginDelay": {
+              "type": "int32",
+              "id": 5
+            }
+          }
+        },
+        "DisbandTableNotice": {
+          "fields": {
+            "code": {
+              "type": "int32",
+              "id": 1
+            },
+            "user": {
+              "rule": "repeated",
+              "type": "UserInfo",
+              "id": 2
             }
           }
         },

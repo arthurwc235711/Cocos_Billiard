@@ -11,7 +11,8 @@ export class BilliardWaitEnterView extends BaseCommonScript {
     public register_event() {
         // 注册指定的监听方法，格式如下
         this.event_func_map = {
-            [yy.Event_Name.billiard_wait_enter]: "onClose",
+            [yy.Event_Name.billiard_wait_enter_close]: "onClose",
+            [yy.Event_Name.billiard_wait_enter_settime]: "setWaitTime",
         };
         super.register_event();
     }

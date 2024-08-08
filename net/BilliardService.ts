@@ -117,6 +117,7 @@ export class BilliardService extends StackListenerNew {
         ["cmd_0x6003"]: "notifyReady",
         ["cmd_0x6004"]: "notifyExit",
         ["cmd_0x6008"]: "notifyOffLine",
+        ["cmd_0x6009"]: "notifyDisbandTable",
     
         ["cmd_0x6011"]: "notifyEnterGame",
         ["cmd_0x6012"]: "notifyStart",
@@ -135,12 +136,12 @@ export class BilliardService extends StackListenerNew {
 
 
     /*测试协议*/
-        ["BilliardAllocService_Start"]: "notifyStart",
-        ["BilliardAllocService_CueMove"]: "notifyCueMove",
-        ["BilliardAllocService_CueAngle"]: "notifyCueAngle",
-        ["BilliardAllocService_Hit"]: "notifyHit",
-        ["BilliardAllocService_Result"]: "notifyResult",
-        ["BilliardAllocService_Action"]: "notifyAction",
+        // ["BilliardAllocService_Start"]: "notifyStart",
+        // ["BilliardAllocService_CueMove"]: "notifyCueMove",
+        // ["BilliardAllocService_CueAngle"]: "notifyCueAngle",
+        // ["BilliardAllocService_Hit"]: "notifyHit",
+        // ["BilliardAllocService_Result"]: "notifyResult",
+        // ["BilliardAllocService_Action"]: "notifyAction",
     }
 
     
@@ -380,6 +381,7 @@ export class BilliardService extends StackListenerNew {
 
 
         if (msg.stage === 3) { //牌局阶段(0:无牌局,1:准备,2:Start,3:再玩，注意：结算状态不发送) 
+            yy.event.emit(yy.Event_Name.billiard_wait_enter_close); // 关闭等待界面
             let cueBall = msg.validResult.balls.filter(b=>b.val === 0)[0];
             cueBall.position.x = msg.freeBall.curPosition.x 
             cueBall.position.y = msg.freeBall.curPosition.y;
@@ -441,6 +443,7 @@ export class BilliardService extends StackListenerNew {
     notifyReady(data: any) {
         let notify:protoBilliard.BroadcastUserReady = data.msg;
         if (notify) {
+            yy.event.emit(yy.Event_Name.billiard_wait_enter_settime, notify.beginDelay);
             yy.event.emit(yy.Event_Name.billiard_notify_ready, notify);
         }
     }
@@ -667,6 +670,13 @@ export class BilliardService extends StackListenerNew {
         }
     }
 
+    notifyDisbandTable(data: any) {
+        let notify = data.msg as protoBilliard.DisbandTableNotice;
+        let test = new protoBilliard.NotifyUserExit();
+        test.reason = 1;
+        yy.event.emit(yy.Event_Name.billiard_notify_leave, test.reason);
+    }
+
     notifyActionTimeOut(data: any) {
         let notify: protoBilliard.IHitTimeOut = data.msg;
         yy.event.emit(yy.Event_Name.billiard_notify_timeout, notify);
@@ -695,6 +705,7 @@ export class BilliardService extends StackListenerNew {
             billiardData.setHitCount(msg.action.hitcount);
             // yy.log.w("respStart");
             yy.event.emit(yy.Event_Name.billiard_notify_start);
+            yy.event.emit(yy.Event_Name.billiard_wait_enter_close); // 关闭等待界面
             yy.event.emit(yy.Event_Name.billiard_notify_setgold, msg.chipPot);
 
             yy.event.emit(yy.Event_Name.billiard_set_score, msg.scoreBoardVS);

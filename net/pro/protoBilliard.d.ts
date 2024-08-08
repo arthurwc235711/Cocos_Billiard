@@ -1394,6 +1394,12 @@ declare global {
 			/** BroadcastUserReady ready */
 			ready?: (number | null);
 
+			/** BroadcastUserReady gameStatus */
+			gameStatus?: (number | null);
+
+			/** BroadcastUserReady beginDelay */
+			beginDelay?: (number | null);
+
 		}
 
 		/** Represents a BroadcastUserReady. */
@@ -1413,6 +1419,40 @@ declare global {
 
 			/** BroadcastUserReady ready */
 			public ready: number | null;
+
+			/** BroadcastUserReady gameStatus */
+			public gameStatus: number | null;
+
+			/** BroadcastUserReady beginDelay */
+			public beginDelay: number | null;
+
+		}
+
+		/** Properties of a DisbandTableNotice. */
+		interface IDisbandTableNotice{
+
+			/** DisbandTableNotice code */
+			code?: (number | null);
+
+			/** DisbandTableNotice user */
+			user?: (UserInfo[] | null);
+
+		}
+
+		/** Represents a DisbandTableNotice. */
+		class DisbandTableNotice implements IDisbandTableNotice {
+
+			/**
+			* Constructs a new %s.
+			* @param [properties] Properties to set
+			*/
+			constructor(properties?: protoBilliard.IDisbandTableNotice);
+
+			/** DisbandTableNotice code */
+			public code: number | null;
+
+			/** DisbandTableNotice user */
+			public user: UserInfo[] | null;
 
 		}
 

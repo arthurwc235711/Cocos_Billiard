@@ -44,6 +44,7 @@ export let BilliardPbConfig = [
     {cmd: 0x6003, rsp: "protoBilliard.BroadcastUserReady"}, // 准备请求协议
     {cmd: 0x6004, rsp: "protoBilliard.NotifyUserExit"}, // 退出桌子数据协议
     {cmd: 0x6008, rsp: "protoBilliard.NotifyUserNetStatus"}, // 用户状态信息 protocolid:0x6008
+    {cmd: 0x6009, rsp: "protoBilliard.DisbandTableNotice"}, // 桌子解散通知协议
     {cmd: 0x6011, rsp: "protoBilliard.GameStatus"}, // 请求桌子数据协议
     {cmd: 0x6012, rsp: "protoBilliard.IStart"}, // GC游戏开始 IStart
     {cmd: 0x6013, rsp: "protoBilliard.IAction"}, // GC令牌玩家 IAction

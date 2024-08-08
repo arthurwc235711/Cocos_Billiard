@@ -235,11 +235,11 @@ export class BilliardTools {
         }, this.mapPerfab.get(eUI.Wait));
     }
 
-    openWaitEnterView(time: number) {
-        yy.wait.show("openWaitEnterView");
+    openWaitEnterView() {
+        // yy.wait.show("openWaitEnterView");
         this.openView(eUI.WaitEnter, (base)=>{
-            yy.wait.hide("openWaitEnterView");
-            base["setWaitTime"](time);
+            // yy.wait.hide("openWaitEnterView");
+            // base["setWaitTime"](time);
         }, this.mapPerfab.get(eUI.WaitEnter));
     }
 
