@@ -440,7 +440,7 @@ export class BilliardTop extends BaseCommonScript {
         this.playerUI.forEach(player => {
             player.nodeBalls.active = true;
             player.nodeShade.active = true;
-            player.labelName.node.position = new Vec3(-89, 0, 0);
+            // player.labelName.node.position = new Vec3(-89, 0, 0);
         });
 
         this.maxLeng = 640;
@@ -454,12 +454,12 @@ export class BilliardTop extends BaseCommonScript {
         this.node.active = true;
         this.node9Gold.active = true;
         // this.lablelScore.fontSize = 30;
-        this.lablelScore.node.position = new Vec3(0, 36, 0);
+        this.lablelScore.node.position = new Vec3(0, 40, 0);
 
         this.playerUI.forEach(player => {
             player.spriteCD = player.spriteCD.node.parent.getChildByPath('SpriteHeadCD9').getComponent(Sprite);
             player.nodeDot = player.spriteCD.node.getChildByName("NodeDot");
-            player.labelName.node.position = new Vec3(-89, -3, 0);
+            // player.labelName.node.position = new Vec3(-89, 0, 0);
         });
     }
 
