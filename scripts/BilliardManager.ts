@@ -359,6 +359,10 @@ export class BilliardManager extends BaseCommonInstance{
 
             }
             else {
+                if(rules instanceof BilliardNineBall) {
+                    let ball= rules.onShotBall();
+                    rules.disBallId = ball.id;
+                }
                 // 指向处理
                 if (msg.cueAngle.curScreenPos.x === 0) { // 没有移动角度默认 指向最近目标
                     let ball = rules.onShotBall();
@@ -387,7 +391,7 @@ export class BilliardManager extends BaseCommonInstance{
             }
             else if(rules instanceof BilliardNineBall) {
                 let ball= rules.onShotBall();
-                rules.disBallId = ball.id;
+                // rules.disBallId = ball.id;
                 if(rules.isValidBall(ball)) {
                     ball.showTips();
                 }
