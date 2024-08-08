@@ -194,7 +194,11 @@ export class BilliardNineBall implements IBilliardRules {
                             view.gameTips.freeBallTips();
                         }
                     }
-                    else {
+                    else if (this.round === 2) { // 第一回个犯规判断 没有4个球撞库
+                            view.gameTips.illegalTips();  
+                            view.gameTips.freeBallTips();
+                    }
+                    else{ 
                         view.gameTips.foulTips();
                         view.gameTips.freeBallTips();
                     }

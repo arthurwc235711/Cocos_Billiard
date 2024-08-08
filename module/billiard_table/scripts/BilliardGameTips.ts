@@ -184,6 +184,19 @@ export class BilliardGameTips extends BaseCommonScript {
 
     }
 
+    illegalTips() {
+        BilliardGameTips.actionList.push(()=>{
+            this.isPlaying = true;
+            if (!BilliardTools.instance.isMyAction()) {
+                this.labelTips.string = "You made an illegal break";
+            }
+            else {
+                this.labelTips.string = `"${this.getNoActionName()}" is breaking`;
+            }
+            this.nodeTips.active = true;
+        });
+    }
+
     playComplete() {
         this.isPlaying = false;
     }
