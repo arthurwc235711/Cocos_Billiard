@@ -118,11 +118,11 @@ export class Outcome {
   }
 
   static isSolidPots(outcomes: Outcome[]) {
-    return this.pots(outcomes).every((b) => b.id < 8);
+    return this.pots(outcomes).some((b) => b.id < 8);
   }
 
   static isStripedPots(outcomes: Outcome[]) {
-    return this.pots(outcomes).every((b) => b.id > 8);
+    return this.pots(outcomes).some((b) => b.id > 8);
   }
 
   static isCollisionNoCushion(outcomes: Outcome[]) {
