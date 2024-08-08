@@ -178,6 +178,7 @@ export class BilliardEightBall implements IBilliardRules {
         let table = BilliardManager.instance.getTable();
         let view = BilliardManager.instance.getView();
         let puid = BilliardData.instance.getActionUid()
+        yy.event.emit(yy.Event_Name.billiard_hit_cd_stop);
         this.round = round;
         const hitCount = BilliardData.instance.getHitCount();
         yy.log.w(`nextTurn round: ${round}`);
