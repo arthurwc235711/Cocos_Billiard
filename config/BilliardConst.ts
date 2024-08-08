@@ -1,4 +1,5 @@
 import { Vec3 } from "cc";
+import { IChatAnimConfig } from "../../../../common/props/scripts/interface";
 
 export const BilliardConst = {
     // gameKey: "billiard",  // 8 ball 9ball 
@@ -52,3 +53,16 @@ export enum eUI {
     Wait = "module/billiard_wait/view/p_billiard_wait",
     WaitEnter = "module/billiard_wait/view/p_billiard_wait_enter",
 }
+
+export const EmoAnimConfig: Map<number, IChatAnimConfig> = new Map<number, IChatAnimConfig>([
+    [201, { name: "face",            animation: "face_ani"}],
+    [202, { name: "face_baituo",     animation: "face_ani"}],
+    [203, { name: "face_gaobudong",  animation: "face_ani"}],
+    [204, { name: "face_haopai",     animation: "face_ani"}],
+    [205, { name: "face_nanguo",     animation: "face_ani"}],
+    [206, { name: "face_qishi",      animation: "face_qishi"}],
+    [207, { name: "face_sorry",      animation: "face_sorry"}],
+    [208, { name: "face_thanks",     animation: "face_ani"}],
+    [209, { name: "face_what",       animation: "face_ani"}],
+    [210, { name: "face_xiao",       animation: "fact_ani"}],
+]);

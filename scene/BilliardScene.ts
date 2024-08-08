@@ -19,6 +19,8 @@ import { table } from 'console';
 import CasualMenuEventConfig from '../../../casual_common/module/menu/config/CasualMenuEventConfig';
 import { CasualMenuButtonEnum, ICasualMenuButtonConfig } from '../../../casual_common/module/menu/config/CasualMenuConfig';
 import { CasualMenuData } from '../../../casual_common/module/menu/data/CasualMenuData';
+import { getEmojiPreloadConfog } from '../../../../common/props/scripts/EmojiPreloadConfog';
+import { PreloadUtils } from '../../../../main/utils/PreloadUtils';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardScene')
@@ -77,6 +79,8 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         this.loadingResource();
 
         this.addMenuConfig();
+
+        this.preloadAssets();
     }
 
 
@@ -263,6 +267,12 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             BilliardService.instance.sendEnterByTable();
             yy.user.resetOnlineInfo();
         }
+    }
+
+    private preloadAssets() {
+        let emojiList = getEmojiPreloadConfog();
+        emojiList.push({abName: "app_lobby", filePath:"scene/lobby_scene"});
+        PreloadUtils.addPreload(this.node, emojiList);
     }
 
 }
