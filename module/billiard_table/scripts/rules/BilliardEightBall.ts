@@ -68,15 +68,18 @@ export class BilliardEightBall implements IBilliardRules {
                                 freeBall();
                             }
                             else {  // 击打8球 进自己球犯规
-                                if (hitType === eBallType.SolidBall) {
-                                    if (Outcome.isSolidPots(outcome)) {
-                                        freeBall();
+                                const pots = Outcome.pots(outcome);
+                                if (pots.length > 0) {
+                                    if (hitType === eBallType.SolidBall) {
+                                        if (Outcome.isSolidPots(outcome)) {
+                                            freeBall();
+                                        }
                                     }
-                                }
-                                else if (hitType === eBallType.StripedBall) {
-                                    if (Outcome.isStripedPots(outcome)) {
-                                        freeBall();
-                                    }
+                                    else if (hitType === eBallType.StripedBall) {
+                                        if (Outcome.isStripedPots(outcome)) {
+                                            freeBall();
+                                        }
+                                    } 
                                 }
                             }
                         }
