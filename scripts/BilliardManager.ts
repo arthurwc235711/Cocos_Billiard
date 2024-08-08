@@ -329,6 +329,10 @@ export class BilliardManager extends BaseCommonInstance{
         view.setPlayerCountDown(BilliardData.instance.getActionTimes());
 
 
+        if(rules instanceof BilliardNineBall) {
+            let ball= rules.onShotBall(); // 9球有效球判断
+            rules.disBallId = ball.id;
+        }
         // 动态重连
         if (BilliardData.instance.getPower() !== 0) { 
             yy.event.emit(yy.Event_Name.billiard_hit);
@@ -359,10 +363,6 @@ export class BilliardManager extends BaseCommonInstance{
 
             }
             else {
-                if(rules instanceof BilliardNineBall) {
-                    let ball= rules.onShotBall();
-                    rules.disBallId = ball.id;
-                }
                 // 指向处理
                 if (msg.cueAngle.curScreenPos.x === 0) { // 没有移动角度默认 指向最近目标
                     let ball = rules.onShotBall();
