@@ -444,14 +444,16 @@ export class BilliardTop extends BaseCommonScript {
 
         this.maxLeng = 640;
         this.node8Gold.active = true;
-        this.lablelScore.fontSize = 42;
+        this.lablelScore.node.position = new Vec3(0, -56, 0);
+        // this.lablelScore.fontSize = 42;
     }
 
     show9BallUI() {
-        this.maxLeng = 560;
+        this.maxLeng = 530;
         this.node.active = true;
         this.node9Gold.active = true;
-        this.lablelScore.fontSize = 30;
+        // this.lablelScore.fontSize = 30;
+        this.lablelScore.node.position = new Vec3(0, 36, 0);
 
         this.playerUI.forEach(player => {
             player.spriteCD = player.spriteCD.node.parent.getChildByPath('SpriteHeadCD9').getComponent(Sprite);
@@ -468,11 +470,14 @@ export class BilliardTop extends BaseCommonScript {
             const m = socres.filter(s => s.uid === yy.user.getUid())[0];
             const o = socres.filter(s => s.uid !== yy.user.getUid())[0];
             if (m && o && (m.scoreboard > 0 || o.scoreboard > 0)) {
-                this.lablelScore.string = `${m.scoreboard} - ${o.scoreboard}`;
+                
                 this.lablelScore.node.active = true;
                 if (BilliardData.instance.is8Ball()) {
                     this.labelGold.node.parent.parent.position = new Vec3(0, 23, 0);
-                    this.lablelScore.node.position = new Vec3(0, -56, 0);
+                    this.lablelScore.string = `${m.scoreboard} - ${o.scoreboard}`;
+                }
+                else {
+                    this.lablelScore.string = `${m.scoreboard}                     ${o.scoreboard}`;
                 }
             }
             else {
