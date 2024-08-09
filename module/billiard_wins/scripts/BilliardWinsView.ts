@@ -40,6 +40,8 @@ export class BilliardWinsView extends BaseCommonScript {
     playSpine: OnEnablePlaySpine;
     @property(Label)
     labelMyTips: Label;
+    @property(Label)
+    labelScore: Label;
     
 
     myUI: BilliardMatchUI = {labelName: null, spriteUrl: null, labelGold: null, nodeHalo: null};
@@ -87,6 +89,7 @@ export class BilliardWinsView extends BaseCommonScript {
     }
 
     setData(data: protoBilliard.BroadcastGameResult) {
+        const scores: protoBilliard.ScoreBoardData[] = [];
         for(let i = 0; i < data.playerResult.length; i++) {
             let p = data.playerResult[i];
             if(p.uid === yy.user.getUid()) {
@@ -114,6 +117,11 @@ export class BilliardWinsView extends BaseCommonScript {
                 if (data.winnerid === p.uid) this.playSpine.animName = "ani2";
                 
             }
+
+            let t = new protoBilliard.ScoreBoardData();
+            t.uid = p.uid;
+            t.scoreboard = p.scoreboard;
+            scores.push(t);
         }
 
         this.playSpine.node.active = true;
@@ -132,6 +140,8 @@ export class BilliardWinsView extends BaseCommonScript {
         // if (data.winnerid === yy.user.getUid()) {
 
         // }
+
+        this.onSetScore(scores);
     }
 
     rollNum(label:Label, orgNum:number, distNum: number, totalTimes: number) {
@@ -302,6 +312,17 @@ export class BilliardWinsView extends BaseCommonScript {
         }
         else yy.log.e("moneyType error", this.moneyType);
 
+    }
+
+    onSetScore(socres: protoBilliard.ScoreBoardData[]) {
+        if (socres) {
+            const m = socres.filter(s => s.uid === yy.user.getUid())[0];
+            const o = socres.filter(s => s.uid !== yy.user.getUid())[0];
+            if (m && o && (m.scoreboard > 0 || o.scoreboard > 0)) {
+                
+                this.labelScore.string = `${m.scoreboard} : ${o.scoreboard}`;
+            }
+        }
     }
 }
 
