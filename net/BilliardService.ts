@@ -352,10 +352,12 @@ export class BilliardService extends StackListenerNew {
         }
         else {
             if (msg.users.length === 1) {
+                this.sendExit();
                 yy.event.emit(yy.Event_Name.CasualCommonQuit);// 数据异常退出
                 return;
             }
             else if (msg.stage === 0) {
+                this.sendExit();
                 yy.event.emit(yy.Event_Name.CasualCommonQuit);// 数据异常退出
                 return;
             }
