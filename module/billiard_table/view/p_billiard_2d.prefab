@@ -182,7 +182,7 @@
         "__id__": 46
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 160
@@ -301,7 +301,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 610,
+      "x": 334,
       "y": -28,
       "z": 0
     },
@@ -314,7 +314,7 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": -1,
+      "x": 1,
       "y": 1,
       "z": 1
     },
@@ -341,12 +341,12 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 530,
+      "width": 522,
       "height": 10
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0,
+      "x": 0.5,
       "y": 0.5
     },
     "_id": ""
@@ -434,7 +434,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -610,
+      "x": -334,
       "y": -28,
       "z": 0
     },
@@ -447,7 +447,7 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 1,
+      "x": -1,
       "y": 1,
       "z": 1
     },
@@ -474,12 +474,12 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 530,
+      "width": 522,
       "height": 10
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0,
+      "x": 0.5,
       "y": 0.5
     },
     "_id": ""
@@ -558,8 +558,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1239,
-      "height": 73
+      "width": 1196,
+      "height": 71
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5667,8 +5667,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 65,
-      "y": -4,
+      "x": 77,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
@@ -5840,7 +5840,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 530,
+      "width": 522,
       "height": 10
     },
     "_anchorPoint": {
@@ -5888,7 +5888,7 @@
       "y": 0.5
     },
     "_fillStart": 0,
-    "_fillRange": -0.8,
+    "_fillRange": 1,
     "_isTrimmedMode": true,
     "_useGrayscale": false,
     "_atlas": null,
@@ -12182,8 +12182,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -61.1,
-      "y": -4,
+      "x": -77,
+      "y": -1,
       "z": 0
     },
     "_lrot": {
@@ -12355,7 +12355,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 530,
+      "width": 522,
       "height": 10
     },
     "_anchorPoint": {
@@ -12403,7 +12403,7 @@
       "y": 0.5
     },
     "_fillStart": 0,
-    "_fillRange": 0,
+    "_fillRange": 1,
     "_isTrimmedMode": true,
     "_useGrayscale": false,
     "_atlas": null,
