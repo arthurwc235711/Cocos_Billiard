@@ -479,9 +479,11 @@ export class BilliardManager extends BaseCommonInstance{
                     isConfirmEnable: true,
                     confirmText: "OK",
                     confirmCallback: () => {
+                        BilliardService.instance.sendExit();
                         yy.event.emit(yy.Event_Name.CasualCommonQuit)
                     },
                     closeCallback: () => {
+                        BilliardService.instance.sendExit();
                         yy.event.emit(yy.Event_Name.CasualCommonQuit)
                     },
                     fontSize: 50,
