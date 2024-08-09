@@ -50,7 +50,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             [yy.Event_Name.Common_Enter_SubGame_Success] : "onLevelData",
             [yy.Event_Name.CasualProgressComplete]: "onProgressComplete",
             [yy.Event_Name.reconnect_game_table] : "reconnectGameTable",
-            // [yy.System_Event.Screen_Size_Changed]: "onScreenSizeChanged",
+            [yy.System_Event.Screen_Size_Changed]: "onScreenSizeChanged",
 
             // [yy.Event_Name.PPSlotsEventClickHistory]: "onClickHistory",
             // [yy.Event_Name.reset_all_view]: 'onEventResetAllView',
@@ -274,6 +274,10 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         let emojiList = getEmojiPreloadConfog();
         emojiList.push({abName: "app_lobby", filePath:"scene/lobby_scene"});
         PreloadUtils.addPreload(this.node, emojiList);
+    }
+
+    onScreenSizeChanged() {
+        yy.scene.reset_scene_size(true)
     }
 
 }
