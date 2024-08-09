@@ -414,6 +414,7 @@ export class BilliardUIView extends BaseCommonScript {
         sliderNode.on(Node.EventType.TOUCH_START, (event: EventTouch) => {
             let slider = event.target.getComponent(Slider);
             let progress = 1 - slider.progress;
+            this.interactableTableTouch = false;
         });
 
         sliderNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
@@ -426,6 +427,7 @@ export class BilliardUIView extends BaseCommonScript {
             }
             else {
                 this.nodeRight.getChildByName("NodeAngle").active = true;
+                this.interactableTableTouch = true;
             }
         });
         sliderNode.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
@@ -444,6 +446,7 @@ export class BilliardUIView extends BaseCommonScript {
             }
             else {
                 this.nodeRight.getChildByName("NodeAngle").active = true;
+                this.interactableTableTouch = true;
             }
         });
     }
