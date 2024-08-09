@@ -49,6 +49,7 @@ export class BilliardManager extends BaseCommonInstance{
     private _view: BilliardUIView;
     private _rules: IBilliardRules;
     private _delayTime: number = 0; // 结算界面延时打开
+    private static _waitTime: number = 0; // Ready等待时间
 
     setTable(table: Table) {
         this._table = table;
@@ -114,6 +115,8 @@ export class BilliardManager extends BaseCommonInstance{
             [yy.Event_Name.billiard_notify_timeout]: "onActionTimeOut",
             [yy.Event_Name.billiard_notify_foulstimes]: "onFoulsTimes",
             [yy.Event_Name.billiard_notify_leave]: "onLeave",
+
+            [yy.Event_Name.billiard_wait_enter_settime]: "delayShowWaitView",
         }
 
         super.register_event();
@@ -202,6 +205,7 @@ export class BilliardManager extends BaseCommonInstance{
 
 
     onStart() {
+        this.unScheduleOpenWaitEnterView(); // 取消开始监听事件
         let view = this.getView();
         let rules = this.getRules();
 
@@ -490,6 +494,23 @@ export class BilliardManager extends BaseCommonInstance{
                     lineHeight: 60,
             });
         }
+    }
+
+
+
+    showWaitEnterView(time: number) {
+        BilliardTools.instance.openWaitEnterView(BilliardManager._waitTime - 3);
+    }
+
+    delayShowWaitView(time: number) {
+        BilliardManager._waitTime = time;
+        let table = this.getTable();
+        table.scheduleOnce(this.showWaitEnterView, 3);
+    }
+
+    unScheduleOpenWaitEnterView() {
+        let table = this.getTable();
+        table.unschedule(this.showWaitEnterView);
     }
 }
 

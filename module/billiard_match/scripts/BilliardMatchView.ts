@@ -166,7 +166,7 @@ export class BilliardMatchView extends BaseCommonScript {
 
 
                 this.scheduleOnce(()=>{
-                    BilliardTools.instance.openWaitEnterView()
+                    // BilliardTools.instance.openWaitEnterView()
                     yy.event.emit(yy.Event_Name.billiard_rematch);
                     yy.audio.stopSound();
                     this.node.destroy();
