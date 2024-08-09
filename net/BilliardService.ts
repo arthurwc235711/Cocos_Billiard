@@ -445,8 +445,10 @@ export class BilliardService extends StackListenerNew {
     notifyReady(data: any) {
         let notify:protoBilliard.BroadcastUserReady = data.msg;
         if (notify) {
-            yy.event.emit(yy.Event_Name.billiard_wait_enter_settime, notify.beginDelay);
             yy.event.emit(yy.Event_Name.billiard_notify_ready, notify);
+            if (notify.uid === yy.user.getUid()) {
+                yy.event.emit(yy.Event_Name.billiard_wait_enter_settime, notify.beginDelay);
+            }
         }
     }
 

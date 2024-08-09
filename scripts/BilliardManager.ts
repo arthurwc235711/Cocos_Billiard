@@ -475,6 +475,7 @@ export class BilliardManager extends BaseCommonInstance{
 
     onLeave(reason: number = 0) {
         if (reason !== 0) {// 强制退出  不为0 代表玩家异常ready前异常中断
+            this.unScheduleOpenWaitEnterView(); // 取消开始监听事件
             yy.dialog.show(
                 {
                     title: "Tip",
@@ -503,9 +504,12 @@ export class BilliardManager extends BaseCommonInstance{
     }
 
     delayShowWaitView(time: number) {
-        BilliardManager._waitTime = time;
-        let table = this.getTable();
-        table.scheduleOnce(this.showWaitEnterView, 3);
+        const scene = director.getScene().getComponentInChildren(BilliardScene);
+        if(scene && scene.get_scene_layer_popup().getChildByName("p_billiard_wins") == null) {
+            BilliardManager._waitTime = time;
+            let table = this.getTable();
+            table.scheduleOnce(this.showWaitEnterView, 3);
+        }
     }
 
     unScheduleOpenWaitEnterView() {
