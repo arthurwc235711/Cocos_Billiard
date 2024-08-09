@@ -245,12 +245,13 @@ export class BilliardTop extends BaseCommonScript {
                 countDown -= dt;
                 if (countDown < 0) {
                     countDown = 0;
+                    yy.audio.stopSound();
                     if (BilliardTools.instance.isMyAction()) {
                         yy.event.emit(yy.Event_Name.billiard_action_arrow_cd, countDown);
                     }
                     this.unschedule(onUpdate);
                     // player.labelCD.string = `${countDown}`;
-                    yy.audio.stopSound();
+                    // yy.audio.stopSound();
                     return;
                 }
                 let cd = Math.floor(countDown);
