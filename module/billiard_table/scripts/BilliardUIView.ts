@@ -375,7 +375,7 @@ export class BilliardUIView extends BaseCommonScript {
             // yy.log.w("c角度:", this.nodeCueArrow.angle, cs);
             this.onClickTable(this.preTouchLocation);
 
-            if (times === 0 || game.totalTime - times > 450) {// 音效0.45S
+            if (times === 0 || game.totalTime - times > 430) {// 音效0.45S
                 BilliardTools.instance.playSoundAngleSlider();
                 times = game.totalTime;
             }
