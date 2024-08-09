@@ -451,7 +451,7 @@ export class BilliardTop extends BaseCommonScript {
     }
 
     show9BallUI() {
-        this.maxLeng = 530;
+        this.maxLeng = 522;
         this.node.active = true;
         this.node9Gold.active = true;
         // this.lablelScore.fontSize = 30;
