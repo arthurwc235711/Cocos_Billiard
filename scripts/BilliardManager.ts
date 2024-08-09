@@ -45,6 +45,7 @@ export class BilliardManager extends BaseCommonInstance{
         return this._camera2d;
     }
 
+    private _scene: BilliardScene;
     private _table: Table;
     private _view: BilliardUIView;
     private _rules: IBilliardRules;
@@ -63,6 +64,12 @@ export class BilliardManager extends BaseCommonInstance{
     }
     getView(): BilliardUIView {
         return this._view;
+    }
+    setScene(scene: BilliardScene) {
+        this._scene = scene;
+    }
+    getScene(): BilliardScene {
+        return this._scene;
     }
 
     getCueBall(): Ball {

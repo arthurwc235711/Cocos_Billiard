@@ -15,7 +15,6 @@ import { SoundAudio } from '../../../../main/audio/SoundAudio';
 import { GameEnterTypeEnum, IEnterGameEmitData, ISubGameTableInfoItemData } from '../../../../main/data/SubGameData';
 import { BilliardData } from '../data/BilliardData';
 import { IOnlineInfo } from '../../../../main/data/UserData';
-import { table } from 'console';
 import CasualMenuEventConfig from '../../../casual_common/module/menu/config/CasualMenuEventConfig';
 import { CasualMenuButtonEnum, ICasualMenuButtonConfig } from '../../../casual_common/module/menu/config/CasualMenuConfig';
 import { CasualMenuData } from '../../../casual_common/module/menu/data/CasualMenuData';
@@ -51,6 +50,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             [yy.Event_Name.Common_Enter_SubGame_Success] : "onLevelData",
             [yy.Event_Name.CasualProgressComplete]: "onProgressComplete",
             [yy.Event_Name.reconnect_game_table] : "reconnectGameTable",
+            // [yy.System_Event.Screen_Size_Changed]: "onScreenSizeChanged",
 
             // [yy.Event_Name.PPSlotsEventClickHistory]: "onClickHistory",
             // [yy.Event_Name.reset_all_view]: 'onEventResetAllView',
@@ -81,6 +81,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         this.addMenuConfig();
 
         this.preloadAssets();
+        BilliardManager.instance.setScene(this);
     }
 
 
