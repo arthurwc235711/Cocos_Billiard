@@ -8,7 +8,7 @@ import { Ball } from "../module/billiard_table/scripts/Ball";
 import { BilliardData } from "../data/BilliardData";
 import { track } from "./physics/track";
 import { IBilliardRules } from "../module/billiard_table/scripts/rules/IBilliardRules";
-import { BilliardConst, eOutcomeType, eRuleType } from "../config/BilliardConst";
+import { BilliardConst, eOutcomeType, eReportEventId, eRuleType } from "../config/BilliardConst";
 import { BilliardEightBall } from "../module/billiard_table/scripts/rules/BilliardEightBall";
 import { BilliardService } from "../net/BilliardService";
 import { BilliardTools } from "./BilliardTools";
@@ -16,6 +16,7 @@ import { BilliardNineBall } from "../module/billiard_table/scripts/rules/Billiar
 import { ClientConfig } from "../../../../main/data/ClientConfig";
 import { BilliardGuideRules } from "../module/billiard_table/scripts/rules/BilliardGuideRules";
 import { BilliardScene } from "../scene/BilliardScene";
+import { HttpReport, HttpReportTypeEnum } from "../../../../main/utils/HttpReport";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -436,12 +437,15 @@ export class BilliardManager extends BaseCommonInstance{
     onQuit() {
         if ( BilliardData.instance.is8Ball() ) {
             yy.user.setLobbyOpenGameLevel({ gameKey: "billiard8ball" });
+            HttpReport.reportClickEvent({eventId: eReportEventId.e8BallGoBack}, HttpReportTypeEnum.CLICK_EVENT);
         }
-        if ( BilliardData.instance.is9Ball() ) {
+        else if ( BilliardData.instance.is9Ball() ) {
             yy.user.setLobbyOpenGameLevel({ gameKey: "billiard9ball" });
+            HttpReport.reportClickEvent({eventId: eReportEventId.e9BallGoBack}, HttpReportTypeEnum.CLICK_EVENT);
         }
         yy.audio.stopMusic()
         yy.audio.stopSound()
+
         yy.scene.change_bundle_scene('app_lobby', 'lobby_scene', () => {
             yy.loader.releaseBundle(BilliardConst.bundleName);
             yy.loader.releaseBundle('app_casual_common');

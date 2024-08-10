@@ -66,3 +66,9 @@ export const EmoAnimConfig: Map<number, IChatAnimConfig> = new Map<number, IChat
     [209, { name: "face_what",       animation: "face_ani"}],
     [210, { name: "face_xiao",       animation: "fact_ani"}],
 ]);
+
+export enum eReportEventId {
+    e8BallGoBack = 104047,      //【返回】台球（8Ball）游戏内返回选场人数|
+    e9BallGoBack = 104048,      //【返回】台球（9Ball）游戏内返回选场人数|
+
+}
