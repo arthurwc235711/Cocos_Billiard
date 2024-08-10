@@ -325,6 +325,8 @@ export class BilliardManager extends BaseCommonInstance{
         view.clearData();
         table.clearData();
 
+        view.stopHitTween();// 如果有击球数据暂停击球动画，否则会有双次击球导致画面不同步异常
+
         rules.round = msg.action.round;// 同步回合数据
         // 球摆法处理
         rules.placeBalls(false);

@@ -1,4 +1,4 @@
-import { _decorator, Button, Canvas, Component, director, EventTouch, find, game, Label, Node, physics, quat, Quat, Size, Slider, Sprite, tween, UIOpacity, UITransform, Vec2, Vec3, Widget } from 'cc';
+import { _decorator, Button, Canvas, Component, director, EventTouch, find, game, Label, Node, physics, quat, Quat, Size, Slider, Sprite, Tween, tween, UIOpacity, UITransform, Vec2, Vec3, Widget } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
@@ -60,6 +60,8 @@ export class BilliardUIView extends BaseCommonScript {
 
 
     public isAngleDisable = false;
+
+    public tweenHit: Tween<Node>;
 
     get interactableTableTouch() {
         return this._interactableTableTouch && BilliardTools.instance.isMyAction();
@@ -462,15 +464,23 @@ export class BilliardUIView extends BaseCommonScript {
         yy.event.emit(yy.Event_Name.billiard_hit_cd_stop);
 
         let power = BilliardData.instance.getPower();
-        tween(this.nodeCue)
+        this.tweenHit = tween(this.nodeCue)
         .to(0.25, {position: new Vec3((power/MaxPower/R * 5 + 1) * -R2d*2, -15, 0)})
         .to(0.5, {position: new Vec3(-R2d*2, -15, 0)}, {easing: "quintIn"})
         .call(()=>{
             yy.event.emit(yy.Event_Name.billiard_hit);
             this.nodeCueArrow.active = false;
+            this.tweenHit = null;
         })
         .start()
         this.controlHide(true);
+    }
+
+    stopHitTween() {
+        if (this.tweenHit) {
+            this.tweenHit.stop(); // 终止 Tween 动画
+            this.tweenHit = null; // 清空 tweenAction 引用
+        }
     }
 
     controlHide(cueHide: boolean = false) {
