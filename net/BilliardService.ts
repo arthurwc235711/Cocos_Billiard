@@ -602,7 +602,7 @@ export class BilliardService extends StackListenerNew {
             this.isUserEnterByTable = false;
 
             let player = msg.playerResult.filter(p=>p.uid == yy.user.getUid())[0];
-            GameIsolateUtils.recordGameStatus(BilliardData.instance.getGID(), false, player.moneyTotal.toNumber());
+            GameIsolateUtils.recordGameStatus(BilliardData.instance.gid, false, player.moneyTotal.toNumber());
         }
     }
 
@@ -717,7 +717,7 @@ export class BilliardService extends StackListenerNew {
             yy.event.emit(yy.Event_Name.billiard_notify_setgold, msg.chipPot);
 
             yy.event.emit(yy.Event_Name.billiard_set_score, msg.scoreBoardVS);
-            GameIsolateUtils.recordGameStatus(billiardData.getGID(), true, yy.user.getTotalMoney());
+            GameIsolateUtils.recordGameStatus(billiardData.gid, true, yy.user.getTotalMoney());
         }
     }
 

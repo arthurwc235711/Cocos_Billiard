@@ -219,18 +219,6 @@ export class BilliardData {
     getGameType() {
         return this.gameType;
     }
-    // 当前游戏gid
-    getGID() {
-        if (this.is8Ball()) {
-            return BilliardConst.gid8Ball;
-        }
-        else if (this.is9Ball()) {
-            return BilliardConst.gid9Ball;
-        }
-        else { // 
-            return 0;
-        }
-    }
 
     setGameType(type: number) {
         switch(type) {
