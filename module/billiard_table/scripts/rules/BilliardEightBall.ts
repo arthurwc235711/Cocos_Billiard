@@ -22,9 +22,11 @@ export class BilliardEightBall implements IBilliardRules {
     ruleType: eRuleType;
     ruleName: string = "8 Balls";
     round: number = 0;
-    uidTimeOut: number = 0 ;
+    uidTimeOut: number = 0;
+    private static only8BallType: number = 0;//1 剩余8球 击打不是8号球算犯规  2: 剩余8球 没有击中球
 
     isFoul(outcome: Outcome[]): boolean {
+        BilliardEightBall.only8BallType = 0
         let result = false;
         let freeBall = function() {
             // 
@@ -44,6 +46,19 @@ export class BilliardEightBall implements IBilliardRules {
         else if (Outcome.firstCollision(outcome) === undefined) {// 没有撞球
             yy.log.w("没有撞球");
             freeBall();
+            const maxNum = 7;
+            let pots = 0;
+            let vaildBalls = BilliardData.instance.getHitBalls();
+            let potBalls = BilliardManager.instance.getTable().getInPocketBalls();
+            for (let i = 0; i < maxNum; ++i) {
+                for (let j = 0; j < potBalls.length; ++j) {
+                    if (vaildBalls[i] === potBalls[j].id)  {
+                        ++pots;
+                    }
+                }
+            }
+            if (pots === maxNum) BilliardEightBall.only8BallType = 2;
+
         }
         else if (Outcome.isCollisionNoCushion(outcome) && Outcome.potCount(outcome) ===0) { // 撞球后没有撞库  先撞库在撞自己球后不碰库算犯规
             yy.log.w("撞球后没有撞库");
@@ -65,6 +80,7 @@ export class BilliardEightBall implements IBilliardRules {
                         if (this.getBallType(o.ballB) !== hitType) {
                             // 剩余8球 击打不是8号球算犯规
                             if (this.getBallType(o.ballB) !== eBallType.EightBall) {
+                                BilliardEightBall.only8BallType = 1;
                                 freeBall();
                             }
                             else {  // 击打8球 进自己球犯规
@@ -222,17 +238,42 @@ export class BilliardEightBall implements IBilliardRules {
                                 view.gameTips.cushionTips();
                                 view.gameTips.freeBallTips();
                             }else {
-                                view.gameTips.foulTips();
+                                if (BilliardEightBall.only8BallType === 1) {
+                                    view.gameTips.only8BallInvalidTips();
+                                }
+                                else if (BilliardEightBall.only8BallType === 2) {
+                                    view.gameTips.only8BallNoCollisonTips();
+                                }
+                                else {
+                                    view.gameTips.foulTips();
+                                }
+
                                 view.gameTips.freeBallTips();
                             }
                         }
                         else { // 没有击球没有撞库
-                            view.gameTips.foulTips();
+                            if (BilliardEightBall.only8BallType === 1) {
+                                view.gameTips.only8BallInvalidTips();
+                            }
+                            else if (BilliardEightBall.only8BallType === 2) {
+                                view.gameTips.only8BallNoCollisonTips();
+                            }
+                            else {
+                                view.gameTips.foulTips();
+                            }
                             view.gameTips.freeBallTips();
                         }
                     }
                     else {
-                        view.gameTips.foulTips();
+                        if (BilliardEightBall.only8BallType === 1) {
+                            view.gameTips.only8BallInvalidTips();
+                        }
+                        else if (BilliardEightBall.only8BallType === 2) {
+                            view.gameTips.only8BallNoCollisonTips();
+                        }
+                        else {
+                            view.gameTips.foulTips();
+                        }
                         view.gameTips.freeBallTips();
                     }
                 }
@@ -268,18 +309,42 @@ export class BilliardEightBall implements IBilliardRules {
                                 view.gameTips.cushionTips();
                                 view.gameTips.freeBallTips();
                             }else {
-                                view.gameTips.foulTips();
+                                if (BilliardEightBall.only8BallType === 1) {
+                                    view.gameTips.only8BallInvalidTips();
+                                }
+                                else if (BilliardEightBall.only8BallType === 2) {
+                                    view.gameTips.only8BallNoCollisonTips();
+                                }
+                                else {
+                                    view.gameTips.foulTips();
+                                }
                                 view.gameTips.freeBallTips();
                             }
                         }
                         else { // 没有击球没有撞库
-                            view.gameTips.foulTips();
+                            if (BilliardEightBall.only8BallType === 1) {
+                                view.gameTips.only8BallInvalidTips();
+                            }
+                            else if (BilliardEightBall.only8BallType === 2) {
+                                view.gameTips.only8BallNoCollisonTips();
+                            }
+                            else {
+                                view.gameTips.foulTips();
+                            }
                             view.gameTips.freeBallTips();
                         }
     
                     }
                     else {
-                        view.gameTips.foulTips();
+                        if (BilliardEightBall.only8BallType === 1) {
+                            view.gameTips.only8BallInvalidTips();
+                        }
+                        else if (BilliardEightBall.only8BallType === 2) {
+                            view.gameTips.only8BallNoCollisonTips();
+                        }
+                        else {
+                            view.gameTips.foulTips();
+                        }
                         view.gameTips.freeBallTips();
                     }
                 }
