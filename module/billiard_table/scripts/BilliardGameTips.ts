@@ -143,6 +143,32 @@ export class BilliardGameTips extends BaseCommonScript {
         });
     }
 
+    only8BallNoCollisonTips() {
+        BilliardGameTips.actionList.push(()=>{
+            this.isPlaying = true;
+            if (!BilliardTools.instance.isMyAction()) { // 行动切换完 所以是上一次行动玩家击球提示
+                this.labelTips.string = "The cue ball did not strike another ball";
+            }
+            else {
+                this.labelTips.string = "Opponent's cue ball did not strike another bal";
+            }
+            this.nodeTips.active = true;
+        });
+    }
+    only8BallInvalidTips() {
+        BilliardGameTips.actionList.push(()=>{
+            this.isPlaying = true;
+            if (!BilliardTools.instance.isMyAction()) { // 行动切换完 所以是上一次行动玩家击球提示
+                this.labelTips.string = "You need to hit the 8-ball";
+            }
+            else {
+                this.labelTips.string = `"${this.getNoActionName()}" failed to hit a  8-ball`;
+            }
+            this.nodeTips.active = true;
+        }); 
+    }
+    
+
     cushionTips() {
         BilliardGameTips.actionList.push(()=>{
             this.isPlaying = true;
