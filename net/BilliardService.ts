@@ -1,7 +1,9 @@
 
+import { TemplateData } from '../../../../../../buildTools/ph1CasualSittingUserTemplate/data/TemplateData';
 import { ProtoHelper } from '../../../../../framework/socket/ProtoHelper';
 import { StackListenerNew } from '../../../../main/data/GameMessageStack';
 import { ISubGameTableInfoItemData } from '../../../../main/data/SubGameData';
+import { GameIsolateUtils } from '../../../../main/isolate/GameIsolateUtils';
 import { yy } from '../../../../yy';
 import { BilliardConst } from '../config/BilliardConst';
 import { BilliardData } from '../data/BilliardData';
@@ -599,6 +601,10 @@ export class BilliardService extends StackListenerNew {
             this.rematchData = msg.tablecfg;
             yy.event.emit(yy.Event_Name.billiard_notify_wins, msg);
             this.isUserEnterByTable = false;
+            TemplateData.instance().resetGameDataByStart();
+
+            let player = msg.playerResult.filter(p=>p.uid == yy.user.getUid())[0];
+            GameIsolateUtils.recordGameStatus(BilliardData.instance.getGID(), false, player.moneyTotal.toNumber());
         }
     }
 
@@ -713,6 +719,8 @@ export class BilliardService extends StackListenerNew {
             yy.event.emit(yy.Event_Name.billiard_notify_setgold, msg.chipPot);
 
             yy.event.emit(yy.Event_Name.billiard_set_score, msg.scoreBoardVS);
+            TemplateData.instance().resetGameDataByStart();
+            GameIsolateUtils.recordGameStatus(billiardData.getGID(), true, yy.user.getTotalMoney());
         }
     }
 
