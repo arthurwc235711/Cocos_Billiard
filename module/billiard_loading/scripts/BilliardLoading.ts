@@ -20,7 +20,11 @@ export class BilliardLoading extends CasualCommonLoading {
     private resourceProgress = 0;
 
     get loadPrecess() {
-        return this.nLoadPrecess * 0.5 + this.resourceProgress * 0.5;
+        return this.nLoadPrecess * 0.2 + this.resourceProgress * 0.8;
+    }
+
+    startUntruthProgress() {
+
     }
 
     onPreloadLoadedNotice(data: { schedule: number }) {
