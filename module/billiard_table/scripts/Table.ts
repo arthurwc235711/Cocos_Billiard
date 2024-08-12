@@ -4,7 +4,7 @@ import { Collision } from '../../../scripts/physics/collision';
 import { TableGeometry } from './TableGeometry';
 import { yy } from '../../../../../../yy';
 import { Cushion } from './Cushion';
-import { bounceHan, bounceHanBlend, cueToSpin } from '../../../scripts/physics/physics';
+import { bounceHanBlend, cueToSpin } from '../../../scripts/physics/physics';
 import { BilliardData } from '../../../data/BilliardData';
 import { R } from '../../../scripts/physics/constants';
 import { Outcome } from './Outcome';
@@ -36,7 +36,7 @@ export class Table extends BaseCommonScript {
     balls:Ball[];
     pairs: Pair[]; // 球对
     outcome: Outcome[] = [];
-    cushionModel = bounceHan
+    cushionModel = bounceHanBlend
     cueBall:Ball = null;
 
     shotBall: Ball = null;
