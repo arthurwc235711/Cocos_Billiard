@@ -91,6 +91,8 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         list.push({type:CasualMenuButtonEnum.GAME_RULE,event: yy.Event_Name.on_click_game_rule,buttonText: "Rules"});
         list.push({type:CasualMenuButtonEnum.SETTING,event: yy.Event_Name.on_click_settings,  buttonText: "Settings"}),
         list.push({type:CasualMenuButtonEnum.EXIT_TO_LOBBY,event: yy.Event_Name.on_click_exit_to_lobby});
+        list.push({type:CasualMenuButtonEnum.FULL_SCREEN, buttonText: "Full Screen"})
+        list.push({type:CasualMenuButtonEnum.FULL_SCREEN_EXIT, buttonText: "Esc"})
         // list.push({type:CasualMenuButtonEnum.VOICE,event: null,backPannalAcitive: true,buttonText: "Sound"})
 
         // list.push({type:CasualMenuButtonEnum.RECORD_VERTICAL,event: yy.Event_Name.on_click_menu,buttonText: "Record", extendData: {gameKey: "piggytap", lock: true}})
