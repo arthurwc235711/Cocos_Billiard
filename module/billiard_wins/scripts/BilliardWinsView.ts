@@ -76,7 +76,7 @@ export class BilliardWinsView extends BaseCommonScript {
         this.scheduleOnce(()=>{
             yy.event.emit(yy.Event_Name.billiard_clear_game_data);
             this.node.getChildByName("NodeBtn").scale = Vec3.ONE;
-        }, 2)
+        }, 0)
 
         if (BilliardData.instance.isOtherPlayExit) {
             this.onLeave();
