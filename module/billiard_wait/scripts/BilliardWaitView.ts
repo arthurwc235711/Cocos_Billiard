@@ -18,6 +18,7 @@ export class BilliardWaitView extends BaseCommonScript {
 
 
     setWaitTime(time: number) {
+        this.unscheduleAllCallbacks();
         let onUpdate = function() {
             time -= game.deltaTime;
             this.labelWait.string = `Opponent's disconnected(<color=#FBC21EFF>${Math.max(Math.floor(time), 0)}</color>)`//`等待}秒`;     

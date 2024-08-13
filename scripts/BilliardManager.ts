@@ -17,6 +17,7 @@ import { ClientConfig } from "../../../../main/data/ClientConfig";
 import { BilliardGuideRules } from "../module/billiard_table/scripts/rules/BilliardGuideRules";
 import { BilliardScene } from "../scene/BilliardScene";
 import { HttpReport, HttpReportTypeEnum } from "../../../../main/utils/HttpReport";
+import { BilliardWaitView } from "../module/billiard_wait/scripts/BilliardWaitView";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -433,6 +434,9 @@ export class BilliardManager extends BaseCommonInstance{
             const p = BilliardManager.instance.getScene().get_scene_layer_popup().getChildByName("p_billiard_wait");;
             if (!p) {
                 BilliardTools.instance.openWaitView(lockTime);
+            }
+            else {
+                p.getComponent(BilliardWaitView).setWaitTime(lockTime);
             }
         }
     }
