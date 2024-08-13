@@ -1,4 +1,4 @@
-import { _decorator, Component, director, Label, Node, Sprite, tween, Vec3 } from 'cc';
+import { _decorator, Component, director, Label, Node, Sprite, tween, UITransform, Vec2, Vec3 } from 'cc';
 import { BilliardSlotIcon } from './BilliardSlotIcon';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
@@ -198,6 +198,11 @@ export class BilliardMatchView extends BaseCommonScript {
 
         this.slotIcon.stopScroll(otherInfo[0].icon);
         this.setState(BilliardMatchState.eMatchSucess);
+        const oLabelNode = this.otherUI.labelName.node;
+        this.otherUI.labelName.horizontalAlign = Label.HorizontalAlign.CENTER;
+        oLabelNode.getComponent(UITransform).anchorPoint = new Vec2(0.5, 0.5);
+        oLabelNode.position = oLabelNode.position.setX(0);
+
 
         this.setPlayerInfo(this.myUI, myInfo[0], myInfo[0].moneyBet);
         this.setPlayerInfo(this.otherUI, otherInfo[0], otherInfo[0].moneyBet);
