@@ -69,6 +69,14 @@ declare global {
 			User_Status_Leave = 5,
 		}
 
+		/** SETTLE_TYPE enum. */
+		enum SETTLE_TYPE {
+			Settle_type_null = 0,
+			Settle_type_normal = 1,
+			Settle_type_user_offline = 2,
+			Settle_type_user_standup = 3,
+		}
+
 		/** Properties of a UserInfo. */
 		interface IUserInfo{
 
@@ -320,6 +328,9 @@ declare global {
 			/** PlayerResult scoreboard */
 			scoreboard?: (number | null);
 
+			/** PlayerResult status */
+			status?: (USER_STATUS | null);
+
 		}
 
 		/** Represents a PlayerResult. */
@@ -396,6 +407,9 @@ declare global {
 
 			/** PlayerResult scoreboard */
 			public scoreboard: number | null;
+
+			/** PlayerResult status */
+			public status: USER_STATUS | null;
 
 		}
 
@@ -1672,6 +1686,9 @@ declare global {
 			/** BroadcastGameResult tablecfg */
 			tablecfg?: (BilliardsTableCfg | null);
 
+			/** BroadcastGameResult settleType */
+			settleType?: (SETTLE_TYPE | null);
+
 		}
 
 		/** Represents a BroadcastGameResult. */
@@ -1697,6 +1714,9 @@ declare global {
 
 			/** BroadcastGameResult tablecfg */
 			public tablecfg: BilliardsTableCfg | null;
+
+			/** BroadcastGameResult settleType */
+			public settleType: SETTLE_TYPE | null;
 
 		}
 

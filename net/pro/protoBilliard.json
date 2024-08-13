@@ -36,6 +36,14 @@
             "User_Status_Leave": 5
           }
         },
+        "SETTLE_TYPE": {
+          "values": {
+            "Settle_type_null": 0,
+            "Settle_type_normal": 1,
+            "Settle_type_user_offline": 2,
+            "Settle_type_user_standup": 3
+          }
+        },
         "UserInfo": {
           "fields": {
             "uid": {
@@ -241,6 +249,10 @@
             "scoreboard": {
               "type": "int32",
               "id": 22
+            },
+            "status": {
+              "type": "USER_STATUS",
+              "id": 23
             }
           }
         },
@@ -916,6 +928,10 @@
             "tablecfg": {
               "type": "BilliardsTableCfg",
               "id": 5
+            },
+            "settleType": {
+              "type": "SETTLE_TYPE",
+              "id": 6
             }
           }
         },

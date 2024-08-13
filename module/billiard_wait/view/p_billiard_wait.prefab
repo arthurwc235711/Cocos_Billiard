@@ -82,7 +82,7 @@
       "__id__": 1
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 3
@@ -550,7 +550,7 @@
         "__id__": 25
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 31
@@ -1196,6 +1196,7 @@
       "__id__": 0
     },
     "fileId": "eelY8871xIUo5ZI+zrtXwV",
+    "instance": null,
     "targetOverrides": null
   }
 ]

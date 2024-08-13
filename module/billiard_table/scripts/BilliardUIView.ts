@@ -422,8 +422,8 @@ export class BilliardUIView extends BaseCommonScript {
         sliderNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
             // let slider = event.target.getComponent(Slider);
             let progress = 1 - this.powerSlider.progress;
-            const waitView = BilliardManager.instance.getScene().get_scene_layer_popup().getChildByName("p_billiard_wait");// 等待时不能击球
-            if (progress > 0 && !waitView) {
+            // const waitView = BilliardManager.instance.getScene().get_scene_layer_popup().getChildByName("p_billiard_wait");// 等待时不能击球
+            if (progress > 0) {// && !waitView) {
                 let rules = BilliardManager.instance.getRules();
                 let maxPower = MaxPower;
                 if (rules.round === 1) {
@@ -441,8 +441,8 @@ export class BilliardUIView extends BaseCommonScript {
         sliderNode.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
             // let slider = event.target.getComponent(Slider);
             let progress = 1 - this.powerSlider.progress;
-            const waitView = BilliardManager.instance.getScene().get_scene_layer_popup().getChildByName("p_billiard_wait");
-            if (progress > 0 && !waitView) {
+            // const waitView = BilliardManager.instance.getScene().get_scene_layer_popup().getChildByName("p_billiard_wait");
+            if (progress > 0){// && !waitView) {
                 let rules = BilliardManager.instance.getRules();
                 let maxPower = MaxPower;
                 if (rules.round === 1) {

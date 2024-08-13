@@ -206,8 +206,7 @@ export class BilliardGameTips extends BaseCommonScript {
                 this.playSpine.node.active = false;
                 this.isAnimPlaying = false;
             }, 2);
-        })
-
+        });
     }
 
     illegalTips() {
@@ -321,6 +320,18 @@ export class BilliardGameTips extends BaseCommonScript {
             this.labelFouls.string = `You already got <size=48><color=#FFE102>${notify.count}</color></size> consecutive fouls\n 3 consecutive fouls will lose`
         }
 
+    }
+
+    letfTips() {
+        BilliardGameTips.actionList.push(()=>{
+            this.isAnimPlaying = true;
+            this.isPlaying = true;
+            this.labelTips.string = "Opponent has left";
+            this.scheduleOnce(()=>{
+                this.isAnimPlaying = false;
+            }, 2);
+            this.nodeTips.active = true;
+        });
     }
 
 }

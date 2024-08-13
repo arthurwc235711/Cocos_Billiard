@@ -295,6 +295,11 @@ export class BilliardManager extends BaseCommonInstance{
             view.gameTips.showLoseTips(notify.winnerid);
         }
 
+        if (notify.settleType === 3) {
+            view.gameTips.letfTips();
+            this._delayTime = 2;
+        }
+
         view.scheduleOnce(()=>{
             BilliardTools.instance.openWinsView(notify);
         }, 2 + this._delayTime);
@@ -425,8 +430,7 @@ export class BilliardManager extends BaseCommonInstance{
             }
         });
         if(lockTime > 0) {
-            const scene = director.getScene().getComponentInChildren(BilliardScene)
-            const p = scene.get_scene_layer_popup().getChildByName("p_billiard_wait");
+            const p = BilliardManager.instance.getScene().get_scene_layer_popup().getChildByName("p_billiard_wait");;
             if (!p) {
                 BilliardTools.instance.openWaitView(lockTime);
             }
@@ -471,7 +475,7 @@ export class BilliardManager extends BaseCommonInstance{
         if (notify.status === 1) {
             let view = this.getView();
             BilliardTools.instance.openWaitView(notify.timer);
-            view.billiardTop.pauseCountDown();
+            // view.billiardTop.pauseCountDown();
         }
     }
 

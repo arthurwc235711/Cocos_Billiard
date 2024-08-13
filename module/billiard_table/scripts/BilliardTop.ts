@@ -427,6 +427,7 @@ export class BilliardTop extends BaseCommonScript {
     }
 
     clearData() {
+        this.unscheduleAllCallbacks();
         this.playerUI.forEach(p=>{
             p.nodeBalls.children.forEach((c,i)=>{
                 let bNode = c.getChildByName("SpriteBall")
