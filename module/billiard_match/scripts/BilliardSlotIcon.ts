@@ -1,12 +1,13 @@
 import { _decorator, Component, Node, UITransform, Vec3 } from 'cc';
 import { BilliardSlotsCell } from './BilliardSlotsCell';
+import { yy } from '../../../../../../yy';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardSlotIcon')
 export class BilliardSlotIcon extends Component {
     @property(Node)
     private container: Node = null;
-    private scrollSpeed: number = 1500; // 滚动速度
+    private scrollSpeed: number = 750; // 滚动速度
     private scrollSlowSpeed: number = 300
     private scrollTime: number = Number.MAX_VALUE; // 滚动时间
     private isScrolling: boolean = false;
@@ -17,19 +18,33 @@ export class BilliardSlotIcon extends Component {
   
     private slotsData: string;
   
-  
+    private nums = ["default_1", "default_2", "default_3", "default_4", "default_5", "default_6"];
+    private nIndex = -1;
     protected onLoad(): void {
-      this.slotsCells = this.container.getComponentsInChildren(BilliardSlotsCell);
+      // this.slotsCells = this.container.getComponentsInChildren(BilliardSlotsCell);
       this.nCell = this.slotsCells[0].getComponent(UITransform).height;
+
       // this.scheduleOnce(()=>{
       //   this.startScroll();
       // }, 3);
+      // this.initSlots();
     }
   
     initSlots() {
-      this.slotsCells.forEach((v,i)=>{
-        v.setData("");
-      });
+      // this.slotsCells.forEach((v,i)=>{
+      //   v.setData((3-i).toString());
+      // });
+      this.slotsCells = this.container.getComponentsInChildren(BilliardSlotsCell);
+      this.slotsCells[2].setData(this.getIndexData(1));
+      this.slotsCells[1].setData(this.getIndexData(2));
+      this.slotsCells[0].setData(this.getIndexData(3));
+      this.nIndex ++;
+    }
+
+
+    getIndexData(index: number) {
+      const i = (this.nIndex + index) % this.nums.length;
+      return this.nums[i];
     }
   
     private _startScroll() {
@@ -46,19 +61,19 @@ export class BilliardSlotIcon extends Component {
             this.container.position = this.container.position.add3f(0, this.nCell, 0);
 
   
-            this.slotsCells[2].setData("");
-            this.slotsCells[1].setData("");
-            this.slotsCells[0].setData("");
-
+            this.slotsCells[2].setData(this.getIndexData(1));
+            this.slotsCells[1].setData(this.getIndexData(2));
+            this.slotsCells[0].setData(this.getIndexData(3));
+            this.nIndex ++;
           }    
           if (this.deltaTime >= this.scrollTime) {
             if (this.container.position.y <= -this.nCell ) {
               this.container.position = this.container.position.add3f(0, this.nCell, 0);
 
     
-              this.slotsCells[2].setData("");
-              this.slotsCells[1].setData("");
-              this.slotsCells[0].setData("");
+              this.slotsCells[2].setData("1");
+              this.slotsCells[1].setData("2");
+              this.slotsCells[0].setData("3");
   
             }
   
