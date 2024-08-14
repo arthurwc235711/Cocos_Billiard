@@ -693,6 +693,13 @@ export class BilliardUIView extends BaseCommonScript {
         })
     }
 
+    setCueFrame() {
+        let switchFrames = this.cue.getComponentsInChildren(BilliardSwitchFrame);
+        switchFrames.forEach((item) => {
+            item.switchFrame();
+        })
+    }
+
     onSlider(slider: Slider) {
         this.nodeRight.getChildByName("NodeAngle").active = false;
         let label = this.nodeLeft.getChildByPath("Label").getComponent(Label);

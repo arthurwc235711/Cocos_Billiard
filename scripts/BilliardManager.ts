@@ -360,7 +360,7 @@ export class BilliardManager extends BaseCommonInstance{
             view.controlHide();
         }
         else { 
-
+            view.setCueFrame();
             // 自由球处理
             if (msg.action.type !== 0) {
                 if (msg.action.type === 1) {
