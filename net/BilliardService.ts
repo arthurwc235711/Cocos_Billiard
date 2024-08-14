@@ -430,7 +430,7 @@ export class BilliardService extends StackListenerNew {
 
     sendReady() {
         let req = new protoBilliard.ReadyReq();
-        req.uid = yy.user.getUid(); // 新客户端发0, 老客户端默认发uid (为了兼容老客户端)
+        req.uid = 0//yy.user.getUid(); // 新客户端发0, 老客户端默认发uid (为了兼容老客户端)
         this.send(this.serviceName.ready, req);
         // yy.socket.send("BilliardService.Ready", req);
     }
