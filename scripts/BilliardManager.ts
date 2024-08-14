@@ -498,7 +498,7 @@ export class BilliardManager extends BaseCommonInstance{
 
 
     onLeave(reason: number = 0) {
-        if (reason !== 0) {// 强制退出  不为0 代表玩家异常ready前异常中断
+        if (reason !== 0 && reason !== 2) {// 强制退出  不为0 代表玩家异常ready前异常中断
             this.unScheduleOpenWaitEnterView(); // 取消开始监听事件
             this._isOtherLeaveTips = true;
             yy.dialog.show(
