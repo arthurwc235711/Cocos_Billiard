@@ -397,6 +397,7 @@ export class BilliardService extends StackListenerNew {
             }
             msg.validResult.balls.sort((a, b)=>a.val - b.val);
             let billiardData = BilliardData.instance;
+            billiardData.setVersion(msg.version); // 版本兼容标记
             billiardData.setHitCount(msg.action.hitcount);
             billiardData.setActionType(msg.action.type);
             billiardData.setStartBalls(msg.validResult.balls);
@@ -429,7 +430,7 @@ export class BilliardService extends StackListenerNew {
 
     sendReady() {
         let req = new protoBilliard.ReadyReq();
-        req.uid = yy.user.getUid();
+        req.uid = yy.user.getUid(); // 新客户端发0, 老客户端默认发uid (为了兼容老客户端)
         this.send(this.serviceName.ready, req);
         // yy.socket.send("BilliardService.Ready", req);
     }
@@ -705,6 +706,7 @@ export class BilliardService extends StackListenerNew {
         if(msg) {
             msg.balls.sort((a, b)=>a.val - b.val);
 
+            billiardData.setVersion(msg.version); // 版本兼容标记
             billiardData.setStartBalls(msg.balls);
             billiardData.setActionUid(msg.action.uid);
             billiardData.setActionTimes(msg.action.times);

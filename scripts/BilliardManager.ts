@@ -53,6 +53,7 @@ export class BilliardManager extends BaseCommonInstance{
     private _rules: IBilliardRules;
     private _delayTime: number = 0; // 结算界面延时打开
     private static _waitTime: number = 0; // Ready等待时间
+    private _isOtherLeaveTips: boolean = false; // 是否是对方离开提示
 
     setTable(table: Table) {
         this._table = table;
@@ -479,7 +480,9 @@ export class BilliardManager extends BaseCommonInstance{
         if (notify.status === 1) {
             let view = this.getView();
             BilliardTools.instance.openWaitView(notify.timer);
-            // view.billiardTop.pauseCountDown();
+            if (BilliardData.instance.isOldVersion()) {
+                view.billiardTop.pauseCountDown();
+            }
         }
     }
 
@@ -497,6 +500,7 @@ export class BilliardManager extends BaseCommonInstance{
     onLeave(reason: number = 0) {
         if (reason !== 0) {// 强制退出  不为0 代表玩家异常ready前异常中断
             this.unScheduleOpenWaitEnterView(); // 取消开始监听事件
+            this._isOtherLeaveTips = true;
             yy.dialog.show(
                 {
                     title: "Tip",
@@ -526,7 +530,7 @@ export class BilliardManager extends BaseCommonInstance{
 
     delayShowWaitView(time: number) {
         const scene = director.getScene().getComponentInChildren(BilliardScene);
-        if(scene && scene.get_scene_layer_popup().getChildByName("p_billiard_wins") == null) {
+        if(!this._isOtherLeaveTips && scene && scene.get_scene_layer_popup().getChildByName("p_billiard_wins") == null) {
             BilliardManager._waitTime = time;
             let table = this.getTable();
             table.scheduleOnce(this.showWaitEnterView, 3);

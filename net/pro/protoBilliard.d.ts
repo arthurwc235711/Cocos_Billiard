@@ -613,6 +613,9 @@ declare global {
 			/** IStart scoreBoardVS */
 			scoreBoardVS?: (ScoreBoardData[] | null);
 
+			/** IStart version */
+			version?: (number | null);
+
 		}
 
 		/** Represents a IStart. */
@@ -638,6 +641,9 @@ declare global {
 
 			/** IStart scoreBoardVS */
 			public scoreBoardVS: ScoreBoardData[] | null;
+
+			/** IStart version */
+			public version: number | null;
 
 		}
 
@@ -923,6 +929,9 @@ declare global {
 			/** GameStatus cueOffset */
 			cueOffset?: (ICueOffset | null);
 
+			/** GameStatus version */
+			version?: (number | null);
+
 		}
 
 		/** Represents a GameStatus. */
@@ -969,6 +978,9 @@ declare global {
 
 			/** GameStatus cueOffset */
 			public cueOffset: ICueOffset | null;
+
+			/** GameStatus version */
+			public version: number | null;
 
 		}
 

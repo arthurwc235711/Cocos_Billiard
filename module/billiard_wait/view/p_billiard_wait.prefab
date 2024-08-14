@@ -1181,6 +1181,12 @@
     "labelWait": {
       "__id__": 40
     },
+    "lockNode": {
+      "__id__": 2
+    },
+    "lockTipsNode": {
+      "__id__": 24
+    },
     "_id": ""
   },
   {

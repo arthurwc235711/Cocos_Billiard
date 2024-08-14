@@ -367,6 +367,10 @@
               "rule": "repeated",
               "type": "ScoreBoardData",
               "id": 5
+            },
+            "version": {
+              "type": "int32",
+              "id": 6
             }
           }
         },
@@ -549,6 +553,10 @@
             "cueOffset": {
               "type": "ICueOffset",
               "id": 12
+            },
+            "version": {
+              "type": "int32",
+              "id": 13
             }
           }
         },

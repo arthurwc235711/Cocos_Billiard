@@ -35,7 +35,7 @@ export class BilliardData {
             this.addPlayer(1, "Player", "", 0);
             this.addPlayer(2, "AI", "", 0);
 
-            this.setGameType(9);
+            this.setGameType(8);
         }
 
         this.angleLimit = BilliardTools.instance.getCacheCueSensitivity()
@@ -64,6 +64,8 @@ export class BilliardData {
     private gameType = 0; // 8球类型 9球类型
 
     private _hitCount = 0; // 当前行动玩家连杆数
+
+    private _version = 0; // 版本号  1: 代表旧版本
 
 
     isFreeBall(): boolean {
@@ -249,6 +251,17 @@ export class BilliardData {
     setHitCount(count: number){
         this._hitCount = count;
     }
+
+/************************* 版本兼容临时处理 **********************/
+    setVersion(version: number) {
+        this._version = version;
+    }
+    isOldVersion() {
+        return this._version === 1;
+    }
+    isNewVersion() {
+        return this._version !== 0;
+    }
+/************************* 版本兼容临时处理 **********************/
+
 }
-
-
