@@ -208,7 +208,7 @@ export class BilliardMatchView extends BaseCommonScript {
         this.setPlayerInfo(this.otherUI, otherInfo[0], otherInfo[0].moneyBet);
         this.rollNum(this.nodeAddGold.getChildByName("Label").getComponent(Label), 0, msg.chipPot, 2.5);
 
-        this.lableMyGold.string = yy.money.formatMoney(yy.user.getTotalMoney() - msg.chipPot, false);
+        this.lableMyGold.string = yy.money.formatMoney(yy.user.getTotalMoney() - myInfo[0].moneyBet, false);
     }
 
     rollNum(label:Label, orgNum:number, distNum: number, totalTimes: number) {
