@@ -722,7 +722,7 @@ export class BilliardUIView extends BaseCommonScript {
     onExpSlider(slider: Slider) {
         const startPer = 0.88;
         if (slider.progress <= startPer) {
-            this.powerSlider.progress = slider.progress / startPer;
+            this.powerSlider.progress = Math.min(slider.progress / startPer, 1);
             this.onSlider(this.powerSlider);
         }
         else {
