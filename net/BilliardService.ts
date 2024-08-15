@@ -386,6 +386,7 @@ export class BilliardService extends StackListenerNew {
 
 
         if (msg.stage === 3) { //牌局阶段(0:无牌局,1:准备,2:Start,3:再玩，注意：结算状态不发送) 
+            yy.user.setNeedUpdateMoney(true) // 登录桌子成功后,如果当前正在牌局过程中，调用并传入 true
             yy.event.emit(yy.Event_Name.billiard_wait_enter_close); // 关闭等待界面
             let cueBall = msg.validResult.balls.filter(b=>b.val === 0)[0];
             cueBall.position.x = msg.freeBall.curPosition.x 
@@ -606,6 +607,7 @@ export class BilliardService extends StackListenerNew {
 
             let player = msg.playerResult.filter(p=>p.uid == yy.user.getUid())[0];
             GameIsolateUtils.recordGameStatus(BilliardData.instance.gid, false, player.moneyTotal.toNumber());
+            yy.user.setNeedUpdateMoney(false);// 结算时，调用该接口并传入 false
         }
     }
 
@@ -703,8 +705,10 @@ export class BilliardService extends StackListenerNew {
         let billiardData = BilliardData.instance;
         let msg: protoBilliard.IStart = data.msg;
 
+
         BilliardData.instance.isOtherPlayExit = false;
         yy.log.w("notifyStart", msg);
+        yy.user.setNeedUpdateMoney(true);// 针对有牌局过程的游戏，在牌局开始时，调用该接口并传入 true
         if(msg) {
             msg.balls.sort((a, b)=>a.val - b.val);
 
