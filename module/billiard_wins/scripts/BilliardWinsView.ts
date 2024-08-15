@@ -94,6 +94,7 @@ export class BilliardWinsView extends BaseCommonScript {
             let p = data.playerResult[i];
             if(p.uid === yy.user.getUid()) {
                 const myMoney = p.moneyTotal.toNumber()
+                yy.user.setTotalMoney(myMoney);
                 this.setPlayerInfo(this.myUI, p.nick, p.icon, myMoney);
                 this.nodeMy.getChildByName("NodeWiner").active = data.winnerid === p.uid;
                 this.myUI.nodeHalo.active = data.winnerid === p.uid;
