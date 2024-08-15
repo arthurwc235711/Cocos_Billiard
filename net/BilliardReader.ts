@@ -2,6 +2,7 @@ import { _decorator, Component, Node } from 'cc';
 import { ws_base_writer } from '../../../../../framework/socket/ws3/ws_base_writer';
 import { yy } from '../../../../yy';
 import { GameMessageStack } from '../../../../main/data/GameMessageStack';
+import { BilliardData } from '../data/BilliardData';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardReader')
@@ -19,18 +20,26 @@ export class BilliardReader extends ws_base_writer {
     }
 
     on_command(cmd: number, data: any) {
-        try {
-            let result = cmd
-            if (result != null) {
-                let name = `cmd_0x${result.toString(16)}`;
-                yy.log.d(`收到消息: cmd:${cmd.toString(16)}`, data)
-                GameMessageStack.instance().tryStackMessage(name, { code: 0, msg: data.msg });
-            } else {
-                yy.log.d(`收到消息: cmd:${cmd.toString(16)}, 子游戏没有配置`, data)
+        if (BilliardData.instance.isListener()) {
+            try {
+                let result = cmd
+                if (result != null) {
+                    let name = `cmd_0x${result.toString(16)}`;
+                    yy.log.d(`收到消息: ${name}`, data)
+                    GameMessageStack.instance().tryStackMessage(name, { code: 0, msg: data.msg });
+                } else {
+                    yy.log.d(`收到消息: cmd:${cmd.toString(16)}, 子游戏没有配置`, data)
+                }
+            } catch (error) {
+                yy.log.e(`收到消息: error cmd:${cmd.toString(16)}`, error)
             }
-        } catch (error) {
-            yy.log.e(`收到消息: error cmd:${cmd.toString(16)}`, error)
         }
+        else if(cmd === 0x2100) {
+            let name = `cmd_0x${cmd.toString(16)}`;
+            yy.log.d(`收到消息: ${name}`, data)
+            GameMessageStack.instance().tryStackMessage(name, { code: 0, msg: data.msg });
+        }
+
     }
 
     on_timeout(service_name: string, func_name: string, data: any, pb: any) {

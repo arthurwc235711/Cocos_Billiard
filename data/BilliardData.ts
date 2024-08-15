@@ -67,6 +67,7 @@ export class BilliardData {
 
     private _version = 0; // 版本号  1: 代表旧版本
 
+    private _isListener = false; // 是否监听推送消息
 
     isFreeBall(): boolean {
         return this.actionType !== 0;
@@ -263,5 +264,13 @@ export class BilliardData {
         return this._version !== 0;
     }
 /************************* 版本兼容临时处理 **********************/
+
+    setListener() {
+        this._isListener = true;
+    }
+
+    isListener() {
+        return this._isListener;
+    }
 
 }

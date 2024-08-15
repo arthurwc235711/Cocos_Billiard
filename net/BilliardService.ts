@@ -240,6 +240,7 @@ export class BilliardService extends StackListenerNew {
     notifyMatchingTable(data: any) {
         let notify: protoAlloc.NoticeClientWaitEnterTableResult = data.msg;
         yy.log.w("BilliardService   notifyMatchingTable", notify);
+        BilliardData.instance.setListener();
         if (notify.code === 0) {
             this.setTid(notify.tid);
             // let protoObj = ProtoHelper.Ins.getProto("protoBeauty", "BeautyExtendSpinRsp")
@@ -275,6 +276,7 @@ export class BilliardService extends StackListenerNew {
    }
 
     BilliardAllocService_EnterByTable(data: any, elapsedTime: number) {
+        BilliardData.instance.setListener();
         let msg: protoBilliard.EnterRsp = data.msg;
         if(data.code === 0 && msg) {
             if (msg.code === 0) {
