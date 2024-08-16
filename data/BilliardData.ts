@@ -261,7 +261,7 @@ export class BilliardData {
         return this._version === 1;
     }
     isNewVersion() {
-        return this._version !== 0;
+        return this._version !== 1;
     }
 /************************* 版本兼容临时处理 **********************/
 
