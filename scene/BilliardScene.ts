@@ -181,7 +181,16 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             else {
                 BilliardData.instance.setGameType(this.levelData.maxBetMoney);// 匹配时设置 为了退出返回大厅的标签，开始游戏也会设置
                 BilliardService.instance.setServiceName(this.levelData.maxBetMoney);
-                BilliardTools.instance.openMatchView(this.levelData, null);
+                if (BilliardData.instance.is8Ball()) {
+                    BilliardService.instance.isStandAlone = true;
+                    BilliardData.instance.addPlayer(1, "Player", "", 0);
+                    BilliardData.instance.addPlayer(2, "AI", "", 0);
+                    // BilliardTools.instance.openMatchView(this.levelData, null);
+                }
+                else {
+                    BilliardTools.instance.openMatchView(this.levelData, null);
+                }
+
             }
         }
         else {

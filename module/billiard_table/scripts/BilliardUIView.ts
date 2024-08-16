@@ -741,31 +741,33 @@ export class BilliardUIView extends BaseCommonScript {
         dot.worldPosition = pos;
     }
 
-    // private frameCount: number = 0;
-    // private dt: number = 0;
-    // private fps: number = 0;
-    // private tmpString: string = null;
-    // private minFps = 100000;
-    // private maxFps = 0;
-    // protected update(dt: number): void {
-    //     this.dt += dt;
-    //     this.frameCount++;
-    //     let cfps = 1/dt;
-    //     if (this.dt > 1) {
-    //         this.fps = this.frameCount / this.dt;
-    //         this.tmpString = `FPS: ${this.fps.toFixed(0)}  MinDT: ${(1/this.minFps).toFixed(3)}  minFps: ${this.minFps.toFixed(0)}  maxFps: ${this.maxFps.toFixed(0)}`;
-    //         this.labelTestInfo.string = this.tmpString;
-    //         this.dt = 0;
-    //         this.frameCount = 0;
-    //         this.minFps = 100000;
-    //         this.maxFps = 0;
-    //     }
-    //     this.minFps = Math.min(this.minFps, cfps);
-    //     this.maxFps = Math.max(this.maxFps, cfps);
+    private frameCount: number = 0;
+    private dt: number = 0;
+    private fps: number = 0;
+    private tmpString: string = null;
+    private minFps = 100000;
+    private maxFps = 0;
+    private maxActionTime = 0;
+    protected update(dt: number): void {
+        this.dt += dt;
+        this.frameCount++;
+        let cfps = 1/dt;
+        if (this.dt > 1) {
+            this.fps = this.frameCount / this.dt;
+            this.tmpString = `minFps: ${this.minFps.toFixed(0)}  maxActionTime: ${this.maxActionTime.toFixed(4)} s`;
+            this.labelTestInfo.string = this.tmpString;
+            this.dt = 0;
+            this.frameCount = 0;
+            this.minFps = 100000;
+            this.maxFps = 0;
+        }
+        this.minFps = Math.min(this.minFps, cfps);
+        this.maxFps = Math.max(this.maxFps, cfps);
+        this.maxActionTime = Math.max(this.maxActionTime, BilliardManager.instance.getTable().actionTime);
 
 
-    //     // this.labelTestInfo.string = this.tmpString +  ` fps: ${(1/dt).toFixed(3)}`
-    // }
+        // this.labelTestInfo.string = this.tmpString +  ` fps: ${(1/dt).toFixed(3)}`
+    }
 
     onFreeBall() {
         this.freeBall.setFreeBallHand();

@@ -70,18 +70,34 @@ export class Table extends BaseCommonScript {
 
 
     decimal: number = 0;
+    actionTime: number = 0;
     // loopUpdate  fixedUpdate 会在所有update之后调用
     loopUpdate(dt: number) {
-      let tmp = dt/this.fixedTimeStep + this.decimal;
-      let loopTimes = Math.floor(tmp)
-      this.decimal = tmp - loopTimes;
-      // this.records[loopTimes]++;
-      // yy.log.w("loopUpdate", this.records);
-      for (let i = 0; i < loopTimes; i++) {
-        this.fixedUpdate(dt);
+      if(BilliardData.instance.is9Ball()) {
+        let tmp = dt/this.fixedTimeStep + this.decimal;
+        let loopTimes = Math.floor(tmp)
+        this.decimal = tmp - loopTimes;
+        // this.records[loopTimes]++;
+        // yy.log.w("loopUpdate", this.records);
+        for (let i = 0; i < loopTimes; i++) {
+          this.fixedUpdate(dt);
+        }
+      }
+      else if(BilliardData.instance.is8Ball()) {
+          if(!this.allStationary()) {
+            const start = performance.now();
+            while(!this.allStationary()) {
+              this.advance(0);
+            }
+
+            const end = performance.now();
+            this.actionTime = (end - start)/1000;
+            // yy.log.w(`执行时间: ${this.useTime.toFixed(0)} 毫秒`);
+        }  
       }
 
-  
+
+
     }
     // 模拟物理
     fixedUpdate(dt: number) {

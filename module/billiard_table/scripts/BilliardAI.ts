@@ -22,7 +22,14 @@ export class BilliardAI  {
     freeball() {
         if (this.isUsed && BilliardService.instance.isStandAlone) {
             let table = BilliardManager.instance.getTable();
+            let view = BilliardManager.instance.getView();
             if (table.isValidFreeBall()) {
+                this.hitBall();
+            }
+            else {
+                table.cueBall.pos.setX(-0.85);
+                view.onFreeBall()
+                view.onFreeBallMove(false);
                 this.hitBall();
             }
         }
@@ -42,6 +49,11 @@ export class BilliardAI  {
     thinkTime(f: Function) {
         let canvas = director.getScene().getChildByName("Canvas").getComponent(Canvas);
         canvas.scheduleOnce(()=>{
+            let rules = BilliardManager.instance.getRules();
+            let ball = rules.onShotBall();
+            if (ball) {
+                BilliardManager.instance.getView().autoShotAt(ball.node);
+            }
             f();
         }, 3);
     }
