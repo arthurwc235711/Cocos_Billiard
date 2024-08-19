@@ -280,7 +280,7 @@ export class BilliardService extends StackListenerNew {
         let msg: protoBilliard.EnterRsp = data.msg;
         if(data.code === 0 && msg) {
             if (msg.code === 0) {
-                this.notifyEnterGame( {msg:msg.gameStatus} );
+                this.notifyEnterGame( {msg:msg.gameStatus, isNotPush: true} );
             }
             else {
                 yy.event.emit(yy.Event_Name.CasualCommonQuit);
@@ -386,6 +386,8 @@ export class BilliardService extends StackListenerNew {
 
 
         if (msg.stage === 3) { //牌局阶段(0:无牌局,1:准备,2:Start,3:再玩，注意：结算状态不发送) 
+            const isNotPush: boolean = data.isNotPush;
+
             yy.user.setNeedUpdateMoney(true) // 登录桌子成功后,如果当前正在牌局过程中，调用并传入 true
             yy.event.emit(yy.Event_Name.billiard_wait_enter_close); // 关闭等待界面
             let cueBall = msg.validResult.balls.filter(b=>b.val === 0)[0];
@@ -406,16 +408,24 @@ export class BilliardService extends StackListenerNew {
             billiardData.setStartBalls(msg.validResult.balls);
             billiardData.setActionTimes(msg.action.times);
             billiardData.setActionMaxTimes(msg.action.maxtimes);
-            billiardData.setAngle(msg.hitReq.angle/BilliardConst.multiple);
+            // billiardData.setAngle(msg.hitReq.angle/BilliardConst.multiple);
             billiardData.setPower(msg.hitReq.power/BilliardConst.multiple);
-            if (msg.hitReq.power !== 0) billiardData.getOffset().setX(msg.hitReq.offset.x/BilliardConst.multiple).setY(msg.hitReq.offset.y/BilliardConst.multiple);
-            else billiardData.getOffset().setX(msg.cueOffset.curOffset.x/BilliardConst.multiple).setY(msg.cueOffset.curOffset.y/BilliardConst.multiple);
 
-            yy.event.emit(yy.Event_Name.billiard_notify_cueoffset, msg.cueOffset);
+            if(isNotPush) {
+                billiardData.setAngle(msg.hitReq.angle/BilliardConst.multiple);
+                if (msg.hitReq.power !== 0) billiardData.getOffset().setX(msg.hitReq.offset.x/BilliardConst.multiple).setY(msg.hitReq.offset.y/BilliardConst.multiple);
+                else billiardData.getOffset().setX(msg.cueOffset.curOffset.x/BilliardConst.multiple).setY(msg.cueOffset.curOffset.y/BilliardConst.multiple);
+                yy.event.emit(yy.Event_Name.billiard_notify_cueoffset, msg.cueOffset);
+            }
+
+            
+
+
+
             billiardData.setActionUid(msg.action.uid);
             let hitType = msg.users.filter(u=>u.uid === msg.action.uid)[0].hitType;
             billiardData.setHitBallType(hitType);
-            yy.event.emit(yy.Event_Name.billiard_reconnect, msg);      
+            yy.event.emit(yy.Event_Name.billiard_reconnect, msg, isNotPush);      
 
 
             yy.event.emit(yy.Event_Name.billiard_set_score, scores);

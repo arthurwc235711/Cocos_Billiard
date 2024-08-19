@@ -326,7 +326,7 @@ export class BilliardManager extends BaseCommonInstance{
         // BilliardData.instance.clearData();
     }
 
-    onReconnect(msg: protoBilliard.GameStatus) {
+    onReconnect(msg: protoBilliard.GameStatus, isNotPush: boolean = false) {
         let view = this.getView();
         let table = this.getTable();
         let rules =this.getRules();
@@ -375,12 +375,15 @@ export class BilliardManager extends BaseCommonInstance{
                     // table.cueBall.updatePosImmediately(Vec3.ZERO);  使用服务器数据不强制赋值
                 }
 
-                view.freeBall.node.active = true;
-                view.freeBall.nodeForbid.active = !table.isValidFreeBall();
-                table.scheduleOnce(()=>{ // 强制延迟一针处理不然坐标更新有概率有异常
-                    view.onFreeBall();
-                    view.onFreeBallMove(!table.isValidFreeBall(), false, false);
-                }, 0);
+                if (isNotPush) {
+                    view.freeBall.node.active = true;
+                    view.freeBall.nodeForbid.active = !table.isValidFreeBall();
+                    table.scheduleOnce(()=>{ // 强制延迟一针处理不然坐标更新有概率有异常
+                        view.onFreeBall();
+                        view.onFreeBallMove(!table.isValidFreeBall(), false, false);
+                    }, 0);
+                }
+
 
             }
             else {
@@ -392,7 +395,9 @@ export class BilliardManager extends BaseCommonInstance{
                     }
                 }
                 else {
-                    yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg.cueAngle);
+                    if (isNotPush) {
+                        yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg.cueAngle);
+                    }
                 }
             }
 
