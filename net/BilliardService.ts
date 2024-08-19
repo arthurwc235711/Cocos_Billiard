@@ -416,11 +416,21 @@ export class BilliardService extends StackListenerNew {
 
 
             billiardData.setActionUid(msg.action.uid);
-            if(isNotPush || !BilliardTools.instance.isMyAction()) {
-                billiardData.setAngle(msg.hitReq.angle/BilliardConst.multiple);
-                if (msg.hitReq.power !== 0) billiardData.getOffset().setX(msg.hitReq.offset.x/BilliardConst.multiple).setY(msg.hitReq.offset.y/BilliardConst.multiple);
-                else billiardData.getOffset().setX(msg.cueOffset.curOffset.x/BilliardConst.multiple).setY(msg.cueOffset.curOffset.y/BilliardConst.multiple);
-                yy.event.emit(yy.Event_Name.billiard_notify_cueoffset, msg.cueOffset);
+            if(isNotPush) {
+                if (!BilliardTools.instance.isMyAction()) {
+                    billiardData.setAngle(msg.hitReq.angle/BilliardConst.multiple);
+                    if (msg.hitReq.power !== 0) billiardData.getOffset().setX(msg.hitReq.offset.x/BilliardConst.multiple).setY(msg.hitReq.offset.y/BilliardConst.multiple);
+                    else billiardData.getOffset().setX(msg.cueOffset.curOffset.x/BilliardConst.multiple).setY(msg.cueOffset.curOffset.y/BilliardConst.multiple);
+                    yy.event.emit(yy.Event_Name.billiard_notify_cueoffset, msg.cueOffset);
+                }
+            }
+            else {
+                if (msg.action.type !== 0 && BilliardTools.instance.isMyAction()) { // 己方自由球对方重连更新自己当前自由球坐标位置
+                    const table = BilliardManager.instance.getTable();
+                    cueBall.position.x = Math.round(table.cueBall.pos.x * BilliardConst.multiple);// msg.freeBall.curPosition.x 
+                    cueBall.position.y = Math.round(table.cueBall.pos.y * BilliardConst.multiple);//msg.freeBall.curPosition.y;
+
+                }
             }
 
             let hitType = msg.users.filter(u=>u.uid === msg.action.uid)[0].hitType;
