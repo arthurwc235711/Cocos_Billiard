@@ -411,18 +411,18 @@ export class BilliardService extends StackListenerNew {
             // billiardData.setAngle(msg.hitReq.angle/BilliardConst.multiple);
             billiardData.setPower(msg.hitReq.power/BilliardConst.multiple);
 
-            if(isNotPush) {
+            
+
+
+
+            billiardData.setActionUid(msg.action.uid);
+            if(isNotPush || !BilliardTools.instance.isMyAction()) {
                 billiardData.setAngle(msg.hitReq.angle/BilliardConst.multiple);
                 if (msg.hitReq.power !== 0) billiardData.getOffset().setX(msg.hitReq.offset.x/BilliardConst.multiple).setY(msg.hitReq.offset.y/BilliardConst.multiple);
                 else billiardData.getOffset().setX(msg.cueOffset.curOffset.x/BilliardConst.multiple).setY(msg.cueOffset.curOffset.y/BilliardConst.multiple);
                 yy.event.emit(yy.Event_Name.billiard_notify_cueoffset, msg.cueOffset);
             }
 
-            
-
-
-
-            billiardData.setActionUid(msg.action.uid);
             let hitType = msg.users.filter(u=>u.uid === msg.action.uid)[0].hitType;
             billiardData.setHitBallType(hitType);
             yy.event.emit(yy.Event_Name.billiard_reconnect, msg, isNotPush);      
