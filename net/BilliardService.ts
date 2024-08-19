@@ -425,7 +425,7 @@ export class BilliardService extends StackListenerNew {
                 }
             }
             else {
-                if (msg.action.type !== 0 && BilliardTools.instance.isMyAction()) { // 己方自由球对方重连更新自己当前自由球坐标位置
+                if (msg.hitReq.power === 0 && msg.action.type !== 0 && BilliardTools.instance.isMyAction()) { // 己方自由球对方重连更新自己当前自由球坐标位置
                     const table = BilliardManager.instance.getTable();
                     cueBall.position.x = Math.round(table.cueBall.pos.x * BilliardConst.multiple);// msg.freeBall.curPosition.x 
                     cueBall.position.y = Math.round(table.cueBall.pos.y * BilliardConst.multiple);//msg.freeBall.curPosition.y;
