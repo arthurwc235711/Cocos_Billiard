@@ -210,6 +210,7 @@ export class BilliardData {
     clearData() {
         this.players.length = 0;
         BilliardData.ballId = 0;  
+        this._markOfflineTime = 0;
     }
 
     is8Ball() {
