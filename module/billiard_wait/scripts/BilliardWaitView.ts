@@ -26,7 +26,8 @@ export class BilliardWaitView extends BaseCommonScript {
         this.unscheduleAllCallbacks();
         this.lockNode.active = BilliardData.instance.isOldVersion();// 兼容处理
         this.lockTipsNode.active = BilliardData.instance.isOldVersion();// 兼容处理
-
+        time = Math.max((time - performance.now()) / 1000, 0);
+        if (time === 0) this.node.destroy();
         let onUpdate = function() {
             time -= game.deltaTime;
             this.labelWait.string = `Opponent's disconnected(<color=#FBC21EFF>${Math.max(Math.floor(time), 0)}</color>)`//`等待}秒`;     

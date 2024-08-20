@@ -275,6 +275,16 @@ export class BilliardManager extends BaseCommonInstance{
         rules.nextTurn(action.type, action.uid, action.round);
         this.setSureBalls();
         view.onAllStationary();
+
+        if (BilliardTools.instance.isMyAction()) {
+            const p = BilliardManager.instance.getScene().get_scene_layer_popup().getChildByName("p_billiard_wait");
+            if (p) p.destroy();
+        }
+        else { // 非自己行动回合才显示 离线提示
+            if (BilliardData.instance.getMarkOfflineTime() > 0) {
+                BilliardTools.instance.openWaitView(BilliardData.instance.getMarkOfflineTime());
+            }
+        }
     }
 
 
@@ -326,7 +336,7 @@ export class BilliardManager extends BaseCommonInstance{
         // BilliardData.instance.clearData();
     }
 
-    onReconnect(msg: protoBilliard.GameStatus, isNotPush: boolean = false) {
+    onReconnect(msg: protoBilliard.GameStatus) {
         let view = this.getView();
         let table = this.getTable();
         let rules =this.getRules();
@@ -375,14 +385,12 @@ export class BilliardManager extends BaseCommonInstance{
                     // table.cueBall.updatePosImmediately(Vec3.ZERO);  使用服务器数据不强制赋值
                 }
 
-                if (isNotPush) {
-                    view.freeBall.node.active = true;
-                    view.freeBall.nodeForbid.active = !table.isValidFreeBall();
-                    table.scheduleOnce(()=>{ // 强制延迟一针处理不然坐标更新有概率有异常
-                        view.onFreeBall();
-                        view.onFreeBallMove(!table.isValidFreeBall(), false, false);
-                    }, 0);
-                }
+                view.freeBall.node.active = true;
+                view.freeBall.nodeForbid.active = !table.isValidFreeBall();
+                table.scheduleOnce(()=>{ // 强制延迟一针处理不然坐标更新有概率有异常
+                    view.onFreeBall();
+                    view.onFreeBallMove(!table.isValidFreeBall(), false, false);
+                }, 0);
 
 
             }
@@ -395,9 +403,7 @@ export class BilliardManager extends BaseCommonInstance{
                     }
                 }
                 else {
-                    if (isNotPush) {
-                        yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg.cueAngle);
-                    }
+                    yy.event.emit(yy.Event_Name.billiard_notify_cueangle, msg.cueAngle);
                 }
             }
 
@@ -437,13 +443,18 @@ export class BilliardManager extends BaseCommonInstance{
             }
         });
         if(lockTime > 0) {
-            const p = BilliardManager.instance.getScene().get_scene_layer_popup().getChildByName("p_billiard_wait");;
-            if (!p) {
-                BilliardTools.instance.openWaitView(lockTime);
+            const p = BilliardManager.instance.getScene().get_scene_layer_popup().getChildByName("p_billiard_wait");
+            if (BilliardTools.instance.isMyAction()) {// 自己行动回合不显示对方离线，只标记对方
+                if(p) p.destroy();
+                BilliardData.instance.setMarkOfflineTime(lockTime*1000 + performance.now());
             }
             else {
-                p.getComponent(BilliardWaitView).setWaitTime(lockTime);
+                if (p) p.getComponent(BilliardWaitView).setWaitTime(lockTime*1000 + performance.now());
+                else  BilliardTools.instance.openWaitView(lockTime*1000 + performance.now());
             }
+        }
+        else {
+            BilliardData.instance.setMarkOfflineTime(0);
         }
     }
 
@@ -484,9 +495,17 @@ export class BilliardManager extends BaseCommonInstance{
     onOffline(notify: protoBilliard.NotifyUserNetStatus) {
         if (notify.status === 1) {
             let view = this.getView();
-            BilliardTools.instance.openWaitView(notify.timer);
             if (BilliardData.instance.isOldVersion()) {
+                BilliardTools.instance.openWaitView(notify.timer);
                 view.billiardTop.pauseCountDown();
+            }
+            else {
+                if (BilliardTools.instance.isMyAction()) {// 自己行动回合不显示对方离线，只标记对方
+                    BilliardData.instance.setMarkOfflineTime(notify.timer*1000 + performance.now());
+                }
+                else {
+                    BilliardTools.instance.openWaitView(notify.timer*1000 + performance.now());
+                }
             }
         }
     }

@@ -69,6 +69,8 @@ export class BilliardData {
 
     private _isListener = false; // 是否监听推送消息
 
+    private _markOfflineTime = 0; // 离线标记剩余时间
+
     isFreeBall(): boolean {
         return this.actionType !== 0;
     }
@@ -264,7 +266,6 @@ export class BilliardData {
         return this._version !== 1;
     }
 /************************* 版本兼容临时处理 **********************/
-
     setListener() {
         this._isListener = true;
     }
@@ -273,4 +274,11 @@ export class BilliardData {
         return this._isListener;
     }
 
+
+    setMarkOfflineTime(time: number) {
+        this._markOfflineTime = time;
+    }
+    getMarkOfflineTime() {
+        return this._markOfflineTime;
+    }
 }
