@@ -1,5 +1,6 @@
 
 // import { Ball } from "../../module/table/scripts/Ball"
+import { Vec3 } from "cc";
 import { yy } from "../../../../../yy";
 import { Ball } from "../../module/billiard_table/scripts/Ball"
 import { BilliardManager } from "../BilliardManager"
@@ -79,7 +80,54 @@ export class Collision {
   static positionsAtContact(a: Ball, b: Ball) {
     const sep = a.pos.distanceTo(b.pos)
     const rv = a.vel.clone().subtract(b.vel)
-    const t = (sep - 2 * R) / rv.length() || 0
+    const t = (sep - 2 * R) / rv.length() || 0;
+    if (b.vel.x === 0 && b.vel.y === 0) { // 计算母球首次指向碰撞点位的 滚动方向
+      function findCircleRayIntersections(circleCenter: Vec3, radius: number, rayOrigin: Vec3, rayDirection: Vec3): Vec3[] {
+        const h = circleCenter.x;
+        const k = circleCenter.y;
+        const x0 = rayOrigin.x;
+        const y0 = rayOrigin.y;
+        const dx = rayDirection.x;
+        const dy = rayDirection.y;
+    
+        // Coefficients for the quadratic equation
+        const A = dx * dx + dy * dy;
+        const B = 2 * ((x0 - h) * dx + (y0 - k) * dy);
+        const C = (x0 - h) * (x0 - h) + (y0 - k) * (y0 - k) - radius * radius;
+    
+        // Discriminant
+        const discriminant = B * B - 4 * A * C;
+    
+        const intersections: Vec3[] = [];
+    
+        if (discriminant < 0) {
+            // No intersection
+            return intersections;
+        } else if (discriminant === 0) {
+            // One intersection (tangent)
+            const t = -B / (2 * A);
+            intersections.push(new Vec3(x0 + t * dx, y0 + t * dy));
+        } else {
+            // Two intersections
+            const sqrtDiscriminant = Math.sqrt(discriminant);
+            const t2 = (-B + sqrtDiscriminant) / (2 * A);
+            const t1 = (-B - sqrtDiscriminant) / (2 * A);
+            intersections.push(new Vec3(x0 + t1 * dx, y0 + t1 * dy));
+            intersections.push(new Vec3(x0 + t2 * dx, y0 + t2 * dy));
+        }
+    
+        return intersections;
+      }
+      const intersctions = findCircleRayIntersections(b.pos, 2*R, a.pos, a.vel);
+      return {
+        a: intersctions[0],
+        b: b.pos.clone().addScaledVector(b.vel, t),
+      }
+    }
+
+    // const sep = a.pos.distanceTo(b.pos)
+    // const rv = a.vel.clone().subtract(b.vel)
+    // const t = (sep - 2 * R) / rv.length() || 0;
     return {
       a: a.pos.clone().addScaledVector(a.vel, t),
       b: b.pos.clone().addScaledVector(b.vel, t),
