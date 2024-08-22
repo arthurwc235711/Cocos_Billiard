@@ -4,7 +4,7 @@ import { Collision } from '../../../scripts/physics/collision';
 import { TableGeometry } from './TableGeometry';
 import { yy } from '../../../../../../yy';
 import { Cushion } from './Cushion';
-import { bounceHanBlend, cueToSpin } from '../../../scripts/physics/physics';
+import { bounceHan, bounceHanBlend, cueToSpin } from '../../../scripts/physics/physics';
 import { BilliardData } from '../../../data/BilliardData';
 import { R } from '../../../scripts/physics/constants';
 import { Outcome } from './Outcome';
@@ -36,7 +36,7 @@ export class Table extends BaseCommonScript {
     balls:Ball[];
     pairs: Pair[]; // 球对
     outcome: Outcome[] = [];
-    cushionModel = bounceHanBlend
+    cushionModel = bounceHan
     cueBall:Ball = null;
 
     shotBall: Ball = null;
@@ -81,7 +81,14 @@ export class Table extends BaseCommonScript {
         this.fixedUpdate(dt);
       }
 
-  
+      // if (!this.allStationary()) {
+      //   const start = performance.now();
+      //   while(!this.allStationary()) {
+      //     this.advance(0);
+      //   }
+      //   const end = performance.now();
+      //   yy.log.w(`执行时间：${(end - start).toFixed(0)} 毫秒`);
+      // }
     }
     // 模拟物理
     fixedUpdate(dt: number) {
@@ -103,7 +110,7 @@ export class Table extends BaseCommonScript {
     advance(dt: number) {
         let depth = 0
         while (!this.prepareAdvanceAll(this.fixedTimeStep)) {
-          if (depth++ > 100) {
+          if (depth++ > 1000) {
             throw new Error("Depth exceeded resolving collisions")
           }
         }
