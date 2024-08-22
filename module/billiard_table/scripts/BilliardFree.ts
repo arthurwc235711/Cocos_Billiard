@@ -56,6 +56,7 @@ export class BilliardFree extends BaseCommonScript {
                 BilliardManager.instance.camera3d.screenToWorld(vec3.set(local.x, local.y, 0), outV3);
                 outV3.setZ(0).setY(outV3.y + 4 * R).setX(outV3.x - R)
 
+                const DEVIATION = 0.005; // 修正X轴到库的误差值
                 if (this.nodeStart.active) {
                     if (Math.abs(outV3.y) <= TableGeometry.tableY && outV3.x >= -TableGeometry.tableX && outV3.x <= -0.75) {
                         // yy.log.w("正常", outV3, TableGeometry.tableY)
@@ -71,7 +72,7 @@ export class BilliardFree extends BaseCommonScript {
                             outV3.y = outV3.y > 0 ? TableGeometry.tableY : -TableGeometry.tableY;
                         }
                         if (outV3.x < -TableGeometry.tableX ) {
-                            outV3.x = -TableGeometry.tableX;
+                            outV3.x = -TableGeometry.tableX + DEVIATION;
                         }
                         else {
                             if (outV3.x > -0.75) {
@@ -101,7 +102,7 @@ export class BilliardFree extends BaseCommonScript {
                             outV3.y = outV3.y > 0 ? TableGeometry.tableY : -TableGeometry.tableY;
                         }
                         if (Math.abs(outV3.x) > TableGeometry.tableX) {
-                            outV3.x = outV3.x > 0 ? TableGeometry.tableX : -TableGeometry.tableX;
+                            outV3.x = outV3.x > 0 ? TableGeometry.tableX - DEVIATION : -TableGeometry.tableX + DEVIATION;
                         }
                         table.cueBall.updatePosImmediately(outV3);
                         outV3.setZ(0).setY(outV3.y - 4 * R).setX(outV3.x + R)
