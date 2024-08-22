@@ -91,8 +91,8 @@ export function Pze(c) {
 }
 
 export function isGripCushion(v, w) {
-  const Pze_val = Pze(c0(v))
-  const Pzs_val = Pzs(s0(v, w))
+  const Pze_val = Pze(c0(v)) // 弹性力
+  const Pzs_val = Pzs(s0(v, w)) // 抓握力
   return Pzs_val <= Pze_val
 }
 
@@ -100,7 +100,7 @@ function basisHan(v, w) {
   return {
     c: c0(v),
     s: s0(v, w),
-    A: 7 / 0.5 / m,
+    A: 7 / 2 / m,
     B: 1 / m,
   }
 }
@@ -117,13 +117,15 @@ function gripHan(v, w) {
 function slipHan(v, w) {
   const { c, B } = basisHan(v, w)
   const ecB = (1 + e) * (c / B)
-  const mu = muCushion(v)
+  const mu = muCushion(v) / 10;
   const phi = Math.atan2(v.y, v.x)
   const cos_phi = Math.cos(phi)
   const sin_phi = Math.sin(phi)
   const PX = -mu * ecB * cos_phi * cos_a - ecB * cos_a
   const PY = mu * ecB * sin_phi
   const PZ = mu * ecB * cos_phi * cos_a - ecB * sin_a
+
+  // yy.log.w(mu,  PX, PY, PZ)
   return impulseToDelta(PX, PY, PZ)
 }
 
@@ -137,10 +139,16 @@ function slipHan(v, w) {
  */
 export function bounceHan(v: Vec3, w: Vec3) {
   if (isGripCushion(v, w)) {
+    // yy.log.w("kusuanfa  gripHan")
+    return bounceHanBlend(v, w)
     return gripHan(v, w)
   } else {
+
+    // yy.log.w("kusuanfa  slipHan")
     return slipHan(v, w)
   }
+
+  // return slipHan(v, w)
 }
 
 /**
@@ -240,6 +248,8 @@ export function rayHit(origin: Vec3, direction: Vec3) {
           circle.sqrDeep = Infinity;
       }
 
+      // yy.log.w(  "圆形长度 ", circle.sqrDeep)
+
       // circle.sqrDeep = origin.distanceToSquared(circle.node.worldPosition);
       sortNode.push(circle);
     }
@@ -266,7 +276,7 @@ export function rayHit(origin: Vec3, direction: Vec3) {
         }
 
         // let tmpSqr = Math.sqrt(Math.pow(Math.abs(point.x - origin.x),2) + Math.pow(Math.abs(point.y - origin.y), 2));
-        // yy.log.w(  "长度 ", c.sqrDeep, tmpSqr)
+        // yy.log.w(  "矩形长度 ", c.sqrDeep)
 
         // c.sqrDeep = origin.distanceToSquared(new Vec3(point.x, point.y, c.node.worldPosition.z))
         // yy.log.w('rayHit RayRectangleCollision' + c.node.name, c.sqrDeep, c.node.name, new Vec3(point.x, point.y, c.node.worldPosition.z))
@@ -343,13 +353,13 @@ function rayRectangle14(origin: Vec3, direction: Vec3, rectangle: RayRectangleCo
       }
     }
     else if (dx < 0 && rectangle.node.position.y === 0) {
-      let disX = rectangle.node.worldPosition.x + rectangle.halfWidth + R -  DEVIATION;
-      let t = (disX - ox) / dx;
-      let disY = oy + t * dy;
-      let top = rectangle.node.worldPosition.y + rectangle.halfLength + R;
-      let bottom = rectangle.node.worldPosition.y - rectangle.halfLength - R;
-      if (disY > bottom && disY < top && ox > disX) {
-        return {x: disX, y: disY};
+      let disX4 = rectangle.node.worldPosition.x + rectangle.halfWidth + R -  DEVIATION;
+      let t4 = (disX4 - ox) / dx;
+      let disY4 = oy + t4 * dy;
+      let top4 = rectangle.node.worldPosition.y + rectangle.halfLength + R;
+      let bottom4 = rectangle.node.worldPosition.y - rectangle.halfLength - R;
+      if (disY4 > bottom4 && disY4 < top4 && ox > disX4) {
+        return {x: disX4, y: disY4};
       }
     }
 
