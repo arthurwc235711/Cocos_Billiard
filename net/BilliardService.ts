@@ -807,6 +807,8 @@ export class BilliardService extends StackListenerNew {
 
         if (this.isStandAlone ) {
             BilliardSimulateService.instance.notifyStart();
+            BilliardSimulateService.instance.notifyReconnect();
+            
         }
     }
 

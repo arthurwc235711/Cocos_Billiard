@@ -223,6 +223,84 @@ export class BilliardSimulateService {
         });
     }
 
+    notifyReconnect() {
+        let notify = new protoBilliard.GameStatus();
+        notify.stage = 3;
+        notify.gamePlay = 8;
+        notify.validResult = new protoBilliard.IResult();
+        notify.validResult.type = 2;
+        notify.validResult.potBalls = [3, 6, 12, 13, 15];
+        notify.validResult.balls = [];
+        function getBall(val, x, y,  wX, wY, wZ, wW) {
+            let ball = new protoBilliard.IBall();
+            ball.val = val;
+            ball.position = new protoBilliard.IPosition();
+            ball.position.x = x;
+            ball.position.y = y;
+            ball.rotation = new protoBilliard.IRotation();
+            ball.rotation.x = wX;
+            ball.rotation.y = wY;
+            ball.rotation.z = wZ;
+            ball.rotation.w = wW;
+            return ball;
+        }
+        notify.validResult.balls.push(getBall(0, 101580, 61027, -85852, 4318, 36975, 35262));
+        notify.validResult.balls.push(getBall(1, -98263, -54123, 558, -66981, 66458, 33113));
+        notify.validResult.balls.push(getBall(2, 72339, 66915, -48702, -8956, 81935, -28887));
+        notify.validResult.balls.push(getBall(4, 124802, -66279, -15498, -23520, 95939, 1553));
+        notify.validResult.balls.push(getBall(5, -106341, -61008, -35319, 67749, 63888, 8997));
+        notify.validResult.balls.push(getBall(7, 72805, 47419, 89741, 28479, 28326, -18252));
+        notify.validResult.balls.push(getBall(8, -36376, -45964, -137, -60661, -26660, -74896));
+        notify.validResult.balls.push(getBall(9, -125923, -19502, -72672, 20557, -19922, -62445));
+        notify.validResult.balls.push(getBall(10, 10611, -63888, 37515, 17973, -84274, -34169));
+        notify.validResult.balls.push(getBall(11, 34002, -54337, 27403, 85230, -41784, -15461));
+        notify.validResult.balls.push(getBall(14, -84281, 52372, -75548, -4828, 41881, 50152));
+        notify.validResult.hitType = 2;
+        notify.validResult.round = 8;
+        notify.validResult.tokenUid = 11025987;
+
+        notify.action = new protoBilliard.IAction();
+        notify.action.maxtimes = 30;
+        notify.action.times = 30;
+        notify.action.uid = 1;
+        notify.action.type = 0;
+        notify.action.hitcount = 1;
+        
+        notify.cueAngle = new protoBilliard.ICueAngle();
+        notify.cueAngle.curScreenPos = new protoBilliard.IPosition();
+        notify.cueAngle.curScreenPos.x = 81151;
+        notify.cueAngle.curScreenPos.y = 51209;
+        notify.cueAngle.lastScreenPos = new protoBilliard.IPosition();
+        notify.cueAngle.lastScreenPos.x = 81181;
+        notify.cueAngle.lastScreenPos.y = 50324;
+
+        notify.hitReq = new protoBilliard.IHit();
+        notify.hitReq.power = 349259;
+        notify.hitReq.angle = 283878;
+        notify.hitReq.offset = new protoBilliard.IPosition();
+        notify.hitReq.offset.x = 0;
+        notify.hitReq.offset.y = 0;
+
+         notify.users = [];
+         function getUser(uid, name) {
+             let user = new protoBilliard.UserInfo();
+             user.uid = uid;
+             user.nick = name;
+             return user;
+         }
+         notify.users.push(getUser(1, "Player"));
+         notify.users.push(getUser(2, "AI"));
+
+         notify.freeBall = new protoBilliard.IFreeBall();
+         notify.freeBall.curPosition = new protoBilliard.IPosition();
+         notify.freeBall.curPosition.x = 101580;
+         notify.freeBall.curPosition.y = 61027;
+
+         this.delayAction(() => {
+            BilliardService.instance.notifyEnterGame({msg: notify});
+        }, 5);
+    }
+
 }
 
 
