@@ -459,6 +459,14 @@
             "hitType": {
               "type": "int32",
               "id": 4
+            },
+            "round": {
+              "type": "int32",
+              "id": 5
+            },
+            "tokenUid": {
+              "type": "int32",
+              "id": 6
             }
           }
         },

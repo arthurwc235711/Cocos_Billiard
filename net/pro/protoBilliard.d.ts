@@ -791,6 +791,12 @@ declare global {
 			/** IResult hitType */
 			hitType?: (number | null);
 
+			/** IResult round */
+			round?: (number | null);
+
+			/** IResult tokenUid */
+			tokenUid?: (number | null);
+
 		}
 
 		/** Represents a IResult. */
@@ -813,6 +819,12 @@ declare global {
 
 			/** IResult hitType */
 			public hitType: number | null;
+
+			/** IResult round */
+			public round: number | null;
+
+			/** IResult tokenUid */
+			public tokenUid: number | null;
 
 		}
 

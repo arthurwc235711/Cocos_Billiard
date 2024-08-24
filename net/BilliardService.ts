@@ -602,6 +602,9 @@ export class BilliardService extends StackListenerNew {
         req.potBalls = potBalls
         req.balls = balls;
 
+        req.tokenUid = BilliardData.instance.getActionUid();// 当前行动玩家  服务器需要字段处理延迟异常
+        req.round = BilliardManager.instance.getRules().round; // 当前回合数  服务器需要字段处理延迟异常
+
         let newMsg = responseMsg.encode(req).finish();
         pb.Cmd = 0x6020;
         pb.TableId = this.tid;
