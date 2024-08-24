@@ -2041,7 +2041,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "knuckle",
+    "_name": "Sphere",
     "_objFlags": 0,
     "_parent": {
       "__id__": 84
@@ -2058,22 +2058,22 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -0.033,
-      "y": 0.018,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
       "x": 0,
       "y": 0,
-      "z": -0.3826834323650898,
-      "w": 0.9238795325112867
+      "z": 0,
+      "w": 1
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.09999999999999998,
-      "y": 0.04999999999999999,
-      "z": 0.05
+      "x": 0.04061,
+      "y": 0.04061,
+      "z": 0.04061
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -2081,13 +2081,13 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": -45
+      "z": 0
     },
     "_id": ""
   },
   {
     "__type__": "cc.MeshRenderer",
-    "_name": "Cube<ModelComponent>",
+    "_name": "Sphere<ModelComponent>",
     "_objFlags": 0,
     "node": {
       "__id__": 85
@@ -2098,7 +2098,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "b09e3c22-7ec0-49f6-b1de-88d16a0bdd40",
+        "__uuid__": "620b6bf3-0369-4560-837f-2a2c00b73c26",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -2107,7 +2107,7 @@
       "__id__": 88
     },
     "_mesh": {
-      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@a804a",
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@17020",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -2120,7 +2120,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "cdHIvzbdBOjIJo8d0LXByr"
+    "fileId": "dfDgRodxxIqIEZZ3qFwRvo"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -2151,7 +2151,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "d3yLESDjdKg62RLkU7B7hk",
+    "fileId": "71FlHj1zVCeIMrfEURN5gi",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -2410,7 +2410,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -1.3362,
+      "x": -1.33,
       "y": 0.740805,
       "z": 0
     },
@@ -2439,7 +2439,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "knuckle",
+    "_name": "Sphere",
     "_objFlags": 0,
     "_parent": {
       "__id__": 102
@@ -2456,22 +2456,22 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -0.017,
-      "y": 0.032,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
       "x": 0,
       "y": 0,
-      "z": 0.9238795325112867,
-      "w": 0.38268343236508984
+      "z": 0,
+      "w": 1
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.09999999999999998,
-      "y": 0.04999999999999999,
-      "z": 0.05
+      "x": 0.04061,
+      "y": 0.04061,
+      "z": 0.04061
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -2479,13 +2479,13 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 135
+      "z": 0
     },
     "_id": ""
   },
   {
     "__type__": "cc.MeshRenderer",
-    "_name": "Cube<ModelComponent>",
+    "_name": "Sphere<ModelComponent>",
     "_objFlags": 0,
     "node": {
       "__id__": 103
@@ -2496,7 +2496,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "b09e3c22-7ec0-49f6-b1de-88d16a0bdd40",
+        "__uuid__": "620b6bf3-0369-4560-837f-2a2c00b73c26",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -2505,7 +2505,7 @@
       "__id__": 106
     },
     "_mesh": {
-      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@a804a",
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@17020",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -2518,7 +2518,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "27RIsg6dFLQbwkY7TUg+7H"
+    "fileId": "bd7W2jrhtJjYvAKaxq/B96"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -2549,7 +2549,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "b4bi3aDpJIVZ1m3hKnC0/1",
+    "fileId": "f2uKAK1rhMA73yyBtZdMXn",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -2609,8 +2609,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -0.090718,
-      "y": 0.7336,
+      "x": -0.1,
+      "y": 0.74,
       "z": 0
     },
     "_lrot": {
@@ -2638,7 +2638,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "knuckle",
+    "_name": "Sphere",
     "_objFlags": 0,
     "_parent": {
       "__id__": 111
@@ -2655,22 +2655,22 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -0.005,
-      "y": 0.034,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
       "x": 0,
       "y": 0,
-      "z": -0.8433914458128856,
-      "w": 0.5372996083468239
+      "z": 0,
+      "w": 1
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.08,
-      "y": 0.04999999999999999,
-      "z": 0.05
+      "x": 0.0262,
+      "y": 0.0262,
+      "z": 0.0262
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -2678,13 +2678,13 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": -115
+      "z": 0
     },
     "_id": ""
   },
   {
     "__type__": "cc.MeshRenderer",
-    "_name": "Cube<ModelComponent>",
+    "_name": "Sphere<ModelComponent>",
     "_objFlags": 0,
     "node": {
       "__id__": 112
@@ -2695,7 +2695,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "b09e3c22-7ec0-49f6-b1de-88d16a0bdd40",
+        "__uuid__": "620b6bf3-0369-4560-837f-2a2c00b73c26",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -2704,7 +2704,7 @@
       "__id__": 115
     },
     "_mesh": {
-      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@a804a",
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@17020",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -2717,7 +2717,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "626668xHdEiZlp0vBlm0ka"
+    "fileId": "fdf29LNjNG2J/6nBE/X0fD"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -2748,7 +2748,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "045FtnTbFFeZhN1sK9v7PG",
+    "fileId": "00uNoJAwdBw72t7SgyXtwh",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -3007,8 +3007,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0.090718,
-      "y": 0.7336,
+      "x": 0.1,
+      "y": 0.74,
       "z": 0
     },
     "_lrot": {
@@ -3036,7 +3036,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "knuckle",
+    "_name": "Sphere",
     "_objFlags": 0,
     "_parent": {
       "__id__": 129
@@ -3053,22 +3053,22 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0.006,
-      "y": 0.034,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
       "x": 0,
       "y": 0,
-      "z": 0.8433914458128856,
-      "w": 0.5372996083468239
+      "z": 0,
+      "w": 1
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.08,
-      "y": 0.04999999999999998,
-      "z": 0.05
+      "x": 0.0262,
+      "y": 0.0262,
+      "z": 0.0262
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -3076,13 +3076,13 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 115
+      "z": 0
     },
     "_id": ""
   },
   {
     "__type__": "cc.MeshRenderer",
-    "_name": "Cube<ModelComponent>",
+    "_name": "Sphere<ModelComponent>",
     "_objFlags": 0,
     "node": {
       "__id__": 130
@@ -3093,7 +3093,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "b09e3c22-7ec0-49f6-b1de-88d16a0bdd40",
+        "__uuid__": "620b6bf3-0369-4560-837f-2a2c00b73c26",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -3102,7 +3102,7 @@
       "__id__": 133
     },
     "_mesh": {
-      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@a804a",
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@17020",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -3115,7 +3115,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "22ekbPSupP/b/o3TobOZr+"
+    "fileId": "47O4gSCrBCaoehYPC2V4+V"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -3146,7 +3146,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "a3ECnj9jlMPbvVEeP+jv2m",
+    "fileId": "39eMpn3FNBZ6tOjVWMzDMT",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -3206,7 +3206,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 1.3362,
+      "x": 1.33,
       "y": 0.740805,
       "z": 0
     },
@@ -3235,7 +3235,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "knuckle",
+    "_name": "Sphere",
     "_objFlags": 0,
     "_parent": {
       "__id__": 138
@@ -3252,22 +3252,22 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0.017,
-      "y": 0.033,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
       "x": 0,
       "y": 0,
-      "z": 0.3826834323650898,
-      "w": 0.9238795325112867
+      "z": 0,
+      "w": 1
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.09999999999999998,
-      "y": 0.04999999999999999,
-      "z": 0.05
+      "x": 0.04061,
+      "y": 0.04061,
+      "z": 0.04061
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -3275,13 +3275,13 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 45
+      "z": 0
     },
     "_id": ""
   },
   {
     "__type__": "cc.MeshRenderer",
-    "_name": "Cube<ModelComponent>",
+    "_name": "Sphere<ModelComponent>",
     "_objFlags": 0,
     "node": {
       "__id__": 139
@@ -3292,7 +3292,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "b09e3c22-7ec0-49f6-b1de-88d16a0bdd40",
+        "__uuid__": "620b6bf3-0369-4560-837f-2a2c00b73c26",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -3301,7 +3301,7 @@
       "__id__": 142
     },
     "_mesh": {
-      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@a804a",
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@17020",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -3314,7 +3314,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "8dkNhdVrFPNaNHVxgFyWvQ"
+    "fileId": "f1PXkIfv9GUqanT3KBe9nW"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -3345,7 +3345,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "56zNzTpetMHYiJXFdiBK4m",
+    "fileId": "9dKyNGMDtNdZXt6WmrHS6J",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -3633,7 +3633,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "knuckle",
+    "_name": "Sphere",
     "_objFlags": 0,
     "_parent": {
       "__id__": 156
@@ -3650,22 +3650,22 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0.033,
-      "y": 0.018,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
       "x": 0,
       "y": 0,
-      "z": 0.3826834323650898,
-      "w": 0.9238795325112867
+      "z": 0,
+      "w": 1
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.09999999999999998,
-      "y": 0.04999999999999999,
-      "z": 0.05
+      "x": 0.04061,
+      "y": 0.04061,
+      "z": 0.04061
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -3673,13 +3673,13 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 45
+      "z": 0
     },
     "_id": ""
   },
   {
     "__type__": "cc.MeshRenderer",
-    "_name": "Cube<ModelComponent>",
+    "_name": "Sphere<ModelComponent>",
     "_objFlags": 0,
     "node": {
       "__id__": 157
@@ -3690,7 +3690,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "b09e3c22-7ec0-49f6-b1de-88d16a0bdd40",
+        "__uuid__": "620b6bf3-0369-4560-837f-2a2c00b73c26",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -3699,7 +3699,7 @@
       "__id__": 160
     },
     "_mesh": {
-      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@a804a",
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@17020",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -3712,7 +3712,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "a2WeoQnttBRbKqfNuSB4ps"
+    "fileId": "72muHdPLNELpyB/ilIkcZX"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -3743,7 +3743,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "46L05PDqFEcp+FhlGZdjTr",
+    "fileId": "22YN5UrxpKlb/V2iN14BeF",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -3832,7 +3832,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "knuckle",
+    "_name": "Sphere",
     "_objFlags": 0,
     "_parent": {
       "__id__": 165
@@ -3849,22 +3849,22 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0.033,
-      "y": -0.018,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
       "x": 0,
       "y": 0,
-      "z": -0.3826834323650898,
-      "w": 0.9238795325112867
+      "z": 0,
+      "w": 1
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.09999999999999998,
-      "y": 0.04999999999999999,
-      "z": 0.05
+      "x": 0.04061,
+      "y": 0.04061,
+      "z": 0.04061
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -3872,13 +3872,13 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": -45
+      "z": 0
     },
     "_id": ""
   },
   {
     "__type__": "cc.MeshRenderer",
-    "_name": "Cube<ModelComponent>",
+    "_name": "Sphere<ModelComponent>",
     "_objFlags": 0,
     "node": {
       "__id__": 166
@@ -3889,7 +3889,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "b09e3c22-7ec0-49f6-b1de-88d16a0bdd40",
+        "__uuid__": "620b6bf3-0369-4560-837f-2a2c00b73c26",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -3898,7 +3898,7 @@
       "__id__": 169
     },
     "_mesh": {
-      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@a804a",
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@17020",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -3911,7 +3911,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "18NqyXpXpAp6LX5QMjdpu8"
+    "fileId": "e3BktpwBZK34nJMTsr8/zG"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -3942,7 +3942,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "47Bd2qqOZDariH5hnWKJpv",
+    "fileId": "c5DbRiafFMtJH0aZR/9bln",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -4201,7 +4201,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 1.3362,
+      "x": 1.33,
       "y": -0.740805,
       "z": 0
     },
@@ -4230,7 +4230,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "knuckle-001",
+    "_name": "Sphere",
     "_objFlags": 0,
     "_parent": {
       "__id__": 183
@@ -4247,22 +4247,22 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0.017,
-      "y": -0.033,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
       "x": 0,
       "y": 0,
-      "z": -0.3826834323650898,
-      "w": 0.9238795325112867
+      "z": 0,
+      "w": 1
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.09999999999999998,
-      "y": 0.04999999999999999,
-      "z": 0.05
+      "x": 0.04061,
+      "y": 0.04061,
+      "z": 0.04061
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -4270,13 +4270,13 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": -45
+      "z": 0
     },
     "_id": ""
   },
   {
     "__type__": "cc.MeshRenderer",
-    "_name": "Cube<ModelComponent>",
+    "_name": "Sphere<ModelComponent>",
     "_objFlags": 0,
     "node": {
       "__id__": 184
@@ -4287,7 +4287,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "b09e3c22-7ec0-49f6-b1de-88d16a0bdd40",
+        "__uuid__": "620b6bf3-0369-4560-837f-2a2c00b73c26",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -4296,7 +4296,7 @@
       "__id__": 187
     },
     "_mesh": {
-      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@a804a",
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@17020",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -4309,7 +4309,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "60Lbj9J8NFloz6gbXZ1HPv"
+    "fileId": "1aTkUyF9JGA5q8gNtAtaHE"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -4340,7 +4340,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "53hR5gSnBNm70CwvcZ1jek",
+    "fileId": "8bf1XHe4FP2KYq8C8jtfkD",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -4400,8 +4400,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0.090718,
-      "y": -0.7336,
+      "x": 0.1,
+      "y": -0.74,
       "z": 0
     },
     "_lrot": {
@@ -4429,7 +4429,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "knuckle",
+    "_name": "Sphere",
     "_objFlags": 0,
     "_parent": {
       "__id__": 192
@@ -4446,22 +4446,22 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0.004,
-      "y": -0.033,
-      "z": 0.038
+      "x": 0,
+      "y": 0,
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
       "x": 0,
       "y": 0,
-      "z": 0.5372996083468239,
-      "w": 0.8433914458128857
+      "z": 0,
+      "w": 1
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.08,
-      "y": 0.04999999999999998,
-      "z": 0.05
+      "x": 0.0262,
+      "y": 0.0262,
+      "z": 0.0262
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -4469,13 +4469,13 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 65
+      "z": 0
     },
     "_id": ""
   },
   {
     "__type__": "cc.MeshRenderer",
-    "_name": "Cube<ModelComponent>",
+    "_name": "Sphere<ModelComponent>",
     "_objFlags": 0,
     "node": {
       "__id__": 193
@@ -4486,7 +4486,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "b09e3c22-7ec0-49f6-b1de-88d16a0bdd40",
+        "__uuid__": "620b6bf3-0369-4560-837f-2a2c00b73c26",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -4495,7 +4495,7 @@
       "__id__": 196
     },
     "_mesh": {
-      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@a804a",
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@17020",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -4508,7 +4508,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "7eCPUIMsBKVadJrVkbsqrb"
+    "fileId": "d7vjuNODZIKoe120DJkcjG"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -4539,7 +4539,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "c27pDWp0BO8pplWQv51hTU",
+    "fileId": "6c03u5CqxFTrzszbti3iR4",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -4798,8 +4798,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -0.090718,
-      "y": -0.7336,
+      "x": -0.1,
+      "y": -0.74,
       "z": 0
     },
     "_lrot": {
@@ -4827,7 +4827,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "knuckle",
+    "_name": "Sphere",
     "_objFlags": 0,
     "_parent": {
       "__id__": 210
@@ -4844,22 +4844,22 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -0.006,
-      "y": -0.035,
-      "z": 0.117
+      "x": 0,
+      "y": 0,
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
       "x": 0,
       "y": 0,
-      "z": -0.5372996083468239,
-      "w": 0.8433914458128857
+      "z": 0,
+      "w": 1
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.08,
-      "y": 0.04999999999999997,
-      "z": 0.05
+      "x": 0.0262,
+      "y": 0.0262,
+      "z": 0.0262
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -4867,13 +4867,13 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": -65
+      "z": 0
     },
     "_id": ""
   },
   {
     "__type__": "cc.MeshRenderer",
-    "_name": "Cube<ModelComponent>",
+    "_name": "Sphere<ModelComponent>",
     "_objFlags": 0,
     "node": {
       "__id__": 211
@@ -4884,7 +4884,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "b09e3c22-7ec0-49f6-b1de-88d16a0bdd40",
+        "__uuid__": "620b6bf3-0369-4560-837f-2a2c00b73c26",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -4893,7 +4893,7 @@
       "__id__": 214
     },
     "_mesh": {
-      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@a804a",
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@17020",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -4906,7 +4906,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "5bf9g5ch9LeLov9nACSpN2"
+    "fileId": "bfsiMcOlhDWbG+jigvbRQo"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -4937,7 +4937,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "8cHubno+xB1rYuF95zFHNF",
+    "fileId": "a98ATHgatFfp1WHz0POfsV",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -5026,7 +5026,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "knuckle",
+    "_name": "Sphere",
     "_objFlags": 0,
     "_parent": {
       "__id__": 219
@@ -5043,22 +5043,22 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -0.034,
-      "y": -0.018,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
       "x": 0,
       "y": 0,
-      "z": 0.3826834323650898,
-      "w": 0.9238795325112867
+      "z": 0,
+      "w": 1
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.09999999999999998,
-      "y": 0.04999999999999999,
-      "z": 0.05
+      "x": 0.04061,
+      "y": 0.04061,
+      "z": 0.04061
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -5066,13 +5066,13 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 45
+      "z": 0
     },
     "_id": ""
   },
   {
     "__type__": "cc.MeshRenderer",
-    "_name": "Cube<ModelComponent>",
+    "_name": "Sphere<ModelComponent>",
     "_objFlags": 0,
     "node": {
       "__id__": 220
@@ -5083,7 +5083,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "b09e3c22-7ec0-49f6-b1de-88d16a0bdd40",
+        "__uuid__": "620b6bf3-0369-4560-837f-2a2c00b73c26",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -5092,7 +5092,7 @@
       "__id__": 223
     },
     "_mesh": {
-      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@a804a",
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@17020",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -5105,7 +5105,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "017ZW/9CREXJ+O5r9+Xbnb"
+    "fileId": "35jHflU8RHY7roEEVKQc21"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -5136,7 +5136,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "6c9xg9iBlB1qGVcpRraUXb",
+    "fileId": "d58FzcbyVIVIfxb/33MtfZ",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -5395,7 +5395,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -1.3362,
+      "x": -1.33,
       "y": -0.740805,
       "z": 0
     },
@@ -5424,7 +5424,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "knuckle",
+    "_name": "Sphere",
     "_objFlags": 0,
     "_parent": {
       "__id__": 237
@@ -5441,22 +5441,22 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -0.017,
-      "y": -0.033,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
       "x": 0,
       "y": 0,
-      "z": 0.38268343236508984,
-      "w": 0.9238795325112867
+      "z": 0,
+      "w": 1
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.09999999999999998,
-      "y": 0.04999999999999999,
-      "z": 0.05
+      "x": 0.04061,
+      "y": 0.04061,
+      "z": 0.04061
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -5464,13 +5464,13 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 45.000000000000014
+      "z": 0
     },
     "_id": ""
   },
   {
     "__type__": "cc.MeshRenderer",
-    "_name": "Cube<ModelComponent>",
+    "_name": "Sphere<ModelComponent>",
     "_objFlags": 0,
     "node": {
       "__id__": 238
@@ -5481,7 +5481,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "b09e3c22-7ec0-49f6-b1de-88d16a0bdd40",
+        "__uuid__": "620b6bf3-0369-4560-837f-2a2c00b73c26",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -5490,7 +5490,7 @@
       "__id__": 241
     },
     "_mesh": {
-      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@a804a",
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@17020",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -5503,7 +5503,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "f03SrjGoFMVJxgze5PN5l+"
+    "fileId": "ddvID1kOBFkY5hjQ9AIs3B"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -5534,7 +5534,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "ceMgdqU2ZBPJOHOI4U7Fp2",
+    "fileId": "c1zIMQBntO8pVQzkDUf9G5",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
