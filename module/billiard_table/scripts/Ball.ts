@@ -121,18 +121,25 @@ export class Ball extends Component {
             // yy.log.w("isRolling", t);
           } else {
             this.state = State.Sliding
-            this.addDelta(t, sliding(this.vel, this.rvel))
-            // yy.log.w("isSliding", t);
+            this.addDelta(t, sliding(this.vel, this.rvel), true)
+            // yy.log.e("isSliding", t);
           }
         }
     }
 
-    private addDelta(t, delta) {
+    private addDelta(t, delta, isSliding = false) {
         delta.v.multiplyScalar(t)
         delta.w.multiplyScalar(t)
         if (!this.passesZero(delta)) {
-          this.vel.add(delta.v)
-          this.rvel.add(delta.w)
+          if (isSliding && this.id !== 0) {
+            this.vel.add(delta.v.multiplyScalar(2));
+            this.rvel.add(delta.w.multiplyScalar(4));
+          }
+          else {
+            this.vel.add(delta.v)
+            this.rvel.add(delta.w)
+          }
+
         }
     }
 

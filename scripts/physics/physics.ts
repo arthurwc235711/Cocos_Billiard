@@ -1,5 +1,6 @@
 
 import { yy } from "../../../../../yy"
+import { BilliardData } from "../../data/BilliardData"
 import { norm, up, upCross } from "../utils"
 import { BaseRayCollision } from "./component/BaseRayCollision"
 import { RayRectangleCollision } from "./component/RayRectangleCollision"
@@ -47,11 +48,11 @@ export function forceRoll(v, w) {
   w.setZ(wz)
 }
 
-export function rotateApplyUnrotate(theta, v, w, model) {
+export function rotateApplyUnrotate(theta, v, w, model, ball) {
   const vr = v.clone().applyAxisAngle(up, theta)
   const wr = w.clone().applyAxisAngle(up, theta)
 
-  const delta = model(vr, wr)
+  const delta = model(vr, wr, ball.id)
 
   delta.v.applyAxisAngle(up, -theta)
   delta.w.applyAxisAngle(up, -theta)
@@ -62,7 +63,7 @@ export function rotateApplyUnrotate(theta, v, w, model) {
 
 // cushion contact point epsilon above ball centre
 
-const epsilon = R * 0.1
+const epsilon = R * 0.05
 const theta_a = Math.asin(epsilon / R)
 
 const sin_a = Math.sin(theta_a)
@@ -86,13 +87,15 @@ export function Pzs(s) {
 
 export function Pze(c) {
   const B = 1 / m
-  const coeff = restitutionCushion(new Vec3(c / cos_a, 0, 0))
+  const coeff = restitutionCushion(new Vec3(c / cos_a, 0, 0)) 
   return (muC * ((1 + coeff) * c)) / B
 }
 
 export function isGripCushion(v, w) {
-  const Pze_val = Pze(c0(v)) // 弹性力
-  const Pzs_val = Pzs(s0(v, w)) // 抓握力
+  const Pze_val = Pze(c0(v)) // 抓握力 
+  const Pzs_val = Pzs(s0(v, w)) // 弹性力
+  yy.log.i("sin_a:", sin_a, "cos_a:", cos_a, "theta_a", theta_a);
+  yy.log.w("Pze_val:", Pze_val, "Pzs_val:", Pzs_val);
   return Pzs_val <= Pze_val
 }
 
@@ -105,8 +108,11 @@ function basisHan(v, w) {
   }
 }
 
-function gripHan(v, w) {
-  const { c, s, A, B } = basisHan(v, w)
+function gripHan(v, w, id) {
+  let { c, s, A, B } = basisHan(v, w)
+  if (id !== 0) {
+    A =  7 / 0.5 / m;
+  }
   const ecB = (1 + e) * (c / B)
   const PX = (-s.x / A) * sin_a - ecB * cos_a
   const PY = s.y / A
@@ -137,18 +143,27 @@ function slipHan(v, w) {
  * @param w ball spin
  * @returns delta to apply to velocity and spin
  */
-export function bounceHan(v: Vec3, w: Vec3) {
-  if (isGripCushion(v, w)) {
-    // yy.log.w("kusuanfa  gripHan")
-    return bounceHanBlend(v, w)
-    return gripHan(v, w)
-  } else {
+export function bounceHan(v: Vec3, w: Vec3, id: number = -1) {
 
-    // yy.log.w("kusuanfa  slipHan")
-    return slipHan(v, w)
+  if (id === 0 && BilliardData.instance.getOffset().length() > 0.2) { // 母球带旋转的球吃旋转
+    yy.log.e("bounceHanBlend")
+    return bounceHanBlend(v, w, id)
+  }
+  else {
+    if (isGripCushion(v, w)) {
+      yy.log.e("gripHan")
+      return bounceHanBlend(v, w, id)
+      // return gripHan(v, w, id)
+    } else {
+  
+      yy.log.e("slipHan")
+      return slipHan(v, w,)
+    }
   }
 
-  // return slipHan(v, w)
+
+
+  return slipHan(v, w)
 }
 
 /**
@@ -160,12 +175,15 @@ export function bounceHan(v: Vec3, w: Vec3) {
  * @param w ball spin
  * @returns delta to apply to velocity and spin
  */
-export function bounceHanBlend(v: Vec3, w: Vec3) {
-  const deltaGrip = gripHan(v, w)
+export function bounceHanBlend(v: Vec3, w: Vec3, id:number = -1) {
+  const deltaGrip = gripHan(v, w, id)
   const deltaSlip = slipHan(v, w)
 
   const isCheckSide = Math.sign(v.y) === Math.sign(w.z)
   const factor = isCheckSide ? Math.cos(Math.atan2(v.y, v.x)) : 1
+
+
+  yy.log.w("isCheckSide:", isCheckSide, "factor:", factor)
 
   const delta = {
     v: deltaSlip.v.lerp(deltaGrip.v, factor),

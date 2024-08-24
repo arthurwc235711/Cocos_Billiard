@@ -6,6 +6,7 @@ import { Ball } from "./Ball"
 import { TableGeometry } from "./TableGeometry"
 import { bounceHanBlend, rotateApplyUnrotate } from "../../../scripts/physics/physics"
 import { PocketGeometry } from "../../../scripts/pocketgeometry"
+import { yy } from "../../../../../../yy"
 
 export class Cushion {
   /**
@@ -25,11 +26,14 @@ export class Cushion {
     if (Cushion.willBounceLong(futurePosition, hasPockets)) {
       const dir =
         futurePosition.y > TableGeometry.tableY ? -Math.PI / 2 : Math.PI / 2
+
+        // yy.log.w("willBounceLong", dir );
       return Cushion.bounceIn(dir, ball, cushionModel)
     }
 
     if (Cushion.willBounceShort(futurePosition, hasPockets)) {
       const dir = futurePosition.x > TableGeometry.tableX ? 0 : Math.PI
+      // yy.log.w("willBounceShort", dir);
       return Cushion.bounceIn(dir, ball, cushionModel)
     }
 
@@ -107,7 +111,8 @@ export class Cushion {
       rotation,
       ball.vel,
       ball.rvel,
-      cushionModel
+      cushionModel,
+      ball
     )
     ball.vel.add(delta.v)
     ball.rvel.add(delta.w)

@@ -1,12 +1,12 @@
 export const g = 9.8
-export let mu = 0.00985// *1.35空气阻力系数
-export let muS = 0.15 //水阻力系数
-export let muC = 0.8 //摩擦阻力系数
+export let mu = 0.00985 * 1.35// *1.35空气阻力系数
+export let muS = 0.2//0.15 * 2 //桌面阻力系数
+export let muC = 1//0.8  //裤边摩擦阻力系数
 export let rho = 0.024 // 空气密度
-export let m = 0.23
+export let m = 0.156//0.23
 export let R = 0.04421//0.03275  // 球半径 //0.04421//
 export let R2d = 22.735; // 2D 摄像头 球半径尺寸
-export let e = 0.86
+export let e = 0.92//0.86    // 球碰撞弹性系数
 export let Mz: number
 export let Mxy: number
 export let I: number
