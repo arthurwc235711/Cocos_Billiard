@@ -131,9 +131,22 @@ export class Ball extends Component {
         delta.v.multiplyScalar(t)
         delta.w.multiplyScalar(t)
         if (!this.passesZero(delta)) {
-          if (isSliding && this.id !== 0) {
-            this.vel.add(delta.v.multiplyScalar(2));
-            this.rvel.add(delta.w.multiplyScalar(4));
+          if (isSliding ) {
+            if (this.id !== 0) {
+              this.vel.add(delta.v.multiplyScalar(2));
+              this.rvel.add(delta.w.multiplyScalar(4));
+            }
+            else {
+              this.vel.add(delta.v)
+              this.rvel.add(delta.w)
+            }
+
+            if(this.vel.lengthSqr() === 0){
+              this.vel.add(delta.v.multiplyScalar(-1));
+            }
+            if (this.rvel.lengthSqr() === 0) { // 补丁，递减值如果滑动时为0则球无法转为滚动则不能停止
+              this.rvel.add(delta.w.multiplyScalar(-1));
+            }
           }
           else {
             this.vel.add(delta.v)
