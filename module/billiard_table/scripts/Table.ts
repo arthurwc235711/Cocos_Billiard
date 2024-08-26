@@ -1,23 +1,24 @@
 import { _decorator, Camera, Component, director, find, game, instantiate, macro, Node, Prefab, Vec3, UITransform, Canvas, geometry, quat, Quat, screen } from 'cc';
 import { Ball } from './Ball';
 import { Collision } from '../../../scripts/physics/collision';
-import { TableGeometry } from './TableGeometry';
 import { yy } from '../../../../../../yy';
 import { Cushion } from './Cushion';
 import { bounceHan, bounceHanBlend, cueToSpin } from '../../../scripts/physics/physics';
 import { BilliardData } from '../../../data/BilliardData';
 import { R } from '../../../scripts/physics/constants';
 import { Outcome } from './Outcome';
-import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
+import { BaseCommonInstance, BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { BilliardTools } from '../../../scripts/BilliardTools';
 import { Knuckle } from '../../../scripts/physics/knuckle';
 import { Pocket } from '../../../scripts/physics/pocket';
-import { PocketGeometry } from '../../../scripts/pocketgeometry';
 import { BilliardManager } from '../../../scripts/BilliardManager';
 import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
 import { track } from '../../../scripts/physics/track';
 import { BilliardConst } from '../../../config/BilliardConst';
 import { unitAtAngle } from '../../../scripts/utils';
+import { TableGeometry } from '../../../scripts/physics/TableGeometry';
+import { PocketGeometry } from '../../../scripts/physics/pocketgeometry';
+import { BilliardBall } from './BilliardBall';
 
 const { ccclass, property } = _decorator;
 
@@ -27,28 +28,29 @@ interface Pair {
   }
 
 @ccclass('Table')
-export class Table extends BaseCommonScript {
-    @property(Node)
-    nodeBalls: Node = null;
-    @property(Prefab)
-    prefabBall: Prefab = null;
-
-    balls:Ball[];
+export class Table extends BaseCommonInstance {
+    balls:Ball[] = [];
     pairs: Pair[]; // 球对
     outcome: Outcome[] = [];
     cushionModel = bounceHan
     cueBall:Ball = null;
 
-    shotBall: Ball = null;
+    shotBall: BilliardBall = null;
 
     readonly fixedTimeStep = 1.0 / 256.0;// 物理模拟的固定时间步长
+
+    ui: any;
+
+
+    setUI(ui) {
+      this.ui = ui;
+    }
 
 
     public register_event(): void {
       // 注册指定的监听方法，格式如下
       this.event_func_map = {
           [yy.Event_Name.billiard_hit]: "hit",
-          [yy.System_Event.Screen_Size_Changed]: "onScreenSizeChanged",
       };
       super.register_event();
     }
@@ -61,11 +63,13 @@ export class Table extends BaseCommonScript {
 
 
     initTable() {
-      this.initialiseBalls(director.getScene().getChildByPath("p_billiard_3d/NodeBalls").getComponentsInChildren(Ball));
+      this.initialiseBalls();
       this.cueBall = this.balls[0];//this.balls.find(ball => ball.node.name === "CueBall");
 
-      this.unschedule(this.loopUpdate);
-      this.schedule(this.loopUpdate, 0); 
+      if (this.ui) {
+        this.ui.unscheduleAllCallbacks();
+        this.ui.schedule(this.loopUpdate.bind(this), 0); 
+      }
     }
 
 
@@ -95,8 +99,8 @@ export class Table extends BaseCommonScript {
       this.advance(dt);
     }
 
-    initialiseBalls(balls: Ball[]) {
-        this.balls = balls
+    initialiseBalls() {
+        const balls = this.balls;
         this.pairs = []
         for (let a = 0; a < balls.length; a++) {
           for (let b = 0; b < balls.length; b++) {
@@ -130,7 +134,7 @@ export class Table extends BaseCommonScript {
   }
 
   /**
-   * Returns true if a pair of balls can advance by t without any collision.
+   * Returns true if a pair of balls can advance by t without any collision.o
    * If there is a collision, adjust velocity appropriately.
    *
    */
@@ -245,18 +249,25 @@ export class Table extends BaseCommonScript {
   // 8球三角摆法
   prepareBalls(startPos: Vec3, isStart: boolean = true) { 
     let iBalls = BilliardData.instance.getStartBalls(); // 8球，球的总数量 16个
+    this.balls = [];
     for(let i = 0; i < iBalls.length; ++i) {
-        let ball = instantiate(this.prefabBall).getComponent(Ball);
+        let ball = new Ball()// instantiate(this.prefabBall).getComponent(Ball);
         let data = iBalls[i];
-        this.nodeBalls.addChild(ball.node);
-
-        if (data.val === 0) {
-          ball.getComponent(RaySphereCollision).destroy();
+        if (this.ui) {
+          let bUI = instantiate(this.ui.prefabBall).getComponent(BilliardBall);
+          if(this.ui) this.ui.nodeBalls.addChild(bUI.node);
+          bUI.initBall(ball);
+          if (ball.id === 0) {
+            bUI.getComponent(RaySphereCollision).destroy();
+          }
         }
+
+      
+
         ball.updatePosImmediately(new Vec3(data.position.x/BilliardConst.multiple, data.position.y/BilliardConst.multiple, 0));
         // yy.log.w(ball.name, data.rotation.x/BilliardConst.multiple, data.rotation.y/BilliardConst.multiple, data.rotation.z/BilliardConst.multiple, data.rotation.w/BilliardConst.multiple)
-        if (isStart) {
-          const quaternion = ball.ballMesh.node.getRotation();
+        if (isStart && ball.ui) {
+          const quaternion = ball.ui.ballMesh.node.getRotation();
           // 生成随机的旋转轴
           const axis = new Vec3( data.rotation.x/BilliardConst.multiple,  data.rotation.y/BilliardConst.multiple, data.rotation.z/BilliardConst.multiple).normalize();//new Vec3(Math.random(), Math.random(), Math.random()).normalize();//
           // 生成随机的旋转角度（弧度）
@@ -264,9 +275,12 @@ export class Table extends BaseCommonScript {
           // 根据旋转轴和角度创建四元数
           Quat.fromAxisAngle(quaternion, axis, angle);
           // 将四元数应用到节点的旋转
-          ball.ballMesh.node.rotation = quaternion;
+          ball.ui.ballMesh.node.rotation = quaternion;
         }
+
+        this.balls.push(ball);
     }
+
   }
 
   protected update(dt: number): void {
@@ -307,11 +321,11 @@ export class Table extends BaseCommonScript {
       let ball = this.balls[b.val];
       if (ball.onTable()) {
         if (type === 1){ // 开球初始数据通过服务器随机4元素设置旋转
-          const quaternion = ball.ballMesh.node.getRotation();
+          const quaternion = ball.ui.ballMesh.node.getRotation();
           const axis = new Vec3(b.rotation.x/BilliardConst.multiple,  b.rotation.y/BilliardConst.multiple, b.rotation.z/BilliardConst.multiple).normalize();
           const angle = b.rotation.w/BilliardConst.multiple * Math.PI * 2; //Math.random() * Math.PI * 2;//
           Quat.fromAxisAngle(quaternion, axis, angle);
-          ball.ballMesh.node.rotation = quaternion;
+          ball.ui.ballMesh.node.rotation = quaternion;
         }
         else {
           ball.setRotation(b.rotation.x/BilliardConst.multiple, b.rotation.y/BilliardConst.multiple, b.rotation.z/BilliardConst.multiple, b.rotation.w/BilliardConst.multiple);
@@ -323,26 +337,11 @@ export class Table extends BaseCommonScript {
 
 
   clearData() {
-    this.nodeBalls.removeAllChildren();
+    if(this.ui) this.ui.nodeBalls.removeAllChildren();
     track.clear();
   }
 
-  // 适配小于16:9 时屏幕尺寸
-  onScreenSizeChanged() {
-    const camera3d = BilliardManager.instance.camera3d;
-    const ratio = 16/9;
-    const aspectRatio = screen.windowSize.width / screen.windowSize.height;
-    const oHeight = 1.05; // 原有16:9时尺寸
-    const rHeight = screen.windowSize.width / ratio;
-    // yy.log.w("onScreenSizeChange", screen.windowSize,  camera3d.orthoHeight, rHeight);
-    const xs = screen.windowSize.height / rHeight;
-    if (ratio > aspectRatio) {
-      camera3d.orthoHeight = xs * oHeight;
-    }
-    else {
-      camera3d.orthoHeight = oHeight;
-    }
-}
+
 
 }
 

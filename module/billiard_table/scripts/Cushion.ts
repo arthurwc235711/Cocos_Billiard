@@ -3,10 +3,10 @@
 // import { PocketGeometry } from "../../view/pocketgeometry"
 import { Vec3 } from "cc"
 import { Ball } from "./Ball"
-import { TableGeometry } from "./TableGeometry"
 import { bounceHanBlend, rotateApplyUnrotate } from "../../../scripts/physics/physics"
-import { PocketGeometry } from "../../../scripts/pocketgeometry"
 import { yy } from "../../../../../../yy"
+import { TableGeometry } from "../../../scripts/physics/TableGeometry"
+import { PocketGeometry } from "../../../scripts/physics/pocketgeometry"
 
 export class Cushion {
   /**

@@ -118,8 +118,8 @@ export class BilliardNineBall implements IBilliardRules {
                     view.gameTips.turnTips();
                 }
 
-                if (ball) {
-                    view.autoShotAt(ball.node);
+                if (ball && ball.ui) {
+                    view.autoShotAt(ball.ui.node);
                 }
                 break;
             case 1:
@@ -233,8 +233,8 @@ export class BilliardNineBall implements IBilliardRules {
         // let table = BilliardManager.instance.getTable();
         let tBalls = table.getOnTableBalls();
         for (let i = 1; i < tBalls.length; i++) {
-            if (this.isValidBall(tBalls[i])) {
-                tBalls[i].showTips();
+            if (this.isValidBall(tBalls[i]) && tBalls[i].ui) {
+                tBalls[i].ui.showTips();
             }
         }
 
@@ -251,7 +251,7 @@ export class BilliardNineBall implements IBilliardRules {
         if (ball) {
             // view.autoShotAt(ball.node);
             view.onFreeBall();
-            ball.showTips();
+            if(ball.ui) ball.ui.showTips();
         }
 
         // BilliardData.instance.setActionUid(1)//(Math.random() < 0.5 ? 1 : 2 );

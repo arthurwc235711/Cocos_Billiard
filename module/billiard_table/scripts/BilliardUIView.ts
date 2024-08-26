@@ -16,6 +16,7 @@ import { BilliardGameTips } from './BilliardGameTips';
 import { Ball } from './Ball';
 import { BilliardCue } from './BilliardCue';
 import { BilliardSwitchFrame } from './BilliardSwitchFrame';
+import { BilliardBall } from './BilliardBall';
 const { ccclass, property } = _decorator;
 
 // 力度杆最大强度 MaxPower * R
@@ -164,7 +165,7 @@ export class BilliardUIView extends BaseCommonScript {
                 // yy.log.w("Move", local, perLocal);
                 if ((this.touchMove ||  Math.abs(local.x - perLocal.x) > 0.01 || Math.abs(local.y - perLocal.y) > 0.01)) {
                     this.touchMove = true;
-                    let cueBall = BilliardManager.instance.getCueBall();
+                    let cueBall = BilliardManager.instance.getCueBallUI();
                     let sc = BilliardManager.instance.camera3d.worldToScreen(cueBall.node.worldPosition);
                     scv2.set(sc.x, sc.y);
                     let ab = local.clone().subtract(scv2);
@@ -486,7 +487,7 @@ export class BilliardUIView extends BaseCommonScript {
     controlHide(cueHide: boolean = false) {
         let tBalls = BilliardManager.instance.getTable().getOnTableBalls();
         tBalls.forEach((ball)=>{
-            ball.hideTips();
+            ball.ui.hideTips();
         })
 
         this.nodeCueArrow.active = cueHide;
@@ -550,7 +551,7 @@ export class BilliardUIView extends BaseCommonScript {
     onShotAt(wp: Vec3) {
         this.nodeCue.setPosition(-R2d*2, -15, 0);
         let nodeCueArrow = this.nodeCueArrow;
-        let cueBall = BilliardManager.instance.getCueBall();
+        let cueBall = BilliardManager.instance.getCueBallUI();
         let nodeArrow = this.nodeArrow;
         let camera3DToCamera2DWPos = BilliardTools.instance.camera3DToCamera2DWPos.bind(BilliardTools.instance);
         let cue2dWp = camera3DToCamera2DWPos(cueBall.node.worldPosition);
@@ -580,7 +581,7 @@ export class BilliardUIView extends BaseCommonScript {
             let ballArrow = this.cue.nodeBallArrow;
             let cueArrow = this.cue.nodeCueArrow;
             if (collision instanceof RaySphereCollision) {
-                let shotAtBall = nodes[0].getComponent(Ball);
+                let shotAtBall = nodes[0].getComponent(BilliardBall);
                 if (shotAtBall) {
                     BilliardManager.instance.getTable().shotBall = shotAtBall;
                     this.isShotAtBall = true;
@@ -789,7 +790,7 @@ export class BilliardUIView extends BaseCommonScript {
             let table = BilliardManager.instance.getTable();
             let ball = table.recentlyBall();
             if (ball && isShowShot) {
-                this.autoShotAt(ball.node);
+                this.autoShotAt(ball.ui.node);
                 this.cue.onlyShowFreeBallAnim();
             }
 

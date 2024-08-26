@@ -1,4 +1,5 @@
-import { R } from "../../../scripts/physics/constants"
+import { R } from "./constants"
+
 
 export class TableGeometry  {
     static tableX: number

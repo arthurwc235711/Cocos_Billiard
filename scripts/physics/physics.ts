@@ -94,8 +94,8 @@ export function Pze(c) {
 export function isGripCushion(v, w) {
   const Pze_val = Pze(c0(v)) // 抓握力 
   const Pzs_val = Pzs(s0(v, w)) // 弹性力
-  yy.log.i("sin_a:", sin_a, "cos_a:", cos_a, "theta_a", theta_a);
-  yy.log.w("Pze_val:", Pze_val, "Pzs_val:", Pzs_val);
+  // yy.log.i("sin_a:", sin_a, "cos_a:", cos_a, "theta_a", theta_a);
+  // yy.log.w("Pze_val:", Pze_val, "Pzs_val:", Pzs_val);
   return Pzs_val <= Pze_val
 }
 
@@ -146,17 +146,17 @@ function slipHan(v, w) {
 export function bounceHan(v: Vec3, w: Vec3, id: number = -1) {
 
   if (id === 0 && BilliardData.instance.getOffset().length() > 0.2) { // 母球带旋转的球吃旋转
-    yy.log.e("bounceHanBlend")
+    // yy.log.e("bounceHanBlend")
     return bounceHanBlend(v, w, id)
   }
   else {
     if (isGripCushion(v, w)) {
-      yy.log.e("gripHan")
+      // yy.log.e("gripHan")
       return bounceHanBlend(v, w, id)
       // return gripHan(v, w, id)
     } else {
   
-      yy.log.e("slipHan")
+      // yy.log.e("slipHan")
       return slipHan(v, w,)
     }
   }
@@ -183,7 +183,7 @@ export function bounceHanBlend(v: Vec3, w: Vec3, id:number = -1) {
   const factor = isCheckSide ? Math.cos(Math.atan2(v.y, v.x)) : 1
 
 
-  yy.log.w("isCheckSide:", isCheckSide, "factor:", factor)
+  // yy.log.w("isCheckSide:", isCheckSide, "factor:", factor)
 
   const delta = {
     v: deltaSlip.v.lerp(deltaGrip.v, factor),

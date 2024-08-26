@@ -1,9 +1,10 @@
 import { Vec3 } from "cc"
+import { R } from "./constants"
+import { TableGeometry } from "./TableGeometry"
+import { Pocket } from "./pocket"
+import { Knuckle } from "./knuckle"
 
-import { Knuckle } from "./physics/knuckle"
-import { TableGeometry } from "../module/billiard_table/scripts/TableGeometry"
-import { R } from "./physics/constants"
-import { Pocket } from "./physics/pocket"
+
 
 // NW 1.05 Qn{x: -22.3, y: 11.3, z: 0}
 // N 1 0.9 Qn{x: 0, y: 12.0, z: 0}

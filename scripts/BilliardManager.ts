@@ -18,6 +18,7 @@ import { BilliardGuideRules } from "../module/billiard_table/scripts/rules/Billi
 import { BilliardScene } from "../scene/BilliardScene";
 import { HttpReport, HttpReportTypeEnum } from "../../../../main/utils/HttpReport";
 import { BilliardWaitView } from "../module/billiard_wait/scripts/BilliardWaitView";
+import { BilliardBall } from "../module/billiard_table/scripts/BilliardBall";
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -77,6 +78,10 @@ export class BilliardManager extends BaseCommonInstance{
 
     getCueBall(): Ball {
         return this.getTable().cueBall;
+    }
+
+    getCueBallUI(): BilliardBall {
+        return this.getTable().cueBall.ui;
     }
 
     setRules() {
@@ -145,7 +150,9 @@ export class BilliardManager extends BaseCommonInstance{
 
         // rules.placeBalls();
         view.scheduleOnce(()=>{
-            view.initBtnTable(table.node.getChildByName("Plane"), table.node.getChildByName("PocketPosition").children);
+            if(table.ui) {
+                view.initBtnTable(table.ui.node.getChildByName("Plane"), table.ui.node.getChildByName("PocketPosition").children);
+            } 
             // view.setPlayerInfo();
             // rules.startTurn();
 
@@ -398,8 +405,8 @@ export class BilliardManager extends BaseCommonInstance{
                 // 指向处理
                 if (msg.cueAngle.curScreenPos.x === 0) { // 没有移动角度默认 指向最近目标
                     let ball = rules.onShotBall();
-                    if (ball) {
-                        view.autoShotAt(ball.node);
+                    if (ball && ball.ui) {
+                        view.autoShotAt(ball.ui.node);
                     }
                 }
                 else {
@@ -416,7 +423,7 @@ export class BilliardManager extends BaseCommonInstance{
                     let hitType = BilliardData.instance.getHitBallType();
                     for (let i = 1; i < tBalls.length; i++) {
                         if (rules.getBallType(tBalls[i]) === hitType) {
-                            tBalls[i].showTips();
+                            if (tBalls[i].ui) tBalls[i].ui.showTips();
                         }
                     }
                 }
@@ -424,8 +431,8 @@ export class BilliardManager extends BaseCommonInstance{
             else if(rules instanceof BilliardNineBall) {
                 let ball= rules.onShotBall();
                 // rules.disBallId = ball.id;
-                if(rules.isValidBall(ball)) {
-                    ball.showTips();
+                if(rules.isValidBall(ball) && ball.ui) {
+                    ball.ui.showTips();
                 }
             }
 
@@ -557,13 +564,13 @@ export class BilliardManager extends BaseCommonInstance{
         if(!this._isOtherLeaveTips && scene && scene.get_scene_layer_popup().getChildByName("p_billiard_wins") == null) {
             BilliardManager._waitTime = time;
             let table = this.getTable();
-            table.scheduleOnce(this.showWaitEnterView, 3);
+            if (table.ui) table.ui.scheduleOnce(this.showWaitEnterView, 3);
         }
     }
 
     unScheduleOpenWaitEnterView() {
         let table = this.getTable();
-        table.unschedule(this.showWaitEnterView);
+        if (table.ui) table.ui.unschedule(this.showWaitEnterView);
     }
 }
 

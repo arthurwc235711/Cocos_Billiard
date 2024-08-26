@@ -218,7 +218,9 @@ export class BilliardEightBall implements IBilliardRules {
                 let ball = this.onShotBall();
                 // yy.log.w("onShotBall: ", BilliardData.instance.getHitBallType(), ball.id)
                 if (ball) {
-                    view.autoShotAt(ball.node);
+                    if (ball.ui) {
+                        view.autoShotAt(ball.ui.node);
+                    }
                 }
                 break;
             case 1:
@@ -390,7 +392,7 @@ export class BilliardEightBall implements IBilliardRules {
             let hitType = BilliardData.instance.getHitBallType();
             for (let i = 1; i < tBalls.length; i++) {
                 if (this.getBallType(tBalls[i]) === hitType) {
-                    tBalls[i].showTips();
+                    if (tBalls[i].ui) tBalls[i].ui.showTips();
                 }
             }
         }

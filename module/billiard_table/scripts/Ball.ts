@@ -20,15 +20,7 @@ export enum State {
   }
 
 @ccclass('Ball')
-export class Ball extends Component {
-  @property([Material])
-  materials: Material[] = [];
-  @property([Material])
-  newMaterials: Material[] = [];
-  @property([Mesh])
-  meshs: Mesh[] = [];
-  @property(Node)
-  nodeBallAnimation: Node = null;
+export class Ball {
 
     readonly pos: Vec3 = new Vec3();
     readonly vel: Vec3 = new Vec3();
@@ -36,38 +28,21 @@ export class Ball extends Component {
     readonly futurePos: Vec3 = new Vec3();
     state: State = State.Stationary;
     pocket: Pocket;
-    @property(MeshRenderer)
-    ballMesh: MeshRenderer;
+
 
     id: number; 
+
+    ui: any;
     
     static readonly transition = 0.05;
 
 
-    protected onLoad(): void {
-        this.id = BilliardData.ballId++;
-        this.pos.copy(this.node.position);
-        this.node.name = "ball_" + this.id;
+    constructor() {
+      this.id = BilliardData.ballId++;
+    }
 
-        if (this.id === 0) {//母球
-          this.ballMesh.material = this.newMaterials[this.id];
-          this.ballMesh.mesh = this.meshs[this.id];
-          this.ballMesh.node.scale = new Vec3(8.8, 8.8, 8.8);
-        }
-        else{
-          this.ballMesh.material = this.materials[this.id];
-        }
-
-
-        // let perfab = this.meshRenderers[this.id];
-
-        // this.node.setRotation(0.293, -0.491, 0.040, -0.818);
-
-        // if (this.id === 15) {
-        //   this.rvel.add(new Vec3(0, 0, 1000));
-        // }
-
-        // yy.log.w("balls onLoad", this.node.name)
+    setUI(ui) {
+      this.ui = ui;
     }
 
     delateTime: number = 0;
@@ -83,23 +58,13 @@ export class Ball extends Component {
     }
 
 
-    protected update(dt: number): void {
-      if (!this.pos.vec3Equals(this.node.position)) {
-          this.node.position = this.node.position.lerp(this.pos, 1); // 更新球的位置
-          const angle = this.rvel.length() * this.delateTime;
-          let q = rotateAxisAngle(norm(this.rvel), angle);
-          const currentRotation = this.ballMesh.node.getRotation();
-          this.ballMesh.node.setRotation(Quat.multiply(currentRotation, q, currentRotation));
-          // yy.log.w(this.node.position, this.node.rotation, this.id);
-      }
-    }
 
     updatePosImmediately(pos: Vec3) {
       this.pos.x = BilliardTools.instance.roundToFiveDecimalPlaces(pos.x);
       this.pos.y = BilliardTools.instance.roundToFiveDecimalPlaces(pos.y);
       this.pos.z = BilliardTools.instance.roundToFiveDecimalPlaces(pos.z);
       // yy.log.w("updatePosImmediately", this.pos);
-      this.node.position = this.pos;
+      if (this.ui) this.ui.node.position = this.pos;
     }
 
     private updatePosition(t: number) {
@@ -109,7 +74,7 @@ export class Ball extends Component {
     }
 
     setRotation(x: number, y: number, z: number, w: number) {
-      this.ballMesh.node.setRotation(x, y, z, w);
+      if (this.ui) this.ui.ballMesh.node.setRotation(x, y, z, w);
     }
 
     private updateVelocity(t: number) {
@@ -252,15 +217,9 @@ export class Ball extends Component {
     setTrack() {
       this.state = State.InPocket;
       this.pos.set(-1.5, 0.74, -0.5);
-      this.node.getChildByName("SpriteRenderer").active = false;
+      if(this.ui) this.ui.node.getChildByName("SpriteRenderer").active = false;
     }
 
-    showTips() {
-      this.nodeBallAnimation.active = true && BilliardTools.instance.isMyAction();
-    }
-    hideTips() {
-      this.nodeBallAnimation.active = false;
-    }
 }
 
 

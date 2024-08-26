@@ -1,10 +1,10 @@
 import { yy } from '../../../../yy';
 import { BilliardConst } from '../config/BilliardConst';
 import { BilliardData } from '../data/BilliardData';
-import { TableGeometry } from '../module/billiard_table/scripts/TableGeometry';
 import { BilliardScene } from '../scene/BilliardScene';
 import { BilliardManager } from '../scripts/BilliardManager';
 import { R } from '../scripts/physics/constants';
+import { TableGeometry } from '../scripts/physics/TableGeometry';
 import { BilliardService } from './BilliardService';
 
 export class BilliardSimulateService {

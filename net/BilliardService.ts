@@ -584,7 +584,7 @@ export class BilliardService extends StackListenerNew {
             b.position.x = Math.round(ball.pos.x * BilliardConst.multiple);
             b.position.y = Math.round(ball.pos.y * BilliardConst.multiple);
             b.rotation = new protoBilliard.IRotation();
-            let meshNode = ball.ballMesh.node;
+            let meshNode = ball.ui.ballMesh.node;
             b.rotation.x = Math.round(meshNode.rotation.x * BilliardConst.multiple);
             b.rotation.y = Math.round(meshNode.rotation.y * BilliardConst.multiple);
             b.rotation.z = Math.round(meshNode.rotation.z * BilliardConst.multiple);
@@ -807,7 +807,7 @@ export class BilliardService extends StackListenerNew {
 
         if (this.isStandAlone ) {
             BilliardSimulateService.instance.notifyStart();
-            BilliardSimulateService.instance.notifyReconnect();
+            // BilliardSimulateService.instance.notifyReconnect();
             
         }
     }
@@ -867,7 +867,7 @@ export class BilliardService extends StackListenerNew {
                 b.position.x = ball.pos.x * BilliardConst.multiple;
                 b.position.y = ball.pos.y * BilliardConst.multiple;
                 b.rotation = new protoBilliard.IRotation();
-                let meshNode = ball.ballMesh.node;
+                let meshNode = ball.ui.ballMesh.node;
                 b.rotation.x = meshNode.rotation.x * BilliardConst.multiple;
                 b.rotation.y = meshNode.rotation.y * BilliardConst.multiple;
                 b.rotation.z = meshNode.rotation.z * BilliardConst.multiple;
