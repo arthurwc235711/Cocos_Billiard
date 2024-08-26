@@ -1,9 +1,9 @@
 import { _decorator, Component, Node, Toggle } from 'cc';
 import { BaseCommonPopup } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
-import { BilliardManager } from '../../../scripts/BilliardManager';
 import { BilliardData } from '../../../data/BilliardData';
 import { BilliardTools } from '../../../scripts/BilliardTools';
+import { BilliardManager } from '../../../scripts/BilliardManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardSettingView')

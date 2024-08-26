@@ -1,10 +1,9 @@
 
 import { R, g } from "./constants"
 import { Vec3 } from "cc"
-import { Ball, State } from "../../module/billiard_table/scripts/Ball"
+import { Ball, State } from "../../../../../games/casual_games/billiard/scripts/Ball"
 import { up, zero } from "../utils"
 import { track } from "./track"
-import { yy } from "../../../../../yy"
 
 export class Pocket {
   pos: Vec3

@@ -1,12 +1,12 @@
 import { _decorator, Component, director, macro, Material, Mesh, MeshRenderer, misc, Node, Prefab, quat, Quat, Vec3 } from 'cc';
-import { yy } from '../../../../../../yy';
-import { forceRoll, rollingFull, sliding, surfaceVelocityFull } from '../../../scripts/physics/physics';
-import { norm, passesThroughZero, rotateAxisAngle } from '../../../scripts/utils';
-import { Pocket } from '../../../scripts/physics/pocket';
-import { BilliardManager } from '../../../scripts/BilliardManager';
-import { BilliardData } from '../../../data/BilliardData';
-import { BilliardTools } from '../../../scripts/BilliardTools';
-const { ccclass, property } = _decorator;
+import { yy } from '../../../../yy';
+import { forceRoll, rollingFull, sliding, surfaceVelocityFull } from '../../../../games/casual_games/billiard/scripts/physics/physics';
+import { Pocket } from '../../../../games/casual_games/billiard/scripts/physics/pocket';
+import { passesThroughZero } from './utils';
+import { BilliardData } from '../../../../games/casual_games/billiard/data/BilliardData';
+import { BilliardTools } from './BilliardTools';
+import { BilliardManager } from './BilliardManager';
+
 
 
 export enum State {
@@ -19,7 +19,6 @@ export enum State {
     // InTrack = "InTrack",
   }
 
-@ccclass('Ball')
 export class Ball {
 
     readonly pos: Vec3 = new Vec3();

@@ -2,14 +2,14 @@ import { _decorator, BlockInputEvents, Component, director, Node, Slider, UITran
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardService } from '../../../net/BilliardService';
-import { BilliardManager } from '../../../scripts/BilliardManager';
 import { BilliardTools } from '../../../scripts/BilliardTools';
 import { R2d, Rtd } from '../../../scripts/physics/constants';
 import { rayHit } from '../../../scripts/physics/physics';
-import { BilliardGuideRules } from '../../billiard_table/scripts/rules/BilliardGuideRules';
+import { BilliardGuideRules } from '../../../scripts/rules/BilliardGuideRules';
 import { BilliardScene } from '../../../scene/BilliardScene';
 import { BilliardData } from '../../../data/BilliardData';
 import { BilliardMenu } from '../../billiard_menu/scripts/BilliardMenu';
+import { BilliardManager } from '../../../scripts/BilliardManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardGuideView')

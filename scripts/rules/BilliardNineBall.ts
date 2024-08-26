@@ -1,13 +1,14 @@
 import { MATH_FLOAT_ARRAY, Vec3 } from "cc";
-import { yy } from "../../../../../../../yy";
-import { eRuleType, eOutcomeType, BilliardConst } from "../../../../config/BilliardConst";
-import { BilliardData } from "../../../../data/BilliardData";
-import { BilliardManager } from "../../../../scripts/BilliardManager";
-import { BilliardTools } from "../../../../scripts/BilliardTools";
-import { Ball } from "../Ball";
-import { BilliardAI } from "../BilliardAI";
-import { Outcome } from "../Outcome";
+import { yy } from "../../../../../yy";
+import { eRuleType, eOutcomeType, BilliardConst } from "../../config/BilliardConst";
+import { BilliardData } from "../../data/BilliardData";
+
+import { BilliardAI } from "../../module/billiard_table/scripts/BilliardAI";
+import { Outcome } from "../physics/Outcome";
 import { IBilliardRules } from "./IBilliardRules";
+import { BilliardManager } from "../BilliardManager";
+import { BilliardTools } from "../BilliardTools";
+import { Ball } from "../Ball";
 
 export class BilliardNineBall implements IBilliardRules {
     ruleType: eRuleType;

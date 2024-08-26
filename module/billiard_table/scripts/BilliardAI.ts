@@ -1,12 +1,12 @@
 import { Canvas, director, macro, tween, Vec3 } from "cc";
 import { BilliardData } from "../../../data/BilliardData";
-import { unitAtAngle } from "../../../scripts/utils";
-import { BilliardManager } from "../../../scripts/BilliardManager";
+
 import { cueToSpin } from "../../../scripts/physics/physics";
 import { R, R2d } from "../../../scripts/physics/constants";
 import { yy } from "../../../../../../yy";
-import { Outcome } from "./Outcome";
+import { Outcome } from "../../../scripts/physics/Outcome";
 import { BilliardService } from "../../../net/BilliardService";
+import { BilliardManager } from "../../../scripts/BilliardManager";
 
 export class BilliardAI  {
     private static __instance__: BilliardAI;
@@ -52,7 +52,7 @@ export class BilliardAI  {
             let rules = BilliardManager.instance.getRules();
             let ball = rules.onShotBall();
             if (ball) {
-                BilliardManager.instance.getView().autoShotAt(ball.node);
+                BilliardManager.instance.getView().autoShotAt(ball.ui.node);
             }
             f();
         }, 3);

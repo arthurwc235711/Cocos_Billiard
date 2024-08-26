@@ -2,9 +2,10 @@
 // import { Ball } from "../../module/table/scripts/Ball"
 import { Vec3 } from "cc";
 import { yy } from "../../../../../yy";
-import { Ball } from "../../module/billiard_table/scripts/Ball"
-import { BilliardManager } from "../BilliardManager"
+
 import { R } from "./constants"
+import { Ball } from "../Ball";
+import { BilliardManager } from "../BilliardManager";
 
 export class Collision {
   private static isPointPerpendicularToSegment(A, B, C) {
@@ -53,7 +54,8 @@ export class Collision {
         } 
         // 切边碰撞判断修正
         const table = BilliardManager.instance.getTable();
-        if (b === table.shotBall) {
+
+        if (table.ui && b === table.ui.shotBall) {
           const af = a.futurePosition(t);
           const center = Collision.isPointPerpendicularToSegment({ x: b.pos.x, y:b.pos.y }, { x: a.pos.x, y:a.pos.y }, { x: af.x, y: af.y }) ;
           const result = center.x * center.x + center.y * center.y < 4 * R * R;

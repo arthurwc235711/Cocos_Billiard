@@ -1,14 +1,14 @@
 import { Vec3 } from "cc";
-import { yy } from "../../../../../../../yy";
-import { eRuleType, eOutcomeType, BilliardConst } from "../../../../config/BilliardConst";
-import { BilliardManager } from "../../../../scripts/BilliardManager";
-import { Outcome } from "../Outcome";
+import { yy } from "../../../../../yy";
+import { eRuleType, eOutcomeType, BilliardConst } from "../../config/BilliardConst";
+import { Outcome } from "../physics/Outcome";
 import { IBilliardRules } from "./IBilliardRules";
-import { BilliardData } from "../../../../data/BilliardData";
-import { Ball } from "../Ball";
-import { BilliardTools } from "../../../../scripts/BilliardTools";
-import { BilliardAI } from "../BilliardAI";
+import { BilliardData } from "../../data/BilliardData";
+import { BilliardAI } from "../../module/billiard_table/scripts/BilliardAI";
 import { table } from "console";
+import { BilliardManager } from "../BilliardManager";
+import { BilliardTools } from "../BilliardTools";
+import { Ball } from "../Ball";
 
 
 enum eBallType {

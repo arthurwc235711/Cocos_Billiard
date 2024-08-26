@@ -1,5 +1,6 @@
 import { Ball } from "./Ball"
 
+
 export enum OutcomeType {
   Pot = "Pot",   // 进洞
   Cushion = "Cushion", // 撞库

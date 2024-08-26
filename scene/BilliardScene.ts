@@ -2,7 +2,6 @@ import { _decorator, Component, director, instantiate, JsonAsset, Node, Prefab, 
 import { CasualCommonSceneBase } from '../../../casual_common/scripts/base/CasualCommonSceneBase';
 import { yy } from '../../../../yy';
 import BilliardEventConfig from '../config/BilliardEventConfig';
-import { BilliardManager } from '../scripts/BilliardManager';
 import { BilliardConst, eAudio, eRuleType, eUI } from '../config/BilliardConst';
 import { GameMessageStack, ITemplateGameServiceListener } from '../../../../main/data/GameMessageStack';
 import { BilliardService } from '../net/BilliardService';
@@ -20,6 +19,7 @@ import { CasualMenuButtonEnum, ICasualMenuButtonConfig } from '../../../casual_c
 import { CasualMenuData } from '../../../casual_common/module/menu/data/CasualMenuData';
 import { getEmojiPreloadConfog } from '../../../../common/props/scripts/EmojiPreloadConfog';
 import { PreloadUtils } from '../../../../main/utils/PreloadUtils';
+import { BilliardManager } from '../scripts/BilliardManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardScene')

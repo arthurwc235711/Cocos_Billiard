@@ -1,16 +1,22 @@
 import { Camera, director, find, instantiate, isValid, misc, Node, Prefab, UITransform, Vec3 } from "cc";
-import { BilliardData } from "../data/BilliardData";
+
 import { yy } from "../../../../yy";
-import { R, R2d } from "./physics/constants";
-import { BilliardManager } from "./BilliardManager";
-import { BilliardConst, eAudio, eUI } from "../config/BilliardConst";
+import { R, R2d } from "../../../../games/casual_games/billiard/scripts/physics/constants";
+
+
 import { BaseCommonScript } from "../../../../main/base/BaseCommonScript";
-import { BilliardScene } from "../scene/BilliardScene";
+
 import { SoundAudio } from "../../../../main/audio/SoundAudio";
-import { BilliardService } from "../net/BilliardService";
+
 import { ISubGameTableInfoItemData } from "../../../../main/data/SubGameData";
-import { RaySphereCollision } from "./physics/component/RaySphereCollision";
-import { BilliardNineBall } from "../module/billiard_table/scripts/rules/BilliardNineBall";
+
+import { BilliardNineBall } from "../../../../games/casual_games/billiard/scripts/rules/BilliardNineBall";
+import { BilliardData } from "../../../../games/casual_games/billiard/data/BilliardData";
+import { RaySphereCollision } from "../../../../games/casual_games/billiard/scripts/physics/component/RaySphereCollision";
+import { BilliardConst, eAudio, eUI } from "../../../../games/casual_games/billiard/config/BilliardConst";
+import { BilliardScene } from "../../../../games/casual_games/billiard/scene/BilliardScene";
+import { BilliardService } from "../../../../games/casual_games/billiard/net/BilliardService";
+import { BilliardManager } from "./BilliardManager";
 
 export class BilliardTools {
     private static __instance__: BilliardTools;

@@ -1,33 +1,30 @@
 import { _decorator, Camera, Component, director, find, game, instantiate, macro, Node, Prefab, Vec3, UITransform, Canvas, geometry, quat, Quat, screen } from 'cc';
+import { Collision } from '../../../../games/casual_games/billiard/scripts/physics/collision';
+import { yy } from '../../../../yy';
+import { Cushion } from '../../../../games/casual_games/billiard/scripts/physics/Cushion';
+import { bounceHan, bounceHanBlend, cueToSpin } from '../../../../games/casual_games/billiard/scripts/physics/physics';
+import { BilliardData } from '../../../../games/casual_games/billiard/data/BilliardData';
+import { R } from '../../../../games/casual_games/billiard/scripts/physics/constants';
+import { Outcome } from '../../../../games/casual_games/billiard/scripts/physics/Outcome';
+import { BaseCommonInstance, BaseCommonScript } from '../../../../main/base/BaseCommonScript';
+import { Knuckle } from '../../../../games/casual_games/billiard/scripts/physics/knuckle';
+import { Pocket } from '../../../../games/casual_games/billiard/scripts/physics/pocket';
+import { BilliardManager } from './BilliardManager';
+import { RaySphereCollision } from '../../../../games/casual_games/billiard/scripts/physics/component/RaySphereCollision';
+import { track } from '../../../../games/casual_games/billiard/scripts/physics/track';
+import { BilliardConst } from '../../../../games/casual_games/billiard/config/BilliardConst';
+import { unitAtAngle } from './utils';
+import { TableGeometry } from '../../../../games/casual_games/billiard/scripts/physics/TableGeometry';
+import { PocketGeometry } from '../../../../games/casual_games/billiard/scripts/physics/pocketgeometry';
+import { BilliardBall } from '../../../../games/casual_games/billiard/module/billiard_table/scripts/BilliardBall';
 import { Ball } from './Ball';
-import { Collision } from '../../../scripts/physics/collision';
-import { yy } from '../../../../../../yy';
-import { Cushion } from './Cushion';
-import { bounceHan, bounceHanBlend, cueToSpin } from '../../../scripts/physics/physics';
-import { BilliardData } from '../../../data/BilliardData';
-import { R } from '../../../scripts/physics/constants';
-import { Outcome } from './Outcome';
-import { BaseCommonInstance, BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
-import { BilliardTools } from '../../../scripts/BilliardTools';
-import { Knuckle } from '../../../scripts/physics/knuckle';
-import { Pocket } from '../../../scripts/physics/pocket';
-import { BilliardManager } from '../../../scripts/BilliardManager';
-import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
-import { track } from '../../../scripts/physics/track';
-import { BilliardConst } from '../../../config/BilliardConst';
-import { unitAtAngle } from '../../../scripts/utils';
-import { TableGeometry } from '../../../scripts/physics/TableGeometry';
-import { PocketGeometry } from '../../../scripts/physics/pocketgeometry';
-import { BilliardBall } from './BilliardBall';
-
-const { ccclass, property } = _decorator;
+import { BilliardTools } from './BilliardTools';
 
 interface Pair {
     a: Ball
     b: Ball
   }
 
-@ccclass('Table')
 export class Table extends BaseCommonInstance {
     balls:Ball[] = [];
     pairs: Pair[]; // 球对

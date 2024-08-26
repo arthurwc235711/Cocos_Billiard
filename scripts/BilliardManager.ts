@@ -1,24 +1,26 @@
 import { Camera, director, find, Vec3, Node } from "cc";
 import { BaseCommonInstance } from "../../../../main/base/BaseCommonScript";
 import { yy } from "../../../../yy";
-import { BilliardUIView } from "../module/billiard_table/scripts/BilliardUIView";
-import { Outcome } from "../module/billiard_table/scripts/Outcome";
-import { Table } from "../module/billiard_table/scripts/Table";
-import { Ball } from "../module/billiard_table/scripts/Ball";
-import { BilliardData } from "../data/BilliardData";
-import { track } from "./physics/track";
-import { IBilliardRules } from "../module/billiard_table/scripts/rules/IBilliardRules";
-import { BilliardConst, eOutcomeType, eReportEventId, eRuleType } from "../config/BilliardConst";
-import { BilliardEightBall } from "../module/billiard_table/scripts/rules/BilliardEightBall";
-import { BilliardService } from "../net/BilliardService";
-import { BilliardTools } from "./BilliardTools";
-import { BilliardNineBall } from "../module/billiard_table/scripts/rules/BilliardNineBall";
+import { BilliardUIView } from "../../../../games/casual_games/billiard/module/billiard_table/scripts/BilliardUIView";
+import { Outcome } from "../../../../games/casual_games/billiard/scripts/physics/Outcome";
+import { Table } from "./Table";
+import { Ball } from "./Ball";
+import { BilliardData } from "../../../../games/casual_games/billiard/data/BilliardData";
+import { track } from "../../../../games/casual_games/billiard/scripts/physics/track";
+import { IBilliardRules } from "../../../../games/casual_games/billiard/scripts/rules/IBilliardRules";
+import { BilliardConst, eOutcomeType, eReportEventId, eRuleType } from "../../../../games/casual_games/billiard/config/BilliardConst";
+import { BilliardEightBall } from "../../../../games/casual_games/billiard/scripts/rules/BilliardEightBall";
+import { BilliardService } from "../../../../games/casual_games/billiard/net/BilliardService";
+
+import { BilliardNineBall } from "../../../../games/casual_games/billiard/scripts/rules/BilliardNineBall";
 import { ClientConfig } from "../../../../main/data/ClientConfig";
-import { BilliardGuideRules } from "../module/billiard_table/scripts/rules/BilliardGuideRules";
-import { BilliardScene } from "../scene/BilliardScene";
+import { BilliardGuideRules } from "../../../../games/casual_games/billiard/scripts/rules/BilliardGuideRules";
+import { BilliardScene } from "../../../../games/casual_games/billiard/scene/BilliardScene";
 import { HttpReport, HttpReportTypeEnum } from "../../../../main/utils/HttpReport";
-import { BilliardWaitView } from "../module/billiard_wait/scripts/BilliardWaitView";
-import { BilliardBall } from "../module/billiard_table/scripts/BilliardBall";
+import { BilliardWaitView } from "../../../../games/casual_games/billiard/module/billiard_wait/scripts/BilliardWaitView";
+import { BilliardBall } from "../../../../games/casual_games/billiard/module/billiard_table/scripts/BilliardBall";
+import { BilliardTools } from "./BilliardTools";
+
 
 export class BilliardManager extends BaseCommonInstance{
     private static __instance__: BilliardManager;
@@ -394,12 +396,12 @@ export class BilliardManager extends BaseCommonInstance{
 
                 view.freeBall.node.active = true;
                 view.freeBall.nodeForbid.active = !table.isValidFreeBall();
-                table.scheduleOnce(()=>{ // 强制延迟一针处理不然坐标更新有概率有异常
-                    view.onFreeBall();
-                    view.onFreeBallMove(!table.isValidFreeBall(), false, false);
-                }, 0);
-
-
+                if (table.ui) {
+                    table.ui.scheduleOnce(()=>{ // 强制延迟一针处理不然坐标更新有概率有异常
+                        view.onFreeBall();
+                        view.onFreeBallMove(!table.isValidFreeBall(), false, false);
+                    }, 0);
+                }
             }
             else {
                 // 指向处理

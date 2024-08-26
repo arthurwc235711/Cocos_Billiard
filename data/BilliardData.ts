@@ -1,9 +1,8 @@
 import { Vec3 } from "cc";
 import { BilliardService } from "../net/BilliardService";
 import { yy } from "../../../../yy";
-import { BilliardManager } from "../scripts/BilliardManager";
-import { BilliardTools } from "../scripts/BilliardTools";
 import { BilliardConst } from "../config/BilliardConst";
+import { BilliardTools } from "../scripts/BilliardTools";
 
 
 interface BilliardPlayer {

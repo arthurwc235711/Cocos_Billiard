@@ -2,8 +2,9 @@ import { _decorator, Component, Node, Prefab, screen } from 'cc';
 import { track } from '../../../scripts/physics/track';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
+
 import { BilliardManager } from '../../../scripts/BilliardManager';
-import { Table } from './Table';
+import { Table } from '../../../scripts/Table';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardTable')

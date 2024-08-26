@@ -1,11 +1,11 @@
 import { _decorator, BlockInputEvents, Component, EventTouch, Node, Sprite, Vec3 } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
-import { BilliardManager } from '../../../scripts/BilliardManager';
 import { yy } from '../../../../../../yy';
 import { R } from '../../../scripts/physics/constants';
 
 import { BilliardTools } from '../../../scripts/BilliardTools';
 import { TableGeometry } from '../../../scripts/physics/TableGeometry';
+import { BilliardManager } from '../../../scripts/BilliardManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardFree')

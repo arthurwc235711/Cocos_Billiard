@@ -1,7 +1,7 @@
 
 import { R, e } from "./constants"
 import { Vec3 } from "cc"
-import { Ball } from "../../module/billiard_table/scripts/Ball"
+import { Ball } from "../../../../../games/casual_games/billiard/scripts/Ball"
 import { PocketGeometry } from "./pocketgeometry"
 
 

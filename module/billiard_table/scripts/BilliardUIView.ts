@@ -7,16 +7,15 @@ import { R, R2d, Rtd } from '../../../scripts/physics/constants';
 import { rayHit } from '../../../scripts/physics/physics';
 import { BaseRayCollision } from '../../../scripts/physics/component/BaseRayCollision';
 import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
-import { BilliardManager } from '../../../scripts/BilliardManager';
 import { BilliardFree } from './BilliardFree';
 import { BilliardTop } from './BilliardTop';
 import { BilliardService } from '../../../net/BilliardService';
 import { BilliardConst } from '../../../config/BilliardConst';
 import { BilliardGameTips } from './BilliardGameTips';
-import { Ball } from './Ball';
 import { BilliardCue } from './BilliardCue';
 import { BilliardSwitchFrame } from './BilliardSwitchFrame';
 import { BilliardBall } from './BilliardBall';
+import { BilliardManager } from '../../../scripts/BilliardManager';
 const { ccclass, property } = _decorator;
 
 // 力度杆最大强度 MaxPower * R

@@ -1,14 +1,14 @@
 import { EventTouch, Node, Slider, Vec3 } from "cc";
-import { yy } from "../../../../../../../yy";
-import { eRuleType, eOutcomeType, BilliardConst } from "../../../../config/BilliardConst";
-import { BilliardData } from "../../../../data/BilliardData";
-import { BilliardService } from "../../../../net/BilliardService";
-import { BilliardManager } from "../../../../scripts/BilliardManager";
-import { BilliardTools } from "../../../../scripts/BilliardTools";
-import { Ball } from "../Ball";
-import { Outcome } from "../Outcome";
+import { yy } from "../../../../../yy";
+import { eRuleType, eOutcomeType, BilliardConst } from "../../config/BilliardConst";
+import { BilliardData } from "../../data/BilliardData";
+import { BilliardService } from "../../net/BilliardService";
+import { Outcome } from "../physics/Outcome";
 import { IBilliardRules } from "./IBilliardRules";
-import { R } from "../../../../scripts/physics/constants";
+import { R } from "../physics/constants";
+import { BilliardManager } from "../BilliardManager";
+import { Ball } from "../Ball";
+import { BilliardTools } from "../BilliardTools";
 
 export class BilliardGuideRules implements IBilliardRules {
     ruleType: eRuleType;

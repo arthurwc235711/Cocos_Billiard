@@ -2,11 +2,12 @@
 
 // import { PocketGeometry } from "../../view/pocketgeometry"
 import { Vec3 } from "cc"
-import { Ball } from "./Ball"
-import { bounceHanBlend, rotateApplyUnrotate } from "../../../scripts/physics/physics"
-import { yy } from "../../../../../../yy"
-import { TableGeometry } from "../../../scripts/physics/TableGeometry"
-import { PocketGeometry } from "../../../scripts/physics/pocketgeometry"
+
+import { bounceHanBlend, rotateApplyUnrotate } from "./physics"
+import { yy } from "../../../../../yy"
+import { TableGeometry } from "./TableGeometry"
+import { PocketGeometry } from "./pocketgeometry"
+import { Ball } from "../Ball"
 
 export class Cushion {
   /**

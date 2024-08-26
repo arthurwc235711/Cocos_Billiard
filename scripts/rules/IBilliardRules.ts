@@ -1,6 +1,6 @@
-import { eOutcomeType, eRuleType } from "../../../../config/BilliardConst";
-import { Ball } from "../Ball";
-import { Outcome } from "../Outcome";
+import { eOutcomeType, eRuleType } from "../../config/BilliardConst";
+import { Ball } from "../../../../../games/casual_games/billiard/scripts/Ball";
+import { Outcome } from "../physics/Outcome";
 
 export interface IBilliardRules  {
     ruleType: eRuleType

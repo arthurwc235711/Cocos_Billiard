@@ -2,7 +2,7 @@ import { _decorator, Camera, Component, EventTouch, find, Node, UITransform, Vec
 import { BaseCommonPopup } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
-import { roundVec2 } from '../../../scripts/utils';
+import { roundVec2 } from '../../../../../../lobby/module/billiard/scripts/utils';
 import { BilliardService } from '../../../net/BilliardService';
 import { off } from 'process';
 const { ccclass, property } = _decorator;

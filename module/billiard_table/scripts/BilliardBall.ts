@@ -1,7 +1,7 @@
 import { _decorator, Component, Material, Mesh, MeshRenderer, Node, Quat, Vec3 } from 'cc';
-import { Ball } from './Ball';
-import { norm, rotateAxisAngle } from '../../../scripts/utils';
+import { Ball } from '../../../scripts/Ball';
 import { BilliardTools } from '../../../scripts/BilliardTools';
+import { norm, rotateAxisAngle } from '../../../scripts/utils';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardBall')
