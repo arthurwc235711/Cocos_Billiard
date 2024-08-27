@@ -112,8 +112,8 @@ export class Table extends BaseCommonInstance {
     advance(dt: number) {
         let depth = 0
         while (!this.prepareAdvanceAll(this.fixedTimeStep)) {
-          if (depth++ > 1000) {
-            // throw new Error("Depth exceeded resolving collisions")
+          if (depth++ > Number.MAX_SAFE_INTEGER) {
+             throw new Error("Depth exceeded resolving collisions")
           }
         }
         this.balls.forEach((a) => {
