@@ -156,7 +156,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
                 BilliardTools.instance.openGuideView()
             }
 
-            // BilliardTools.instance.openMatchView(enterData.tableInfo.data);
+            BilliardData.instance.setAlgoVersion(this.levelData.minVersion); // 设置算法版本
         }
         else {
             yy.log.e("BilliardScene onLevelData", "enterType is RECONNECT", enterData)
@@ -167,7 +167,6 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             else if( enterData.gameKey === "billiard9ball") {
                 BilliardService.instance.setServiceName(9);
             }
-                
             this.levelData = null;
         }
     }
