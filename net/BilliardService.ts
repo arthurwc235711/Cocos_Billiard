@@ -395,6 +395,8 @@ export class BilliardService extends StackListenerNew {
             scores.push(t);
         })
         BilliardData.instance.setGameType(msg.gamePlay);
+        BilliardData.instance.setAlgoVersion(1);
+        BilliardManager.instance.setAlogVersion(BilliardData.instance.getAlgoVersion());
         yy.event.emit(yy.Event_Name.billiard_notify_entergame);
         yy.event.emit(yy.Event_Name.billiard_notify_setgold, msg.chipPot);
 
@@ -447,6 +449,7 @@ export class BilliardService extends StackListenerNew {
     sendReady() {
         let req = new protoBilliard.ReadyReq();
         req.uid = 0//yy.user.getUid(); // 新客户端发0, 老客户端默认发uid (为了兼容老客户端)
+        req.minVersion = 0;//BilliardData.instance.getAlgoVersion();
         this.send(this.serviceName.ready, req);
         // yy.socket.send("BilliardService.Ready", req);
     }

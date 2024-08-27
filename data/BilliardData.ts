@@ -42,16 +42,16 @@ export class BilliardData {
 
 
     static ballId: number = 0;
-    private _ballNums: number = 0//15 + 1; // 母球 + 1
-    private _angle: number = 0;
-    private _power: number = 0;
+    private iBallNums: number = 0//15 + 1; // 母球 + 1
+    private iAngle: number = 0;
+    private iPower: number = 0;
     private readonly _offset: Vec3 = Vec3.ZERO.clone();
 
 
-    private _actionUid: number = 0;
-    private _actionTimes: number = 0;
+    private iActionUid: number = 0;
+    private iActionTimes: number = 0;
     private players: BilliardPlayer[] = [];
-    private _actionMaxTimes: number = 0;
+    private iActionMaxTimes: number = 0;
     private balls: protoBilliard.IBall[] = [];
     private actionType: number = 0;
 
@@ -62,13 +62,15 @@ export class BilliardData {
 
     private gameType = 0; // 8球类型 9球类型
 
-    private _hitCount = 0; // 当前行动玩家连杆数
+    private iHitCount = 0; // 当前行动玩家连杆数
 
-    private _version = 0; // 版本号  1: 代表旧版本
+    private iVersion = 0; // 版本号  1: 代表旧版本
 
-    private _isListener = false; // 是否监听推送消息
+    private bListener = false; // 是否监听推送消息
 
-    private _markOfflineTime = 0; // 离线标记剩余时间
+    private iMarkOfflineTime = 0; // 离线标记剩余时间
+
+    private iAlgoVersion = 0; // 算法版本
 
     isFreeBall(): boolean {
         return this.actionType !== 0;
@@ -82,22 +84,22 @@ export class BilliardData {
     }
 
     getActionUid(): number {
-        return this._actionUid;
+        return this.iActionUid;
     }
     setActionUid(uid: number) {
-        this._actionUid = uid;
+        this.iActionUid = uid;
     }
     getActionTimes(): number {
-        return this._actionTimes;
+        return this.iActionTimes;
     }
     setActionTimes(times: number) {
-        this._actionTimes = times;
+        this.iActionTimes = times;
     }
     getActionMaxTimes(): number {
-        return this._actionMaxTimes === 0 ? 30 : this._actionMaxTimes;
+        return this.iActionMaxTimes === 0 ? 30 : this.iActionMaxTimes;
     }
     setActionMaxTimes(times: number) {
-        this._actionMaxTimes = times;
+        this.iActionMaxTimes = times;
     }
     getStartBalls() {
         return this.balls;
@@ -119,7 +121,7 @@ export class BilliardData {
 
     getHitBallType(): number {
         for(let i = 0; i < this.players.length; i++){
-            if(this.players[i].uid === this._actionUid){
+            if(this.players[i].uid === this.iActionUid){
                 return this.players[i].hitType;
             }
         }
@@ -132,7 +134,7 @@ export class BilliardData {
         }
         else {
             for(let i = 0; i < this.players.length; i++){
-                if(this.players[i].uid === this._actionUid){
+                if(this.players[i].uid === this.iActionUid){
                     this.players[i].hitType = type;
                     this.players[i === 0 ? 1 : 0].hitType = type === 1 ? 2 : 1;
                 }
@@ -142,7 +144,7 @@ export class BilliardData {
 
     }
     getHitBalls(uid = 0): number[] {
-        if(uid === 0) uid = this._actionUid;
+        if(uid === 0) uid = this.iActionUid;
         for(let i = 0; i < this.players.length; i++){
             if(this.players[i].uid === uid){
                 let type = this.players[i].hitType;
@@ -162,21 +164,21 @@ export class BilliardData {
     }
 
     getAngle(): number {
-        return this._angle;
+        return this.iAngle;
     }
     setAngle(angle: number) {
-        this._angle = angle;
+        this.iAngle = angle;
     }
 
     getPower(): number {
-        return this._power;
+        return this.iPower;
     }
     setPower(power: number) {
-        this._power = power;
+        this.iPower = power;
     }
 
     getBallNums(): number {
-        return this._ballNums;
+        return this.iBallNums;
     }
 
     getOffset(): Vec3 {
@@ -184,7 +186,7 @@ export class BilliardData {
     }
 
     getNotActionUid() {
-        return this.players[0].uid === this._actionUid ? this.players[1].uid : this.players[0].uid;
+        return this.players[0].uid === this.iActionUid ? this.players[1].uid : this.players[0].uid;
     }
 
     getPlayer(uid: number): BilliardPlayer {
@@ -209,7 +211,7 @@ export class BilliardData {
     clearData() {
         this.players.length = 0;
         BilliardData.ballId = 0;  
-        this._markOfflineTime = 0;
+        this.iMarkOfflineTime = 0;
     }
 
     is8Ball() {
@@ -228,17 +230,17 @@ export class BilliardData {
     setGameType(type: number) {
         switch(type) {
             case 0: // 新手引导
-                this._ballNums = 1 + 1;
+                this.iBallNums = 1 + 1;
                 this.gameType = 0;
                 this.gid = 0;
                 break;
             case 8:
-                this._ballNums = 15 + 1;
+                this.iBallNums = 15 + 1;
                 this.gameType = 8;
                 this.gid = BilliardConst.gid8Ball;
                 break;
             case 9:
-                this._ballNums = 9 + 1;
+                this.iBallNums = 9 + 1;
                 this.gameType = 9;
                 this.gid = BilliardConst.gid9Ball;
                 break;
@@ -249,36 +251,47 @@ export class BilliardData {
 
 
     getHitCount() {
-        return this._hitCount;
+        return this.iHitCount;
     }
     setHitCount(count: number){
-        this._hitCount = count;
+        this.iHitCount = count;
     }
 
 /************************* 版本兼容临时处理 **********************/
     setVersion(version: number) {
-        this._version = version;
+        this.iVersion = version;
     }
     isOldVersion() {
-        return this._version === 1;
+        return this.iVersion === 1;
     }
     isNewVersion() {
-        return this._version !== 1;
+        return this.iVersion !== 1;
     }
 /************************* 版本兼容临时处理 **********************/
     setListener() {
-        this._isListener = true;
+        this.bListener = true;
     }
 
     isListener() {
-        return this._isListener;
+        return this.bListener;
     }
 
 
     setMarkOfflineTime(time: number) {
-        this._markOfflineTime = time;
+        this.iMarkOfflineTime = time;
     }
     getMarkOfflineTime() {
-        return this._markOfflineTime;
+        return this.iMarkOfflineTime;
+    }
+
+    // 算法版本用于
+    getAlgoVersion() {
+        return this.iAlgoVersion;
+    }
+    setAlgoVersion(version: number) {
+        this.iAlgoVersion = version;
+    }
+    isAlogVersion1() {
+        return this.iAlgoVersion === 1;
     }
 }

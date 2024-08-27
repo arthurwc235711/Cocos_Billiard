@@ -95,7 +95,7 @@ export class Ball {
         delta.v.multiplyScalar(t)
         delta.w.multiplyScalar(t)
         if (!this.passesZero(delta)) {
-          if (isSliding ) {
+          if (isSliding && BilliardData.instance.isAlogVersion1() ) {
             if (this.id !== 0) {
               this.vel.add(delta.v.multiplyScalar(2));
               this.rvel.add(delta.w.multiplyScalar(4));
@@ -116,7 +116,6 @@ export class Ball {
             this.vel.add(delta.v)
             this.rvel.add(delta.w)
           }
-
         }
     }
 

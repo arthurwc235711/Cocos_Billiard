@@ -20,6 +20,8 @@ import { HttpReport, HttpReportTypeEnum } from "../../../../main/utils/HttpRepor
 import { BilliardWaitView } from "../../../../games/casual_games/billiard/module/billiard_wait/scripts/BilliardWaitView";
 import { BilliardBall } from "../../../../games/casual_games/billiard/module/billiard_table/scripts/BilliardBall";
 import { BilliardTools } from "./BilliardTools";
+import { bounceHan1, bounceHanBlend } from "./physics/physics";
+import { sete, setm, setmu, setmuC, setmuS } from "./physics/constants";
 
 
 export class BilliardManager extends BaseCommonInstance{
@@ -574,6 +576,42 @@ export class BilliardManager extends BaseCommonInstance{
         let table = this.getTable();
         if (table.ui) table.ui.unschedule(this.showWaitEnterView);
     }
+
+
+    setAlogVersion(ver: number) {
+        const table = BilliardManager.instance.getTable();
+        if (table) {
+            yy.log.w("setAlogVersion:", ver)
+            switch(ver) {
+                case 0: // 默认旧版算法版本
+                table.cushionModel = bounceHanBlend;
+                    setmu(0.00985);
+                    setmuS(0.15);
+                    setmuC(0.8);
+                    setm(0.23);
+                    sete(0.86);
+                    break;
+                case 1:
+                    yy.log.w("setAlogVersion", "1")
+                    table.cushionModel = bounceHan1;
+                    setmu(0.00985 * 1.35);
+                    setmuS(0.2);
+                    setmuC(1);
+                    setm(0.156);
+                    sete(0.92);
+                    break;
+                default: // 默认旧版算法版本
+                table.cushionModel = bounceHanBlend;
+                setmu(0.00985);
+                setmuS(0.15);
+                setmuC(0.8);
+                setm(0.23);
+                sete(0.86);
+            } 
+        }
+
+    }
+
 }
 
 

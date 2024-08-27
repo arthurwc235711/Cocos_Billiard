@@ -49,11 +49,11 @@ export function forceRoll(v, w) {
   w.setZ(wz)
 }
 
-export function rotateApplyUnrotate(theta, v, w, model, ball) {
+export function rotateApplyUnrotate(theta, v, w, model) {
   const vr = v.clone().applyAxisAngle(up, theta)
   const wr = w.clone().applyAxisAngle(up, theta)
 
-  const delta = model(vr, wr, ball.id)
+  const delta = model(vr, wr)
 
   delta.v.applyAxisAngle(up, -theta)
   delta.w.applyAxisAngle(up, -theta)
@@ -64,7 +64,7 @@ export function rotateApplyUnrotate(theta, v, w, model, ball) {
 
 // cushion contact point epsilon above ball centre
 
-const epsilon = R * 0.05
+const epsilon = R * 0.1
 const theta_a = Math.asin(epsilon / R)
 
 const sin_a = Math.sin(theta_a)
@@ -88,15 +88,13 @@ export function Pzs(s) {
 
 export function Pze(c) {
   const B = 1 / m
-  const coeff = restitutionCushion(new Vec3(c / cos_a, 0, 0)) 
+  const coeff = restitutionCushion(new Vec3(c / cos_a, 0, 0))
   return (muC * ((1 + coeff) * c)) / B
 }
 
 export function isGripCushion(v, w) {
-  const Pze_val = Pze(c0(v)) // 抓握力 
-  const Pzs_val = Pzs(s0(v, w)) // 弹性力
-  // yy.log.i("sin_a:", sin_a, "cos_a:", cos_a, "theta_a", theta_a);
-  // yy.log.w("Pze_val:", Pze_val, "Pzs_val:", Pzs_val);
+  const Pze_val = Pze(c0(v))
+  const Pzs_val = Pzs(s0(v, w))
   return Pzs_val <= Pze_val
 }
 
@@ -104,16 +102,13 @@ function basisHan(v, w) {
   return {
     c: c0(v),
     s: s0(v, w),
-    A: 7 / 2 / m,
+    A: 7 / 0.5 / m,
     B: 1 / m,
   }
 }
 
-function gripHan(v, w, id) {
-  let { c, s, A, B } = basisHan(v, w)
-  if (id !== 0) {
-    A =  7 / 0.5 / m;
-  }
+function gripHan(v, w) {
+  const { c, s, A, B } = basisHan(v, w)
   const ecB = (1 + e) * (c / B)
   const PX = (-s.x / A) * sin_a - ecB * cos_a
   const PY = s.y / A
@@ -124,15 +119,13 @@ function gripHan(v, w, id) {
 function slipHan(v, w) {
   const { c, B } = basisHan(v, w)
   const ecB = (1 + e) * (c / B)
-  const mu = muCushion(v) / 10;
+  const mu = muCushion(v)
   const phi = Math.atan2(v.y, v.x)
   const cos_phi = Math.cos(phi)
   const sin_phi = Math.sin(phi)
   const PX = -mu * ecB * cos_phi * cos_a - ecB * cos_a
   const PY = mu * ecB * sin_phi
   const PZ = mu * ecB * cos_phi * cos_a - ecB * sin_a
-
-  // yy.log.w(mu,  PX, PY, PZ)
   return impulseToDelta(PX, PY, PZ)
 }
 
@@ -144,27 +137,12 @@ function slipHan(v, w) {
  * @param w ball spin
  * @returns delta to apply to velocity and spin
  */
-export function bounceHan(v: Vec3, w: Vec3, id: number = -1) {
-
-  if (id === 0 && BilliardData.instance.getOffset().length() > 0.2) { // 母球带旋转的球吃旋转
-    // yy.log.e("bounceHanBlend")
-    return bounceHanBlend(v, w, id)
+export function bounceHan(v: Vec3, w: Vec3) {
+  if (isGripCushion(v, w)) {
+    return gripHan(v, w)
+  } else {
+    return slipHan(v, w)
   }
-  else {
-    if (isGripCushion(v, w)) {
-      // yy.log.e("gripHan")
-      return bounceHanBlend(v, w, id)
-      // return gripHan(v, w, id)
-    } else {
-  
-      // yy.log.e("slipHan")
-      return slipHan(v, w,)
-    }
-  }
-
-
-
-  return slipHan(v, w)
 }
 
 /**
@@ -176,15 +154,12 @@ export function bounceHan(v: Vec3, w: Vec3, id: number = -1) {
  * @param w ball spin
  * @returns delta to apply to velocity and spin
  */
-export function bounceHanBlend(v: Vec3, w: Vec3, id:number = -1) {
-  const deltaGrip = gripHan(v, w, id)
+export function bounceHanBlend(v: Vec3, w: Vec3) {
+  const deltaGrip = gripHan(v, w)
   const deltaSlip = slipHan(v, w)
 
   const isCheckSide = Math.sign(v.y) === Math.sign(w.z)
   const factor = isCheckSide ? Math.cos(Math.atan2(v.y, v.x)) : 1
-
-
-  // yy.log.w("isCheckSide:", isCheckSide, "factor:", factor)
 
   const delta = {
     v: deltaSlip.v.lerp(deltaGrip.v, factor),
@@ -267,8 +242,6 @@ export function rayHit(origin: Vec3, direction: Vec3) {
           circle.sqrDeep = Infinity;
       }
 
-      // yy.log.w(  "圆形长度 ", circle.sqrDeep)
-
       // circle.sqrDeep = origin.distanceToSquared(circle.node.worldPosition);
       sortNode.push(circle);
     }
@@ -295,7 +268,7 @@ export function rayHit(origin: Vec3, direction: Vec3) {
         }
 
         // let tmpSqr = Math.sqrt(Math.pow(Math.abs(point.x - origin.x),2) + Math.pow(Math.abs(point.y - origin.y), 2));
-        // yy.log.w(  "矩形长度 ", c.sqrDeep)
+        // yy.log.w(  "长度 ", c.sqrDeep, tmpSqr)
 
         // c.sqrDeep = origin.distanceToSquared(new Vec3(point.x, point.y, c.node.worldPosition.z))
         // yy.log.w('rayHit RayRectangleCollision' + c.node.name, c.sqrDeep, c.node.name, new Vec3(point.x, point.y, c.node.worldPosition.z))
@@ -372,18 +345,17 @@ function rayRectangle14(origin: Vec3, direction: Vec3, rectangle: RayRectangleCo
       }
     }
     else if (dx < 0 && rectangle.node.position.y === 0) {
-      let disX4 = rectangle.node.worldPosition.x + rectangle.halfWidth + R -  DEVIATION;
-      let t4 = (disX4 - ox) / dx;
-      let disY4 = oy + t4 * dy;
-      let top4 = rectangle.node.worldPosition.y + rectangle.halfLength + R;
-      let bottom4 = rectangle.node.worldPosition.y - rectangle.halfLength - R;
-      if (disY4 > bottom4 && disY4 < top4 && ox > disX4) {
-        return {x: disX4, y: disY4};
+      let disX = rectangle.node.worldPosition.x + rectangle.halfWidth + R -  DEVIATION;
+      let t = (disX - ox) / dx;
+      let disY = oy + t * dy;
+      let top = rectangle.node.worldPosition.y + rectangle.halfLength + R;
+      let bottom = rectangle.node.worldPosition.y - rectangle.halfLength - R;
+      if (disY > bottom && disY < top && ox > disX) {
+        return {x: disX, y: disY};
       }
     }
 
   }
-
 
 }
 
@@ -391,5 +363,85 @@ function rayRectangle14(origin: Vec3, direction: Vec3, rectangle: RayRectangleCo
 
 
 
+//-------------------------------------------------- 算法版本1 开始 -----------------------------------------------------
+export function rotateApplyUnrotate1(theta, v, w, model, ball) {
+  const vr = v.clone().applyAxisAngle(up, theta)
+  const wr = w.clone().applyAxisAngle(up, theta)
 
+  const delta = model(vr, wr, ball.id)
+
+  delta.v.applyAxisAngle(up, -theta)
+  delta.w.applyAxisAngle(up, -theta)
+  return delta
+}
+
+function basisHan1(v, w) {
+  return {
+    c: c0(v),
+    s: s0(v, w),
+    A: 7 / 2 / m,
+    B: 1 / m,
+  }
+}
+
+function gripHan1(v, w, id) {
+  let { c, s, A, B } = basisHan1(v, w)
+  if (id !== 0) {
+    A =  7 / 0.5 / m;
+  }
+  const ecB = (1 + e) * (c / B)
+  const PX = (-s.x / A) * sin_a - ecB * cos_a
+  const PY = s.y / A
+  const PZ = (s.x / A) * cos_a - ecB * sin_a
+  return impulseToDelta(PX, PY, PZ)
+}
+
+function slipHan1(v, w) {
+  const { c, B } = basisHan1(v, w)
+  const ecB = (1 + e) * (c / B)
+  const mu = muCushion(v) / 10;
+  const phi = Math.atan2(v.y, v.x)
+  const cos_phi = Math.cos(phi)
+  const sin_phi = Math.sin(phi)
+  const PX = -mu * ecB * cos_phi * cos_a - ecB * cos_a
+  const PY = mu * ecB * sin_phi
+  const PZ = mu * ecB * cos_phi * cos_a - ecB * sin_a
+
+  return impulseToDelta(PX, PY, PZ)
+}
+
+export function bounceHan1(v: Vec3, w: Vec3, id: number = -1) {
+  if (id === 0 && BilliardData.instance.getOffset().length() > 0.2) { // 母球带旋转的球吃旋转
+    // yy.log.e("bounceHanBlend")
+    return bounceHanBlend1(v, w, id)
+  }
+  else {
+    if (isGripCushion(v, w)) {
+      // yy.log.e("gripHan")
+      return bounceHanBlend1(v, w, id)
+      // return gripHan(v, w, id)
+    } else {
+      return slipHan1(v, w,)
+    }
+  }
+}
+
+function bounceHanBlend1(v: Vec3, w: Vec3, id:number = -1) {
+  const deltaGrip = gripHan1(v, w, id)
+  const deltaSlip = slipHan1(v, w)
+
+  const isCheckSide = Math.sign(v.y) === Math.sign(w.z)
+  const factor = isCheckSide ? Math.cos(Math.atan2(v.y, v.x)) : 1
+
+
+  // yy.log.w("isCheckSide:", isCheckSide, "factor:", factor)
+
+  const delta = {
+    v: deltaSlip.v.lerp(deltaGrip.v, factor),
+    w: deltaSlip.w.lerp(deltaGrip.w, factor),
+  }
+  return delta
+}
+
+//-------------------------------------------------- 算法版本1 结束 -----------------------------------------------------
 

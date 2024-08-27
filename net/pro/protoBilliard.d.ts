@@ -944,6 +944,9 @@ declare global {
 			/** GameStatus version */
 			version?: (number | null);
 
+			/** GameStatus minVersion */
+			minVersion?: (number | null);
+
 		}
 
 		/** Represents a GameStatus. */
@@ -993,6 +996,9 @@ declare global {
 
 			/** GameStatus version */
 			public version: number | null;
+
+			/** GameStatus minVersion */
+			public minVersion: number | null;
 
 		}
 
@@ -1404,6 +1410,9 @@ declare global {
 			/** ReadyReq uid */
 			uid?: (number | null);
 
+			/** ReadyReq minVersion */
+			minVersion?: (number | null);
+
 		}
 
 		/** Represents a ReadyReq. */
@@ -1417,6 +1426,9 @@ declare global {
 
 			/** ReadyReq uid */
 			public uid: number | null;
+
+			/** ReadyReq minVersion */
+			public minVersion: number | null;
 
 		}
 

@@ -29,7 +29,7 @@ export class Table extends BaseCommonInstance {
     balls:Ball[] = [];
     pairs: Pair[]; // 球对
     outcome: Outcome[] = [];
-    cushionModel = bounceHan
+    cushionModel = bounceHanBlend
     cueBall:Ball = null;
 
     shotBall: BilliardBall = null;
@@ -40,6 +40,7 @@ export class Table extends BaseCommonInstance {
 
 
     setUI(ui) {
+      // BilliardManager.instance.setAlogVersion(BilliardData.instance.getAlgoVersion());
       this.ui = ui;
     }
 

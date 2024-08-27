@@ -3,11 +3,12 @@
 // import { PocketGeometry } from "../../view/pocketgeometry"
 import { Vec3 } from "cc"
 
-import { bounceHanBlend, rotateApplyUnrotate } from "./physics"
+import { bounceHanBlend, rotateApplyUnrotate, rotateApplyUnrotate1 } from "./physics"
 import { yy } from "../../../../../yy"
 import { TableGeometry } from "./TableGeometry"
 import { PocketGeometry } from "./pocketgeometry"
 import { Ball } from "../Ball"
+import { BilliardData } from "../../data/BilliardData"
 
 export class Cushion {
   /**
@@ -108,13 +109,25 @@ export class Cushion {
 
   private static bounceIn(rotation, ball, cushionModel) {
     // ball.ballmesh.trace.forceTrace(ball.futurePos)
-    const delta = rotateApplyUnrotate(
-      rotation,
-      ball.vel,
-      ball.rvel,
-      cushionModel,
-      ball
-    )
+    let delta 
+    if (BilliardData.instance.isAlogVersion1()) {
+      delta = rotateApplyUnrotate1(
+        rotation,
+        ball.vel,
+        ball.rvel,
+        cushionModel,
+        ball
+      )
+    }
+    else {
+      delta = rotateApplyUnrotate(
+        rotation,
+        ball.vel,
+        ball.rvel,
+        cushionModel
+      )
+    }
+
     ball.vel.add(delta.v)
     ball.rvel.add(delta.w)
     return delta.v.length()
