@@ -460,7 +460,28 @@ export class BilliardService extends StackListenerNew {
             
         }
         else {
-            this.errorTips(msg);
+            if (msg && msg.code === 1108) { // 算法版本需要更新
+                yy.dialog.show(
+                    {
+                        title: "Tip",
+                        content: "The current version is low, please close the game and re-enter to update to the la-test version.",
+                        isCancelEnable: false,
+                        isConfirmEnable: true,
+                        confirmText: "OK",
+                        confirmCallback: () => {
+                            this.sendExit();
+                            yy.event.emit(yy.Event_Name.CasualCommonQuit);// 数据异常退出
+                        },
+                        closeCallback: () => {
+                        },
+                        fontSize: 52,
+                        lineHeight: 60,
+                        // horizontalAlign: HorizontalTextAlignment.CENTER,
+                        // verticalAlign: VerticalTextAlignment.CENTER,
+                    }
+                )
+            }
+            else this.errorTips(msg);
         }
     }
     notifyReady(data: any) {
