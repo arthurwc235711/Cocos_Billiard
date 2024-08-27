@@ -464,7 +464,7 @@ export class BilliardService extends StackListenerNew {
                 yy.dialog.show(
                     {
                         title: "Tip",
-                        content: "The current version is low, please close the game and re-enter to update to the la-test version.",
+                        content: "The current version is low, please close the game and re-enter to update to the   latest version.",
                         isCancelEnable: false,
                         isConfirmEnable: true,
                         confirmText: "OK",
