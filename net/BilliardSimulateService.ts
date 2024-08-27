@@ -159,6 +159,8 @@ export class BilliardSimulateService {
             ball.position.y =  Math.ceil(ball.position.y * BilliardConst.multiple);
         }
 
+        BilliardData.instance.setAlgoVersion(1);
+
         BilliardManager.instance.setRules();
         this.delayAction(() => {
             BilliardService.instance.notifyStart({msg: notify});
@@ -295,6 +297,84 @@ export class BilliardSimulateService {
          notify.freeBall.curPosition = new protoBilliard.IPosition();
          notify.freeBall.curPosition.x = 101580;
          notify.freeBall.curPosition.y = 61027;
+
+         this.delayAction(() => {
+            BilliardService.instance.notifyEnterGame({msg: notify});
+        }, 5);
+    }
+
+    notifyReconnect1() {
+        let notify = new protoBilliard.GameStatus();
+        notify.stage = 3;
+        notify.gamePlay = 8;
+        notify.validResult = new protoBilliard.IResult();
+        notify.validResult.type = 1;
+        notify.validResult.potBalls = [1, 3, 4, 5, 6, 7, 9, 10, 12, 13, 14, 15];
+        notify.validResult.balls = [];
+        function getBall(val, x, y,  wX, wY, wZ, wW) {
+            let ball = new protoBilliard.IBall();
+            ball.val = val;
+            ball.position = new protoBilliard.IPosition();
+            ball.position.x = x;
+            ball.position.y = y;
+            ball.rotation = new protoBilliard.IRotation();
+            ball.rotation.x = wX;
+            ball.rotation.y = wY;
+            ball.rotation.z = wZ;
+            ball.rotation.w = wW;
+            return ball;
+        }
+        notify.validResult.balls.push(getBall(0, -137035, -66715, -73322, -650, -30838, 60600));
+        // notify.validResult.balls.push(getBall(1, -98263, -54123, 558, -66981, 66458, 33113));
+        notify.validResult.balls.push(getBall(2, 95342, -9757, 60705, -75374, -19381, 16072));
+        // notify.validResult.balls.push(getBall(4, 124802, -66279, -15498, -23520, 95939, 1553));
+        // notify.validResult.balls.push(getBall(5, -106341, -61008, -35319, 67749, 63888, 8997));
+        // notify.validResult.balls.push(getBall(7, 72805, 47419, 89741, 28479, 28326, -18252));
+        notify.validResult.balls.push(getBall(8, 132032, 40580, 34482, 60393, -2591, -71810));
+        // notify.validResult.balls.push(getBall(9, -125923, -19502, -72672, 20557, -19922, -62445));
+        // notify.validResult.balls.push(getBall(10, 10611, -63888, 37515, 17973, -84274, -34169));
+        notify.validResult.balls.push(getBall(11, 138001, -29664, -26831, 75697, -58564, 10971));
+        // notify.validResult.balls.push(getBall(14, -84281, 52372, -75548, -4828, 41881, 50152));
+        notify.validResult.hitType = 1;
+        notify.validResult.round = 31;
+        notify.validResult.tokenUid = 1025172;
+
+        notify.action = new protoBilliard.IAction();
+        notify.action.maxtimes = 30;
+        notify.action.times = 30;
+        notify.action.uid = 1;
+        notify.action.type = 0;
+        notify.action.hitcount = 2;
+        
+        notify.cueAngle = new protoBilliard.ICueAngle();
+        notify.cueAngle.curScreenPos = new protoBilliard.IPosition();
+        notify.cueAngle.curScreenPos.x = 81151;
+        notify.cueAngle.curScreenPos.y = 51209;
+        notify.cueAngle.lastScreenPos = new protoBilliard.IPosition();
+        notify.cueAngle.lastScreenPos.x = 81181;
+        notify.cueAngle.lastScreenPos.y = 50324;
+
+        notify.hitReq = new protoBilliard.IHit();
+        notify.hitReq.power = 477468;
+        notify.hitReq.angle = -302454;
+        notify.hitReq.offset = new protoBilliard.IPosition();
+        notify.hitReq.offset.x = 0;
+        notify.hitReq.offset.y = 0;
+
+         notify.users = [];
+         function getUser(uid, name) {
+             let user = new protoBilliard.UserInfo();
+             user.uid = uid;
+             user.nick = name;
+             return user;
+         }
+         notify.users.push(getUser(1, "Player"));
+         notify.users.push(getUser(2, "AI"));
+
+         notify.freeBall = new protoBilliard.IFreeBall();
+         notify.freeBall.curPosition = new protoBilliard.IPosition();
+         notify.freeBall.curPosition.x = -137035;
+         notify.freeBall.curPosition.y = -66715;
 
          this.delayAction(() => {
             BilliardService.instance.notifyEnterGame({msg: notify});
