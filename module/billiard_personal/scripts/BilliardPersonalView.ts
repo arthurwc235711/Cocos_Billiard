@@ -2,6 +2,7 @@ import { _decorator, Component, Label, Node, Sprite, Toggle } from 'cc';
 import { BaseCommonPopup } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardService } from '../../../net/BilliardService';
+import { BilliardData } from '../../../data/BilliardData';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardPersonalView')
@@ -61,10 +62,22 @@ export class BilliardPersonalView extends BaseCommonPopup {
         this.lableNickName.string = personal.nick;
         this.lableID.string = `ID:${personal.uid}`;
 
-        this.onToggleGroup(this.toggle8Ball);
+        // this.onToggleGroup(this.toggle8Ball);
+        if (BilliardData.instance.is8Ball()) {
+            this.setData(8);
+        }
+        else if(BilliardData.instance.is9Ball()){
+            this.setData(9);
+        }
      }
 
     setData(type: number) {
+        this.lableTotalGames.string = "";
+        this.lableWiningRate.string = "";
+        this.lableBallsPotted.string = "";
+        this.lableTotalWins.string = "";
+        this.lableCWinStreak.string = "";
+
         function calculatePercentage(dividend: number, divisor: number, decimalPlaces: number = 0): string {
             if (divisor === 0) {
                 return "-%";
@@ -87,13 +100,11 @@ export class BilliardPersonalView extends BaseCommonPopup {
     }
 
 
+
+
     onToggleGroup(toggle: Toggle) {
         yy.log.w(toggle.node.name, toggle.isChecked);
-        this.lableTotalGames.string = "";
-        this.lableWiningRate.string = "";
-        this.lableBallsPotted.string = "";
-        this.lableTotalWins.string = "";
-        this.lableCWinStreak.string = "";
+
         if (this.toggle8Ball.isChecked) {
             this.setData(8);
         }
