@@ -55,7 +55,7 @@ export class Collision {
         // 切边碰撞判断修正
         const table = BilliardManager.instance.getTable();
 
-        if (table.ui && b === table.shotBall.ball) {
+        if (table.ui && table.shotBall && b === table.shotBall.ball) {
           const af = a.futurePosition(t);
           const center = Collision.isPointPerpendicularToSegment({ x: b.pos.x, y:b.pos.y }, { x: a.pos.x, y:a.pos.y }, { x: af.x, y: af.y }) ;
           const result = center.x * center.x + center.y * center.y < 4 * R * R;
