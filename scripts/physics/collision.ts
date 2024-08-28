@@ -45,7 +45,7 @@ export class Collision {
 
 
   static willCollide(a: Ball, b: Ball, t: number): boolean {
-    if (BilliardData.instance.isAlogVersion1() && a.id === 0) { 
+    if (a.id === 0) { 
       if ((a.inMotion() && b.isStationary()) &&
       a.onTable() &&
       b.onTable()
