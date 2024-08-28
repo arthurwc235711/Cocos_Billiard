@@ -59,7 +59,7 @@ export class BilliardGuideView extends BaseCommonScript {
                 this.showGuide(curIndex);
                 let v2 = new Vec2(1007, 314.5);
                 view.onClickTable(v2);
-                let v3 = new Vec3(table.balls[1].node.worldPosition.x, table.balls[1].node.worldPosition.y - 0.03, 0);
+                let v3 = new Vec3(table.balls[1].ui.node.worldPosition.x, table.balls[1].ui.node.worldPosition.y - 0.03, 0);
                 this.shotLine(v3);
                 this.unlockClick();
                 break;
@@ -81,7 +81,7 @@ export class BilliardGuideView extends BaseCommonScript {
                 break;
             case 4:
                 this.showGuide(curIndex);
-                wp = BilliardManager.instance.camera3d.worldToScreen(table.balls[1].node.worldPosition)
+                wp = BilliardManager.instance.camera3d.worldToScreen(table.balls[1].ui.node.worldPosition)
                 sw = BilliardManager.instance.camera2d.screenToWorld(wp).setZ(0);
                 this.nodeClick.worldPosition = sw; 
                 view.nodeLeft.active = false;
@@ -91,13 +91,13 @@ export class BilliardGuideView extends BaseCommonScript {
                 break;
             case 5:
                 this.showGuide(curIndex);
-                wp = BilliardManager.instance.camera3d.worldToScreen(table.balls[1].node.worldPosition)
+                wp = BilliardManager.instance.camera3d.worldToScreen(table.balls[1].ui.node.worldPosition)
                 // sw = BilliardManager.instance.camera2d.screenToWorld(wp).setZ(0);
                 let v2t = new Vec2(wp.x, wp.y);
                 view.onClickTable(v2t);
                 view.nodeRight.active = true;
                 (rules as BilliardGuideRules).showRight = true;
-                wp = BilliardManager.instance.camera3d.worldToScreen(table.balls[1].node.worldPosition)
+                wp = BilliardManager.instance.camera3d.worldToScreen(table.balls[1].ui.node.worldPosition)
                 sw = BilliardManager.instance.camera2d.screenToWorld(wp).setZ(0);
                 this.nodeArrow.worldPosition = sw;
                 view.isAngleDisable = false;
@@ -215,21 +215,21 @@ export class BilliardGuideView extends BaseCommonScript {
         let nodeCueArrow = this.nodeLine.parent;
         let cueBall = BilliardManager.instance.getCueBall();
         let camera3DToCamera2DWPos = BilliardTools.instance.camera3DToCamera2DWPos.bind(BilliardTools.instance);
-        let cue2dWp = camera3DToCamera2DWPos(cueBall.node.worldPosition);
+        let cue2dWp = camera3DToCamera2DWPos(cueBall.ui.node.worldPosition);
         nodeCueArrow.worldPosition = cue2dWp;
-        let direction = wp.clone().subtract(cueBall.node.worldPosition).normalize();
+        let direction = wp.clone().subtract(cueBall.ui.node.worldPosition).normalize();
         let angle = BilliardTools.instance.roundToFiveDecimalPlaces(direction.angleTo(Vec3.RIGHT));// 返回弧度
-        if (wp.y > cueBall.node.worldPosition.y) {
+        if (wp.y > cueBall.ui.node.worldPosition.y) {
             nodeCueArrow.angle = angle * Rtd;// 返回角度
         }
         else {
             nodeCueArrow.angle = 360 - angle * Rtd;// 返回角度
         }
 
-        let nodes = rayHit(cueBall.node.worldPosition, direction);
+        let nodes = rayHit(cueBall.ui.node.worldPosition, direction);
         let uiTran = this.nodeLine.getComponent(UITransform);
         if (nodes.length > 0) {
-            let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.node, nodes[0], direction)
+            let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.ui.node, nodes[0], direction)
             uiTran.setContentSize(k, uiTran.contentSize.y);//45.47 球直径2D摄像头尺寸
         }
     }
