@@ -8,6 +8,7 @@ import { Ball } from "../Ball";
 import { BilliardManager } from "../BilliardManager";
 import { BilliardData } from "../../data/BilliardData";
 
+
 export class Collision {
   private static isPointPerpendicularToSegment(A, B, C) {
     // 计算向量 BC
