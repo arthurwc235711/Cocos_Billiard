@@ -2,7 +2,6 @@ import { _decorator, Camera, Component, EventTouch, find, Node, UITransform, Vec
 import { BaseCommonPopup } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
-import { roundVec2 } from '../../../../../../lobby/module/billiard/scripts/utils';
 import { BilliardService } from '../../../net/BilliardService';
 import { off } from 'process';
 const { ccclass, property } = _decorator;
@@ -114,7 +113,7 @@ export class BilliardHitPointView extends BaseCommonPopup {
     onTouch(touchWpos: Vec3, dis: Vec3, radius: number, length: number) {
         this.nodeDot.worldPosition = touchWpos;
         let offset = BilliardData.instance.getOffset();
-        offset.set(-dis.x / (radius*2), dis.y / (radius*2), 0);
+        offset.set( Number((-dis.x / (radius*2)).toFixed(5)), Number((dis.y / (radius*2)).toFixed(5)), 0);
         // roundVec2(offset);
         yy.event.emit(yy.Event_Name.billiard_hit_point, dis.normalize(), length/radius);
         // yy.log.w("offset", offset, dis.normalize(), offset.clone().normalize());
