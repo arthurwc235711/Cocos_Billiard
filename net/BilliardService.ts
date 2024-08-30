@@ -507,8 +507,8 @@ export class BilliardService extends StackListenerNew {
         let responseMsg = ProtoHelper.Ins.getProto('protoBilliard', 'IFreeBall');
         let req: protoBilliard.IFreeBall = new protoBilliard.IFreeBall();
         req.curPosition = new protoBilliard.IPosition();
-        req.curPosition.x = x * BilliardConst.multiple;
-        req.curPosition.y = y * BilliardConst.multiple;;
+        req.curPosition.x = Math.round(x * BilliardConst.multiple);
+        req.curPosition.y = Math.round(y * BilliardConst.multiple);
         let newMsg = responseMsg.encode(req).finish();
         pb.Cmd = 0x6014;
         pb.TableId = this.tid;
@@ -530,8 +530,8 @@ export class BilliardService extends StackListenerNew {
         let responseMsg = ProtoHelper.Ins.getProto('protoBilliard', 'ICueAngle');
         let req: protoBilliard.ICueAngle = new protoBilliard.ICueAngle();
         req.curScreenPos = new protoBilliard.IPosition();
-        req.curScreenPos.x = x * BilliardConst.multiple;
-        req.curScreenPos.y = y * BilliardConst.multiple;;
+        req.curScreenPos.x = Math.round(x * BilliardConst.multiple);
+        req.curScreenPos.y = Math.round(y * BilliardConst.multiple);
         let newMsg = responseMsg.encode(req).finish();
         pb.Cmd = 0x6016;
         pb.TableId = this.tid;
@@ -554,8 +554,8 @@ export class BilliardService extends StackListenerNew {
         let responseMsg = ProtoHelper.Ins.getProto('protoBilliard', 'ICueOffset');
         let req: protoBilliard.ICueOffset = new protoBilliard.ICueOffset();
         req.curOffset = new protoBilliard.IPosition();
-        req.curOffset.x = x * BilliardConst.multiple;
-        req.curOffset.y = y * BilliardConst.multiple;;
+        req.curOffset.x = Math.round(x * BilliardConst.multiple);//-2.991758887410948e-11;
+        req.curOffset.y = Math.round(y * BilliardConst.multiple);//-49407.250443846286
         let newMsg = responseMsg.encode(req).finish();
         pb.Cmd = 0x6027;
         pb.TableId = this.tid;
@@ -578,11 +578,11 @@ export class BilliardService extends StackListenerNew {
         let pb: protoBilliard.GameProtocol = new protoBilliard.GameProtocol();
         let responseMsg = ProtoHelper.Ins.getProto('protoBilliard', 'IHit');
         let req = new protoBilliard.IHit ();
-        req.angle = billiardData.getAngle() * BilliardConst.multiple;
-        req.power = billiardData.getPower() * BilliardConst.multiple;
+        req.angle = Math.round(billiardData.getAngle() * BilliardConst.multiple);
+        req.power = Math.round(billiardData.getPower() * BilliardConst.multiple);
         req.offset = new protoBilliard.IPosition();
-        req.offset.x = billiardData.getOffset().x * BilliardConst.multiple;
-        req.offset.y = billiardData.getOffset().y * BilliardConst.multiple;
+        req.offset.x = Math.round(billiardData.getOffset().x * BilliardConst.multiple);
+        req.offset.y = Math.round(billiardData.getOffset().y * BilliardConst.multiple);
         let newMsg = responseMsg.encode(req).finish();
         pb.Cmd = 0x6018;
         pb.TableId = this.tid;
@@ -796,7 +796,6 @@ export class BilliardService extends StackListenerNew {
     
             yy.event.emit(yy.Event_Name.billiard_notify_hit);
         }
-
     }
 
     notifyResult(data: any) {

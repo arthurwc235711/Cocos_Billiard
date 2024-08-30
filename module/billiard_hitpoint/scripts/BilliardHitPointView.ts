@@ -4,6 +4,7 @@ import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
 import { BilliardService } from '../../../net/BilliardService';
 import { off } from 'process';
+import { BilliardTools } from '../../../scripts/BilliardTools';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardHitPointView')
@@ -113,7 +114,8 @@ export class BilliardHitPointView extends BaseCommonPopup {
     onTouch(touchWpos: Vec3, dis: Vec3, radius: number, length: number) {
         this.nodeDot.worldPosition = touchWpos;
         let offset = BilliardData.instance.getOffset();
-        offset.set( Number((-dis.x / (radius*2)).toFixed(5)), Number((dis.y / (radius*2)).toFixed(5)), 0);
+        const roundToFiveDecimalPlaces = BilliardTools.instance.roundToFiveDecimalPlaces;
+        offset.set( roundToFiveDecimalPlaces(-dis.x / (radius*2)), roundToFiveDecimalPlaces(dis.y / (radius*2)), 0);
         // roundVec2(offset);
         yy.event.emit(yy.Event_Name.billiard_hit_point, dis.normalize(), length/radius);
         // yy.log.w("offset", offset, dis.normalize(), offset.clone().normalize());
