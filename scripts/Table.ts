@@ -297,20 +297,47 @@ export class Table extends BaseCommonInstance {
   }
 
 
-  onSetServiceData(result: protoBilliard.IResult) {
-    result.balls.forEach((b, i)=> {
-      let ball = this.balls[b.val];
-      ball.setStationaryByService();
-      ball.updatePosImmediately(new Vec3(b.position.x/BilliardConst.multiple, b.position.y/BilliardConst.multiple, 0));
-      ball.setRotation(b.rotation.x/BilliardConst.multiple, b.rotation.y/BilliardConst.multiple, b.rotation.z/BilliardConst.multiple, b.rotation.w/BilliardConst.multiple);
-    });
-
-    result.potBalls.forEach((val, i)=> {
-      let ball = this.balls[val];
-      if (ball.onTable()) {
-          track.setInTrack(ball);
-      }
-    });
+  onSetServiceData(result: protoBilliard.IResult, isStart: boolean = false) {
+    if (isStart) {
+      result.balls.forEach((b, i)=> {
+        let ball = this.balls[b.val];
+        ball.setStationaryByService();
+        ball.updatePosImmediately(new Vec3(b.position.x/BilliardConst.multiple, b.position.y/BilliardConst.multiple, 0));
+        if (isStart && ball.ui) {
+          const quaternion = ball.ui.ballMesh.node.getRotation();
+          // 生成随机的旋转轴
+          const axis = new Vec3( b.rotation.x/BilliardConst.multiple,  b.rotation.y/BilliardConst.multiple, b.rotation.z/BilliardConst.multiple).normalize();//new Vec3(Math.random(), Math.random(), Math.random()).normalize();//
+          // 生成随机的旋转角度（弧度）
+          const angle = b.rotation.w/BilliardConst.multiple * Math.PI * 2; //Math.random() * Math.PI * 2;//
+          // 根据旋转轴和角度创建四元数
+          Quat.fromAxisAngle(quaternion, axis, angle);
+          // 将四元数应用到节点的旋转
+          ball.ui.ballMesh.node.rotation = quaternion;
+        }
+      });
+  
+      result.potBalls.forEach((val, i)=> {
+        let ball = this.balls[val];
+        if (ball.onTable()) {
+            track.setInTrack(ball);
+        }
+      });
+    }
+    else {
+      result.balls.forEach((b, i)=> {
+        let ball = this.balls[b.val];
+        ball.setStationaryByService();
+        ball.updatePosImmediately(new Vec3(b.position.x/BilliardConst.multiple, b.position.y/BilliardConst.multiple, 0));
+        ball.setRotation(b.rotation.x/BilliardConst.multiple, b.rotation.y/BilliardConst.multiple, b.rotation.z/BilliardConst.multiple, b.rotation.w/BilliardConst.multiple);
+      });
+  
+      result.potBalls.forEach((val, i)=> {
+        let ball = this.balls[val];
+        if (ball.onTable()) {
+            track.setInTrack(ball);
+        }
+      });
+    }
   }
 
   setBallsRotation(balls: protoBilliard.IBall[], type: number) {

@@ -25,6 +25,7 @@ export enum eOutcomeType {
     FreeBall,  // 对方自由球
     Failed,    // 己方失败 —— 例如8球，误将8好球打入则对方直接胜利
     Win,       // 己方胜利
+    StartPot8, // 开球进8球 重置
 }
 
 

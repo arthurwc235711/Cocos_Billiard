@@ -273,6 +273,10 @@ export class BilliardManager extends BaseCommonInstance{
                 }
                 else this._delayTime = 0;
                 break;
+            case eOutcomeType.StartPot8:
+                table.onSetServiceData(result, true);
+                track.clear();
+                break;
             default:
                 yy.log.e("onServiceResult error:", result);
         }

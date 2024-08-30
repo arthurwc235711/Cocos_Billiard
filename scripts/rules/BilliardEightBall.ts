@@ -155,8 +155,13 @@ export class BilliardEightBall implements IBilliardRules {
                 let potBalls = Outcome.pots(outcome);
                 if (potBalls.length > 0) {
                     if (this.round === 1) {// 开球进球不定色   
-                        resultType.type = eOutcomeType.Continue;
-                        yy.log.w("开球进球不定色");
+                        if (Outcome.is8BallPotted(outcome)) {
+                            resultType.type = eOutcomeType.StartPot8; // 开球进8球重开
+                        }
+                        else {
+                            resultType.type = eOutcomeType.Continue;
+                            yy.log.w("开球进球不定色");
+                        }
                     }
                     else {
                         if (Outcome.is8BallPotted(outcome)) {
