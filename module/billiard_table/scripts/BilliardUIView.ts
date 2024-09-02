@@ -898,8 +898,8 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     resetData() {
+        this.unschedule(this.onUpdateCueAngle);
         this.billiardTop.resetData();
-        
         this.cue.hideLabel();
     }
 
