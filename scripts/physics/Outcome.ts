@@ -1,4 +1,6 @@
-import { Ball } from "./Ball"
+import { Ball } from "../Ball"
+
+
 
 
 export enum OutcomeType {
