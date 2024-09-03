@@ -326,7 +326,7 @@ export class BilliardTools {
     }
 
     isNeedGuide() {
-        return yy.storage.getValue(`${yy.user.getUid()}_BilliardGuide`) === null;
+        return yy.storage.getValue(`${yy.user.getUid()}_BilliardGuide`) === null || BilliardData.instance.getTutorial() > 0;
     }
 
     setNeedGuide(){

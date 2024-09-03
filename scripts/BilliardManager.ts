@@ -141,7 +141,8 @@ export class BilliardManager extends BaseCommonInstance{
         super.register_event();
     }
 
-    reset_data () {
+    release() {
+        super.release();
         this.delete();
         BilliardData.instance.delete();
         track.clear();

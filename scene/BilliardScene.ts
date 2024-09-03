@@ -29,10 +29,11 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
 
 
     levelData: ISubGameTableInfoItemData;
-
+    
     get isGuide() {
-        return BilliardTools.instance.isNeedGuide();
+        return BilliardTools.instance.isNeedGuide()
     }
+    
     private commonBtnClickSound: ()=>void;
     async onLoad() {
 
@@ -151,6 +152,10 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     onLevelData(enterData: IEnterGameEmitData) {
         if (enterData.enterType !== GameEnterTypeEnum.RECONNECT) {
             this.levelData = enterData.tableInfo.data;
+            if (enterData.tid === -1) {// 教程标识
+                BilliardData.instance.setTutorial(this.levelData.id);
+            } 
+
             yy.log.w("BilliardScene onLevelData", this.levelData)
             if(this.isGuide){
                 BilliardTools.instance.openGuideView()

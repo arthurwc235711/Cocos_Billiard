@@ -61,16 +61,13 @@ export class BilliardData {
     gid = 0; // 游戏id
 
     private gameType = 0; // 8球类型 9球类型
-
     private iHitCount = 0; // 当前行动玩家连杆数
-
     private iVersion = 0; // 版本号  1: 代表旧版本
-
     private bListener = false; // 是否监听推送消息
-
     private iMarkOfflineTime = 0; // 离线标记剩余时间
-
     private iAlgoVersion = 0; // 算法版本
+
+    private iTutorial: number = 0;
 
     isFreeBall(): boolean {
         return this.actionType !== 0;
@@ -293,5 +290,13 @@ export class BilliardData {
     }
     isAlogVersion1() {
         return this.iAlgoVersion === 1;
+    }
+
+    // 是否
+    setTutorial(tutorial: number) {
+        this.iTutorial = tutorial;
+    }
+    getTutorial() {
+        return this.iTutorial;
     }
 }
