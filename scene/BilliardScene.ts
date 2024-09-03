@@ -199,7 +199,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
 
     loadingResource() {
         // 预设预加载资源
-        let guidePath = "module/billiard_guide/view/p_billiard_guide";
+        let guidePath = "module/billiard_guide/view/p_billiard_guide" + BilliardData.instance.getTutorial();
         let pre = [
             "module/billiard_table/view/p_billiard_3d",
             "module/billiard_hitpoint/view/p_billiard_hit_point",

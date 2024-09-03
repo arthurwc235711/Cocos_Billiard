@@ -250,7 +250,7 @@ export class BilliardTools {
     }
 
     openGuideView() {
-        yy.loader.asyncLoadPrefab(BilliardConst.bundleName, "module/billiard_guide/view/p_billiard_guide", (p)=>{
+        yy.loader.asyncLoadPrefab(BilliardConst.bundleName, "module/billiard_guide/view/p_billiard_guide" + BilliardData.instance.getTutorial(), (p)=>{
             let clone = instantiate(p) as Node;
             const scene = director.getScene().getComponentInChildren(BilliardScene)
             scene.get_scene_layer_popup().addChild(clone);
