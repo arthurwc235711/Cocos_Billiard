@@ -91,7 +91,8 @@ export class BilliardGuideView extends BaseCommonScript {
                 break;
             case 5:
                 this.showGuide(curIndex);
-                wp = BilliardManager.instance.camera3d.worldToScreen(table.balls[1].ui.node.worldPosition)
+                let pot3 = table.balls[1].ui.node.worldPosition.clone();
+                wp = BilliardManager.instance.camera3d.worldToScreen(pot3.setY(pot3.y - 0.02))
                 // sw = BilliardManager.instance.camera2d.screenToWorld(wp).setZ(0);
                 let v2t = new Vec2(wp.x, wp.y);
                 view.onClickTable(v2t);
