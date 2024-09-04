@@ -202,7 +202,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         let guidePath = "module/billiard_guide/view/p_billiard_guide" + BilliardData.instance.getTutorial();
         let pre = [
             "module/billiard_table/view/p_billiard_3d",
-            "module/billiard_hitpoint/view/p_billiard_hit_point",
+            eUI.HitPoint.toString(),
             eUI.Match.toString(),
             eUI.Wait.toString(),
             eUI.WaitEnter.toString(),

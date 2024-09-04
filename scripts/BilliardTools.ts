@@ -162,13 +162,14 @@ export class BilliardTools {
         }
 
     }
-    openView(path: string, call:Function|null = null, prefab: Prefab|null = null) {
+    openView(path: string, call:Function|null = null, prefab: Prefab|null = null, layout = 0) {
         const s = director.getScene();
         if (prefab) {
             let clone = instantiate(prefab) as Node;
             let cmp = clone.getComponent(BaseCommonScript)
             const scene = s.getComponentInChildren(BilliardScene)
-            scene.get_scene_layer_popup().addChild(clone);
+            if (layout === 0) scene.get_scene_layer_popup().addChild(clone);
+            else scene.get_scene_layer_game().addChild(clone);
             call && call(cmp);
         }
         else {
@@ -177,7 +178,8 @@ export class BilliardTools {
                 let cmp = clone.getComponent(BaseCommonScript)
                 if (isValid(s)) {
                     const scene = s.getComponentInChildren(BilliardScene)
-                    scene.get_scene_layer_popup().addChild(clone);
+                    if (layout === 0) scene.get_scene_layer_popup().addChild(clone);
+                    else scene.get_scene_layer_game().addChild(clone);
                     call && call(cmp);
                 }
             });
@@ -247,6 +249,12 @@ export class BilliardTools {
             // yy.wait.hide("openWaitEnterView");
             base["setWaitTime"](time);
         }, this.mapPerfab.get(eUI.WaitEnter));
+    }
+
+    openHitPointView() {
+        // yy.wait.show("openWaitEnterView");
+        this.openView(eUI.HitPoint, (base)=>{
+        }, this.mapPerfab.get(eUI.HitPoint), 1);
     }
 
     openGuideView() {

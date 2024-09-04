@@ -53,6 +53,7 @@ export enum eUI {
     Match = "module/billiard_match/view/p_billiard_match",
     Wait = "module/billiard_wait/view/p_billiard_wait",
     WaitEnter = "module/billiard_wait/view/p_billiard_wait_enter",
+    HitPoint = "module/billiard_hitpoint/view/p_billiard_hit_point",
 }
 
 export const EmoAnimConfig: Map<number, IChatAnimConfig> = new Map<number, IChatAnimConfig>([

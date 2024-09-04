@@ -25,7 +25,7 @@ export class BilliardGuideView extends BaseCommonScript {
     @property(Node)
     nodeArrow: Node;
 
-    private curStep:number = 0;
+    curStep:number = 0;
     register_event() {
         // 注册指定的监听方法，格式如下
         this.event_func_map = {

@@ -137,8 +137,28 @@ export class BilliardSimulateService {
                 if (BilliardData.instance.isGuide()) {
                     // let cueBall = notify.balls[0];
                     // cueBall.position.x = -1.185;
-                    ball.position.x = 1.369;
-                    ball.position.y = 0.632;
+
+                    switch(BilliardData.instance.getTutorial()) {
+                        case 1:
+                            ball.position.x = 1.369;
+                            ball.position.y = 0.632;
+                            break;
+                        case 2:
+                            const cueBall = notify.balls.filter((ball) => ball.val === 0);
+                            cueBall[0].position.x = 0.75;
+                            cueBall[0].position.y = 0;
+                            ball.position.x = -1.38;
+                            ball.position.y = 0.668;
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        default:
+
+                    }
+
+
 
 
                     ball.rotation.x =  Math.random() * BilliardConst.multiple;

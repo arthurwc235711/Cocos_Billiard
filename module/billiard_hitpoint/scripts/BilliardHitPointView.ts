@@ -1,10 +1,11 @@
-import { _decorator, Camera, Component, EventTouch, find, Node, UITransform, Vec3 } from 'cc';
+import { _decorator, Camera, Component, EventTouch, find, isValid, Node, UITransform, Vec3 } from 'cc';
 import { BaseCommonPopup } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
 import { BilliardService } from '../../../net/BilliardService';
 import { off } from 'process';
 import { BilliardTools } from '../../../scripts/BilliardTools';
+import { BilliardConst } from '../../../config/BilliardConst';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardHitPointView')
@@ -17,6 +18,7 @@ export class BilliardHitPointView extends BaseCommonPopup {
         // 注册指定的监听方法，格式如下
         this.event_func_map = {
             [yy.Event_Name.billiard_notify_wins]: "close",
+            [yy.Event_Name.billiard_notify_cueoffset]: "onCueOffset",
         };
         super.register_event();
     }
@@ -121,6 +123,23 @@ export class BilliardHitPointView extends BaseCommonPopup {
         // yy.log.w("offset", offset, dis.normalize(), offset.clone().normalize());
     }
     
+
+    onCueOffset(msg: protoBilliard.ICueOffset) {
+        let dot = this.nodeDot;
+        let radius = dot.parent.getComponent(UITransform).width / 2;
+        let offset = new Vec3(msg.curOffset.x/BilliardConst.multiple, msg.curOffset.y/BilliardConst.multiple, 0);
+        let nor = offset.clone().normalize();
+        nor.setX(-nor.x);
+        let length = radius * (offset.length() * 2);
+        let dis = nor.multiplyScalar(length)
+        let pos = dot.parent.worldPosition.clone().add(dis);
+        dot.worldPosition = pos;
+    }
+
+    close() {
+        super.close();
+        if (isValid(this.node)) this.node.destroy();
+    }
 }
 
 
