@@ -2,6 +2,7 @@
 import { ProtoHelper } from '../../../../../framework/socket/ProtoHelper';
 import { StackListenerNew } from '../../../../main/data/GameMessageStack';
 import { ISubGameTableInfoItemData } from '../../../../main/data/SubGameData';
+import { WalletErrorMgr } from '../../../../main/data/WalletErrorMgr';
 import { GameIsolateUtils } from '../../../../main/isolate/GameIsolateUtils';
 import { yy } from '../../../../yy';
 import { BilliardConst } from '../config/BilliardConst';
@@ -278,16 +279,14 @@ export class BilliardService extends StackListenerNew {
     BilliardAllocService_EnterByTable(data: any, elapsedTime: number) {
         BilliardData.instance.setListener();
         let msg: protoBilliard.EnterRsp = data.msg;
-        if(data.code === 0 && msg) {
-            if (msg.code === 0) {
-                this.notifyEnterGame( {msg:msg.gameStatus, isNotPush: true} );
+        if(data.code === 0 && msg && msg.code === 0) {
+            this.notifyEnterGame( {msg:msg.gameStatus, isNotPush: true} );
+        }else { // 异常重连 退出大厅
+            let msgCode = data?.msg?.code;
+            if (WalletErrorMgr.instance().checkIsWalletError(msgCode)) {
+                WalletErrorMgr.instance().showWalletErrorPopup(msgCode);
             }
-            else {
-                yy.event.emit(yy.Event_Name.CasualCommonQuit);
-            }
-        }
-        else { // 异常重连 退出大厅
-             yy.event.emit(yy.Event_Name.CasualCommonQuit);
+            yy.event.emit(yy.Event_Name.CasualCommonQuit);
         }
     }
 

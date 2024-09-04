@@ -20,6 +20,7 @@ import { CasualMenuData } from '../../../casual_common/module/menu/data/CasualMe
 import { getEmojiPreloadConfog } from '../../../../common/props/scripts/EmojiPreloadConfog';
 import { PreloadUtils } from '../../../../main/utils/PreloadUtils';
 import { BilliardManager } from '../scripts/BilliardManager';
+import { WalletErrorMgr } from '../../../../main/data/WalletErrorMgr';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardScene')
@@ -266,13 +267,20 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
     
     private onlineStatus(e_data: any){
         let online_info: IOnlineInfo = yy.user.getOnlineInfo();
-        if (online_info?.playStatus == null || e_data?.timeOut ){
-            yy.event.emit(yy.Event_Name.CasualCommonQuit);
-        }else if(online_info.playStatus == 0){
-            yy.event.emit(yy.Event_Name.CasualCommonQuit);
-        } else if(online_info.playStatus > 0){
-            BilliardService.instance.sendEnterByTable();
-            yy.user.resetOnlineInfo();
+        if (WalletErrorMgr.instance().checkIsWalletPlayAbnormal(online_info.code)) {
+            let callback = ()=>{
+                yy.event.emit(yy.Event_Name.CasualCommonQuit);
+            }
+            WalletErrorMgr.instance().showWalletErrorPopup(online_info.code, callback, callback)
+        } else {
+            if (online_info?.playStatus == null || e_data?.timeOut ){
+                yy.event.emit(yy.Event_Name.CasualCommonQuit);
+            }else if(online_info.playStatus == 0){
+                yy.event.emit(yy.Event_Name.CasualCommonQuit);
+            } else if(online_info.playStatus > 0){
+                BilliardService.instance.sendEnterByTable();
+                yy.user.resetOnlineInfo();
+            }
         }
     }
 
