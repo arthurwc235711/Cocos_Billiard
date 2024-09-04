@@ -291,10 +291,15 @@ export class BilliardEightBall implements IBilliardRules {
                 }
 
 
-
-                view.freeBall.setStartAreaShow();
-                table.cueBall.updatePosImmediately(BilliardConst.startPos);
-
+                // 由于action type 1 用于随机球的旋转值，所以type 1 不在固定位开球 还要round<=2
+                if (this.round <= 2) {// 开局犯规后对方 限定发球区域摆球
+                    view.freeBall.setStartAreaShow();
+                    table.cueBall.updatePosImmediately(BilliardConst.startPos);
+                }
+                else {
+                    view.freeBall.setStartAreaHide();
+                    table.cueBall.updatePosImmediately(Vec3.ZERO);
+                }
 
                 view.freeBall.node.active = true;
                 view.onFreeBall();
