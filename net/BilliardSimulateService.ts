@@ -144,8 +144,8 @@ export class BilliardSimulateService {
                             ball.position.y = 0.632;
                             break;
                         case 2:
-                            cueBall[0].position.x = 0.75;
-                            cueBall[0].position.y = 0;
+                            cueBall[0].position.x = 0;
+                            cueBall[0].position.y = -0.4;
                             ball.position.x = -1.38;
                             ball.position.y = 0.668;
                             break;

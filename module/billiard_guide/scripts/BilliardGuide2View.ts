@@ -14,7 +14,7 @@ const { ccclass, property } = _decorator;
 @ccclass('BilliardGuide2View')
 export class BilliardGuide2View extends BilliardGuideView {
 
-
+    fun:Function = null;
 
     nextGuid(index: number = -1) {
         let curIndex = index;
@@ -40,13 +40,16 @@ export class BilliardGuide2View extends BilliardGuideView {
             case 2:
             case 9:
                 this.showGuide(2);
+                BilliardData.instance.setAngle(248417/BilliardConst.multiple);
                 view.interactableTableTouch = false;
                 view.isAngleDisable = true;
+                view.isHitPointDisable = true;
                 view.nodeLeft.active = true;
                 view.nodeRight.active = false;
                 break;
             case 3:
                 this.showGuide(curIndex);
+                table.cueBall.pos.set(-1.491, 0.763, 1);
                 // yy.event.emit(yy.Event_Name.billiard_clear_game_data);
                 // BilliardService.instance.sendStart()// 单机测试用
                 // view.nodeLeft.active = false;
@@ -55,15 +58,14 @@ export class BilliardGuide2View extends BilliardGuideView {
                 break;
             case 4:
                 this.showGuide(curIndex);
-                wp = BilliardManager.instance.camera3d.worldToScreen(new Vec3(table.balls[1].ui.node.worldPosition.x + 0.5, table.balls[1].ui.node.worldPosition.y, 0));
-                view.onClickTable(wp);
+                this.nodeLine.parent.angle = 0;
                 this.lockClick();
                 break;
             case 5:
-                this.showGuide(1);
                 yy.event.emit(yy.Event_Name.billiard_clear_game_data);
                 BilliardService.instance.sendStart()// 单机测试用
                 this.scheduleOnce(()=>{
+                    this.showGuide(1);
                     view.nodeLeft.active = false;
                     view.nodeRight.active = false;
                     wp = BilliardManager.instance.camera3d.worldToScreen(new Vec3(table.balls[1].ui.node.worldPosition.x + 0.5, table.balls[1].ui.node.worldPosition.y, 0));
@@ -128,6 +130,14 @@ export class BilliardGuide2View extends BilliardGuideView {
         BilliardTools.instance.openHitPointView();
 
         this.scheduleOnce(()=>{
+            let guide2View = director.getScene().getComponentInChildren(BilliardHitPointView);
+            this.fun = guide2View.close.bind(guide2View);
+            guide2View.close = ()=>{
+                this.fun();
+                this.curStep -= 2;
+                this.nextGuid();
+            }
+
             this.nextGuid()
         });
     }
@@ -144,13 +154,19 @@ export class BilliardGuide2View extends BilliardGuideView {
         this.scheduleOnce(()=>{
             this.nextGuid()
         });
+
+        let guide2View = director.getScene().getComponentInChildren(BilliardHitPointView);
+        guide2View.close = ()=>{
+            this.fun();
+            this.nextGuid();
+        }
     }
 
-    onClickCloseHitPointView() {
-        let guide2View = director.getScene().getComponentInChildren(BilliardHitPointView);
-        guide2View.close();
-        this.nextGuid();
-    }
+    // onClickCloseHitPointView() {
+    //     let guide2View = director.getScene().getComponentInChildren(BilliardHitPointView);
+    //     guide2View.close();
+    //     this.nextGuid();
+    // }
 
     onClickWellDon() {
         const node = this.nodeGuide.getChildByPath("11/Sprite");
