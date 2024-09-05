@@ -12,6 +12,8 @@ const { ccclass, property } = _decorator;
 @ccclass('BilliardGuide3View')
 export class BilliardGuide3View extends BilliardGuideView {
 
+    fun:Function = null;
+
     nextGuid(index: number = -1) {
         let curIndex = index;
         let view = BilliardManager.instance.getView();
@@ -44,7 +46,7 @@ export class BilliardGuide3View extends BilliardGuideView {
                 break;
             case 5:
                 this.showGuide(curIndex);
-                ball = table.balls.filter(b => b.id === 14)[0];
+                ball = table.balls.find(b => b.id === 14);
                 wp = BilliardManager.instance.camera3d.worldToScreen(new Vec3(ball.ui.node.worldPosition.x , ball.ui.node.worldPosition.y - 0.15, 0));
                 view.onClickTable(wp);
                 sw = new Vec3(ball.ui.node.worldPosition.x, ball.ui.node.worldPosition.y - 0.015, 0);
@@ -73,17 +75,15 @@ export class BilliardGuide3View extends BilliardGuideView {
                 break;
             case 10: //下面跟我做一下吧！
                 this.showGuide(curIndex);
-                ball = table.balls.filter(b => b.id === 1)[0];
-                wp = BilliardManager.instance.camera3d.worldToScreen(new Vec3(ball.ui.node.worldPosition.x , ball.ui.node.worldPosition.y - 0.15, 0));
-                view.onClickTable(wp);
+                this.nodeLine.parent.angle = 0;
                 this.lockClick();
                 break;
             case 11:
                 yy.event.emit(yy.Event_Name.billiard_clear_game_data);
-                this.showGuide(5);
                 BilliardService.instance.sendStart()// 单机测试用
                 this.scheduleOnce(()=>{
-                    ball = table.balls.filter(b => b.id === 14)[0];
+                    this.showGuide(5);
+                    ball = table.balls.find(b => b.id === 14);
                     wp = BilliardManager.instance.camera3d.worldToScreen(new Vec3(ball.ui.node.worldPosition.x , ball.ui.node.worldPosition.y - 0.15, 0));
                     view.onClickTable(wp);
                     let v3 = new Vec3(ball.ui.node.worldPosition.x, ball.ui.node.worldPosition.y - 0.015, 0);
@@ -168,7 +168,7 @@ export class BilliardGuide3View extends BilliardGuideView {
     }
 
 
-    fun:Function = null;
+    
     onClickHitPoint() {
         BilliardTools.instance.openHitPointView();
 
@@ -210,6 +210,13 @@ export class BilliardGuide3View extends BilliardGuideView {
     //     this.fun();
     //     this.nextGuid();
     // }
+
+    onClickWellDon() {
+        const node = this.nodeGuide.getChildByPath("19/Sprite");
+        if(node.scale.x === 1) {
+            this.nextGuid();
+        }
+    }
 }
 
 
