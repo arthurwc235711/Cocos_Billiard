@@ -137,20 +137,48 @@ export class BilliardSimulateService {
                 if (BilliardData.instance.isGuide()) {
                     // let cueBall = notify.balls[0];
                     // cueBall.position.x = -1.185;
-
+                    const cueBall = notify.balls.filter((ball) => ball.val === 0);
                     switch(BilliardData.instance.getTutorial()) {
                         case 1:
                             ball.position.x = 1.369;
                             ball.position.y = 0.632;
                             break;
                         case 2:
-                            const cueBall = notify.balls.filter((ball) => ball.val === 0);
                             cueBall[0].position.x = 0.75;
                             cueBall[0].position.y = 0;
                             ball.position.x = -1.38;
                             ball.position.y = 0.668;
                             break;
                         case 3:
+                            cueBall[0].position.x = -0.135;
+                            cueBall[0].position.y = 0.181;
+                            switch(i) {
+                                case 1:
+                                    ball.val = 14;
+                                    ball.position.x = 0.309;
+                                    ball.position.y = 0.281;
+                                    break;
+                                case 2:
+                                    ball.val = 1;
+                                    ball.position.x = 0.952;
+                                    ball.position.y = -0.044;
+                                    break;
+                                case 3:
+                                    ball.val = 2;
+                                    ball.position.x = 0.87;
+                                    ball.position.y = -0.156;
+                                    break;
+                                case 4:
+                                    ball.val = 3;
+                                    ball.position.x = 1.029;
+                                    ball.position.y = -0.182;
+                                    break;
+                                case 5:
+                                    ball.val = 8;
+                                    ball.position.x = 0.955;
+                                    ball.position.y = -0.133;
+                                    break;                                    
+                            }
                             break;
                         case 4:
                             break;

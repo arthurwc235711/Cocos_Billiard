@@ -56,13 +56,19 @@ export class BilliardGuideRules implements IBilliardRules {
         };
 
         let sliderNode = view.nodeLeft.getChildByPath("ExpSlider");
-        const MaxPower = 120;
+        let MaxPower = 60;
+        switch(BilliardData.instance.getTutorial()) {
+            case 2: MaxPower = 100; break;
+            case 3: MaxPower = 100; break;
+
+        }
+
         sliderNode.off(Node.EventType.TOUCH_END);
         sliderNode.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
             let progress = 1 - view.powerSlider.progress;
             if (progress > 0) {
                 // yy.log.w("----------");
-                BilliardData.instance.setPower( Math.floor( 70 ) * R );
+                BilliardData.instance.setPower( MaxPower * R );
                 BilliardService.instance.sendHit();
                 // BilliardService.instance.sendHitReq();
             }
@@ -71,10 +77,8 @@ export class BilliardGuideRules implements IBilliardRules {
         sliderNode.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
             let progress = 1 - view.powerSlider.progress;
             if (progress > 0) {
-                let rules = BilliardManager.instance.getRules();
-                let maxPower = MaxPower;
 
-                BilliardData.instance.setPower( Math.floor( 70 ) * R );
+                BilliardData.instance.setPower( MaxPower * R );
                 BilliardService.instance.sendHit();
                 // BilliardService.instance.sendHitReq();
             }

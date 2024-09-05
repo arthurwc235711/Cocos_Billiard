@@ -227,7 +227,19 @@ export class BilliardData {
     setGameType(type: number) {
         switch(type) {
             case 0: // 新手引导
-                this.iBallNums = 1 + 1;
+
+                switch(this.iTutorial){
+                    case 1:
+                    case 2:
+                        this.iBallNums = 1 + 1;
+                        break;
+                    case 3:
+                        this.iBallNums = 5 + 1;
+                        break;
+                }
+
+
+                // this.iBallNums = 1 + 1;
                 this.gameType = 0;
                 this.gid = 0;
                 break;

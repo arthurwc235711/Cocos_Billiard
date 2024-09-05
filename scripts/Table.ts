@@ -251,6 +251,7 @@ export class Table extends BaseCommonInstance {
     for(let i = 0; i < iBalls.length; ++i) {
         let ball = new Ball()// instantiate(this.prefabBall).getComponent(Ball);
         let data = iBalls[i];
+        ball.id = data.val;
         if (this.ui) {
           let bUI = instantiate(this.ui.prefabBall).getComponent(BilliardBall);
           if(this.ui) this.ui.nodeBalls.addChild(bUI.node);
@@ -325,14 +326,14 @@ export class Table extends BaseCommonInstance {
     }
     else {
       result.balls.forEach((b, i)=> {
-        let ball = this.balls[b.val];
+        let ball = this.balls.find(bb => bb.id === b.val);
         ball.setStationaryByService();
         ball.updatePosImmediately(new Vec3(b.position.x/BilliardConst.multiple, b.position.y/BilliardConst.multiple, 0));
         ball.setRotation(b.rotation.x/BilliardConst.multiple, b.rotation.y/BilliardConst.multiple, b.rotation.z/BilliardConst.multiple, b.rotation.w/BilliardConst.multiple);
       });
   
       result.potBalls.forEach((val, i)=> {
-        let ball = this.balls[val];
+        let ball = this.balls.find(bb => bb.id === val);;
         if (ball.onTable()) {
             track.setInTrack(ball);
         }
