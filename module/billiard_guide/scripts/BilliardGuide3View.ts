@@ -60,6 +60,8 @@ export class BilliardGuide3View extends BilliardGuideView {
                 break;
             case 7:
                 this.showGuide(curIndex);
+                view.nodeLeft.active = false;
+                view.nodeRight.active = false;
                 break;
             case 8://现在我们学习用<color=#0fffff>高杆</color>来K球
                 this.showGuide(curIndex);
@@ -94,7 +96,7 @@ export class BilliardGuide3View extends BilliardGuideView {
                 view.interactableTableTouch = false;
                 view.isAngleDisable = true;
                 BilliardData.instance.setAngle(18875/BilliardConst.multiple);
-                this.lockClick();
+                this.unlockClick();
                 break;
             case 13:
                 this.showGuide(curIndex);
@@ -109,12 +111,13 @@ export class BilliardGuide3View extends BilliardGuideView {
                 break;
             case 15:
                 this.showGuide(curIndex);
-                this.lockClick();
+                this.unlockClick();
                 break;
             case 16:
                 this.showGuide(curIndex);
                 view.interactableTableTouch = false;
                 view.isAngleDisable = true;
+                view.isHitPointDisable = true;
                 view.nodeLeft.active = true;
                 view.nodeRight.active = false;
                 this.unlockClick();
@@ -165,10 +168,19 @@ export class BilliardGuide3View extends BilliardGuideView {
     }
 
 
+    fun:Function = null;
     onClickHitPoint() {
         BilliardTools.instance.openHitPointView();
 
         this.scheduleOnce(()=>{
+            let guide2View = director.getScene().getComponentInChildren(BilliardHitPointView);
+            this.fun = guide2View.close.bind(guide2View);
+            guide2View.close = ()=>{
+                this.fun();
+                this.curStep -= 2;
+                this.nextGuid();
+            }
+
             this.nextGuid()
         });
     }
@@ -185,13 +197,19 @@ export class BilliardGuide3View extends BilliardGuideView {
         this.scheduleOnce(()=>{
             this.nextGuid()
         });
+
+        let guide2View = director.getScene().getComponentInChildren(BilliardHitPointView);
+        guide2View.close = ()=>{
+            this.fun();
+            this.nextGuid();
+        }
     }
 
-    onClickCloseHitPointView() {
-        let guide2View = director.getScene().getComponentInChildren(BilliardHitPointView);
-        guide2View.close();
-        this.nextGuid();
-    }
+    // onClickCloseHitPointView() {
+    //     // let guide2View = director.getScene().getComponentInChildren(BilliardHitPointView);
+    //     this.fun();
+    //     this.nextGuid();
+    // }
 }
 
 

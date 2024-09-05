@@ -59,7 +59,9 @@ export class BilliardUIView extends BaseCommonScript {
     spinePockets: Node[];
 
 
-    public isAngleDisable = false;
+    public isAngleDisable = false; // 教程专用
+
+    public isHitPointDisable = false; // 教程专用
 
     public tweenHit: Tween<Node>;
 
@@ -108,7 +110,7 @@ export class BilliardUIView extends BaseCommonScript {
     }
 
     onClickStroke() {
-        if (BilliardTools.instance.isMyAction() && BilliardManager.instance.getTable().allStationary() ) {
+        if (BilliardTools.instance.isMyAction() && BilliardManager.instance.getTable().allStationary() && !this.isHitPointDisable) {
             yy.popup.show_popup("app_billiard", "module/billiard_hitpoint/view/p_billiard_hit_point", null);
         }
     }
