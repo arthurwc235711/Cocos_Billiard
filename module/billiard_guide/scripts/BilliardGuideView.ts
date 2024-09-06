@@ -10,6 +10,8 @@ import { BilliardScene } from '../../../scene/BilliardScene';
 import { BilliardData } from '../../../data/BilliardData';
 import { BilliardMenu } from '../../billiard_menu/scripts/BilliardMenu';
 import { BilliardManager } from '../../../scripts/BilliardManager';
+import { BaseRayCollision } from '../../../scripts/physics/component/BaseRayCollision';
+import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardGuideView')
@@ -230,8 +232,15 @@ export class BilliardGuideView extends BaseCommonScript {
         let nodes = rayHit(cueBall.ui.node.worldPosition, direction);
         let uiTran = this.nodeLine.getComponent(UITransform);
         if (nodes.length > 0) {
-            let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.ui.node, nodes[0], direction)
-            uiTran.setContentSize(k, uiTran.contentSize.y);//45.47 球直径2D摄像头尺寸
+            let collision = nodes[0].getComponent(BaseRayCollision);
+            if (collision instanceof RaySphereCollision) {
+                let k = BilliardTools.instance.getDisanceBy2dCamera(cueBall.ui.node, nodes[0], direction)
+                uiTran.setContentSize(k, uiTran.contentSize.y);//45.47 球直径2D摄像头尺寸
+            }
+            else {
+                let k = BilliardTools.instance.getRectangleDisanceBy2dCamera(cueBall.ui.node, nodes[0], direction)
+                uiTran.setContentSize(k, uiTran.contentSize.y);//45.47 球直径2D摄像头尺寸
+            }
         }
     }
 

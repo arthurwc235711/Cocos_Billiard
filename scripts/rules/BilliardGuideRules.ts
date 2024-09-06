@@ -60,6 +60,7 @@ export class BilliardGuideRules implements IBilliardRules {
         switch(BilliardData.instance.getTutorial()) {
             case 2: MaxPower = 100; break;
             case 3: MaxPower = 100; break;
+            case 4: MaxPower = 60; break;
 
         }
 

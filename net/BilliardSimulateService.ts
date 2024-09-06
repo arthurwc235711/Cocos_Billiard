@@ -181,6 +181,25 @@ export class BilliardSimulateService {
                             }
                             break;
                         case 4:
+                            cueBall[0].position.x = -0.382;
+                            cueBall[0].position.y = 0;
+                            switch(i) {
+                                case 1:
+                                    ball.val = 3;
+                                    ball.position.x = 1.277;
+                                    ball.position.y = 0.671;
+                                    break;
+                                case 2:
+                                    ball.val = 8;
+                                    ball.position.x = -0.382;
+                                    ball.position.y = 0.671;
+                                    break;
+                                case 3:
+                                    ball.val = 14;
+                                    ball.position.x = -0.994;
+                                    ball.position.y = 0.671;
+                                    break;                                 
+                            }
                             break;
                         default:
 
@@ -207,8 +226,8 @@ export class BilliardSimulateService {
             ball.position.y =  Math.ceil(ball.position.y * BilliardConst.multiple);
         }
 
-        BilliardData.instance.setAlgoVersion(1);
-
+        // BilliardData.instance.setAlgoVersion(1);
+        BilliardManager.instance.setAlogVersion(BilliardData.instance.getAlgoVersion());
         BilliardManager.instance.setRules();
         this.delayAction(() => {
             BilliardService.instance.notifyStart({msg: notify});

@@ -236,6 +236,9 @@ export class BilliardData {
                     case 3:
                         this.iBallNums = 5 + 1;
                         break;
+                    case 4:
+                        this.iBallNums = 3 + 1;
+                        break;
                 }
 
 
