@@ -95,7 +95,7 @@ export class BilliardGuide3View extends BilliardGuideView {
                 this.showGuide(curIndex);
                 view.interactableTableTouch = false;
                 view.isAngleDisable = true;
-                BilliardData.instance.setAngle(18875/BilliardConst.multiple);
+                BilliardData.instance.setAngle(18862/BilliardConst.multiple);
                 this.unlockClick();
                 break;
             case 13:
@@ -126,9 +126,9 @@ export class BilliardGuide3View extends BilliardGuideView {
                 this.nodeLine = this.nodeGuide.getChildByPath("17/NodeCue/NodeCueLine");
                 this.showGuide(curIndex);
                 ball = table.balls.find(b => b.id === 8);
-                wp = BilliardManager.instance.camera3d.worldToScreen(new Vec3(ball.ui.node.worldPosition.x , ball.ui.node.worldPosition.y + 0.2, 0));
+                wp = BilliardManager.instance.camera3d.worldToScreen(new Vec3(ball.ui.node.worldPosition.x , ball.ui.node.worldPosition.y + 0.3, 0));
                 view.onClickTable(wp);
-                sw = new Vec3(ball.ui.node.worldPosition.x, ball.ui.node.worldPosition.y + 0.01, 0);
+                sw = new Vec3(ball.ui.node.worldPosition.x, ball.ui.node.worldPosition.y + 0.13, 0);
                 this.shotLine(sw);
                 this.unlockClick();
                 break;
@@ -177,8 +177,9 @@ export class BilliardGuide3View extends BilliardGuideView {
             this.fun = guide2View.close.bind(guide2View);
             guide2View.close = ()=>{
                 this.fun();
-                this.curStep -= 2;
+                this.curStep = 13;
                 this.nextGuid();
+                // yy.log.e("onClickHitPoint", this.curStep);
             }
 
             this.nextGuid()
