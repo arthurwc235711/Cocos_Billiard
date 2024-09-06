@@ -182,6 +182,8 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             if (this.isGuide) {
                 BilliardService.instance.isStandAlone = true;
                 BilliardData.instance.setGameType(0);
+                const view = BilliardManager.instance.getView();
+                if(view) view.initUIShow();
             }
             else {
                 BilliardData.instance.setGameType(this.levelData.maxBetMoney);// 匹配时设置 为了退出返回大厅的标签，开始游戏也会设置
