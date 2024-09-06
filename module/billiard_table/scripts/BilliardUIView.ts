@@ -266,7 +266,7 @@ export class BilliardUIView extends BaseCommonScript {
             isFreeBallMove = this.freeBall.touchMove;
         });
         btn.on(Node.EventType.TOUCH_END, (event: EventTouch) => {
-            this.nodeCueAnimations.active = BilliardTools.instance.isMyAction() && BilliardData.instance.getActionType() !== 0;
+            this.nodeCueAnimations.active = BilliardTools.instance.isMyAction() && (BilliardData.instance.getActionType() === 1 || BilliardData.instance.getActionType() === 2);
             if (this.interactableTableTouch && !isFreeBallMove && !this.touchMove) {
                 this.preTouchLocation = event.getLocation();
                 this.preTouchLocation.x = BilliardTools.instance.roundToFiveDecimalPlaces(this.preTouchLocation.x);
@@ -299,7 +299,7 @@ export class BilliardUIView extends BaseCommonScript {
         });
 
         btn.on(Node.EventType.TOUCH_CANCEL, (event: EventTouch) => {
-            this.nodeCueAnimations.active = BilliardTools.instance.isMyAction() && BilliardData.instance.getActionType() !== 0;
+            this.nodeCueAnimations.active = BilliardTools.instance.isMyAction() && (BilliardData.instance.getActionType() === 1 || BilliardData.instance.getActionType() === 2);
             if (this.interactableTableTouch && !isFreeBallMove && !this.touchMove) {
                 this.preTouchLocation = event.getLocation();
                 this.preTouchLocation.x = BilliardTools.instance.roundToFiveDecimalPlaces(this.preTouchLocation.x);
@@ -514,7 +514,7 @@ export class BilliardUIView extends BaseCommonScript {
 
     controlShow() {
         this.interactableTableTouch = BilliardManager.instance.getTable().isValidFreeBall() && BilliardTools.instance.isMyAction();
-        this.nodeCueAnimations.active = BilliardTools.instance.isMyAction() && BilliardData.instance.getActionType() !== 0; // 0 正常球权，1 开球， 2 自由球
+        this.nodeCueAnimations.active = BilliardTools.instance.isMyAction() && (BilliardData.instance.getActionType() === 1 || BilliardData.instance.getActionType() === 2); // 0 正常球权，1 开球， 2 自由球
         let slider = this.nodeLeft.getChildByPath("ExpSlider").getComponent(Slider);
         slider.progress = 1;
         this.onExpSlider(slider);
