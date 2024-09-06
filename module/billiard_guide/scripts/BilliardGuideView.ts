@@ -203,7 +203,7 @@ export class BilliardGuideView extends BaseCommonScript {
     }
 
     onClickQuit() {
-        this.onClickStartGame("1");
+        this.onClickStartGame(null, "1");
     }
 
     onHit() {
