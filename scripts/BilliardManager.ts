@@ -251,12 +251,12 @@ export class BilliardManager extends BaseCommonInstance{
         switch(result.type) {
             case eOutcomeType.Continue:
                 table.onSetServiceData(result);
-                BilliardService.instance.sendAction(uid, 6, 0);
+                BilliardService.instance.sendAction(uid, 6, 3); // 3 用于新手引导不显示，控制条
                 break;
             case eOutcomeType.Turn:
                 table.onSetServiceData(result);
                 // BilliardService.instance.sendAction(uid === 1 ? 2 : 1, 10, 0);
-                BilliardService.instance.sendAction(1, 6, 0);
+                BilliardService.instance.sendAction(1, 6, 3); // 3 用于新手引导不显示，控制条
                 break;
             case eOutcomeType.FreeBall:
                 table.onSetServiceData(result);

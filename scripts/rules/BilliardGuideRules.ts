@@ -86,7 +86,7 @@ export class BilliardGuideRules implements IBilliardRules {
         });
 
         BilliardData.instance.setActionUid(yy.user.getUid()=== 0 ? 1: yy.user.getUid())//(Math.random() < 0.5 ? 1 : 2 );
-        BilliardData.instance.setActionType(0);
+        BilliardData.instance.setActionType(3);
         // view.setPlayerCountDown(BilliardData.instance.getActionTimes());
         yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
 
@@ -103,7 +103,6 @@ export class BilliardGuideRules implements IBilliardRules {
         view.scheduleOnce(()=>{
             BilliardService.instance.notifyCueAngle({msg: tmp});
         }, 0.5)// 下一帧调用
-
     }
     onShotBall(): Ball {
         throw new Error("Method not implemented.");
@@ -164,7 +163,6 @@ export class BilliardGuideRules implements IBilliardRules {
         });
         view.node.getChildByName("ButtonChat").active = true;
         view.node.getChildByName("NodeHitPoint").active = true;
-
         view.isAngleDisable = false;
     }
 
