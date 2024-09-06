@@ -16174,7 +16174,7 @@
     "component": "",
     "_componentId": "93988zovcJKzpyK5XkQkR5C",
     "handler": "onClickStartGame",
-    "customEventData": ""
+    "customEventData": "3"
   },
   {
     "__type__": "cc.PrefabInfo",

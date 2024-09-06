@@ -337,8 +337,15 @@ export class BilliardTools {
         return yy.storage.getValue(`${yy.user.getUid()}_BilliardGuide`) === null || BilliardData.instance.getTutorial() > 0;
     }
 
-    setNeedGuide(){
-        yy.storage.setValue(`${yy.user.getUid()}_BilliardGuide`, true);
+    setNeedGuide(key: string){
+        let value:string;
+        switch(key) {
+            case "1": value = "";  break;
+            case "2": value = "2"; break;
+            case "3": value = "3"; break;
+            case "4": value = "4"; break;
+        }
+        yy.storage.setValue(`${yy.user.getUid()}_BilliardGuide${value}`, true);
     }
 }
 

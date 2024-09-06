@@ -136,8 +136,12 @@ export class BilliardGuideView extends BaseCommonScript {
         this.nextGuid();
     }
 
-    onClickStartGame() {
-        this.onClickQuit();
+    onClickStartGame(customEventData, key) {
+        let billiardScene = director.getScene().getComponentInChildren(BilliardScene);
+        BilliardService.instance.isStandAlone = false;
+        BilliardData.instance.setGameType(billiardScene.levelData.maxBetMoney);
+        yy.event.emit(yy.Event_Name.CasualCommonQuit)
+        BilliardTools.instance.setNeedGuide(key);
 
         // let billiardScene = director.getScene().getComponentInChildren(BilliardScene);
         // let data = billiardScene.levelData;
@@ -199,11 +203,7 @@ export class BilliardGuideView extends BaseCommonScript {
     }
 
     onClickQuit() {
-        let billiardScene = director.getScene().getComponentInChildren(BilliardScene);
-        BilliardService.instance.isStandAlone = false;
-        BilliardData.instance.setGameType(billiardScene.levelData.maxBetMoney);
-        yy.event.emit(yy.Event_Name.CasualCommonQuit)
-        BilliardTools.instance.setNeedGuide();
+        this.onClickStartGame("1");
     }
 
     onHit() {

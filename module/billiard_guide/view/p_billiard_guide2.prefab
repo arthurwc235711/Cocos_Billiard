@@ -10136,7 +10136,7 @@
     "component": "",
     "_componentId": "d6564TKDYBMnqbR87h6hoP2",
     "handler": "onClickStartGame",
-    "customEventData": ""
+    "customEventData": "2"
   },
   {
     "__type__": "cc.PrefabInfo",
