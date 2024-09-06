@@ -134,7 +134,7 @@ export class BilliardGuide2View extends BilliardGuideView {
             this.fun = guide2View.close.bind(guide2View);
             guide2View.close = ()=>{
                 this.fun();
-                this.curStep -= 2;
+                this.curStep = 6;
                 this.nextGuid();
             }
 
