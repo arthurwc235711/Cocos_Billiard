@@ -248,6 +248,7 @@ export class BilliardManager extends BaseCommonInstance{
         let view = this.getView();
         let rules = this.getRules();
         let uid = BilliardData.instance.getActionUid();
+        view.stopHitTween();// 如果有延迟击球数据暂停击球动画，否则会有击球导致画面不同步异常
         switch(result.type) {
             case eOutcomeType.Continue:
                 table.onSetServiceData(result);
@@ -291,7 +292,7 @@ export class BilliardManager extends BaseCommonInstance{
         rules.nextTurn(action.type, action.uid, action.round);
         this.setSureBalls();
         view.onAllStationary();
-
+        view.stopHitTween();// 如果有延迟击球数据暂停击球动画，否则会有击球导致画面不同步异常
         if (BilliardTools.instance.isMyAction()) {
             const p = BilliardManager.instance.getScene().get_scene_layer_popup().getChildByName("p_billiard_wait");
             if (p) p.destroy();
