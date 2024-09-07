@@ -32,18 +32,22 @@ export class BilliardGuide4View extends BilliardGuide3View {
                 break;
             case 2:
                 this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("2"));
                 this.unlockClick();
                 break;
             case 3:
                 this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("3"));
                 this.unlockClick();
                 break;
             case 4:
                 this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("4"));
                 this.unlockClick();
                 break;
             case 5:
                 this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("5"));
                 this.unlockClick();
                 break;
             case 6:
@@ -63,8 +67,9 @@ export class BilliardGuide4View extends BilliardGuide3View {
                 view.nodeRight.active = false;
                 BilliardData.instance.setAngle(223308/BilliardConst.multiple);
                 break;
-            case 8://现在我们学习用<color=#0fffff>高杆</color>来K球
+            case 8:// 白球没有走到黑8右侧
                 this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("8"));
                 this.unlockClick();
                 break;
             case 9://<color=#0fffff>高杆</color>使母球在<color=#0fffff>气球后</color>获得<color=#0fffff>向前</color>的动能  从而向<color=#0fffff>出杆方向</color>偏移，K开全色球
@@ -125,6 +130,7 @@ export class BilliardGuide4View extends BilliardGuide3View {
                 break;
             case 16:
                 this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("16"));
                 this.unlockClick();
                 break;
             case 17:
@@ -146,6 +152,7 @@ export class BilliardGuide4View extends BilliardGuide3View {
                 break;
             case 19:
                 this.showGuide(curIndex);
+                this.scheduleOnce(()=>this.nextGuid(), 2);
                 break;
             case 20:
                 this.showGuide(curIndex);
