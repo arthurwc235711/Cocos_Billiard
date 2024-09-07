@@ -498,14 +498,19 @@ export class BilliardManager extends BaseCommonInstance{
 
     onPause() {
         yy.log.w("onPause");
-        BilliardService.instance.sendForeBackstageReq(1);
+        if (!BilliardTools.instance.isNeedGuide()) { // 单机不需要请求
+            BilliardService.instance.sendForeBackstageReq(1);
+        }
     }
 
     onResume() {
         yy.log.w("onResume");
-        let pb = new protoAccount.OnlineStatusReq();
-        yy.socket.send('AccountService.OnlineStatus', pb);
-        // BilliardService.instance.sendForeBackstageReq(0);
+        if (!BilliardTools.instance.isNeedGuide()) { // 单机不需要请求
+            let pb = new protoAccount.OnlineStatusReq();
+            yy.socket.send('AccountService.OnlineStatus', pb);
+            // BilliardService.instance.sendForeBackstageReq(0);
+        }
+
     }
 
     onOffline(notify: protoBilliard.NotifyUserNetStatus) {
