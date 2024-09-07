@@ -146,6 +146,7 @@ export class BilliardGuide3View extends BilliardGuideView {
                 break;
             case 19:
                 this.showGuide(curIndex);
+                view.interactableTableTouch = false;
                 this.scheduleOnce(()=>this.nextGuid(), 2);
                 break;
             case 20:
