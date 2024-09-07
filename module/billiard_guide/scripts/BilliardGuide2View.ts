@@ -49,7 +49,7 @@ export class BilliardGuide2View extends BilliardGuideView {
                 break;
             case 3:
                 this.showGuide(curIndex);
-                table.cueBall.pos.set(-1.491, 0.763, 1);
+                // table.cueBall.pos.set(-1.491, 0.763, 1);
                 // yy.event.emit(yy.Event_Name.billiard_clear_game_data);
                 // BilliardService.instance.sendStart()// 单机测试用
                 // view.nodeLeft.active = false;
@@ -93,6 +93,7 @@ export class BilliardGuide2View extends BilliardGuideView {
                 break;
             case 11:
                 this.showGuide(curIndex);
+                this.scheduleOnce(()=>this.nextGuid(), 2);
                 break;
             case 12:
                 this.showGuide(curIndex);
