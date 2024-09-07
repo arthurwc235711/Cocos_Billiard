@@ -114,7 +114,7 @@ export class BilliardGuide3View extends BilliardGuideView {
                 this.unlockClick();
                 break;
             case 16:
-                this.showGuide(curIndex);
+                this.showGuide(6);
                 view.interactableTableTouch = false;
                 view.isAngleDisable = true;
                 view.isHitPointDisable = true;
