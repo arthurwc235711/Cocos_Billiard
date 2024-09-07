@@ -34,14 +34,17 @@ export class BilliardGuide3View extends BilliardGuideView {
                 break;
             case 2:
                 this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("2"));
                 this.unlockClick();
                 break;
             case 3:
                 this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("3"));
                 this.unlockClick();
                 break;
             case 4:
                 this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("4"));
                 this.unlockClick();
                 break;
             case 5:
@@ -62,6 +65,7 @@ export class BilliardGuide3View extends BilliardGuideView {
                 break;
             case 7:
                 this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("7"));
                 view.nodeLeft.active = false;
                 view.nodeRight.active = false;
                 break;
@@ -96,6 +100,7 @@ export class BilliardGuide3View extends BilliardGuideView {
                 view.interactableTableTouch = false;
                 view.isAngleDisable = true;
                 BilliardData.instance.setAngle(18862/BilliardConst.multiple);
+                this.tipClip(this.nodeGuide.getChildByName("12"));
                 this.unlockClick();
                 break;
             case 13:
@@ -141,6 +146,7 @@ export class BilliardGuide3View extends BilliardGuideView {
                 break;
             case 19:
                 this.showGuide(curIndex);
+                this.scheduleOnce(()=>this.nextGuid(), 2);
                 break;
             case 20:
                 this.showGuide(curIndex);
