@@ -49,6 +49,7 @@ export class BilliardGuide2View extends BilliardGuideView {
                 break;
             case 3:
                 this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("3"));
                 // table.cueBall.pos.set(-1.491, 0.763, 1);
                 // yy.event.emit(yy.Event_Name.billiard_clear_game_data);
                 // BilliardService.instance.sendStart()// 单机测试用
@@ -90,6 +91,7 @@ export class BilliardGuide2View extends BilliardGuideView {
                 break;
             case 10: // 母球没进袋提示
                 this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("10"));
                 break;
             case 11:
                 this.showGuide(curIndex);

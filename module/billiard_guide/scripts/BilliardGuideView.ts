@@ -1,4 +1,4 @@
-import { _decorator, BlockInputEvents, Component, director, Node, Slider, UITransform, Vec2, Vec3 } from 'cc';
+import { _decorator, BlockInputEvents, Button, Component, director, instantiate, Node, Slider, UITransform, Vec2, Vec3 } from 'cc';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
 import { yy } from '../../../../../../yy';
 import { BilliardService } from '../../../net/BilliardService';
@@ -261,6 +261,18 @@ export class BilliardGuideView extends BaseCommonScript {
                 
             }
         }
+    }
+
+
+    tipClip(parentNode: Node) {
+        this.scheduleOnce(()=>{
+            const clone = instantiate(this.nodeClick);
+            clone.setParent(parentNode);
+            clone.position = clone.position.set(0, -35, 0);
+            const btn = clone.getComponent(Button);
+            if(btn) btn.destroy();
+        }, 2);
+
     }
 
 }
