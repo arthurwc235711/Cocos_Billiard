@@ -119,6 +119,13 @@ export class BilliardGuide3View extends BilliardGuideView {
                 this.unlockClick();
                 break;
             case 16:
+                this.showGuide(curIndex);
+                view.interactableTableTouch = false;
+                view.isAngleDisable = true;
+                this.tipClip(this.nodeGuide.getChildByName("16"));
+                this.unlockClick();
+                break;
+            case 17:
                 this.showGuide(6);
                 view.interactableTableTouch = false;
                 view.isAngleDisable = true;
@@ -127,8 +134,8 @@ export class BilliardGuide3View extends BilliardGuideView {
                 view.nodeRight.active = false;
                 this.unlockClick();
                 break;
-            case 17:
-                this.nodeLine = this.nodeGuide.getChildByPath("17/NodeCue/NodeCueLine");
+            case 18:
+                this.nodeLine = this.nodeGuide.getChildByPath("18/NodeCue/NodeCueLine");
                 this.showGuide(curIndex);
                 ball = table.balls.find(b => b.id === 8);
                 wp = BilliardManager.instance.camera3d.worldToScreen(new Vec3(ball.ui.node.worldPosition.x , ball.ui.node.worldPosition.y + 0.3, 0));
@@ -137,19 +144,19 @@ export class BilliardGuide3View extends BilliardGuideView {
                 this.shotLine(sw);
                 this.unlockClick();
                 break;
-            case 18:
+            case 19:
                 this.showGuide(curIndex);
                 view.interactableTableTouch = false;
                 view.isAngleDisable = true;
                 view.nodeLeft.active = true;
                 view.nodeRight.active = false;
                 break;
-            case 19:
+            case 20:
                 this.showGuide(curIndex);
                 view.interactableTableTouch = false;
                 this.scheduleOnce(()=>this.nextGuid(), 2);
                 break;
-            case 20:
+            case 21:
                 this.showGuide(curIndex);
                 this.lockClick();
                 break;
@@ -164,7 +171,7 @@ export class BilliardGuide3View extends BilliardGuideView {
 
 
     protected update(dt: number): void {
-        if (this.curStep === 6 || this.curStep === 12 || this.curStep === 18) {
+        if (this.curStep === 6 || this.curStep === 12 || this.curStep === 19) {
             let view = BilliardManager.instance.getView();
             if (Math.abs(this.nodeLine.parent.angle - view.nodeCueArrow.angle) < 0.1){
                 yy.log.e("有效重叠")
