@@ -526,7 +526,7 @@
         "__id__": 37
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 43
@@ -1033,7 +1033,7 @@
     "_string": "Welcome to the advanced tutorial\nTake a minute to get familiar with the <color=#0fffff> top spin</color> and what it's used for",
     "_horizontalAlign": 0,
     "_verticalAlign": 0,
-    "_fontSize": 40,
+    "_fontSize": 38,
     "_maxWidth": 613.4,
     "_fontFamily": "Arial",
     "_font": null,

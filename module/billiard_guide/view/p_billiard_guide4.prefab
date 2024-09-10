@@ -1036,7 +1036,7 @@
     "_string": "Welcome to the advanced tutorial\nTake a minute to get familiar with <color=#0fffff>Levorotation and Dextrorotation</color> and what it's used for",
     "_horizontalAlign": 0,
     "_verticalAlign": 0,
-    "_fontSize": 40,
+    "_fontSize": 38,
     "_maxWidth": 615.4,
     "_fontFamily": "Arial",
     "_font": null,
@@ -3285,7 +3285,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 100,
+      "x": 92.90000000000003,
       "y": 61.221,
       "z": 0
     },
@@ -3496,7 +3496,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 711.1,
+      "width": 725.3,
       "height": 90.39999999999998
     },
     "_anchorPoint": {
@@ -3615,7 +3615,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 783.1,
+      "width": 797.3,
       "height": 129.9
     },
     "_anchorPoint": {
@@ -3967,7 +3967,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": -11.600000000000023,
       "y": 66.345,
       "z": 0
     },
@@ -4138,7 +4138,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 4.0499999999999545,
+      "x": 4.050000000000068,
       "y": 5.757000000000005,
       "z": 0
     },
@@ -4178,8 +4178,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1024.6999999999998,
-      "height": 90.4
+      "width": 1047.9,
+      "height": 90.40000000000015
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4251,8 +4251,8 @@
     "_target": null,
     "_left": 36.1,
     "_right": 28,
-    "_top": 17.892999999999994,
-    "_bottom": 29.406999999999996,
+    "_top": 17.892999999999915,
+    "_bottom": 29.406999999999925,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
@@ -4297,7 +4297,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1088.8,
+      "width": 1112,
       "height": 137.7
     },
     "_anchorPoint": {
@@ -7659,7 +7659,7 @@
     "_string": "In this case, you can use <color=#0fffff>Dextrorotation </color>to control the cue ball position, causing it to rebound off the cushion and move counterclockwise after impact.",
     "_horizontalAlign": 0,
     "_verticalAlign": 0,
-    "_fontSize": 40,
+    "_fontSize": 38,
     "_maxWidth": 717.8,
     "_fontFamily": "Arial",
     "_font": null,
@@ -8506,7 +8506,7 @@
         "__id__": 407
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 419
@@ -9580,7 +9580,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 283.8,
+      "x": 288,
       "y": 11.075,
       "z": 0
     },
@@ -9791,7 +9791,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 514.6,
+      "width": 523,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -9910,7 +9910,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 586.6,
+      "width": 595,
       "height": 103.5
     },
     "_anchorPoint": {
@@ -10651,7 +10651,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -4.25,
+      "x": -1.75,
       "y": -48.004,
       "z": 0
     },
@@ -10862,7 +10862,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 355,
+      "width": 360,
       "height": 90.39999999999999
     },
     "_anchorPoint": {
@@ -10981,7 +10981,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 415,
+      "width": 420,
       "height": 131.2
     },
     "_anchorPoint": {
