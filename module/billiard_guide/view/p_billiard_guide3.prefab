@@ -30,17 +30,17 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 751
+        "__id__": 763
       },
       {
-        "__id__": 753
+        "__id__": 765
       },
       {
-        "__id__": 755
+        "__id__": 767
       }
     ],
     "_prefab": {
-      "__id__": 757
+      "__id__": 769
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -449,35 +449,35 @@
         "__id__": 506
       },
       {
-        "__id__": 555
+        "__id__": 561
       },
       {
-        "__id__": 607
+        "__id__": 619
       },
       {
-        "__id__": 613
+        "__id__": 625
       },
       {
-        "__id__": 665
+        "__id__": 677
       },
       {
-        "__id__": 703
+        "__id__": 715
       },
       {
-        "__id__": 717
+        "__id__": 729
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 746
+        "__id__": 758
       },
       {
-        "__id__": 748
+        "__id__": 760
       }
     ],
     "_prefab": {
-      "__id__": 750
+      "__id__": 762
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -685,8 +685,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
-      "height": 40
+      "width": 168.64,
+      "height": 54.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -720,14 +720,14 @@
       "b": 255,
       "a": 255
     },
-    "_string": "Next",
+    "_string": "Continue",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
     "_fontSize": 38,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
-    "_overflow": 1,
+    "_overflow": 0,
     "_enableWrapText": false,
     "_font": null,
     "_isSystemFontUsed": true,
@@ -961,7 +961,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 121.035,
+      "x": 171.788,
       "y": 0,
       "z": 0
     },
@@ -1001,8 +1001,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 532.3,
-      "height": 123.16999999999999
+      "width": 613.4,
+      "height": 177.67
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1027,11 +1027,11 @@
       "__id__": 41
     },
     "_lineHeight": 54.5,
-    "_string": "欢迎来到高级教程\n这一节介绍<color=#0fffff>高杆</color>的打发和用途",
+    "_string": "Welcome to the advanced tutorial\nTake a minute to get familiar with the <color=#0fffff> top spin</color> and what it's used for",
     "_horizontalAlign": 0,
     "_verticalAlign": 0,
     "_fontSize": 40,
-    "_maxWidth": 532.3,
+    "_maxWidth": 613.4,
     "_fontFamily": "Arial",
     "_font": null,
     "_isSystemFontUsed": true,
@@ -1319,8 +1319,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
-      "height": 40
+      "width": 168.64,
+      "height": 54.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1354,14 +1354,14 @@
       "b": 255,
       "a": 255
     },
-    "_string": "Start",
+    "_string": "Continue",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
     "_fontSize": 38,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
-    "_overflow": 1,
+    "_overflow": 0,
     "_enableWrapText": false,
     "_font": null,
     "_isSystemFontUsed": true,
@@ -1595,8 +1595,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 121.035,
-      "y": 0,
+      "x": 166.954,
+      "y": -31.419,
       "z": 0
     },
     "_lrot": {
@@ -1635,7 +1635,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 532.3,
+      "width": 615.6,
       "height": 68.67
     },
     "_anchorPoint": {
@@ -1661,11 +1661,11 @@
       "__id__": 70
     },
     "_lineHeight": 54.5,
-    "_string": "先来看看小师妹的对局<color=#0fffff></color>",
+    "_string": "Let's take a look at this round first.",
     "_horizontalAlign": 0,
     "_verticalAlign": 0,
     "_fontSize": 40,
-    "_maxWidth": 532.3,
+    "_maxWidth": 615.6,
     "_fontFamily": "Arial",
     "_font": null,
     "_isSystemFontUsed": true,
@@ -1861,7 +1861,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 185,
+      "x": 205,
       "y": 155,
       "z": 0
     },
@@ -1913,8 +1913,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -23.702999999999975,
-      "y": -34.67,
+      "x": -47.252999999999986,
+      "y": -54.004,
       "z": 0
     },
     "_lrot": {
@@ -2024,7 +2024,7 @@
     },
     "_alignFlags": 8,
     "_target": null,
-    "_left": 389.64700000000005,
+    "_left": 389.647,
     "_right": 0,
     "_top": 0,
     "_bottom": 0,
@@ -2085,7 +2085,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 4.050000000000011,
-      "y": 5.7570000000000014,
+      "y": 5.756999999999998,
       "z": 0
     },
     "_lrot": {
@@ -2124,8 +2124,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 793.6,
-      "height": 50.4
+      "width": 840.6999999999999,
+      "height": 90.39999999999998
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2159,7 +2159,7 @@
       "b": 51,
       "a": 255
     },
-    "_string": "本局小师妹打花色球，进球后打入黑8即可获胜",
+    "_string": "In this round, player plays Half colors ball and can win by making the black 8 after scoring.",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
@@ -2197,8 +2197,8 @@
     "_target": null,
     "_left": 36.1,
     "_right": 28,
-    "_top": 21.043,
-    "_bottom": 32.557,
+    "_top": 18.293000000000006,
+    "_bottom": 29.80700000000001,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
@@ -2243,8 +2243,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 857.7,
-      "height": 104
+      "width": 904.8,
+      "height": 138.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2543,7 +2543,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 150,
+      "x": -50,
       "y": -130,
       "z": 0
     },
@@ -2595,8 +2595,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 227.93699999999998,
-      "y": 7.898,
+      "x": 460.09800000000007,
+      "y": 0.648,
       "z": 0
     },
     "_lrot": {
@@ -2706,7 +2706,7 @@
     },
     "_alignFlags": 8,
     "_target": null,
-    "_left": 448.587,
+    "_left": 917.4480000000001,
     "_right": 0,
     "_top": 0,
     "_bottom": 0,
@@ -2767,7 +2767,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 4.050000000000011,
-      "y": 5.7570000000000014,
+      "y": 5.757000000000005,
       "z": 0
     },
     "_lrot": {
@@ -2806,8 +2806,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 408.20000000000005,
-      "height": 50.4
+      "width": 881.6,
+      "height": 50.400000000000006
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2841,7 +2841,7 @@
       "b": 51,
       "a": 255
     },
-    "_string": "但是黑8被全色球挡住了",
+    "_string": "But the black 8 is blocked by Panchromatic ball",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
@@ -2879,7 +2879,7 @@
     "_target": null,
     "_left": 36.1,
     "_right": 28,
-    "_top": 21.043,
+    "_top": 21.042999999999996,
     "_bottom": 32.557,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
@@ -2925,7 +2925,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 472.3,
+      "width": 945.7,
       "height": 104
     },
     "_anchorPoint": {
@@ -3225,7 +3225,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 150,
+      "x": -67.426,
       "y": -130,
       "z": 0
     },
@@ -3277,7 +3277,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 304.953,
+      "x": 479.0370000000001,
       "y": 7.898,
       "z": 0
     },
@@ -3388,7 +3388,7 @@
     },
     "_alignFlags": 8,
     "_target": null,
-    "_left": 601.203,
+    "_left": 950.7370000000001,
     "_right": 0,
     "_top": 0,
     "_bottom": 0,
@@ -3449,7 +3449,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 4.050000000000011,
-      "y": 5.7570000000000014,
+      "y": 5.757000000000005,
       "z": 0
     },
     "_lrot": {
@@ -3488,8 +3488,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 559.4,
-      "height": 50.4
+      "width": 910.3,
+      "height": 90.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3523,7 +3523,7 @@
       "b": 51,
       "a": 255
     },
-    "_string": "进球时K开全色球，才能打到黑8",
+    "_string": "To score, you must kick Panchromatic ball  before hitting the black 8.",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
@@ -3561,8 +3561,8 @@
     "_target": null,
     "_left": 36.1,
     "_right": 28,
-    "_top": 21.043,
-    "_bottom": 32.557,
+    "_top": 16.092999999999996,
+    "_bottom": 27.607,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
@@ -3607,8 +3607,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 623.5,
-      "height": 104
+      "width": 974.4,
+      "height": 134.1
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3840,7 +3840,7 @@
         "__id__": 203
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 219
@@ -4130,8 +4130,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 519.227,
-      "y": 197,
+      "x": 450,
+      "y": 100,
       "z": 0
     },
     "_lrot": {
@@ -4182,7 +4182,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -160.207,
+      "x": -247.707,
       "y": 5.901,
       "z": 0
     },
@@ -4354,7 +4354,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 5.7570000000000014,
+      "y": 5.757000000000005,
       "z": 0
     },
     "_lrot": {
@@ -4393,8 +4393,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 276.2,
-      "height": 50.4
+      "width": 451.2,
+      "height": 130.39999999999998
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4428,7 +4428,7 @@
       "b": 51,
       "a": 255
     },
-    "_string": "替小师妹瞄准吧",
+    "_string": "Slide your finger to align the aiming line with the red dotted line!",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
@@ -4466,8 +4466,8 @@
     "_target": null,
     "_left": 28,
     "_right": 28,
-    "_top": 21.043,
-    "_bottom": 32.557,
+    "_top": 12.793000000000013,
+    "_bottom": 24.307000000000016,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
@@ -4512,8 +4512,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 332.2,
-      "height": 104
+      "width": 507.2,
+      "height": 167.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5850,7 +5850,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 150,
+      "x": -0.703,
       "y": -130,
       "z": 0
     },
@@ -5902,7 +5902,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 261.9800000000001,
+      "x": 341.68000000000006,
       "y": 7.898,
       "z": 0
     },
@@ -6013,7 +6013,7 @@
     },
     "_alignFlags": 8,
     "_target": null,
-    "_left": 514.4300000000001,
+    "_left": 678.4300000000001,
     "_right": 0,
     "_top": 0,
     "_bottom": 0,
@@ -6073,8 +6073,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 4.049999999999983,
-      "y": 5.7570000000000014,
+      "x": 4.050000000000011,
+      "y": 5.756999999999998,
       "z": 0
     },
     "_lrot": {
@@ -6113,8 +6113,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 471.79999999999995,
-      "height": 50.4
+      "width": 640.4,
+      "height": 90.39999999999998
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6148,7 +6148,7 @@
       "b": 51,
       "a": 255
     },
-    "_string": "没有K开全色球，打不到黑8",
+    "_string": "Didn't kick Panchromatic ball.Can't hit the black 8 anymore.",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
@@ -6186,8 +6186,8 @@
     "_target": null,
     "_left": 36.1,
     "_right": 28,
-    "_top": 21.043,
-    "_bottom": 32.557,
+    "_top": 12.593000000000004,
+    "_bottom": 24.107000000000006,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
@@ -6232,8 +6232,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 535.9,
-      "height": 104
+      "width": 704.5,
+      "height": 127.1
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6624,8 +6624,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
-      "height": 40
+      "width": 168.64,
+      "height": 54.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6659,14 +6659,14 @@
       "b": 255,
       "a": 255
     },
-    "_string": "Next",
+    "_string": "Continue",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
     "_fontSize": 38,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
-    "_overflow": 1,
+    "_overflow": 0,
     "_enableWrapText": false,
     "_font": null,
     "_isSystemFontUsed": true,
@@ -6900,8 +6900,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 121.035,
-      "y": 0,
+      "x": 169.371,
+      "y": -29.002,
       "z": 0
     },
     "_lrot": {
@@ -6940,8 +6940,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 532.3,
-      "height": 68.67
+      "width": 620.6,
+      "height": 177.67
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6966,11 +6966,11 @@
       "__id__": 313
     },
     "_lineHeight": 54.5,
-    "_string": "现在我们学习用<color=#0fffff>高杆</color>来K球",
+    "_string": "Let’s learn how to use <color=#0fffff>top spin</color> to tick ball.\n",
     "_horizontalAlign": 0,
     "_verticalAlign": 0,
     "_fontSize": 40,
-    "_maxWidth": 532.3,
+    "_maxWidth": 620.6,
     "_fontFamily": "Arial",
     "_font": null,
     "_isSystemFontUsed": true,
@@ -7258,8 +7258,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
-      "height": 40
+      "width": 168.64,
+      "height": 54.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7293,14 +7293,14 @@
       "b": 255,
       "a": 255
     },
-    "_string": "Next",
+    "_string": "Continue",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
     "_fontSize": 38,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
-    "_overflow": 1,
+    "_overflow": 0,
     "_enableWrapText": false,
     "_font": null,
     "_isSystemFontUsed": true,
@@ -7534,7 +7534,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 176.969,
+      "x": 205.971,
       "y": 0,
       "z": 0
     },
@@ -7574,8 +7574,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 658.6,
-      "height": 123.16999999999999
+      "width": 716.5,
+      "height": 232.17
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7600,11 +7600,11 @@
       "__id__": 342
     },
     "_lineHeight": 54.5,
-    "_string": "<color=#0fffff>高杆</color>使母球在<color=#0fffff>气球后</color>获得<color=#0fffff>向前</color>的动能\n从而向<color=#0fffff>出杆方向</color>偏移，K开全色球",
+    "_string": "<color=#0fffff>Top spin</color> causes the cue ball to move forward after impact and therefore \ncurve away from the direction of the shot,and then kick Panchromatic ball",
     "_horizontalAlign": 0,
     "_verticalAlign": 0,
     "_fontSize": 40,
-    "_maxWidth": 658.6,
+    "_maxWidth": 716.5,
     "_fontFamily": "Arial",
     "_font": null,
     "_isSystemFontUsed": true,
@@ -7892,8 +7892,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
-      "height": 40
+      "width": 168.64,
+      "height": 54.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7927,14 +7927,14 @@
       "b": 255,
       "a": 255
     },
-    "_string": "Start",
+    "_string": "Continue",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
     "_fontSize": 38,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
-    "_overflow": 1,
+    "_overflow": 0,
     "_enableWrapText": false,
     "_font": null,
     "_isSystemFontUsed": true,
@@ -8168,8 +8168,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 121.035,
-      "y": 0,
+      "x": 176.622,
+      "y": -33.835,
       "z": 0
     },
     "_lrot": {
@@ -8234,7 +8234,7 @@
       "__id__": 371
     },
     "_lineHeight": 54.5,
-    "_string": "下面跟我做一下吧！",
+    "_string": "Follow me，please",
     "_horizontalAlign": 0,
     "_verticalAlign": 0,
     "_fontSize": 40,
@@ -9255,7 +9255,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -192.958,
+      "x": -365.34,
       "y": -234.809,
       "z": 0
     },
@@ -9307,7 +9307,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 306.02,
+      "x": 429.66999999999996,
       "y": 7.898,
       "z": 0
     },
@@ -9479,7 +9479,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 4.050000000000011,
-      "y": 5.7570000000000014,
+      "y": 5.756999999999998,
       "z": 0
     },
     "_lrot": {
@@ -9518,8 +9518,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 571.1,
-      "height": 50.4
+      "width": 818.4,
+      "height": 90.39999999999998
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -9553,7 +9553,7 @@
       "b": 51,
       "a": 255
     },
-    "_string": "未使用高杆时母球沿副瞄准线移动",
+    "_string": "When not using top spin, the cue ball moves along the secondary aiming line.",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
@@ -9591,8 +9591,8 @@
     "_target": null,
     "_left": 36.1,
     "_right": 28,
-    "_top": 21.043,
-    "_bottom": 32.557,
+    "_top": 16.843000000000004,
+    "_bottom": 28.357000000000006,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
@@ -9637,8 +9637,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 635.2,
-      "height": 104
+      "width": 882.5,
+      "height": 135.6
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -10256,7 +10256,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 219.55,
+      "x": 178.1,
       "y": 11.075,
       "z": 0
     },
@@ -10499,8 +10499,8 @@
       "b": 51,
       "a": 255
     },
-    "_string": "点击白球选择击球点",
-    "_horizontalAlign": 0,
+    "_string": "Now use top spin",
+    "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
     "_fontSize": 38,
@@ -10548,8 +10548,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 458.1,
-      "height": 146
+      "width": 375.2,
+      "height": 120
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -11165,16 +11165,19 @@
       },
       {
         "__id__": 529
+      },
+      {
+        "__id__": 552
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 552
+        "__id__": 558
       }
     ],
     "_prefab": {
-      "__id__": 554
+      "__id__": 560
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -11286,8 +11289,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -2.2949999999999875,
-      "y": -57.342,
+      "x": 0,
+      "y": -35.591,
       "z": 0
     },
     "_lrot": {
@@ -11398,7 +11401,7 @@
     "_alignFlags": 32,
     "_target": null,
     "_left": -6.673000000000002,
-    "_right": 154.445,
+    "_right": 262.9,
     "_top": 0,
     "_bottom": 0,
     "_horizontalCenter": 0,
@@ -11497,7 +11500,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 275.3,
+      "width": 496.79999999999995,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -11532,7 +11535,7 @@
       "b": 51,
       "a": 255
     },
-    "_string": "选择白球的顶端",
+    "_string": "Select the top of white ball",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
@@ -11616,8 +11619,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 335.3,
-      "height": 146
+      "width": 556.8,
+      "height": 112.3
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -12183,6 +12186,139 @@
     "nestedPrefabInstanceRoots": null
   },
   {
+    "__type__": "cc.Node",
+    "_name": "Label",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 506
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 553
+      },
+      {
+        "__id__": 555
+      }
+    ],
+    "_prefab": {
+      "__id__": 557
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": -473.266,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_mobility": 0,
+    "_layer": 33554432,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.UITransform",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 552
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 554
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 1305.38,
+      "height": 50.4
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "b7fcy9W1JL0oiBlCmdz+pm"
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 552
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 556
+    },
+    "_customMaterial": null,
+    "_srcBlendFactor": 2,
+    "_dstBlendFactor": 4,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_string": "After striking the cue ball, the cue ball will rotate in the direction of the red dot.",
+    "_horizontalAlign": 1,
+    "_verticalAlign": 1,
+    "_actualFontSize": 38,
+    "_fontSize": 38,
+    "_fontFamily": "Arial",
+    "_lineHeight": 40,
+    "_overflow": 0,
+    "_enableWrapText": true,
+    "_font": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_isItalic": false,
+    "_isBold": false,
+    "_isUnderline": false,
+    "_underlineHeight": 2,
+    "_cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "84qx7k0ztJ7bpPfbKZ/dT/"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "71nKL7IhhM0YinpdDf6ueG",
+    "instance": null,
+    "targetOverrides": null,
+    "nestedPrefabInstanceRoots": null
+  },
+  {
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
@@ -12191,7 +12327,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 553
+      "__id__": 559
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -12231,26 +12367,29 @@
     },
     "_children": [
       {
-        "__id__": 556
+        "__id__": 562
       },
       {
-        "__id__": 576
+        "__id__": 582
       },
       {
-        "__id__": 596
+        "__id__": 602
+      },
+      {
+        "__id__": 608
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 602
+        "__id__": 614
       },
       {
-        "__id__": 604
+        "__id__": 616
       }
     ],
     "_prefab": {
-      "__id__": 606
+      "__id__": 618
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -12286,27 +12425,27 @@
     "_name": "Sprite",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 555
+      "__id__": 561
     },
     "_children": [
       {
-        "__id__": 557
+        "__id__": 563
       },
       {
-        "__id__": 565
+        "__id__": 571
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 571
+        "__id__": 577
       },
       {
-        "__id__": 573
+        "__id__": 579
       }
     ],
     "_prefab": {
-      "__id__": 575
+      "__id__": 581
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -12342,23 +12481,23 @@
     "_name": "会话气泡三角",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 556
+      "__id__": 562
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 558
+        "__id__": 564
       },
       {
-        "__id__": 560
+        "__id__": 566
       },
       {
-        "__id__": 562
+        "__id__": 568
       }
     ],
     "_prefab": {
-      "__id__": 564
+      "__id__": 570
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -12394,11 +12533,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 557
+      "__id__": 563
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 559
+      "__id__": 565
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -12421,11 +12560,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 557
+      "__id__": 563
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 561
+      "__id__": 567
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -12465,11 +12604,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 557
+      "__id__": 563
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 563
+      "__id__": 569
     },
     "_alignFlags": 32,
     "_target": null,
@@ -12513,20 +12652,20 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 556
+      "__id__": 562
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 566
+        "__id__": 572
       },
       {
-        "__id__": 568
+        "__id__": 574
       }
     ],
     "_prefab": {
-      "__id__": 570
+      "__id__": 576
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -12562,16 +12701,16 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 565
+      "__id__": 571
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 567
+      "__id__": 573
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 381.75,
-      "height": 50.4
+      "width": 382.35,
+      "height": 90.39999999999999
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -12589,11 +12728,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 565
+      "__id__": 571
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 569
+      "__id__": 575
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -12605,7 +12744,7 @@
       "b": 51,
       "a": 255
     },
-    "_string": "点击这里回到桌面",
+    "_string": "Click here to go back to the desktop.",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
@@ -12646,11 +12785,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 556
+      "__id__": 562
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 572
+      "__id__": 578
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -12673,11 +12812,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 556
+      "__id__": 562
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 574
+      "__id__": 580
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -12730,30 +12869,30 @@
     "_name": "Animation",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 555
+      "__id__": 561
     },
     "_children": [
       {
-        "__id__": 577
+        "__id__": 583
       },
       {
-        "__id__": 583
+        "__id__": 589
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 589
+        "__id__": 595
       },
       {
-        "__id__": 591
+        "__id__": 597
       },
       {
-        "__id__": 593
+        "__id__": 599
       }
     ],
     "_prefab": {
-      "__id__": 595
+      "__id__": 601
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -12789,20 +12928,20 @@
     "_name": "Sprite",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 576
+      "__id__": 582
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 578
+        "__id__": 584
       },
       {
-        "__id__": 580
+        "__id__": 586
       }
     ],
     "_prefab": {
-      "__id__": 582
+      "__id__": 588
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -12838,11 +12977,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 577
+      "__id__": 583
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 579
+      "__id__": 585
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -12865,11 +13004,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 577
+      "__id__": 583
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 581
+      "__id__": 587
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -12922,20 +13061,20 @@
     "_name": "手势",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 576
+      "__id__": 582
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 584
+        "__id__": 590
       },
       {
-        "__id__": 586
+        "__id__": 592
       }
     ],
     "_prefab": {
-      "__id__": 588
+      "__id__": 594
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -12971,11 +13110,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 583
+      "__id__": 589
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 585
+      "__id__": 591
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -12998,11 +13137,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 583
+      "__id__": 589
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 587
+      "__id__": 593
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -13055,11 +13194,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 576
+      "__id__": 582
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 590
+      "__id__": 596
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -13082,11 +13221,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 576
+      "__id__": 582
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 592
+      "__id__": 598
     },
     "playOnLoad": false,
     "_clips": [
@@ -13118,11 +13257,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 576
+      "__id__": 582
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 594
+      "__id__": 600
     },
     "animName": "step4",
     "isCompleteHide": false,
@@ -13151,20 +13290,20 @@
     "_name": "SpriteSplash",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 555
+      "__id__": 561
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 597
+        "__id__": 603
       },
       {
-        "__id__": 599
+        "__id__": 605
       }
     ],
     "_prefab": {
-      "__id__": 601
+      "__id__": 607
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -13200,11 +13339,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 596
+      "__id__": 602
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 598
+      "__id__": 604
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -13227,11 +13366,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 596
+      "__id__": 602
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 600
+      "__id__": 606
     },
     "_id": ""
   },
@@ -13253,15 +13392,148 @@
     "nestedPrefabInstanceRoots": null
   },
   {
+    "__type__": "cc.Node",
+    "_name": "Label",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 561
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 609
+      },
+      {
+        "__id__": 611
+      }
+    ],
+    "_prefab": {
+      "__id__": 613
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": -473.266,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_mobility": 0,
+    "_layer": 33554432,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 555
+      "__id__": 608
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 603
+      "__id__": 610
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 1305.38,
+      "height": 50.4
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "9egZthd6pG6q85E1gAUr8f"
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 608
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 612
+    },
+    "_customMaterial": null,
+    "_srcBlendFactor": 2,
+    "_dstBlendFactor": 4,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_string": "After striking the cue ball, the cue ball will rotate in the direction of the red dot.",
+    "_horizontalAlign": 1,
+    "_verticalAlign": 1,
+    "_actualFontSize": 38,
+    "_fontSize": 38,
+    "_fontFamily": "Arial",
+    "_lineHeight": 40,
+    "_overflow": 0,
+    "_enableWrapText": true,
+    "_font": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_isItalic": false,
+    "_isBold": false,
+    "_isUnderline": false,
+    "_underlineHeight": 2,
+    "_cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "26c0C/FWpCVa4HZPNiJ0tU"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "83YfDMYw9AYI9iDv7C6LrH",
+    "instance": null,
+    "targetOverrides": null,
+    "nestedPrefabInstanceRoots": null
+  },
+  {
+    "__type__": "cc.UITransform",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 561
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 615
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -13284,11 +13556,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 555
+      "__id__": 561
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 605
+      "__id__": 617
     },
     "_alignFlags": 45,
     "_target": null,
@@ -13338,14 +13610,14 @@
     "_active": false,
     "_components": [
       {
-        "__id__": 608
+        "__id__": 620
       },
       {
-        "__id__": 610
+        "__id__": 622
       }
     ],
     "_prefab": {
-      "__id__": 612
+      "__id__": 624
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -13381,11 +13653,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 607
+      "__id__": 619
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 609
+      "__id__": 621
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -13408,11 +13680,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 607
+      "__id__": 619
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 611
+      "__id__": 623
     },
     "_alignFlags": 45,
     "_target": null,
@@ -13460,23 +13732,23 @@
     },
     "_children": [
       {
-        "__id__": 614
+        "__id__": 626
       },
       {
-        "__id__": 624
+        "__id__": 636
       },
       {
-        "__id__": 646
+        "__id__": 658
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 662
+        "__id__": 674
       }
     ],
     "_prefab": {
-      "__id__": 664
+      "__id__": 676
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -13512,17 +13784,17 @@
     "_name": "NodeCue",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 613
+      "__id__": 625
     },
     "_children": [
       {
-        "__id__": 615
+        "__id__": 627
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 623
+      "__id__": 635
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -13558,23 +13830,23 @@
     "_name": "NodeCueLine",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 614
+      "__id__": 626
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 616
+        "__id__": 628
       },
       {
-        "__id__": 618
+        "__id__": 630
       },
       {
-        "__id__": 620
+        "__id__": 632
       }
     ],
     "_prefab": {
-      "__id__": 622
+      "__id__": 634
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -13610,11 +13882,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 615
+      "__id__": 627
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 617
+      "__id__": 629
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -13637,11 +13909,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 615
+      "__id__": 627
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 619
+      "__id__": 631
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -13681,11 +13953,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 615
+      "__id__": 627
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 621
+      "__id__": 633
     },
     "frames": [
       {
@@ -13735,31 +14007,31 @@
     "_name": "Sprite",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 613
+      "__id__": 625
     },
     "_children": [
       {
-        "__id__": 625
+        "__id__": 637
       },
       {
-        "__id__": 633
+        "__id__": 645
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 641
+        "__id__": 653
       },
       {
-        "__id__": 643
+        "__id__": 655
       }
     ],
     "_prefab": {
-      "__id__": 645
+      "__id__": 657
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 400,
+      "x": 125.7,
       "y": 120,
       "z": 0
     },
@@ -13791,27 +14063,27 @@
     "_name": "会话气泡三角",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 624
+      "__id__": 636
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 626
+        "__id__": 638
       },
       {
-        "__id__": 628
+        "__id__": 640
       },
       {
-        "__id__": 630
+        "__id__": 642
       }
     ],
     "_prefab": {
-      "__id__": 632
+      "__id__": 644
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 95.74700000000003,
+      "x": 346.0230000000001,
       "y": 5.901,
       "z": 0
     },
@@ -13843,11 +14115,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 625
+      "__id__": 637
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 627
+      "__id__": 639
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -13870,11 +14142,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 625
+      "__id__": 637
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 629
+      "__id__": 641
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -13914,15 +14186,15 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 625
+      "__id__": 637
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 631
+      "__id__": 643
     },
     "_alignFlags": 8,
     "_target": null,
-    "_left": 186.79700000000003,
+    "_left": 685.4730000000001,
     "_right": 0,
     "_top": 0,
     "_bottom": 0,
@@ -13962,28 +14234,28 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 624
+      "__id__": 636
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 634
+        "__id__": 646
       },
       {
-        "__id__": 636
+        "__id__": 648
       },
       {
-        "__id__": 638
+        "__id__": 650
       }
     ],
     "_prefab": {
-      "__id__": 640
+      "__id__": 652
     },
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 5.7570000000000014,
+      "y": 5.757000000000005,
       "z": 0
     },
     "_lrot": {
@@ -14014,16 +14286,16 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 633
+      "__id__": 645
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 635
+      "__id__": 647
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 157.1,
-      "height": 50.4
+      "width": 653.9,
+      "height": 90.39999999999999
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -14041,11 +14313,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 633
+      "__id__": 645
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 637
+      "__id__": 649
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -14057,7 +14329,7 @@
       "b": 51,
       "a": 255
     },
-    "_string": "请瞄准吧",
+    "_string": "Slide your finger to align the aiming line with the red dotted line!",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
@@ -14085,18 +14357,18 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 633
+      "__id__": 645
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 639
+      "__id__": 651
     },
     "_alignFlags": 45,
     "_target": null,
     "_left": 28,
     "_right": 28,
-    "_top": 21.043,
-    "_bottom": 32.557,
+    "_top": 19.642999999999994,
+    "_bottom": 31.157000000000004,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
@@ -14133,16 +14405,16 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 624
+      "__id__": 636
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 642
+      "__id__": 654
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 213.1,
-      "height": 104
+      "width": 709.9,
+      "height": 141.2
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -14160,11 +14432,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 624
+      "__id__": 636
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 644
+      "__id__": 656
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -14217,30 +14489,30 @@
     "_name": "手势箭头",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 613
+      "__id__": 625
     },
     "_children": [
       {
-        "__id__": 647
+        "__id__": 659
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 653
+        "__id__": 665
       },
       {
-        "__id__": 655
+        "__id__": 667
       },
       {
-        "__id__": 657
+        "__id__": 669
       },
       {
-        "__id__": 659
+        "__id__": 671
       }
     ],
     "_prefab": {
-      "__id__": 661
+      "__id__": 673
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -14276,20 +14548,20 @@
     "_name": "手势",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 646
+      "__id__": 658
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 648
+        "__id__": 660
       },
       {
-        "__id__": 650
+        "__id__": 662
       }
     ],
     "_prefab": {
-      "__id__": 652
+      "__id__": 664
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -14325,11 +14597,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 647
+      "__id__": 659
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 649
+      "__id__": 661
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -14352,11 +14624,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 647
+      "__id__": 659
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 651
+      "__id__": 663
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -14409,11 +14681,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 646
+      "__id__": 658
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 654
+      "__id__": 666
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -14436,11 +14708,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 646
+      "__id__": 658
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 656
+      "__id__": 668
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -14480,11 +14752,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 646
+      "__id__": 658
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 658
+      "__id__": 670
     },
     "playOnLoad": false,
     "_clips": [
@@ -14508,11 +14780,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 646
+      "__id__": 658
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 660
+      "__id__": 672
     },
     "animName": "step1",
     "isCompleteHide": false,
@@ -14541,11 +14813,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 613
+      "__id__": 625
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 663
+      "__id__": 675
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -14585,20 +14857,20 @@
     },
     "_children": [
       {
-        "__id__": 666
+        "__id__": 678
       },
       {
-        "__id__": 686
+        "__id__": 698
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 700
+        "__id__": 712
       }
     ],
     "_prefab": {
-      "__id__": 702
+      "__id__": 714
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -14634,27 +14906,27 @@
     "_name": "Sprite",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 665
+      "__id__": 677
     },
     "_children": [
       {
-        "__id__": 667
+        "__id__": 679
       },
       {
-        "__id__": 675
+        "__id__": 687
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 681
+        "__id__": 693
       },
       {
-        "__id__": 683
+        "__id__": 695
       }
     ],
     "_prefab": {
-      "__id__": 685
+      "__id__": 697
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -14690,23 +14962,23 @@
     "_name": "会话气泡三角",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 666
+      "__id__": 678
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 668
+        "__id__": 680
       },
       {
-        "__id__": 670
+        "__id__": 682
       },
       {
-        "__id__": 672
+        "__id__": 684
       }
     ],
     "_prefab": {
-      "__id__": 674
+      "__id__": 686
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -14742,11 +15014,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 667
+      "__id__": 679
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 669
+      "__id__": 681
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -14769,11 +15041,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 667
+      "__id__": 679
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 671
+      "__id__": 683
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -14813,11 +15085,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 667
+      "__id__": 679
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 673
+      "__id__": 685
     },
     "_alignFlags": 8,
     "_target": null,
@@ -14861,20 +15133,20 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 666
+      "__id__": 678
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 676
+        "__id__": 688
       },
       {
-        "__id__": 678
+        "__id__": 690
       }
     ],
     "_prefab": {
-      "__id__": 680
+      "__id__": 692
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -14910,11 +15182,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 675
+      "__id__": 687
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 677
+      "__id__": 689
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -14937,11 +15209,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 675
+      "__id__": 687
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 679
+      "__id__": 691
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -14994,11 +15266,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 666
+      "__id__": 678
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 682
+      "__id__": 694
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -15021,11 +15293,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 666
+      "__id__": 678
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 684
+      "__id__": 696
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -15078,27 +15350,27 @@
     "_name": "Animation",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 665
+      "__id__": 677
     },
     "_children": [
       {
-        "__id__": 687
+        "__id__": 699
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 693
+        "__id__": 705
       },
       {
-        "__id__": 695
+        "__id__": 707
       },
       {
-        "__id__": 697
+        "__id__": 709
       }
     ],
     "_prefab": {
-      "__id__": 699
+      "__id__": 711
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -15134,20 +15406,20 @@
     "_name": "手势",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 686
+      "__id__": 698
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 688
+        "__id__": 700
       },
       {
-        "__id__": 690
+        "__id__": 702
       }
     ],
     "_prefab": {
-      "__id__": 692
+      "__id__": 704
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -15183,11 +15455,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 687
+      "__id__": 699
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 689
+      "__id__": 701
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -15210,11 +15482,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 687
+      "__id__": 699
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 691
+      "__id__": 703
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -15267,11 +15539,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 686
+      "__id__": 698
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 694
+      "__id__": 706
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -15294,11 +15566,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 686
+      "__id__": 698
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 696
+      "__id__": 708
     },
     "playOnLoad": false,
     "_clips": [
@@ -15326,11 +15598,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 686
+      "__id__": 698
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 698
+      "__id__": 710
     },
     "animName": "step2",
     "isCompleteHide": false,
@@ -15359,11 +15631,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 665
+      "__id__": 677
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 701
+      "__id__": 713
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -15403,20 +15675,20 @@
     },
     "_children": [
       {
-        "__id__": 704
+        "__id__": 716
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 712
+        "__id__": 724
       },
       {
-        "__id__": 714
+        "__id__": 726
       }
     ],
     "_prefab": {
-      "__id__": 716
+      "__id__": 728
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -15452,23 +15724,23 @@
     "_name": "Sprite",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 703
+      "__id__": 715
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 705
+        "__id__": 717
       },
       {
-        "__id__": 707
+        "__id__": 719
       },
       {
-        "__id__": 709
+        "__id__": 721
       }
     ],
     "_prefab": {
-      "__id__": 711
+      "__id__": 723
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -15504,11 +15776,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 704
+      "__id__": 716
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 706
+      "__id__": 718
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -15531,11 +15803,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 704
+      "__id__": 716
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 708
+      "__id__": 720
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -15575,11 +15847,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 704
+      "__id__": 716
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 710
+      "__id__": 722
     },
     "playOnLoad": true,
     "_clips": [
@@ -15616,11 +15888,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 703
+      "__id__": 715
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 713
+      "__id__": 725
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -15643,11 +15915,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 703
+      "__id__": 715
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 715
+      "__id__": 727
     },
     "_alignFlags": 45,
     "_target": null,
@@ -15695,23 +15967,23 @@
     },
     "_children": [
       {
-        "__id__": 718
+        "__id__": 730
       },
       {
-        "__id__": 735
+        "__id__": 747
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 741
+        "__id__": 753
       },
       {
-        "__id__": 743
+        "__id__": 755
       }
     ],
     "_prefab": {
-      "__id__": 745
+      "__id__": 757
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -15747,27 +16019,27 @@
     "_name": "ButtonStartGame",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 717
+      "__id__": 729
     },
     "_children": [
       {
-        "__id__": 719
+        "__id__": 731
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 727
+        "__id__": 739
       },
       {
-        "__id__": 729
+        "__id__": 741
       },
       {
-        "__id__": 731
+        "__id__": 743
       }
     ],
     "_prefab": {
-      "__id__": 734
+      "__id__": 746
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -15803,23 +16075,23 @@
     "_name": "Label",
     "_objFlags": 512,
     "_parent": {
-      "__id__": 718
+      "__id__": 730
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 720
+        "__id__": 732
       },
       {
-        "__id__": 722
+        "__id__": 734
       },
       {
-        "__id__": 724
+        "__id__": 736
       }
     ],
     "_prefab": {
-      "__id__": 726
+      "__id__": 738
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -15855,11 +16127,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 719
+      "__id__": 731
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 721
+      "__id__": 733
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -15882,11 +16154,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 719
+      "__id__": 731
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 723
+      "__id__": 735
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -15926,11 +16198,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 719
+      "__id__": 731
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 725
+      "__id__": 737
     },
     "_color": {
       "__type__": "cc.Color",
@@ -15964,11 +16236,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 718
+      "__id__": 730
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 728
+      "__id__": 740
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -15991,11 +16263,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 718
+      "__id__": 730
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 730
+      "__id__": 742
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -16035,15 +16307,15 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 718
+      "__id__": 730
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 732
+      "__id__": 744
     },
     "clickEvents": [
       {
-        "__id__": 733
+        "__id__": 745
       }
     ],
     "_interactable": true,
@@ -16086,7 +16358,7 @@
     "_duration": 0.1,
     "_zoomScale": 1.2,
     "_target": {
-      "__id__": 718
+      "__id__": 730
     },
     "_id": ""
   },
@@ -16122,20 +16394,20 @@
     "_name": "RichText",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 717
+      "__id__": 729
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 736
+        "__id__": 748
       },
       {
-        "__id__": 738
+        "__id__": 750
       }
     ],
     "_prefab": {
-      "__id__": 740
+      "__id__": 752
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -16171,11 +16443,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 735
+      "__id__": 747
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 737
+      "__id__": 749
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -16198,14 +16470,14 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 735
+      "__id__": 747
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 739
+      "__id__": 751
     },
     "_lineHeight": 54.5,
-    "_string": "恭喜你完成教学!\n<color=#0fffff>高杆</color>使母球行进路线向<color=#0fffff>出杆方向</color>偏移",
+    "_string": "Congratulations on completing the tutorial!",
     "_horizontalAlign": 0,
     "_verticalAlign": 0,
     "_fontSize": 40,
@@ -16241,11 +16513,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 717
+      "__id__": 729
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 742
+      "__id__": 754
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -16268,11 +16540,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 717
+      "__id__": 729
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 744
+      "__id__": 756
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -16329,7 +16601,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 747
+      "__id__": 759
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -16356,7 +16628,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 749
+      "__id__": 761
     },
     "_alignFlags": 45,
     "_target": null,
@@ -16404,7 +16676,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 752
+      "__id__": 764
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -16431,7 +16703,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 754
+      "__id__": 766
     },
     "_alignFlags": 45,
     "_target": null,
@@ -16466,7 +16738,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 756
+      "__id__": 768
     },
     "nodeGuide": {
       "__id__": 18
