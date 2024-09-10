@@ -31,15 +31,20 @@ export class BilliardGuide2View extends BilliardGuideView {
                 break;  
             case 1:
                 this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("1"));
+                this.unlockClick();
+                break;  
+            case 2:
+                this.showGuide(curIndex);
                 wp = BilliardManager.instance.camera3d.worldToScreen(new Vec3(table.balls[1].ui.node.worldPosition.x + 0.5, table.balls[1].ui.node.worldPosition.y, 0));
                 view.onClickTable(wp);
                 let v3 = new Vec3(table.balls[1].ui.node.worldPosition.x, table.balls[1].ui.node.worldPosition.y, 0);
                 this.shotLine(v3);
                 this.unlockClick();
                 break;
-            case 2:
-            case 9:
-                this.showGuide(2);
+            case 3:
+            case 10:
+                this.showGuide(3);
                 BilliardData.instance.setAngle(248417/BilliardConst.multiple);
                 view.interactableTableTouch = false;
                 view.isAngleDisable = true;
@@ -47,9 +52,9 @@ export class BilliardGuide2View extends BilliardGuideView {
                 view.nodeLeft.active = true;
                 view.nodeRight.active = false;
                 break;
-            case 3:
+            case 4:
                 this.showGuide(curIndex);
-                this.tipClip(this.nodeGuide.getChildByName("3"));
+                this.tipClip(this.nodeGuide.getChildByName("4"));
                 // table.cueBall.pos.set(-1.491, 0.763, 1);
                 // yy.event.emit(yy.Event_Name.billiard_clear_game_data);
                 // BilliardService.instance.sendStart()// 单机测试用
@@ -57,16 +62,16 @@ export class BilliardGuide2View extends BilliardGuideView {
                 // view.nodeRight.active = false;
                 // this.lockClick();
                 break;
-            case 4:
+            case 5:
                 this.showGuide(curIndex);
                 this.nodeLine.parent.angle = 0;
                 this.lockClick();
                 break;
-            case 5:
+            case 6:
                 yy.event.emit(yy.Event_Name.billiard_clear_game_data);
                 BilliardService.instance.sendStart()// 单机测试用
                 this.scheduleOnce(()=>{
-                    this.showGuide(1);
+                    this.showGuide(2);
                     view.nodeLeft.active = false;
                     view.nodeRight.active = false;
                     wp = BilliardManager.instance.camera3d.worldToScreen(new Vec3(table.balls[1].ui.node.worldPosition.x + 0.5, table.balls[1].ui.node.worldPosition.y, 0));
@@ -76,29 +81,29 @@ export class BilliardGuide2View extends BilliardGuideView {
                     this.unlockClick();
                 }, 0.22);
                 break;
-            case 6:
+            case 7:
                 this.showGuide(curIndex);
                 const hitPoint = view.node.getChildByName("NodeHitPoint");
                 hitPoint.active = true;
                 this.nodeClick.worldPosition = hitPoint.worldPosition; 
                 view.interactableTableTouch = false;
                 break;
-            case 7:
-                this.showGuide(curIndex);
-                break;
             case 8:
                 this.showGuide(curIndex);
                 break;
-            case 10: // 母球没进袋提示
+            case 9:
                 this.showGuide(curIndex);
-                this.tipClip(this.nodeGuide.getChildByName("10"));
                 break;
-            case 11:
+            case 11: // 母球没进袋提示
+                this.showGuide(curIndex);
+                this.tipClip(this.nodeGuide.getChildByName("11"));
+                break;
+            case 12:
                 this.showGuide(curIndex);
                 view.interactableTableTouch = false;
                 this.scheduleOnce(()=>this.nextGuid(), 2);
                 break;
-            case 12:
+            case 13:
                 this.showGuide(curIndex);
                 this.lockClick();
                 break;
@@ -112,7 +117,7 @@ export class BilliardGuide2View extends BilliardGuideView {
     }
 
     protected update(dt: number): void {
-        if (this.curStep === 2 || this.curStep === 6) {
+        if (this.curStep === 3 || this.curStep === 7) {
             let view = BilliardManager.instance.getView();
             if (Math.abs(this.nodeLine.parent.angle - view.nodeCueArrow.angle) < 0.1){
                 yy.log.e("有效重叠")
@@ -138,7 +143,7 @@ export class BilliardGuide2View extends BilliardGuideView {
             this.fun = guide2View.close.bind(guide2View);
             guide2View.close = ()=>{
                 this.fun();
-                this.curStep = 6;
+                this.curStep = 7;
                 this.nextGuid();
             }
 
