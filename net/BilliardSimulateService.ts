@@ -146,6 +146,7 @@ export class BilliardSimulateService {
                         case 2:
                             cueBall[0].position.x = 0;
                             cueBall[0].position.y = -0.4;
+                            ball.val = 8;
                             ball.position.x = -1.38;
                             ball.position.y = 0.668;
                             break;
@@ -269,7 +270,7 @@ export class BilliardSimulateService {
 
         this.delayAction(() => {
             BilliardService.instance.notifyHit({msg: notify});
-         });
+         }, 0);
     }
     
 
