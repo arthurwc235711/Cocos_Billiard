@@ -479,6 +479,15 @@ export class BilliardManager extends BaseCommonInstance{
             yy.user.setLobbyOpenGameLevel({ gameKey: "billiard9ball" });
             HttpReport.reportClickEvent({eventId: eReportEventId.e9BallGoBack}, HttpReportTypeEnum.CLICK_EVENT);
         }
+        else {
+            let billiardScene = director.getScene().getComponentInChildren(BilliardScene);
+            if (billiardScene.levelData.maxBetMoney === 8) {
+                yy.user.setLobbyOpenGameLevel({ gameKey: "billiard8ball" });
+            }
+            else {
+                yy.user.setLobbyOpenGameLevel({ gameKey: "billiard9ball" });
+            }
+        }
         yy.audio.stopMusic()
         yy.audio.stopSound()
 
