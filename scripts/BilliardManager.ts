@@ -481,7 +481,7 @@ export class BilliardManager extends BaseCommonInstance{
         }
         else {
             let billiardScene = director.getScene().getComponentInChildren(BilliardScene);
-            if (billiardScene.levelData.maxBetMoney === 8) {
+            if (billiardScene.levelData && billiardScene.levelData.maxBetMoney === 8) {
                 yy.user.setLobbyOpenGameLevel({ gameKey: "billiard8ball" });
             }
             else {
