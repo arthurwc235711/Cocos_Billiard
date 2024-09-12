@@ -485,14 +485,25 @@ export class BilliardManager extends BaseCommonInstance{
             yy.user.setLobbyOpenGameLevel({ gameKey: "billiard9ball" });
             HttpReport.reportClickEvent({eventId: eReportEventId.e9BallGoBack}, HttpReportTypeEnum.CLICK_EVENT);
         }
+        else {
+            let billiardScene = director.getScene().getComponentInChildren(BilliardScene);
+            if (billiardScene.levelData && billiardScene.levelData.maxBetMoney === 8) {
+                yy.user.setLobbyOpenGameLevel({ gameKey: "billiard8ball" });
+            }
+            else {
+                yy.user.setLobbyOpenGameLevel({ gameKey: "billiard9ball" });
+            }
+        }
         yy.audio.stopMusic()
         yy.audio.stopSound()
 
-        yy.scene.change_bundle_scene('app_lobby', 'lobby_scene', () => {
-            yy.loader.releaseBundle(BilliardConst.bundleName);
-            yy.loader.releaseBundle('app_casual_common');
-        });
 
+        if (!BilliardData.instance.isGuide()) { // 新手引导重连不退出大厅
+            yy.scene.change_bundle_scene('app_lobby', 'lobby_scene', () => {
+                yy.loader.releaseBundle(BilliardConst.bundleName);
+                yy.loader.releaseBundle('app_casual_common');
+            });
+        }
         // 历史记录
         ClientConfig.instance()?.setPlayGame(BilliardData.instance.gid);
     }
