@@ -192,7 +192,7 @@ export class BilliardGuide4View extends BilliardGuide3View {
             this.fun = guide2View.close.bind(guide2View);
             guide2View.close = ()=>{
                 this.fun();
-                this.curStep = 12;
+                this.curStep = 13;
                 this.nextGuid();
                 // yy.log.e("onClickHitPoint", this.curStep);
             }
