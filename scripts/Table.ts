@@ -38,6 +38,8 @@ export class Table extends BaseCommonInstance {
 
     ui: any;
 
+    firstFindBouncing:boolean = false; // 用于处理碰撞 口袋4角，大力击球有概率卡住库边碰撞，原因是速度过快穿透了袋口边缘碰撞。
+
 
     setUI(ui) {
       // BilliardManager.instance.setAlogVersion(BilliardData.instance.getAlgoVersion());
@@ -112,10 +114,13 @@ export class Table extends BaseCommonInstance {
     advance(dt: number) {
         let depth = 0
         while (!this.prepareAdvanceAll(this.fixedTimeStep)) {
-          if (depth++ > Number.MAX_SAFE_INTEGER) {
-             throw new Error("Depth exceeded resolving collisions")
+          if (depth++ > 300) {
+            this.firstFindBouncing = true;
+            yy.log.e("Depth exceeded resolving collisions")
+            //  throw new Error("Depth exceeded resolving collisions")
           }
         }
+        this.firstFindBouncing = false;
         this.balls.forEach((a) => {
           a.fixedUpdate(this.fixedTimeStep, dt)
         })
@@ -163,23 +168,52 @@ export class Table extends BaseCommonInstance {
       return true
     }
 
-    const incidentSpeed = Cushion.bounceAny(
-      a,
-      t,
-      TableGeometry.hasPockets,
-      this.cushionModel
-    )
-    if (incidentSpeed) {
-      this.outcome.push(Outcome.cushion(a, incidentSpeed))
-      return false
+
+
+    if (!this.firstFindBouncing) { // 优先检测碰撞 防止口袋4角，大力击球有概率卡住库边碰撞，原因是速度过快穿透了袋口边缘碰撞。
+      const incidentSpeed = Cushion.bounceAny(
+        a,
+        t,
+        TableGeometry.hasPockets,
+        this.cushionModel
+      )
+      if (incidentSpeed) {
+        this.outcome.push(Outcome.cushion(a, incidentSpeed))
+        // yy.log.i("bounceAny", false)
+        return false
+      }
+  
+      const k = Knuckle.findBouncing(a, t)
+      if (k) {
+        const knuckleIncidentSpeed = k.bounce(a)
+        this.outcome.push(Outcome.cushion(a, knuckleIncidentSpeed))
+        // yy.log.i("findBouncing", false)
+        return false
+      }
+    }
+    else {
+      const k = Knuckle.findBouncing(a, t)
+      if (k) {
+        const knuckleIncidentSpeed = k.bounce(a)
+        this.outcome.push(Outcome.cushion(a, knuckleIncidentSpeed))
+        // yy.log.i("findBouncing", false)
+        return false
+      }
+
+      const incidentSpeed = Cushion.bounceAny(
+        a,
+        t,
+        TableGeometry.hasPockets,
+        this.cushionModel
+      )
+      if (incidentSpeed) {
+        this.outcome.push(Outcome.cushion(a, incidentSpeed))
+        // yy.log.i("bounceAny", false)`
+        return false
+      }
     }
 
-    const k = Knuckle.findBouncing(a, t)
-    if (k) {
-      const knuckleIncidentSpeed = k.bounce(a)
-      this.outcome.push(Outcome.cushion(a, knuckleIncidentSpeed))
-      return false
-    }
+
     const p = Pocket.findPocket(PocketGeometry.pocketCenters, a, t)
     if (p) {
       const pocketIncidentSpeed = p.fall(a, t)
