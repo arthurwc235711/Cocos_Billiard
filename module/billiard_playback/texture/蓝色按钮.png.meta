@@ -2,7 +2,7 @@
   "ver": "1.0.25",
   "importer": "image",
   "imported": true,
-  "uuid": "d196755b-b7a9-46d1-9b28-97f63a0d6eab",
+  "uuid": "37887c80-c040-448f-b0d3-5df17b4285f8",
   "files": [
     ".json",
     ".png"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "d196755b-b7a9-46d1-9b28-97f63a0d6eab@6c48a",
-      "displayName": "结算玩家金额底",
+      "uuid": "37887c80-c040-448f-b0d3-5df17b4285f8@6c48a",
+      "displayName": "蓝色按钮",
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-        "imageUuidOrDatabaseUri": "d196755b-b7a9-46d1-9b28-97f63a0d6eab",
+        "imageUuidOrDatabaseUri": "37887c80-c040-448f-b0d3-5df17b4285f8",
         "isUuid": true,
         "visible": false,
         "minfilter": "linear",
@@ -34,8 +34,8 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "d196755b-b7a9-46d1-9b28-97f63a0d6eab@f9941",
-      "displayName": "结算玩家金额底",
+      "uuid": "37887c80-c040-448f-b0d3-5df17b4285f8@f9941",
+      "displayName": "蓝色按钮",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -46,10 +46,10 @@
         "offsetY": 0,
         "trimX": 0,
         "trimY": 0,
-        "width": 267,
-        "height": 54,
-        "rawWidth": 267,
-        "rawHeight": 54,
+        "width": 278,
+        "height": 92,
+        "rawWidth": 278,
+        "rawHeight": 92,
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
@@ -61,17 +61,17 @@
         "meshType": 0,
         "vertices": {
           "rawPosition": [
-            -133.5,
-            -27,
+            -139,
+            -46,
             0,
-            133.5,
-            -27,
+            139,
+            -46,
             0,
-            -133.5,
-            27,
+            -139,
+            46,
             0,
-            133.5,
-            27,
+            139,
+            46,
             0
           ],
           "indexes": [
@@ -84,12 +84,12 @@
           ],
           "uv": [
             0,
-            54,
-            267,
-            54,
+            92,
+            278,
+            92,
             0,
             0,
-            267,
+            278,
             0
           ],
           "nuv": [
@@ -103,18 +103,18 @@
             1
           ],
           "minPos": [
-            -133.5,
-            -27,
+            -139,
+            -46,
             0
           ],
           "maxPos": [
-            133.5,
-            27,
+            139,
+            46,
             0
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "d196755b-b7a9-46d1-9b28-97f63a0d6eab@6c48a",
+        "imageUuidOrDatabaseUri": "37887c80-c040-448f-b0d3-5df17b4285f8@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.11",
@@ -129,6 +129,6 @@
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": true,
     "hasAlpha": true,
-    "redirect": "d196755b-b7a9-46d1-9b28-97f63a0d6eab@f9941"
+    "redirect": "37887c80-c040-448f-b0d3-5df17b4285f8@f9941"
   }
 }

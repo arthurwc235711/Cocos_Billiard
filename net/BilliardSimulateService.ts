@@ -611,6 +611,8 @@ export class BilliardSimulateService {
             hitReq.power = power;
             BilliardData.instance.rHitReq = hitReq;
 
+            view.stopCountDown();
+
             if (power !== 0) {
                 let delayTime = 2;
                 if (action.type === 0) {
