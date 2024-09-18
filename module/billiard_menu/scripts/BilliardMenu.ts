@@ -4,6 +4,7 @@ import { yy } from '../../../../../../yy';
 import { BilliardService } from '../../../net/BilliardService';
 import { BilliardTools } from '../../../scripts/BilliardTools';
 import { CasualCommonMenu } from '../../../../../casual_common/module/menu/scripts/CasualCommonMenu';
+import { BilliardData } from '../../../data/BilliardData';
 const { ccclass, property } = _decorator;
 
 @ccclass('BilliardMenu')
@@ -27,7 +28,8 @@ export class BilliardMenu extends CasualCommonMenu {
     }
     on_init(): void {
         super.on_init();
-        this.nodeButton.active = !BilliardTools.instance.isNeedGuide();
+        this.nodeButton.active = (BilliardTools.instance.isNeedGuide() || BilliardData.instance.isRecord()) ? false : true;
+        
     }
 
     onClickMore() {

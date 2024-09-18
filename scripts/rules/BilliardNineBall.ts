@@ -99,6 +99,7 @@ export class BilliardNineBall implements IBilliardRules {
         let view = BilliardManager.instance.getView();
         let puid = BilliardData.instance.getActionUid()
         this.round = round;
+        view.resetData();
         const hitCount = BilliardData.instance.getHitCount();
         yy.log.w(`nextTurn round: ${round}`);
         let ball = this.onShotBall();

@@ -343,7 +343,6 @@ export class BilliardService extends StackListenerNew {
 
     notifyEnterGame(data: any) {
         let msg: protoBilliard.GameStatus = data.msg;   
-
         // 重连异常数据判断
         if (this.isUseMatch) {
             if (msg.users.length === 1) {
@@ -404,7 +403,7 @@ export class BilliardService extends StackListenerNew {
         if (msg.stage === 3) { //牌局阶段(0:无牌局,1:准备,2:Start,3:再玩，注意：结算状态不发送) 
             yy.user.setNeedUpdateMoney(true) // 登录桌子成功后,如果当前正在牌局过程中，调用并传入 true
             yy.event.emit(yy.Event_Name.billiard_wait_enter_close); // 关闭等待界面
-            let cueBall = msg.validResult.balls.filter(b=>b.val === 0)[0];
+            let cueBall = msg.validResult.balls.find(b=>b.val === 0);
             cueBall.position.x = msg.freeBall.curPosition.x 
             cueBall.position.y = msg.freeBall.curPosition.y;
 
@@ -828,7 +827,14 @@ export class BilliardService extends StackListenerNew {
         // yy.socket.send("BilliardAllocService.Start", req);
 
         if (this.isStandAlone ) {
-            BilliardSimulateService.instance.notifyStart();
+            if(BilliardData.instance.isRecord()) {
+                BilliardSimulateService.instance.notifyRecord();
+            }
+            else {
+                BilliardSimulateService.instance.notifyStart();
+            }
+
+
             // BilliardSimulateService.instance.notifyReconnect();
             
         }
@@ -876,7 +882,7 @@ export class BilliardService extends StackListenerNew {
     }
 
     sendResult(outComeType: number) {
-        if (this.isStandAlone ) {
+        if (this.isStandAlone) {
             let table = BilliardManager.instance.getTable();
 
             let tBalls = table.getOnTableBalls();

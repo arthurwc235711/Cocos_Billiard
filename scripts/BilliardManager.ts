@@ -22,6 +22,8 @@ import { BilliardBall } from "../../../../games/casual_games/billiard/module/bil
 import { BilliardTools } from "./BilliardTools";
 import { bounceHan1, bounceHanBlend } from "./physics/physics";
 import { sete, setm, setmu, setmuC, setmuS } from "./physics/constants";
+import { BilliardEightBallRecord } from "./rules/BilliardEightBallRecord";
+import { BilliardNineBallRecord } from "./rules/BilliardNineBallRecord";
 
 
 export class BilliardManager extends BaseCommonInstance{
@@ -88,16 +90,27 @@ export class BilliardManager extends BaseCommonInstance{
         return this.getTable().cueBall.ui;
     }
 
-    setRules() {
+    setRules(isRecord: boolean = false) {
         switch (BilliardData.instance.getGameType()) {
             case 0:
                 this._rules = new BilliardGuideRules();
                 break;
             case 8:
-                this._rules = new BilliardEightBall();
+                if (isRecord){
+                    this._rules = new BilliardEightBallRecord();
+                }
+                else {
+                    this._rules = new BilliardEightBall();
+                }
                 break;
             case 9:
-                this._rules = new BilliardNineBall();
+                if (isRecord) {
+                    this._rules = new BilliardNineBallRecord();
+                }
+                else {
+                    this._rules = new BilliardNineBall();
+                }
+
                 break;
             default: 
                 yy.log.e("error eRuleType:", BilliardData.instance.getGameType());
@@ -288,7 +301,7 @@ export class BilliardManager extends BaseCommonInstance{
         let table = this.getTable();
         let view = this.getView();
         let rules = this.getRules();
-        view.resetData();
+
         rules.nextTurn(action.type, action.uid, action.round);
         this.setSureBalls();
         view.onAllStationary();
@@ -309,7 +322,7 @@ export class BilliardManager extends BaseCommonInstance{
         let view = this.getView();
         view.setPlayerInfo();
         view.initUIShow();
-        this.setRules();
+        this.setRules(BilliardData.instance.isRecord());
     }
 
 
@@ -477,11 +490,11 @@ export class BilliardManager extends BaseCommonInstance{
 
 
     onQuit() {
-        if ( BilliardData.instance.is8Ball() ) {
+        if ( BilliardData.instance.is8Ball() && !BilliardData.instance.isRecord() ) { // 历史记录不进行上报
             yy.user.setLobbyOpenGameLevel({ gameKey: "billiard8ball" });
-            HttpReport.reportClickEvent({eventId: eReportEventId.e8BallGoBack}, HttpReportTypeEnum.CLICK_EVENT);
+            HttpReport.reportClickEvent({eventId: eReportEventId.e8BallGoBack}, HttpReportTypeEnum.CLICK_EVENT);      
         }
-        else if ( BilliardData.instance.is9Ball() ) {
+        else if ( BilliardData.instance.is9Ball() && !BilliardData.instance.isRecord() ) {
             yy.user.setLobbyOpenGameLevel({ gameKey: "billiard9ball" });
             HttpReport.reportClickEvent({eventId: eReportEventId.e9BallGoBack}, HttpReportTypeEnum.CLICK_EVENT);
         }
@@ -498,7 +511,7 @@ export class BilliardManager extends BaseCommonInstance{
         yy.audio.stopSound()
 
 
-        if (!BilliardData.instance.isGuide()) { // 新手引导重连不退出大厅
+        if (!BilliardData.instance.isGuide() && !BilliardData.instance.isRecord() ) { // 新手引导重连不退出大厅 && 历史记录重连不退出大厅
             yy.scene.change_bundle_scene('app_lobby', 'lobby_scene', () => {
                 yy.loader.releaseBundle(BilliardConst.bundleName);
                 yy.loader.releaseBundle('app_casual_common');
@@ -510,14 +523,14 @@ export class BilliardManager extends BaseCommonInstance{
 
     onPause() {
         yy.log.w("onPause");
-        if (!BilliardTools.instance.isNeedGuide()) { // 单机不需要请求
+        if (!BilliardTools.instance.isNeedGuide() && !BilliardData.instance.isRecord() ) { // 单机不需要请求 && 历史记录不进行请求
             BilliardService.instance.sendForeBackstageReq(1);
         }
     }
 
     onResume() {
         yy.log.w("onResume");
-        if (!BilliardTools.instance.isNeedGuide()) { // 单机不需要请求
+        if (!BilliardTools.instance.isNeedGuide() && !BilliardData.instance.isRecord() ) { // 单机不需要请求 && 历史记录不进行请求
             let pb = new protoAccount.OnlineStatusReq();
             yy.socket.send('AccountService.OnlineStatus', pb);
             // BilliardService.instance.sendForeBackstageReq(0);
@@ -614,7 +627,6 @@ export class BilliardManager extends BaseCommonInstance{
                     sete(0.86);
                     break;
                 case 1:
-                    yy.log.w("setAlogVersion", "1")
                     table.cushionModel = bounceHan1;
                     setmu(0.00985 * 1.35);
                     setmuS(0.2);

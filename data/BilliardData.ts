@@ -69,6 +69,13 @@ export class BilliardData {
 
     private iTutorial: number = 0;
 
+
+
+    private bIsRecord: boolean = false; // 是否是回放
+    public rHitReq: protoBilliard.IHit
+    public rShootAtFun: Function;
+    public rGameResult: protoBilliard.BroadcastGameResult; // 回放结算
+
     isFreeBall(): boolean {
         return this.actionType !== 0;
     }
@@ -313,5 +320,14 @@ export class BilliardData {
     }
     getTutorial() {
         return this.iTutorial;
+    }
+
+
+
+    isRecord() {
+        return this.bIsRecord;
+    }
+    setRecord(bRecord: boolean) {
+        this.bIsRecord = bRecord;
     }
 }

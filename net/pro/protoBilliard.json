@@ -253,6 +253,10 @@
             "status": {
               "type": "USER_STATUS",
               "id": 23
+            },
+            "wallet": {
+              "type": "int32",
+              "id": 24
             }
           }
         },
@@ -1327,6 +1331,10 @@
               "rule": "repeated",
               "type": "LogProtocol",
               "id": 2
+            },
+            "minVersion": {
+              "type": "int32",
+              "id": 3
             }
           }
         },

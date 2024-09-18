@@ -156,6 +156,9 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             if (enterData.tid === -1) {// 教程标识
                 BilliardData.instance.setTutorial(this.levelData.id);
             } 
+            else if (enterData.tid === -2) {// 历史记录 
+                BilliardData.instance.setRecord(true);
+            }
 
             yy.log.w("BilliardScene onLevelData", this.levelData)
             if(this.isGuide){
@@ -185,6 +188,11 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
                 const view = BilliardManager.instance.getView();
                 if(view) view.initUIShow();
             }
+            else if(BilliardData.instance.isRecord()) {
+                BilliardService.instance.isStandAlone = true;
+                BilliardData.instance.setGameType(this.levelData.maxBetMoney);
+
+            }
             else {
                 BilliardData.instance.setGameType(this.levelData.maxBetMoney);// 匹配时设置 为了退出返回大厅的标签，开始游戏也会设置
                 BilliardService.instance.setServiceName(this.levelData.maxBetMoney);
@@ -197,6 +205,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         }
         yy.event.emit(yy.Event_Name.billiard_table_init);
         yy.log.w("onProgressComplete", this.levelData)
+
     }
 
 
@@ -213,6 +222,7 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
         if (this.isGuide) {
             pre.push(guidePath);
         }
+
         // 音效预加载资源
         let preSound:string[] = [
             eAudio.Match.toString(),
@@ -222,6 +232,22 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             eAudio.Applause.toString(),
             eAudio.BallInPocket.toString(),
         ]
+
+        // 记录资源加载筛选
+        const playbackPath = "module/billiard_playback/view/p_billiard_playback";
+        if (BilliardData.instance.isRecord()) { // 如何是记录模式
+            pre.length = 1; // 只加载3d对象
+            pre.push(playbackPath);
+
+
+            preSound = [
+                eAudio.Turn.toString(),
+                eAudio.Win.toString(),
+                eAudio.Applause.toString(),
+                eAudio.BallInPocket.toString(),
+            ]
+        }
+
         const max = pre.length + preSound.length;
         let cur = 0;
         pre.forEach((name, i)=>{
@@ -233,10 +259,16 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             
                     BilliardTools.instance.playBgm();
                 }
+                else if (name === playbackPath) {
+                    let clone = instantiate(prefab) as Node;
+                    this.get_scene_layer_popup().addChild(clone);
+                }
                 
                 if (i > 1) {
                     BilliardTools.instance.mapPerfab.set(name, prefab);
                 }
+
+
 
                 // if (name == eUI.Wait) {
                 //     // 缓存当前帧实例化

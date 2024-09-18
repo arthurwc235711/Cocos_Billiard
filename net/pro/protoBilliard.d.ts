@@ -331,6 +331,9 @@ declare global {
 			/** PlayerResult status */
 			status?: (USER_STATUS | null);
 
+			/** PlayerResult wallet */
+			wallet?: (number | null);
+
 		}
 
 		/** Represents a PlayerResult. */
@@ -410,6 +413,9 @@ declare global {
 
 			/** PlayerResult status */
 			public status: USER_STATUS | null;
+
+			/** PlayerResult wallet */
+			public wallet: number | null;
 
 		}
 
@@ -992,8 +998,8 @@ declare global {
 			public cueAngle: ICueAngle | null;
 
 			/** GameStatus cueOffset */
+			
 			public cueOffset: ICueOffset | null;
-
 			/** GameStatus version */
 			public version: number | null;
 
@@ -2445,6 +2451,9 @@ declare global {
 			/** LogMsg prolist */
 			prolist?: (LogProtocol[] | null);
 
+			/** LogMsg minVersion */
+			minVersion?: (number | null);
+
 		}
 
 		/** Represents a LogMsg. */
@@ -2461,6 +2470,9 @@ declare global {
 
 			/** LogMsg prolist */
 			public prolist: LogProtocol[] | null;
+
+			/** LogMsg minVersion */
+			public minVersion: number | null;
 
 		}
 
