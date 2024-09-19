@@ -506,7 +506,7 @@ export class BilliardSimulateService {
         notify.stage = 3; // 重连标志
         notify.minVersion = rsp.minVersion;
         notify.gamePlay = logData.ballCount;
-        notify.chipPot = 80000;
+        notify.chipPot = BilliardData.instance.rGameResult.ChipPot.toNumber();
         // 玩家数据
         notify.users = [];
         logData.players.forEach(player=>{
