@@ -3,7 +3,6 @@ import { BilliardData } from '../../../data/BilliardData';
 import { yy } from '../../../../../../yy';
 import { BilliardConst } from '../../../config/BilliardConst';
 import { BaseCommonScript } from '../../../../../../main/base/BaseCommonScript';
-import { RecordBilliardView } from '../../../../../../lobby/module/record/script/RecordBilliardView';
 import { ProtoHelper } from '../../../../../../../framework/socket/ProtoHelper';
 import { BilliardService } from '../../../net/BilliardService';
 import { BilliardSimulateService } from '../../../net/BilliardSimulateService';
