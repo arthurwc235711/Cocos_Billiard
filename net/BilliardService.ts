@@ -481,6 +481,7 @@ export class BilliardService extends StackListenerNew {
                     yy.log.d("BilliardService-respReady--checkIsWalletFailNeedExit,msgCode=",msgCode);
                     let callback = ()=>{ 
                         this.sendExit();
+                        yy.event.emit(yy.Event_Name.CasualCommonQuit)
                     }
                     WalletErrorMgr.instance().showWalletErrorPopup(msgCode, callback, callback);
                 } else {
