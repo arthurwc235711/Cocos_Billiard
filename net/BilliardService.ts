@@ -256,7 +256,17 @@ export class BilliardService extends StackListenerNew {
 
         }
         else {
-            this.errorTips(notify);
+            // 排队入桌结果，若是设置转出失败，则主动发送退出
+            let msgCode = data?.msg?.code;
+            yy.log.d("BilliardService-cmd_0x2100--checkIsWalletFailNeedExit,msgCode=",msgCode);
+            if (WalletErrorMgr.instance().checkIsWalletFailNeedExit(msgCode)) {
+                let callback = ()=>{ 
+                    this.sendExit();
+                }
+                WalletErrorMgr.instance().showWalletErrorPopup(msgCode, callback, callback);
+            }else{
+                this.errorTips(notify);
+            }
         }
     }
     /********************************************匹配相关  结束**************************************** */
@@ -283,10 +293,13 @@ export class BilliardService extends StackListenerNew {
             this.notifyEnterGame( {msg:msg.gameStatus, isNotPush: true} );
         }else { // 异常重连 退出大厅
             let msgCode = data?.msg?.code;
-            if (WalletErrorMgr.instance().checkIsWalletError(msgCode)) {
-                WalletErrorMgr.instance().showWalletErrorPopup(msgCode);
+            if (WalletErrorMgr.instance().checkIsWalletFailNeedExit(msgCode)) {
+                yy.log.d("BilliardAllocService_EnterByTable--checkIsWalletFailNeedExit,msgCode=",msgCode);
+                let callback = ()=>{ 
+                    this.sendExit();
+                }
+                WalletErrorMgr.instance().showWalletErrorPopup(msgCode, callback, callback);
             }
-            yy.event.emit(yy.Event_Name.CasualCommonQuit);
         }
     }
 
