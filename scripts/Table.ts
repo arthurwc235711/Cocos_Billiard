@@ -110,6 +110,22 @@ export class Table extends BaseCommonInstance {
             }
           }
         }
+
+        // this.logPairs();
+    }
+
+    logPairs() {
+      let str = "";
+      let i = 1;
+      this.pairs.forEach((pair) => {
+        if (i === pair.a.id) {
+          i++;
+          str = [str, "\n"].join("");
+        }
+        str = [str, pair.a.id, pair.b.id].join(" ");
+
+      })
+      yy.log.i("pairs", str);
     }
 
     advance(dt: number) {
@@ -267,23 +283,26 @@ export class Table extends BaseCommonInstance {
       Outcome.hit(this.cueBall, BilliardData.instance.getPower())
     ];
     const billiardData = BilliardData.instance;
-
-    // const angle = billiardData.getAngle();
-    // const directionVector3D = new Vec3(Math.cos(angle), Math.sin(angle), 0);
-    // const nodes = rayHit(this.cueBall.ui.node.worldPosition, directionVector3D);
-    // if (nodes.length > 0) {
-    //   const collision = nodes[0].getComponent(BaseRayCollision);
-    //   if (collision instanceof RaySphereCollision) {
-    //     const shotAtBall = nodes[0].getComponent(BilliardBall);
-    //     if (shotAtBall) { // 把瞄准球移动到最前面，进行优先碰撞判断
-    //         const p = this.pairs.find((pair) => pair.a.id === 0 && pair.b.id === shotAtBall.id);
-    //         const index  = this.pairs.indexOf(p);
-    //         this.pairs.splice(index, 1);
-    //         this.pairs.unshift(p);
-    //     }
-    //   }
-    // }
-
+    /*
+    // 重新排序，瞄准球会被移到最前面，如果不重新排序，无法保证重连优先碰撞判断
+    this.pairs.sort((a, b) => (a.a.id * 15 + a.b.id) - (b.a.id * 15 + b.b.id));
+    
+    const angle = billiardData.getAngle();
+    const directionVector3D = new Vec3(Math.cos(angle), Math.sin(angle), 0);
+    const nodes = rayHit(this.cueBall.ui.node.worldPosition, directionVector3D);
+    if (nodes.length > 0) {
+      const collision = nodes[0].getComponent(BaseRayCollision);
+      if (collision instanceof RaySphereCollision) {
+        const shotAtBall = nodes[0].getComponent(BilliardBall);
+        if (shotAtBall) { // 把瞄准球移动到最前面，进行优先碰撞判断
+            const p = this.pairs.find((pair) => pair.a.id === 0 && pair.b.id === shotAtBall.id);
+            const index  = this.pairs.indexOf(p);
+            this.pairs.splice(index, 1);
+            this.pairs.unshift(p);
+        }
+      }
+    }
+    */
 
     this.cueBall.setSliding();
     this.cueBall.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(billiardData.getPower()));
