@@ -2,7 +2,7 @@ import { _decorator, Camera, Component, director, find, game, instantiate, macro
 import { Collision } from '../../../../games/casual_games/billiard/scripts/physics/collision';
 import { yy } from '../../../../yy';
 import { Cushion } from '../../../../games/casual_games/billiard/scripts/physics/Cushion';
-import { bounceHan, bounceHanBlend, cueToSpin } from '../../../../games/casual_games/billiard/scripts/physics/physics';
+import { bounceHan, bounceHanBlend, cueToSpin, rayHit } from '../../../../games/casual_games/billiard/scripts/physics/physics';
 import { BilliardData } from '../../../../games/casual_games/billiard/data/BilliardData';
 import { R } from '../../../../games/casual_games/billiard/scripts/physics/constants';
 import { Outcome } from '../../../../games/casual_games/billiard/scripts/physics/Outcome';
@@ -19,6 +19,7 @@ import { PocketGeometry } from '../../../../games/casual_games/billiard/scripts/
 import { BilliardBall } from '../../../../games/casual_games/billiard/module/billiard_table/scripts/BilliardBall';
 import { Ball } from './Ball';
 import { BilliardTools } from './BilliardTools';
+import { BaseRayCollision } from './physics/component/BaseRayCollision';
 
 interface Pair {
     a: Ball
@@ -265,8 +266,25 @@ export class Table extends BaseCommonInstance {
     this.outcome = [
       Outcome.hit(this.cueBall, BilliardData.instance.getPower())
     ];
+    const billiardData = BilliardData.instance;
 
-    let billiardData = BilliardData.instance;
+    // const angle = billiardData.getAngle();
+    // const directionVector3D = new Vec3(Math.cos(angle), Math.sin(angle), 0);
+    // const nodes = rayHit(this.cueBall.ui.node.worldPosition, directionVector3D);
+    // if (nodes.length > 0) {
+    //   const collision = nodes[0].getComponent(BaseRayCollision);
+    //   if (collision instanceof RaySphereCollision) {
+    //     const shotAtBall = nodes[0].getComponent(BilliardBall);
+    //     if (shotAtBall) { // 把瞄准球移动到最前面，进行优先碰撞判断
+    //         const p = this.pairs.find((pair) => pair.a.id === 0 && pair.b.id === shotAtBall.id);
+    //         const index  = this.pairs.indexOf(p);
+    //         this.pairs.splice(index, 1);
+    //         this.pairs.unshift(p);
+    //     }
+    //   }
+    // }
+
+
     this.cueBall.setSliding();
     this.cueBall.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(billiardData.getPower()));
     this.cueBall.rvel.copy(cueToSpin(billiardData.getOffset(), this.cueBall.vel));
