@@ -11,6 +11,7 @@ import { R, Rtd } from '../scripts/physics/constants';
 import { TableGeometry } from '../scripts/physics/TableGeometry';
 import { BilliardService } from './BilliardService';
 import { BilliardPlaybackView } from '../module/billiard_playback/scripts/BilliardPlaybackView';
+import { RecordBilliardView } from '../../../../lobby/module/record/script/RecordBilliardView';
 
 export class BilliardSimulateService {
     private static __instance__: BilliardSimulateService = null;
@@ -455,193 +456,193 @@ export class BilliardSimulateService {
         }, 5);
     }
 
-    // notifyRecord() {
-    //     const responseMsg = ProtoHelper.Ins.getProto('protoBilliard', 'LogMsg');
-    //     const logData = RecordBilliardView.SPlaylogBilliard;
-    //     logData.players.forEach(player=>{
-    //         BilliardData.instance.addPlayer(player.uid, player.nick, player.icon, 0);
-    //     }
-    //     )
-    //     const rsp:protoBilliard.LogMsg = responseMsg.decode(logData.gameLogMsg);
-    //     const kv = [
-    //         {key:0x6012, value: "IStart"},
-    //         {key:0x6021, value:"IValidResult"},
-    //         {key:0x6013, value:"IAction"},
-    //         {key:0x6015, value:"IFreeBall"},
-    //         {key:0x6019, value:"IHit"},
-    //         // {key:0x6021, value:"IValidResult"},
-    //         {key:0x6030, value:"NotifyFoulAction"},
-    //         {key:0x6022, value:"BroadcastGameResult"},
-    //     ]
-    //     let start:protoBilliard.IStart, validResult:protoBilliard.IValidResult, action:protoBilliard.IAction, freeBall:protoBilliard.IFreeBall, hitReq:protoBilliard.IHit;
-    //     function getValue(key:number) {
-    //         for (let i = 0; i < kv.length; i++) {
-    //             if (kv[i].key === key) {
-    //                 return kv[i].value;
-    //             }
-    //         }
-    //     }
+    notifyRecord() {
+        const responseMsg = ProtoHelper.Ins.getProto('protoBilliard', 'LogMsg');
+        const logData = RecordBilliardView.SPlaylogBilliard;
+        logData.players.forEach(player=>{
+            BilliardData.instance.addPlayer(player.uid, player.nick, player.icon, 0);
+        }
+        )
+        const rsp:protoBilliard.LogMsg = responseMsg.decode(logData.gameLogMsg);
+        const kv = [
+            {key:0x6012, value: "IStart"},
+            {key:0x6021, value:"IValidResult"},
+            {key:0x6013, value:"IAction"},
+            {key:0x6015, value:"IFreeBall"},
+            {key:0x6019, value:"IHit"},
+            // {key:0x6021, value:"IValidResult"},
+            {key:0x6030, value:"NotifyFoulAction"},
+            {key:0x6022, value:"BroadcastGameResult"},
+        ]
+        let start:protoBilliard.IStart, validResult:protoBilliard.IValidResult, action:protoBilliard.IAction, freeBall:protoBilliard.IFreeBall, hitReq:protoBilliard.IHit;
+        function getValue(key:number) {
+            for (let i = 0; i < kv.length; i++) {
+                if (kv[i].key === key) {
+                    return kv[i].value;
+                }
+            }
+        }
 
-    //     yy.log.e("LogMsg", rsp);
-    //     rsp.prolist.forEach((pro, i)=>{
-    //         const responseMsg = ProtoHelper.Ins.getProto('protoBilliard', getValue(pro.proid));
-    //         const logData = responseMsg.decode(pro.msg);
+        yy.log.e("LogMsg", rsp);
+        rsp.prolist.forEach((pro, i)=>{
+            const responseMsg = ProtoHelper.Ins.getProto('protoBilliard', getValue(pro.proid));
+            const logData = responseMsg.decode(pro.msg);
  
-    //         switch (pro.proid){
-    //             case 0x6012: start =logData; break;
-    //             case 0x6021: 
-    //                 if(!validResult) validResult = logData;
-    //                 break;
-    //             case 0x6013: action = logData; break;
-    //             case 0x6015: freeBall = logData; break;
-    //             case 0x6019: hitReq = logData; break;
-    //             case 0x6022: BilliardData.instance.rGameResult = logData; break;
-    //             default: yy.log.e("prolist",  i, logData);
-    //         }
-    //         yy.log.w("prolist",  i, logData);
-    //     });
+            switch (pro.proid){
+                case 0x6012: start =logData; break;
+                case 0x6021: 
+                    if(!validResult) validResult = logData;
+                    break;
+                case 0x6013: action = logData; break;
+                case 0x6015: freeBall = logData; break;
+                case 0x6019: hitReq = logData; break;
+                case 0x6022: BilliardData.instance.rGameResult = logData; break;
+                default: yy.log.e("prolist",  i, logData);
+            }
+            yy.log.w("prolist",  i, logData);
+        });
 
 
-    //     let notify = new protoBilliard.GameStatus();
-    //     notify.stage = 3; // 重连标志
-    //     notify.minVersion = rsp.minVersion;
-    //     notify.gamePlay = logData.ballCount;
-    //     notify.chipPot = BilliardData.instance.rGameResult.ChipPot.toNumber();
-    //     // 玩家数据
-    //     notify.users = [];
-    //     logData.players.forEach(player=>{
-    //         let user = new protoBilliard.UserInfo();
-    //         user.uid = player.uid;
-    //         user.nick = player.nick;
-    //         user.icon = player.icon;
-    //         user.scoreboard = 0;   // 当前没这数据
-    //         user.hitType = 0;
-    //         notify.users.push(user);
-    //     });
+        let notify = new protoBilliard.GameStatus();
+        notify.stage = 3; // 重连标志
+        notify.minVersion = rsp.minVersion;
+        notify.gamePlay = logData.ballCount;
+        notify.chipPot = BilliardData.instance.rGameResult.ChipPot.toNumber();
+        // 玩家数据
+        notify.users = [];
+        logData.players.forEach(player=>{
+            let user = new protoBilliard.UserInfo();
+            user.uid = player.uid;
+            user.nick = player.nick;
+            user.icon = player.icon;
+            user.scoreboard = 0;   // 当前没这数据
+            user.hitType = 0;
+            notify.users.push(user);
+        });
 
 
 
 
-    //     if (start) {
-    //         const validResult =  new protoBilliard.IResult();
-    //         validResult.balls = start.balls;
-    //         validResult.hitType = 0;
-    //         validResult.potBalls = [];
-    //         validResult.tokenUid = start.action.uid
-    //         validResult.round = start.action.round;
-    //         validResult.type = start.action.type;
-    //         notify.validResult = validResult;
+        if (start) {
+            const validResult =  new protoBilliard.IResult();
+            validResult.balls = start.balls;
+            validResult.hitType = 0;
+            validResult.potBalls = [];
+            validResult.tokenUid = start.action.uid
+            validResult.round = start.action.round;
+            validResult.type = start.action.type;
+            notify.validResult = validResult;
 
-    //         action = start.action;
+            action = start.action;
 
-    //         if (!hitReq) {
-    //             hitReq = new protoBilliard.IHit();
-    //             hitReq.power = 0;
-    //             hitReq.angle = 0;
-    //             hitReq.offset = new protoBilliard.IPosition();
-    //             hitReq.offset.x = 0;
-    //             hitReq.offset.y = 0;
-    //         }
+            if (!hitReq) {
+                hitReq = new protoBilliard.IHit();
+                hitReq.power = 0;
+                hitReq.angle = 0;
+                hitReq.offset = new protoBilliard.IPosition();
+                hitReq.offset.x = 0;
+                hitReq.offset.y = 0;
+            }
 
-    //     }
-    //     else {
-    //         notify.validResult = validResult.validResult;
-    //     }
+        }
+        else {
+            notify.validResult = validResult.validResult;
+        }
 
-    //     // 定色
-    //     if (notify.validResult.hitType !== 0) {
-    //         notify.users.forEach(user=>{
-    //             if (user.uid === notify.validResult.tokenUid) {
-    //                 user.hitType = notify.validResult.hitType;
-    //             }
-    //             else {
-    //                 user.hitType = notify.validResult.hitType === 1 ? 2 : 1;
-    //             }
-    //         });
-    //     }
+        // 定色
+        if (notify.validResult.hitType !== 0) {
+            notify.users.forEach(user=>{
+                if (user.uid === notify.validResult.tokenUid) {
+                    user.hitType = notify.validResult.hitType;
+                }
+                else {
+                    user.hitType = notify.validResult.hitType === 1 ? 2 : 1;
+                }
+            });
+        }
 
-    //     const power = hitReq.power;
+        const power = hitReq.power;
 
-    //     notify.action = action;
-    //     notify.freeBall = freeBall;
-    //     notify.hitReq = hitReq;
-    //     notify.hitReq.power = 0;
+        notify.action = action;
+        notify.freeBall = freeBall;
+        notify.hitReq = hitReq;
+        notify.hitReq.power = 0;
 
-    //     const cueOffset = new protoBilliard.ICueOffset();
-    //     cueOffset.curOffset = hitReq.offset;
-    //     notify.cueOffset = cueOffset;
-    //     const cueAngle = new protoBilliard.ICueAngle();
-    //     cueAngle.curScreenPos = new protoBilliard.IPosition();
-    //     cueAngle.curScreenPos.x = 0;
-    //     cueAngle.lastScreenPos = new protoBilliard.IPosition();
-    //     notify.cueAngle = cueAngle;
+        const cueOffset = new protoBilliard.ICueOffset();
+        cueOffset.curOffset = hitReq.offset;
+        notify.cueOffset = cueOffset;
+        const cueAngle = new protoBilliard.ICueAngle();
+        cueAngle.curScreenPos = new protoBilliard.IPosition();
+        cueAngle.curScreenPos.x = 0;
+        cueAngle.lastScreenPos = new protoBilliard.IPosition();
+        notify.cueAngle = cueAngle;
 
-    //     action.times = Number.MAX_SAFE_INTEGER;
-
-
-    //     this.delayAction(() => {
-    //         BilliardService.instance.notifyEnterGame({msg: notify, isNotPush: true});
-    //         const view = BilliardManager.instance.getView();
-    //         const table = BilliardManager.instance.getTable();
-    //         BilliardData.instance.rShootAtFun = ()=>{
-    //             view.nodeCueArrow.angle = hitReq.angle/BilliardConst.multiple * Rtd;
-    //             const v3 = BilliardManager.instance.camera2d.worldToScreen(view.cue.nodeAllow.worldPosition);
-    //             view.onClickTable(new Vec2(v3.x, v3.y));
-    //         };
+        action.times = Number.MAX_SAFE_INTEGER;
 
 
-    //         // if (action.type === 0) {
-    //         //     // BilliardData.instance.rShootAtFun();
-    //         // }
-    //         // else { // 自由球
-    //         //     view.nodeCueArrow.worldPosition = BilliardTools.instance.camera3DToCamera2DWPos(table.cueBall.ui.node.worldPosition);
-    //         //     view.onFreeBall();
-    //         //     view.onFreeBallMove(!table.isValidFreeBall(), false, false);
-    //         // }
+        this.delayAction(() => {
+            BilliardService.instance.notifyEnterGame({msg: notify, isNotPush: true});
+            const view = BilliardManager.instance.getView();
+            const table = BilliardManager.instance.getTable();
+            BilliardData.instance.rShootAtFun = ()=>{
+                view.nodeCueArrow.angle = hitReq.angle/BilliardConst.multiple * Rtd;
+                const v3 = BilliardManager.instance.camera2d.worldToScreen(view.cue.nodeAllow.worldPosition);
+                view.onClickTable(new Vec2(v3.x, v3.y));
+            };
 
-    //         view.interactableTableTouch = false;
-    //         view.isAngleDisable = true;
-    //         view.nodeLeft.active = false;
-    //         view.nodeRight.active = false;
-    //         // const hitPoint = view.node.getChildByName("NodeHitPoint");
-    //         // hitPoint.active = false;
-    //         const chatNode = view.node.getChildByName("ButtonChat");
-    //         chatNode.active = false;
 
-    //         hitReq.power = power;
-    //         BilliardData.instance.rHitReq = hitReq;
+            // if (action.type === 0) {
+            //     // BilliardData.instance.rShootAtFun();
+            // }
+            // else { // 自由球
+            //     view.nodeCueArrow.worldPosition = BilliardTools.instance.camera3DToCamera2DWPos(table.cueBall.ui.node.worldPosition);
+            //     view.onFreeBall();
+            //     view.onFreeBallMove(!table.isValidFreeBall(), false, false);
+            // }
 
-    //         view.stopCountDown();
+            view.interactableTableTouch = false;
+            view.isAngleDisable = true;
+            view.nodeLeft.active = false;
+            view.nodeRight.active = false;
+            // const hitPoint = view.node.getChildByName("NodeHitPoint");
+            // hitPoint.active = false;
+            const chatNode = view.node.getChildByName("ButtonChat");
+            chatNode.active = false;
 
-    //         if (power !== 0) {
-    //             let delayTime = 2;
-    //             if (action.type === 0) {
-    //                 BilliardData.instance.rShootAtFun();
-    //             }
-    //             else { // 自由球
-    //                 view.nodeCueArrow.worldPosition = BilliardTools.instance.camera3DToCamera2DWPos(table.cueBall.ui.node.worldPosition);
-    //                 view.onFreeBall();
-    //                 view.onFreeBallMove(!table.isValidFreeBall(), false, false);
+            hitReq.power = power;
+            BilliardData.instance.rHitReq = hitReq;
 
-    //                 this.delayAction(()=> BilliardData.instance.rShootAtFun(), 2);
-    //                 delayTime += 2;
-    //             }
+            view.stopCountDown();
 
-    //             this.delayAction(()=>{
-    //                 BilliardService.instance.notifyHit({msg:BilliardData.instance.rHitReq})
-    //             }, delayTime);
-    //         }
-    //         else {
-    //             let scene = yy.scene.get_scene_script<BilliardScene>();
-    //             if (scene) {
-    //                 const playback = scene.get_scene_layer_popup().getComponentInChildren(BilliardPlaybackView);
-    //                 playback.initPlayers(false);
-    //                 playback.onGameResult();
-    //             }
-    //         }
-    //     });
+            if (power !== 0) {
+                let delayTime = 2;
+                if (action.type === 0) {
+                    BilliardData.instance.rShootAtFun();
+                }
+                else { // 自由球
+                    view.nodeCueArrow.worldPosition = BilliardTools.instance.camera3DToCamera2DWPos(table.cueBall.ui.node.worldPosition);
+                    view.onFreeBall();
+                    view.onFreeBallMove(!table.isValidFreeBall(), false, false);
 
-    // }
+                    this.delayAction(()=> BilliardData.instance.rShootAtFun(), 2);
+                    delayTime += 2;
+                }
+
+                this.delayAction(()=>{
+                    BilliardService.instance.notifyHit({msg:BilliardData.instance.rHitReq})
+                }, delayTime);
+            }
+            else {
+                let scene = yy.scene.get_scene_script<BilliardScene>();
+                if (scene) {
+                    const playback = scene.get_scene_layer_popup().getComponentInChildren(BilliardPlaybackView);
+                    playback.initPlayers(false);
+                    playback.onGameResult();
+                }
+            }
+        });
+
+    }
 
 }
 
