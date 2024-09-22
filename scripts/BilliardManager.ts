@@ -571,10 +571,15 @@ export class BilliardManager extends BaseCommonInstance{
         if (reason !== 0 && reason !== 2) {// 强制退出  不为0 代表玩家异常ready前异常中断 //2 被管理员踢出去
             this.unScheduleOpenWaitEnterView(); // 取消开始监听事件
             this._isOtherLeaveTips = true;
+            let tipContent = `Other players quit the game`
+            // 对手单一钱包扣钱失败已经退出了, 没必要倒计时等了
+            if (reason == 10) {
+                tipContent = "Opponent has left.";
+            }
             yy.dialog.show(
                 {
                     title: "Tip",
-                    content: `Other players quit the game`,
+                    content: tipContent,
                     isCancelEnable: false,
                     isConfirmEnable: true,
                     confirmText: "OK",
