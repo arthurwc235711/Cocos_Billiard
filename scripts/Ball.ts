@@ -2,7 +2,7 @@ import { _decorator, Component, director, macro, Material, Mesh, MeshRenderer, m
 import { yy } from '../../../../yy';
 import { forceRoll, rollingFull, sliding, surfaceVelocityFull } from '../../../../games/casual_games/billiard/scripts/physics/physics';
 import { Pocket } from '../../../../games/casual_games/billiard/scripts/physics/pocket';
-import { passesThroughZero } from './utils';
+import { norm, passesThroughZero, rotateAxisAngle } from './utils';
 import { BilliardData } from '../../../../games/casual_games/billiard/data/BilliardData';
 import { BilliardTools } from './BilliardTools';
 import { BilliardManager } from './BilliardManager';
@@ -48,6 +48,7 @@ export class Ball {
     fixedUpdate(ft: number, dt: number) {
       this.delateTime = dt;
       this.updatePosition(ft);
+      this.updateRotation(ft);
       if (this.state === State.Falling) {
           this.pocket.updateFall(this, ft)
       }
@@ -70,6 +71,13 @@ export class Ball {
         this.pos.addScaledVector(this.vel, t)
         // this.node.position = this.pos;
         // yy.log.w("updatePosition ball:", t, this.pos, this.vel);
+    }
+
+    private updateRotation(t: number) {
+      const angle = this.rvel.length() * t
+      let q = rotateAxisAngle(norm(this.rvel), angle);
+      const currentRotation = this.ui?.ballMesh.node.getRotation();
+      this.ui?.ballMesh.node.setRotation(Quat.multiply(currentRotation, q, currentRotation));
     }
 
     setRotation(x: number, y: number, z: number, w: number) {
