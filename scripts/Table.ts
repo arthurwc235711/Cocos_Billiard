@@ -77,14 +77,12 @@ export class Table extends BaseCommonInstance {
     decimal: number = 0;
     // loopUpdate  fixedUpdate 会在所有update之后调用
     loopUpdate(dt: number) {
-      let tmp = dt/this.fixedTimeStep + this.decimal;
-      let loopTimes = Math.floor(tmp)
-      this.decimal = tmp - loopTimes;
-      // this.records[loopTimes]++;
-      // yy.log.w("loopUpdate", this.records);
-      for (let i = 0; i < loopTimes; i++) {
-        this.fixedUpdate(dt);
+      dt += this.decimal;
+      while(dt >= this.fixedTimeStep) {
+        this.fixedUpdate(this.fixedTimeStep);
+        dt -= this.fixedTimeStep;
       }
+      this.decimal = dt; // 保留剩余时间
 
       // if (!this.allStationary()) {
       //   const start = performance.now();
@@ -96,8 +94,8 @@ export class Table extends BaseCommonInstance {
       // }
     }
     // 模拟物理
-    fixedUpdate(dt: number) {
-      this.advance(dt);
+    fixedUpdate(ft: number) {
+      this.advance(ft);
     }
 
     initialiseBalls() {
@@ -128,9 +126,9 @@ export class Table extends BaseCommonInstance {
       yy.log.i("pairs", str);
     }
 
-    advance(dt: number) {
+    advance(ft: number) {
         let depth = 0
-        while (!this.prepareAdvanceAll(this.fixedTimeStep)) {
+        while (!this.prepareAdvanceAll(ft)) {
           if (depth++ > 300) {
             this.firstFindBouncing = true;
             yy.log.e("Depth exceeded resolving collisions")
@@ -139,7 +137,7 @@ export class Table extends BaseCommonInstance {
         }
         this.firstFindBouncing = false;
         this.balls.forEach((a) => {
-          a.fixedUpdate(this.fixedTimeStep, dt)
+          a.fixedUpdate(ft)
         })
     }
   /**

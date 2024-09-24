@@ -44,9 +44,7 @@ export class Ball {
       this.ui = ui;
     }
 
-    delateTime: number = 0;
-    fixedUpdate(ft: number, dt: number) {
-      this.delateTime = dt;
+    fixedUpdate(ft: number) {
       this.updatePosition(ft);
       this.updateRotation(ft);
       if (this.state === State.Falling) {
