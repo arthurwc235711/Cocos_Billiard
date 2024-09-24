@@ -72,10 +72,12 @@ export class Ball {
     }
 
     private updateRotation(t: number) {
-      const angle = this.rvel.length() * t
-      let q = rotateAxisAngle(norm(this.rvel), angle);
-      const currentRotation = this.ui.ballMesh.node.rotation;
-      Quat.multiply(currentRotation, q, currentRotation)
+      if (this.ui) {
+        const angle = this.rvel.length() * t
+        let q = rotateAxisAngle(norm(this.rvel), angle);
+        const currentRotation = this.ui.ballMesh.node.rotation;
+        Quat.multiply(currentRotation, q, currentRotation)
+      }
     }
 
     setRotation(x: number, y: number, z: number, w: number) {
