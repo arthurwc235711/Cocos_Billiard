@@ -47,6 +47,7 @@ export class BilliardBall extends Component {
     protected update(dt: number): void {
         if (!this.ball.pos.vec3Equals(this.node.position)) {
             this.node.position = this.node.position.lerp(this.ball.pos, 1); // 更新球的位置
+            this.ballMesh.node.rotation = this.ballMesh.node.rotation; // 更新球的旋转
             //---- 旋转移动到物理帧率里更新，确保球的旋转相同
             // const angle = this.ball.rvel.length() * dt//this.delateTime;
             // let q = rotateAxisAngle(norm(this.ball.rvel), angle);
