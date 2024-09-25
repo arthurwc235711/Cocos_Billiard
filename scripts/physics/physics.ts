@@ -309,15 +309,15 @@ function raySphere(origin: Vec3, direction: Vec3, raySphere: RaySphereCollision)
 function rayRectangle14(origin: Vec3, direction: Vec3, rectangle: RayRectangleCollision) {
   let ox = origin.x, oy = origin.y;
   let dx = direction.x, dy = direction.y;
-  const DEVIATION = 0.00065; // 修正母球心到库的误差值
+  const DEVIATION = 0//0.00065; // 修正母球心到库的误差值
 
 
   if (dy > 0 && rectangle.node.position.y > 0) { // 上方裤边
     let disY = rectangle.node.worldPosition.y - rectangle.halfLength - R + DEVIATION;
     let t = (disY - oy) / dy;
     let disX = ox + t * dx;
-    let left = rectangle.node.worldPosition.x - rectangle.halfWidth - R;
-    let right = rectangle.node.worldPosition.x + rectangle.halfWidth + R;
+    let left = rectangle.node.worldPosition.x - rectangle.halfWidth// - R;
+    let right = rectangle.node.worldPosition.x + rectangle.halfWidth// + R;
     // yy.log.w("rayRectangle14", origin, direction, rectangle.node.name, disX, left, right);
     if (disX > left && disX < right && oy < disY) {
       return {x: disX, y: disY};
@@ -327,8 +327,8 @@ function rayRectangle14(origin: Vec3, direction: Vec3, rectangle: RayRectangleCo
     let disY = rectangle.node.worldPosition.y + rectangle.halfLength + R - DEVIATION;;
     let t = (disY - oy) / dy;
     let disX = ox + t * dx;
-    let left = rectangle.node.worldPosition.x - rectangle.halfWidth - R;
-    let right = rectangle.node.worldPosition.x + rectangle.halfWidth + R;
+    let left = rectangle.node.worldPosition.x - rectangle.halfWidth// - R;
+    let right = rectangle.node.worldPosition.x + rectangle.halfWidth// + R;
     if (disX > left && disX < right && oy > disY) {
       return {x: disX, y: disY};
     }
@@ -338,20 +338,20 @@ function rayRectangle14(origin: Vec3, direction: Vec3, rectangle: RayRectangleCo
       let disX = rectangle.node.worldPosition.x - rectangle.halfWidth - R + DEVIATION;
       let t = (disX - ox) / dx;
       let disY = oy + t * dy;
-      let top = rectangle.node.worldPosition.y + rectangle.halfLength + R;
-      let bottom = rectangle.node.worldPosition.y - rectangle.halfLength - R;
+      let top = rectangle.node.worldPosition.y + rectangle.halfLength //+ R;
+      let bottom = rectangle.node.worldPosition.y - rectangle.halfLength// - R;
       if (disY > bottom && disY < top && ox < disX) {
         return {x: disX, y: disY};
       }
     }
     else if (dx < 0 && rectangle.node.position.y === 0) {
-      let disX = rectangle.node.worldPosition.x + rectangle.halfWidth + R -  DEVIATION;
-      let t = (disX - ox) / dx;
-      let disY = oy + t * dy;
-      let top = rectangle.node.worldPosition.y + rectangle.halfLength + R;
-      let bottom = rectangle.node.worldPosition.y - rectangle.halfLength - R;
-      if (disY > bottom && disY < top && ox > disX) {
-        return {x: disX, y: disY};
+      let disX1 = rectangle.node.worldPosition.x + rectangle.halfWidth + R -  DEVIATION;
+      let t1 = Math.abs((disX1 - ox) / dx);
+      let disY1 = oy + t1 * dy;
+      let top1 = rectangle.node.worldPosition.y + rectangle.halfLength //+ R;
+      let bottom1 = rectangle.node.worldPosition.y - rectangle.halfLength //- R;
+      if (disY1 > bottom1 && disY1 < top1 && ox > disX1) {
+        return {x: disX1, y: disY1};
       }
     }
 
