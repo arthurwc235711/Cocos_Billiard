@@ -314,7 +314,7 @@ export class BilliardData {
         return this.iAlgoVersion === 1;
     }
 
-    // 是否
+    // 教程版本
     setTutorial(tutorial: number) {
         this.iTutorial = tutorial;
     }
