@@ -358,6 +358,13 @@ export class BilliardSimulateService {
         notify.hitReq.offset.x = 0;
         notify.hitReq.offset.y = 0;
 
+        notify.minVersion = 1;
+
+
+        const cueOffset = new protoBilliard.ICueOffset();
+        cueOffset.curOffset = new protoBilliard.IPosition();
+        notify.cueOffset = cueOffset;
+
          notify.users = [];
          function getUser(uid, name) {
              let user = new protoBilliard.UserInfo();

@@ -6,6 +6,7 @@ import { norm, passesThroughZero, rotateAxisAngle } from './utils';
 import { BilliardData } from '../../../../games/casual_games/billiard/data/BilliardData';
 import { BilliardTools } from './BilliardTools';
 import { BilliardManager } from './BilliardManager';
+import { Table } from './Table';
 
 
 
@@ -34,10 +35,11 @@ export class Ball {
     ui: any;
     
     static readonly transition = 0.05;
+    table: Table;
 
-
-    constructor() {
-      this.id = BilliardData.ballId++;
+    constructor(t: Table) {
+      this.table = t;
+      // this.id = BilliardData.ballId++;
     }
 
     setUI(ui) {
@@ -62,7 +64,7 @@ export class Ball {
       this.pos.y = BilliardTools.instance.roundToFiveDecimalPlaces(pos.y);
       this.pos.z = BilliardTools.instance.roundToFiveDecimalPlaces(pos.z);
       // yy.log.w("updatePosImmediately", this.pos);
-      if (this.ui) this.ui.node.position = this.pos;
+      this.ui && (this.ui.node.position = this.pos);
     }
 
     private updatePosition(t: number) {
@@ -81,7 +83,7 @@ export class Ball {
     }
 
     setRotation(x: number, y: number, z: number, w: number) {
-      if (this.ui) this.ui.ballMesh.node.setRotation(x, y, z, w);
+      this.ui && this.ui.ballMesh.node.setRotation(x, y, z, w);
     }
 
     private updateVelocity(t: number) {
@@ -139,7 +141,7 @@ export class Ball {
 
           this.state = State.Turning;
           this.vel.copy(Vec3.ZERO)
-          if (BilliardManager.instance.getTable().allMotingNotTuring()) {// 所有球停止移动则强制停止旋转
+          if (this.table.allMotingNotTuring()) {// 所有球停止移动则强制停止旋转
             this.setStationary();
             return true;
           }
@@ -152,7 +154,7 @@ export class Ball {
         this.rvel.copy(Vec3.ZERO)
         this.state = State.Stationary
 
-        if (BilliardManager.instance.getTable().allStationary()) {
+        if (this.table.allStationary()) {
           yy.event.emit(yy.Event_Name.billiard_allStationary);
         }
     }
@@ -162,7 +164,7 @@ export class Ball {
       this.rvel.copy(Vec3.ZERO)
       this.state = State.InPocket
 
-      if (BilliardManager.instance.getTable().allStationary()) {
+      if (this.table.allStationary()) {
         yy.event.emit(yy.Event_Name.billiard_allStationary);
       }
     }
@@ -223,7 +225,7 @@ export class Ball {
     setTrack() {
       this.state = State.InPocket;
       this.pos.set(-1.5, 0.74, -0.5);
-      if(this.ui) this.ui.node.getChildByName("SpriteRenderer").active = false;
+      this.ui && (this.ui.node.getChildByName("SpriteRenderer").active = false)
     }
 
 }

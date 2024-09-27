@@ -19,7 +19,6 @@ import { PocketGeometry } from '../../../../games/casual_games/billiard/scripts/
 import { BilliardBall } from '../../../../games/casual_games/billiard/module/billiard_table/scripts/BilliardBall';
 import { Ball } from './Ball';
 import { BilliardTools } from './BilliardTools';
-import { BaseRayCollision } from './physics/component/BaseRayCollision';
 
 interface Pair {
     a: Ball
@@ -71,6 +70,9 @@ export class Table extends BaseCommonInstance {
         this.ui.unscheduleAllCallbacks();
         this.ui.schedule(this.loopUpdate.bind(this), 0); 
       }
+      else {
+        director.getScheduler().schedule(this.loopUpdate.bind(this), director.getScene(), 0);
+      }
     }
 
 
@@ -87,7 +89,7 @@ export class Table extends BaseCommonInstance {
       // if (!this.allStationary()) {
       //   const start = performance.now();
       //   while(!this.allStationary()) {
-      //     this.advance(0);
+      //     this.advance(this.fixedTimeStep);
       //   }
       //   const end = performance.now();
       //   yy.log.w(`执行时间：${(end - start).toFixed(0)} 毫秒`);
@@ -331,7 +333,7 @@ export class Table extends BaseCommonInstance {
     let iBalls = BilliardData.instance.getStartBalls(); // 8球，球的总数量 16个
     this.balls = [];
     for(let i = 0; i < iBalls.length; ++i) {
-        let ball = new Ball()// instantiate(this.prefabBall).getComponent(Ball);
+        let ball = new Ball(this)// instantiate(this.prefabBall).getComponent(Ball);
         let data = iBalls[i];
         ball.id = data.val;
         if (this.ui) {
@@ -445,7 +447,7 @@ export class Table extends BaseCommonInstance {
 
 
   clearData() {
-    if(this.ui) this.ui.nodeBalls.removeAllChildren();
+    this.ui && this.ui.nodeBalls.removeAllChildren();
     track.clear();
   }
 
