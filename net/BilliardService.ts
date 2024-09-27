@@ -340,6 +340,7 @@ export class BilliardService extends StackListenerNew {
 
     notifyEnterGame(data: any) {
         let msg: protoBilliard.GameStatus = data.msg;   
+        BilliardData.instance.setGameType(msg.gamePlay);
         // 重连异常数据判断
         if (this.isUseMatch) {
             if (msg.users.length === 1) {
@@ -389,7 +390,7 @@ export class BilliardService extends StackListenerNew {
             t.scoreboard = player.scoreboard;
             scores.push(t);
         })
-        BilliardData.instance.setGameType(msg.gamePlay);
+
         BilliardData.instance.setAlgoVersion(msg.minVersion);
         BilliardManager.instance.setAlogVersion(BilliardData.instance.getAlgoVersion());
         yy.event.emit(yy.Event_Name.billiard_notify_entergame);
