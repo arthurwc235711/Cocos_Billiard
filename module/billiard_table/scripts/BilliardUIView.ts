@@ -4,7 +4,7 @@ import { yy } from '../../../../../../yy';
 import { BilliardData } from '../../../data/BilliardData';
 import { BilliardTools } from '../../../scripts/BilliardTools';
 import { R, R2d, Rtd } from '../../../scripts/physics/constants';
-import { rayHit } from '../../../scripts/physics/physics';
+import { rayHit, rayHitBall } from '../../../scripts/physics/physics';
 import { BaseRayCollision } from '../../../scripts/physics/component/BaseRayCollision';
 import { RaySphereCollision } from '../../../scripts/physics/component/RaySphereCollision';
 import { BilliardFree } from './BilliardFree';
@@ -584,7 +584,6 @@ export class BilliardUIView extends BaseCommonScript {
             if (collision instanceof RaySphereCollision) {
                 let shotAtBall = nodes[0].getComponent(BilliardBall);
                 if (shotAtBall) {
-                    BilliardManager.instance.getTable().shotBall = shotAtBall;
                     this.isShotAtBall = true;
                     let isVaildShot = BilliardTools.instance.isVaildShot(shotAtBall.id);
                     this.cue.showBallArrow(isVaildShot);
@@ -655,7 +654,6 @@ export class BilliardUIView extends BaseCommonScript {
 
             }
             else {
-                BilliardManager.instance.getTable().shotBall = null;
                 uiTran.setContentSize(BilliardTools.instance.getRectangleDisanceBy2dCamera(cueBall.node, nodes[0], direction), uiTran.contentSize.y);
                 this.cue.showBallArrow(true)
                 let furCueNode = this.cue.nodeAllow;
@@ -672,7 +670,6 @@ export class BilliardUIView extends BaseCommonScript {
         }
         else {
             //  yy.log.w("", "未检测出碰撞点");
-            BilliardManager.instance.getTable().shotBall = null;
             uiTran.setContentSize(100, uiTran.contentSize.y);
         }
 

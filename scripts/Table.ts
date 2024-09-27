@@ -2,7 +2,7 @@ import { _decorator, Camera, Component, director, find, game, instantiate, macro
 import { Collision } from '../../../../games/casual_games/billiard/scripts/physics/collision';
 import { yy } from '../../../../yy';
 import { Cushion } from '../../../../games/casual_games/billiard/scripts/physics/Cushion';
-import { bounceHan, bounceHanBlend, cueToSpin, rayHit } from '../../../../games/casual_games/billiard/scripts/physics/physics';
+import { bounceHan, bounceHanBlend, cueToSpin, rayHit, rayHitBall } from '../../../../games/casual_games/billiard/scripts/physics/physics';
 import { BilliardData } from '../../../../games/casual_games/billiard/data/BilliardData';
 import { R } from '../../../../games/casual_games/billiard/scripts/physics/constants';
 import { Outcome } from '../../../../games/casual_games/billiard/scripts/physics/Outcome';
@@ -33,7 +33,6 @@ export class Table extends BaseCommonInstance {
     cushionModel = bounceHanBlend
     cueBall:Ball = null;
 
-    shotBall: BilliardBall = null;
 
     readonly fixedTimeStep = 1.0 / 256.0;// 物理模拟的固定时间步长
 
@@ -41,6 +40,7 @@ export class Table extends BaseCommonInstance {
 
     firstFindBouncing:boolean = false; // 用于处理碰撞 口袋4角，大力击球有概率卡住库边碰撞，原因是速度过快穿透了袋口边缘碰撞。
 
+    shotBall: Ball;
 
     setUI(ui) {
       // BilliardManager.instance.setAlogVersion(BilliardData.instance.getAlgoVersion());
@@ -157,7 +157,7 @@ export class Table extends BaseCommonInstance {
    *
    */
   private prepareAdvancePair(a: Ball, b: Ball, t: number) {
-    if (Collision.willCollide(a, b, t)) {
+    if (Collision.willCollide(a, b, t, this.shotBall)) {
       const incidentSpeed = Collision.collide(a, b)
       this.outcome.push(Outcome.collision(a, b, incidentSpeed))
       BilliardTools.instance.playSoundBallCollision();
@@ -301,6 +301,19 @@ export class Table extends BaseCommonInstance {
       }
     }
     */
+
+    const angle = billiardData.getAngle();
+    const directionVector3D = new Vec3(Math.cos(angle), Math.sin(angle), 0);
+    const sBalls = rayHitBall(this.cueBall.pos, directionVector3D, this.getOnTableBalls());
+    if (sBalls.length > 0) {
+      this.shotBall = sBalls[0].ball;
+      yy.log.w("hit showball", this.shotBall.id);
+    }
+    else {
+      this.shotBall = null;
+    }
+
+
 
     this.cueBall.setSliding();
     this.cueBall.vel.copy(unitAtAngle(billiardData.getAngle()).multiplyScalar(billiardData.getPower()));

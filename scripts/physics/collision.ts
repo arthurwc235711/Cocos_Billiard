@@ -45,7 +45,7 @@ export class Collision {
 
 
 
-  static willCollide(a: Ball, b: Ball, t: number): boolean {
+  static willCollide(a: Ball, b: Ball, t: number, shotBall: Ball): boolean {
     if (a.id === 0) { 
       if ((a.inMotion() && b.isStationary()) &&
       a.onTable() &&
@@ -54,10 +54,8 @@ export class Collision {
         if ( a.futurePosition(t).distanceToSquared(b.futurePosition(t)) < 4 * R * R) {
           return true;
         } 
-        // 切边碰撞判断修正
-        const table = BilliardManager.instance.getTable();
 
-        if (table.ui && table.shotBall && b === table.shotBall.ball) {
+        if (shotBall && b === shotBall) {
           const af = a.futurePosition(t);
           const center = Collision.isPointPerpendicularToSegment({ x: b.pos.x, y:b.pos.y }, { x: a.pos.x, y:a.pos.y }, { x: af.x, y: af.y }) ;
           const result = center.x * center.x + center.y * center.y < 4 * R * R;

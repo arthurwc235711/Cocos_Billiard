@@ -1,6 +1,8 @@
 
 import { yy } from "../../../../../yy"
 import { BilliardData } from "../../data/BilliardData"
+import { Ball } from "../Ball"
+import { BilliardManager } from "../BilliardManager"
 import { norm, up, upCross } from "../utils"
 
 import { BaseRayCollision } from "./component/BaseRayCollision"
@@ -286,6 +288,70 @@ export function rayHit(origin: Vec3, direction: Vec3) {
 
   return nodes;
 }
+
+export function rayHitBall(origin: Vec3, direction: Vec3, balls: Ball[] ) {
+  const shotBalls = [];
+  function isWillCollision(origin: Vec3, direction: Vec3, ball: Ball) {
+    let m = origin.clone().subtract(ball.pos);
+    let b = m.dot(direction);
+    let c = m.dot(m) - (R + R) * (R + R);
+    // 如果c > 0且b > 0，射线起点在球体外部且在球心方向之外，没有交点
+    if (c > 0 && b > 0)   {
+      return false;
+    }
+    let discriminant = b * b - c;
+    // 如果discriminant < 0，射线与球体没有交点
+    if (discriminant < 0) {
+      return false;
+    }
+  
+    return true;
+  }
+  balls.forEach(ball=>{
+    if (ball.id !== 0 && isWillCollision(origin, direction, ball)) {
+      const fx = origin.x - ball.pos.x;
+      const fy = origin.y - ball.pos.y;
+  
+      const a = direction.x * direction.x + direction.y * direction.y;
+      const b = 2 * (fx * direction.x + fy * direction.y);
+      const c = fx * fx + fy * fy - (R + R) * (R +R );
+  
+      const discriminant = b * b - 4 * a * c;
+
+      let dis: number = 0;
+  
+      if (discriminant < 0) {
+          // 没有实数解，表示没有交点
+          dis = Infinity;
+      }
+  
+      // 计算两个交点
+      const t1 = (-b - Math.sqrt(discriminant)) / (2 * a);
+      const t2 = (-b + Math.sqrt(discriminant)) / (2 * a);
+  
+      // 选择正的 t 值（表示在移动方向上的交点）
+      if (t1 >= 0 && t2 >= 0) {
+        dis = Math.min(t1, t2);
+      } else if (t1 >= 0) {
+        dis = t1;
+      } else if (t2 >= 0) {
+        dis = t2;
+      } else {
+          // 两个 t 值都为负，表示交点在反方向
+          dis = Infinity;
+      }
+
+      // circle.sqrDeep = origin.distanceToSquared(circle.node.worldPosition);
+      shotBalls.push({ball:ball, dis: dis});
+    }
+
+  });
+
+  shotBalls.sort((a, b) => a.dis - b.dis);
+
+  return shotBalls;
+}
+
 function raySphere(origin: Vec3, direction: Vec3, raySphere: RaySphereCollision) {
   let m = origin.clone().subtract(raySphere.node.worldPosition);
 
