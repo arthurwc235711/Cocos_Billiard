@@ -9,6 +9,7 @@ import { BilliardConst } from '../config/BilliardConst';
 import { BilliardData } from '../data/BilliardData';
 import { BilliardManager } from '../scripts/BilliardManager';
 import { BilliardTools } from '../scripts/BilliardTools';
+import { Table } from '../scripts/Table';
 import { BilliardSimulateService } from './BilliardSimulateService';
 
 interface ServiceName {
@@ -598,11 +599,11 @@ export class BilliardService extends StackListenerNew {
         this.send(this.serviceName.clientEvent, pb);
     }
 
-    sendResultReq(outComeType: number) {
+    sendResultReq(outComeType: number, table: Table, round: number) {
         let pb: protoBilliard.GameProtocol = new protoBilliard.GameProtocol();
         let responseMsg = ProtoHelper.Ins.getProto('protoBilliard', 'IResult');
 
-        let table = BilliardManager.instance.getTable();
+        // let table = BilliardVerify.instance.getTable();
 
         let tBalls = table.getOnTableBalls();
         let pBalls = table.getInPocketBalls();
@@ -635,7 +636,7 @@ export class BilliardService extends StackListenerNew {
         req.balls = balls;
 
         req.tokenUid = BilliardData.instance.getActionUid();// 当前行动玩家  服务器需要字段处理延迟异常
-        req.round = BilliardManager.instance.getRules().round; // 当前回合数  服务器需要字段处理延迟异常
+        req.round = round; // 当前回合数  服务器需要字段处理延迟异常
 
         let newMsg = responseMsg.encode(req).finish();
         pb.Cmd = 0x6020;
@@ -891,9 +892,9 @@ export class BilliardService extends StackListenerNew {
         }
     }
 
-    sendResult(outComeType: number) {
+    sendResult(outComeType: number, table: Table) {
         if (this.isStandAlone) {
-            let table = BilliardManager.instance.getTable();
+            // let table = BilliardVerify.instance.getTable();
 
             let tBalls = table.getOnTableBalls();
             let pBalls = table.getInPocketBalls();

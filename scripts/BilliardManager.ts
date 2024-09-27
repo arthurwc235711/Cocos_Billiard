@@ -202,20 +202,20 @@ export class BilliardManager extends BaseCommonInstance{
             result.type = eOutcomeType.FreeBall;
             if (rules.isGameEnd(table.outcome, result)) {
                 yy.log.w("Game End");
-                BilliardService.instance.sendResult(result.type);
-                BilliardService.instance.sendResultReq(result.type);
+                BilliardService.instance.sendResult(result.type, table);
+                BilliardService.instance.sendResultReq(result.type, table, rules.round);
                 return;
             }
         }
         else if (rules.isGameEnd(table.outcome, result)) {
             yy.log.w("Game End");
-            BilliardService.instance.sendResult(result.type);
-            BilliardService.instance.sendResultReq(result.type);
+            BilliardService.instance.sendResult(result.type, table);
+            BilliardService.instance.sendResultReq(result.type, table, rules.round);
             return;
         } 
 
-        BilliardService.instance.sendResult(result.type);
-        BilliardService.instance.sendResultReq(result.type);
+        BilliardService.instance.sendResult(result.type, table);
+        BilliardService.instance.sendResultReq(result.type, table, rules.round);
 
     }
 
