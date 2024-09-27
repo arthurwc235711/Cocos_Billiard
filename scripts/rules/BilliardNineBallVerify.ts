@@ -1,0 +1,252 @@
+/*
+    校验备用，纯算法台球运算
+*/
+import { MATH_FLOAT_ARRAY, Vec3 } from "cc";
+import { yy } from "../../../../../yy";
+import { eRuleType, eOutcomeType, BilliardConst } from "../../config/BilliardConst";
+import { BilliardData } from "../../data/BilliardData";
+
+import { BilliardAI } from "../../module/billiard_table/scripts/BilliardAI";
+import { Outcome } from "../physics/Outcome";
+import { IBilliardRules } from "./IBilliardRules";
+import { BilliardTools } from "../BilliardTools";
+import { Ball } from "../Ball";
+import { BilliardVerify } from "../BilliardVerify";
+
+export class BilliardNineBallVerify implements IBilliardRules {
+    ruleType: eRuleType;
+    ruleName: string = "9 Balls";
+    round: number;
+    uidTimeOut: number = 0;
+
+    disBallId: number = 1; // 默认1
+    isFoul(outcome: Outcome[]): boolean {
+        let result = false;
+        let freeBall = function() {
+            result = true;
+        }
+        // 母球进洞
+        if (Outcome.isCueBallPotted(BilliardVerify.instance.getCueBall(), outcome)) {
+            yy.log.w("打进母球");
+            freeBall();
+        }
+        else {
+            let firstCollision = Outcome.firstCollision(outcome);
+            if (firstCollision === undefined) {//没有撞球
+                yy.log.w("没有撞球");
+                freeBall();
+            }
+            else if(!this.isValidBall(firstCollision.ballB)) { // 没有撞到有效球
+                yy.log.w("没有撞到有效球");
+                freeBall();
+            }
+        }
+
+        if (!result) {
+            if (this.round === 1) {
+                const outs = Outcome.getCushions(outcome);
+                const Max = 4
+                const cushions: number[] = [];
+                for(let i = 0; i < outs.length; i++) {
+                    if (outs[i].ballA.id !== 0 && !cushions.includes(outs[i].ballA.id)) {
+                        cushions.push(outs[i].ballA.id);
+                    }
+                }
+                //最少要有4个子球碰到库边 或者 有球进袋
+                if (cushions.length < Max && Outcome.potCount(outcome) === 0) {
+                    freeBall();
+                }
+            }
+            else {
+                if (Outcome.isCollisionNoCushion(outcome) && Outcome.potCount(outcome) === 0) { // 撞球后没有撞库  先撞库在撞自己球后不碰库算犯规
+                    yy.log.w("撞球后没有撞库");
+                    freeBall();
+                }
+            }
+        }
+        
+        return result;
+    }
+    placeBalls(isStart: boolean) {
+        let table = BilliardVerify.instance.getTable();
+        table.prepareBalls(BilliardConst.startPos, isStart);
+        table.initTable();
+    }
+    isGameEnd(outcome: Outcome[], resultType: { type: eOutcomeType; }): boolean {
+        let result = false;
+        if (resultType.type === eOutcomeType.FreeBall) {
+            if (Outcome.is9BallPotted(outcome)) {
+                //9号球打进且白球掉袋或犯规对手直接获胜
+                resultType.type = eOutcomeType.Failed;
+                result = true;
+            }
+        }
+        else {
+            let potBalls = Outcome.pots(outcome);
+            if (potBalls.length === 0) { // 没有进球则对方球权
+                resultType.type = eOutcomeType.Turn;
+            }
+            else if (Outcome.is9BallPotted(outcome)) {
+                resultType.type = eOutcomeType.Win;
+                result = true;
+            }
+            else {
+                resultType.type = eOutcomeType.Continue;
+            }
+        }
+
+        return result;
+    }
+    nextTurn(type: number, actionUid: number, round: number) {
+        let table = BilliardVerify.instance.getTable();
+        let puid = BilliardData.instance.getActionUid()
+        this.round = round;
+        const hitCount = BilliardData.instance.getHitCount();
+        yy.log.w(`nextTurn round: ${round}`);
+        let ball = this.onShotBall();
+        this.disBallId = ball.id;
+        switch (type) {
+            case 0:
+                if (puid === actionUid) {
+
+                }
+                else {
+                    BilliardData.instance.setActionUid(actionUid)
+                }
+
+                break;
+            case 1:
+                // yy.toast.addNow("击球犯规，下家放置自由球");
+                BilliardData.instance.setActionUid(actionUid)
+
+                if (this.uidTimeOut === 0) {
+                    if (Outcome.isCueBallPotted(BilliardVerify.instance.getCueBall(), table.outcome)) {// 打进母球
+
+                    }
+                    else if(Outcome.isCollisionNoCushion(table.outcome)) { // 没有撞库
+                        let oc = Outcome.firstCollision(table.outcome);
+                        if (oc) {
+
+                        }
+                        else { // 没有击球没有撞库
+
+                        }
+                    }
+                    else {
+
+                    }
+                }
+                else { // 超时提示
+                    this.uidTimeOut = 0;
+                }
+
+
+
+                table.cueBall.updatePosImmediately(Vec3.ZERO);
+                break;
+            case 2:
+                // yy.toast.addNow("击球犯规，下家放置自由球");
+                BilliardData.instance.setActionUid(actionUid)
+
+                if (this.uidTimeOut === 0) {
+                    if (Outcome.isCueBallPotted(BilliardVerify.instance.getCueBall(), table.outcome)) {// 打进母球
+                        // view.gameTips.cueInPocketTips();
+                        // view.gameTips.freeBallTips();
+                    }
+                    else if(Outcome.isCollisionNoCushion(table.outcome)) { // 没有撞库
+                        let oc = Outcome.firstCollision(table.outcome);
+                        if (oc) {
+                            if (BilliardTools.instance.isVaildShot(oc.ballB.id)) {
+                                // view.gameTips.cushionTips();
+                                // view.gameTips.freeBallTips();
+                            }else {
+                                // view.gameTips.foulTips();
+                                // view.gameTips.freeBallTips();
+                            }
+                        }
+                        else { // 没有击球没有撞库
+                        //     view.gameTips.foulTips();
+                        //     view.gameTips.freeBallTips();
+                        }
+                    }
+                    else if (this.round === 2) { // 第一回个犯规判断 没有4个球撞库
+                            // view.gameTips.illegalTips();  
+                            // view.gameTips.freeBallTips();
+                    }
+                    else{ 
+                        // view.gameTips.foulTips();
+                        // view.gameTips.freeBallTips();
+                    }
+                }
+                else { // 超时提示
+                    // view.gameTips.timeOutTips(this.uidTimeOut);
+                    // view.gameTips.freeBallTips();
+                    this.uidTimeOut = 0;
+                }
+
+
+                // view.freeBall.setStartAreaHide();
+                table.cueBall.updatePosImmediately(Vec3.ZERO);
+
+
+                // view.freeBall.node.active = true;
+                // view.onFreeBall();
+                // view.onFreeBallMove(!table.isValidFreeBall(), false, false);
+                break;
+        }
+
+        if (type === 2) {
+            if (!BilliardTools.instance.isMyAction()) {
+                BilliardAI.instance.freeball();
+            }
+        }
+        else {
+            if (!BilliardTools.instance.isMyAction()) {
+                BilliardAI.instance.hitBall();
+            }
+        }
+        // let table = BilliardVerify.instance.getTable();
+        // let tBalls = table.getOnTableBalls();
+        // for (let i = 1; i < tBalls.length; i++) {
+        //     if (this.isValidBall(tBalls[i]) && tBalls[i].ui) {
+        //         tBalls[i].ui.showTips();
+        //     }
+        // }
+
+        // view.setPlayerCountDown(BilliardData.instance.getActionTimes());
+        yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
+    }
+    startTurn() {
+        this.round = 1; // 回合数 + 1
+        this.disBallId = 1;
+        this.uidTimeOut = 0;
+
+
+        yy.log.w("当前行动玩家", BilliardData.instance.getActionUid());
+    }
+    onShotBall(): Ball {
+        let table = BilliardVerify.instance.getTable();
+        let balls = table.getOnTableBalls();
+        balls.sort((a, b)=> a.id - b.id);
+        return balls[1]; // 从1 开始排除 0
+    }
+    getShowBalls(type: any): number[] {
+        const table = BilliardVerify.instance.getTable();
+        const balls = table.getOnTableBalls();
+        const sBalls = [];
+        balls.forEach(b=> {
+            if (b.id !== 0)
+                sBalls.push(b.id)
+        });
+        return sBalls;
+    }
+
+
+
+    isValidBall(ball: Ball) {
+        return ball.id === this.disBallId;
+    }
+
+}
+
+
