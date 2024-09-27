@@ -401,6 +401,8 @@ export class BilliardManager extends BaseCommonInstance{
         }
         else { 
             view.setCueFrame();
+            // 防止我方继续行动时断线重连后的异常,锁定点击
+            view.interactableTableTouch = table.isValidFreeBall() && BilliardTools.instance.isMyAction();
             // 自由球处理
             if (msg.action.type !== 0) {
                 if (msg.action.type === 1) {
