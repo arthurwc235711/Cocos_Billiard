@@ -261,7 +261,7 @@ export class BilliardService extends StackListenerNew {
             yy.event.emit(yy.Event_Name.billiard_unSchedule_wait_queue) //停止定时器
             yy.dialog.show({
                 title: "Tips",
-                content: `进入队列错误:data.msg.code ${data.msg.code}`,
+                content: `enter error: ${data.msg.code}`,
                 confirmText: "OK",
                 confirmCallback: ()=>{
                     yy.event.emit(yy.Event_Name.CasualCommonQuit);
