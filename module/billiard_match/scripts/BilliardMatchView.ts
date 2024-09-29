@@ -53,6 +53,7 @@ export class BilliardMatchView extends BaseCommonScript {
         this.event_func_map = {
             [yy.Event_Name.Billiard_Matching_Success]: "onMatchingSuccess",
             [yy.Event_Name.Billiard_Matching_Cancel]: "onMatchingCancel",
+            [yy.Event_Name.billiard_unSchedule_wait_queue]: "onUnScheduleWaitQueue",
         };
         super.register_event();
     }
@@ -107,6 +108,9 @@ export class BilliardMatchView extends BaseCommonScript {
         // }, 2);
     }
 
+    onUnScheduleWaitQueue(){
+        this.unschedule(this.loopSend);
+    }
     
     setMyData() {
         this.myUI.labelName.string = yy.user.getNick();

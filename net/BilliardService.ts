@@ -1,4 +1,5 @@
 
+import { HorizontalTextAlignment, VerticalTextAlignment } from 'cc';
 import { ProtoHelper } from '../../../../../framework/socket/ProtoHelper';
 import { StackListenerNew } from '../../../../main/data/GameMessageStack';
 import { ISubGameTableInfoItemData } from '../../../../main/data/SubGameData';
@@ -256,8 +257,31 @@ export class BilliardService extends StackListenerNew {
         else if(notify.code === 2809) {//分配失败，不够人数分配到新的桌子，需要重新排队
 
         }
+        else if(notify.code == 102){
+            yy.event.emit(yy.Event_Name.billiard_unSchedule_wait_queue) //停止定时器
+            yy.dialog.show({
+                title: "Tips",
+                content: `进入队列错误:data.msg.code ${data.msg.code}`,
+                confirmText: "OK",
+                confirmCallback: ()=>{
+                    yy.event.emit(yy.Event_Name.CasualCommonQuit);
+                },
+                isConfirmEnable: true,
+                isCancelEnable: false,
+                closeCallback: ()=>{
+                    yy.event.emit(yy.Event_Name.CasualCommonQuit);
+                },
+                fontSize: 50,
+                lineHeight: 60,
+                horizontalAlign: HorizontalTextAlignment.CENTER,
+                verticalAlign: VerticalTextAlignment.CENTER,
+            });
+        }
         else {
             this.errorTips(notify);
+            yy.event.emit(yy.Event_Name.billiard_unSchedule_wait_queue) //停止定时器
+            let pb = new protoAccount.OnlineStatusReq();
+            yy.socket.send('AccountService.OnlineStatus', pb);
         }
     }
     /********************************************匹配相关  结束**************************************** */

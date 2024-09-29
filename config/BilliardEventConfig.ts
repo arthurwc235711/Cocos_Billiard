@@ -18,6 +18,8 @@ export default [
 
     // "billiard_wait_close",
 
+    "billiard_unSchedule_wait_queue",
+
     "billiard_stop_animations",
     "billiard_touch_end",
     "billiard_guide_next",
