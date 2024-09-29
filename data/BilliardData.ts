@@ -311,7 +311,10 @@ export class BilliardData {
         this.iAlgoVersion = version;
     }
     isAlogVersion1() {
-        return this.iAlgoVersion === 1;
+        return this.iAlgoVersion === 1 || this.isAlogVersion2();
+    }
+    isAlogVersion2() {
+        return this.iAlgoVersion === 2;
     }
 
     // 教程版本

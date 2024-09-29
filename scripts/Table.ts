@@ -315,6 +315,18 @@ export class Table extends BaseCommonInstance {
       this.shotBall = null;
     }
 
+    if (BilliardData.instance.isAlogVersion2()) {
+      // 重新排序，瞄准球会被移到最前面，如果不重新排序，无法保证重连优先碰撞判断
+      this.pairs.sort((a, b) => (a.a.id * 15 + a.b.id) - (b.a.id * 15 + b.b.id));
+      if (this.shotBall) { // 把瞄准球移动到最前面，进行优先碰撞判断
+        const p = this.pairs.find((pair) => pair.a.id === 0 && pair.b.id === this.shotBall.id);
+        const index  = this.pairs.indexOf(p);
+        this.pairs.splice(index, 1);
+        this.pairs.unshift(p);
+      }
+      yy.log.w("hit sort")
+    }
+
 
 
     this.cueBall.setSliding();

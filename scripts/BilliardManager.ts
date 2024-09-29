@@ -641,13 +641,13 @@ export class BilliardManager extends BaseCommonInstance{
                     setm(0.156);
                     sete(0.92);
                     break;
-                default: // 默认旧版算法版本
-                table.cushionModel = bounceHanBlend;
-                setmu(0.00985);
-                setmuS(0.15);
-                setmuC(0.8);
-                setm(0.23);
-                sete(0.86);
+                default: // 默认使用当前包含的最新算法
+                table.cushionModel = bounceHan1;
+                setmu(0.00985 * 1.35);
+                setmuS(0.2);
+                setmuC(1);
+                setm(0.156);
+                sete(0.92);
             } 
         }
 
