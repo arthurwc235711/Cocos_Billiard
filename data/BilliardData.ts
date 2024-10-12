@@ -310,10 +310,10 @@ export class BilliardData {
     setAlgoVersion(version: number) {
         this.iAlgoVersion = version;
     }
-    isAlogVersion1() {
+    isAlogVersion1() {// 算法版本2 兼容算法版本1
         return this.iAlgoVersion === 1 || this.isAlogVersion2();
     }
-    isAlogVersion2() {
+    isAlogVersion2() {// 算法版本2 差异只在同时碰撞判断优先级，优先判断瞄准球
         return this.iAlgoVersion === 2;
     }
 
