@@ -21,6 +21,7 @@ interface ServiceName {
     ready: string;
     clientEvent: string;
     foreBackStageEvent: string;
+    userQuit: string;
 }
 
 class ServiceName8Ball implements ServiceName {
@@ -31,6 +32,7 @@ class ServiceName8Ball implements ServiceName {
     ready = "BilliardService.Ready";
     clientEvent = "BilliardService.ClientEvent";
     foreBackStageEvent = "BilliardService.ForeBackStageEvent";
+    userQuit = "BilliardService.UserQuit";
 }
 
 class ServiceName9Ball implements ServiceName {
@@ -41,6 +43,7 @@ class ServiceName9Ball implements ServiceName {
     ready = "Billiard9BallService.Ready";
     clientEvent = "Billiard9BallService.ClientEvent";
     foreBackStageEvent = "Billiard9BallService.ForeBackStageEvent";
+    userQuit = "Billiard9BallService.UserQuit"
 }
 
 export class BilliardService extends StackListenerNew {
@@ -105,6 +108,7 @@ export class BilliardService extends StackListenerNew {
         ["BilliardService_Ready"]: "respReady",
         ["BilliardService_Exit"]: "respExit",
         ["BilliardService_ClientEvent"]: "respClientEvent",
+        ["BilliardService_UserQuit"]: "respUserQuit",
 
 
 
@@ -114,6 +118,7 @@ export class BilliardService extends StackListenerNew {
         ["Billiard9BallService_Ready"]: "respReady",
         ["Billiard9BallService_Exit"]: "respExit",
         ["Billiard9BallService_ClientEevnt"]: "respClientEvent",
+        ["Billiard9BallService_UserQuit"]: "respUserQuit",
 
 
         ['AccountService.OnlineStatus']: 'onlineStatus',
@@ -314,6 +319,20 @@ export class BilliardService extends StackListenerNew {
     BilliardAllocService_EnterByTable_Timeout() {
         let pb = new protoAccount.OnlineStatusReq();
         yy.socket.send('AccountService.OnlineStatus', pb);
+    }
+
+    sendUserQuitReq() {
+        let req = new protoBilliard.UserQuitReq();
+        this.send(this.serviceName.userQuit, req);
+    }
+    respUserQuit(data: any) {
+        let msg: protoBilliard.CommonRsp = data.msg;
+        if(data.code == 0 && msg && (msg.code == 0 || msg.code == 4 || msg.code == 2005)) {
+            yy.event.emit(yy.Event_Name.Billiard_GameResult_UserQuit)
+        }
+        else {
+            this.errorTips(msg);
+        }
     }
 
     sendExit() {

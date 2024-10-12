@@ -14,12 +14,11 @@ export let BilliardPbConfig = [
 
     // 快速开始
     {router: "BilliardAllocService.EnterByTable",  rsp: "protoBilliard.EnterRsp" },
-
     {router: "BilliardService.EnterGame",  rsp: "protoBilliard.CommonRsp" },//请求桌子数据协议
     {router: "BilliardService.ClientEvent",  rsp: "protoBilliard.GameProtocol" },//游戏交互协议
-
     {router: "BilliardService.Ready",  rsp: "protoBilliard.CommonRsp" },
     {router: "BilliardService.Exit",  rsp: "protoBilliard.CommonRsp" },
+    {router: "BilliardService.UserQuit",  rsp: "protoBilliard.CommonRsp" },
 
     // {router: "BilliardAllocService.Start",  rsp: "protoBilliard.EnterRsp" },
     // {router: "BilliardAllocService.CueMove",  rsp: "protoBilliard.EnterRsp" },
@@ -35,6 +34,7 @@ export let BilliardPbConfig = [
     {router: "Billiard9BallService.ClientEvent",  rsp: "protoBilliard.GameProtocol" },//游戏交互协议
     {router: "Billiard9BallService.Ready",  rsp: "protoBilliard.CommonRsp" },
     {router: "Billiard9BallService.Exit",  rsp: "protoBilliard.CommonRsp" },
+    {router: "Billiard9BallService.UserQuit",  rsp: "protoBilliard.CommonRsp" },
     
 
 

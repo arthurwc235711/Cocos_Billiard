@@ -634,6 +634,7 @@ export class BilliardManager extends BaseCommonInstance{
                     sete(0.86);
                     break;
                 case 1:
+                case 2: // 算法版本2只修改，同时碰撞判定的优先级，优先判断瞄准球
                     table.cushionModel = bounceHan1;
                     setmu(0.00985 * 1.35);
                     setmuS(0.2);

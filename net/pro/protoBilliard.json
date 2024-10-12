@@ -41,7 +41,8 @@
             "Settle_type_null": 0,
             "Settle_type_normal": 1,
             "Settle_type_user_offline": 2,
-            "Settle_type_user_standup": 3
+            "Settle_type_user_standup": 3,
+            "Settle_type_user_foul": 4
           }
         },
         "UserInfo": {
@@ -257,6 +258,10 @@
             "wallet": {
               "type": "int32",
               "id": 24
+            },
+            "payRatio": {
+              "type": "int32",
+              "id": 25
             }
           }
         },
@@ -515,6 +520,18 @@
             }
           }
         },
+        "IRemainBallRatio": {
+          "fields": {
+            "BallNum": {
+              "type": "int32",
+              "id": 1
+            },
+            "Ratio": {
+              "type": "int32",
+              "id": 2
+            }
+          }
+        },
         "GameStatus": {
           "fields": {
             "tid": {
@@ -573,6 +590,11 @@
             "minVersion": {
               "type": "int32",
               "id": 14
+            },
+            "RemainBallRatio": {
+              "rule": "repeated",
+              "type": "IRemainBallRatio",
+              "id": 15
             }
           }
         },
@@ -1117,6 +1139,10 @@
             "gamereplay": {
               "type": "bytes",
               "id": 14
+            },
+            "minVersion": {
+              "type": "int32",
+              "id": 15
             }
           }
         },
@@ -1359,6 +1385,14 @@
             "tableplayercount": {
               "type": "int32",
               "id": 5
+            }
+          }
+        },
+        "UserQuitReq": {
+          "fields": {
+            "uid": {
+              "type": "int64",
+              "id": 1
             }
           }
         }

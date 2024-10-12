@@ -211,7 +211,7 @@ export class BilliardTools {
     }
 
     openReMatchView(call:Function) {
-        BilliardService.instance.sendExit();
+        // BilliardService.instance.sendExit();
         const s = director.getScene();
         yy.wait.show("BilliardMatchView");
         yy.loader.asyncLoadPrefab(BilliardConst.bundleName, eUI.Match, (p)=>{

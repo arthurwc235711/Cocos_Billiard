@@ -75,6 +75,7 @@ declare global {
 			Settle_type_normal = 1,
 			Settle_type_user_offline = 2,
 			Settle_type_user_standup = 3,
+			Settle_type_user_foul = 4,
 		}
 
 		/** Properties of a UserInfo. */
@@ -334,6 +335,9 @@ declare global {
 			/** PlayerResult wallet */
 			wallet?: (number | null);
 
+			/** PlayerResult payRatio */
+			payRatio?: (number | null);
+
 		}
 
 		/** Represents a PlayerResult. */
@@ -416,6 +420,9 @@ declare global {
 
 			/** PlayerResult wallet */
 			public wallet: number | null;
+
+			/** PlayerResult payRatio */
+			public payRatio: number | null;
 
 		}
 
@@ -908,6 +915,34 @@ declare global {
 
 		}
 
+		/** Properties of a IRemainBallRatio. */
+		interface IIRemainBallRatio{
+
+			/** IRemainBallRatio BallNum */
+			BallNum?: (number | null);
+
+			/** IRemainBallRatio Ratio */
+			Ratio?: (number | null);
+
+		}
+
+		/** Represents a IRemainBallRatio. */
+		class IRemainBallRatio implements IIRemainBallRatio {
+
+			/**
+			* Constructs a new %s.
+			* @param [properties] Properties to set
+			*/
+			constructor(properties?: protoBilliard.IIRemainBallRatio);
+
+			/** IRemainBallRatio BallNum */
+			public BallNum: number | null;
+
+			/** IRemainBallRatio Ratio */
+			public Ratio: number | null;
+
+		}
+
 		/** Properties of a GameStatus. */
 		interface IGameStatus{
 
@@ -952,6 +987,9 @@ declare global {
 
 			/** GameStatus minVersion */
 			minVersion?: (number | null);
+
+			/** GameStatus RemainBallRatio */
+			RemainBallRatio?: (IRemainBallRatio[] | null);
 
 		}
 
@@ -998,13 +1036,16 @@ declare global {
 			public cueAngle: ICueAngle | null;
 
 			/** GameStatus cueOffset */
-			
 			public cueOffset: ICueOffset | null;
+
 			/** GameStatus version */
 			public version: number | null;
 
 			/** GameStatus minVersion */
 			public minVersion: number | null;
+
+			/** GameStatus RemainBallRatio */
+			public RemainBallRatio: IRemainBallRatio[] | null;
 
 		}
 
@@ -2011,6 +2052,9 @@ declare global {
 			/** GameLog gamereplay */
 			gamereplay?: (Uint8Array | null);
 
+			/** GameLog minVersion */
+			minVersion?: (number | null);
+
 		}
 
 		/** Represents a GameLog. */
@@ -2063,6 +2107,9 @@ declare global {
 
 			/** GameLog gamereplay */
 			public gamereplay: Uint8Array | null;
+
+			/** GameLog minVersion */
+			public minVersion: number | null;
 
 		}
 
@@ -2519,6 +2566,28 @@ declare global {
 
 			/** UserEnterGame tableplayercount */
 			public tableplayercount: number | null;
+
+		}
+
+		/** Properties of a UserQuitReq. */
+		interface IUserQuitReq{
+
+			/** UserQuitReq uid */
+			uid?: (number | Long | null);
+
+		}
+
+		/** Represents a UserQuitReq. */
+		class UserQuitReq implements IUserQuitReq {
+
+			/**
+			* Constructs a new %s.
+			* @param [properties] Properties to set
+			*/
+			constructor(properties?: protoBilliard.IUserQuitReq);
+
+			/** UserQuitReq uid */
+			public uid: number | Long | null;
 
 		}
 

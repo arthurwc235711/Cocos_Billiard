@@ -49,6 +49,8 @@ export class BilliardWinsView extends BaseCommonScript {
 
 
     private moneyType: number = 0; //  0 金币足有， 1 金币不足 2 金币超出
+
+    private userQuitCallBack: Function;
     // private sData: protoBilliard.BroadcastGameResult;
     public register_event() {
         // 注册指定的监听方法，格式如下
@@ -56,6 +58,7 @@ export class BilliardWinsView extends BaseCommonScript {
             [yy.Event_Name.billiard_notify_ready]: "onReady",
             [yy.Event_Name.billiard_notify_leave]: "onLeave",
             [yy.Event_Name.billiard_notify_start]: "onReStart",
+            [yy.Event_Name.Billiard_GameResult_UserQuit]: "onUserQuitSuccess",
         };
         super.register_event();
     }
@@ -175,8 +178,11 @@ export class BilliardWinsView extends BaseCommonScript {
 
 
     onClickGoBack() {
-        BilliardService.instance.sendExit();
-        yy.event.emit(yy.Event_Name.CasualCommonQuit)
+        this.userQuitCallBack = () =>{
+            BilliardService.instance.sendExit();
+            yy.event.emit(yy.Event_Name.CasualCommonQuit)
+        };
+        BilliardService.instance.sendUserQuitReq();
     }
 
 
@@ -269,9 +275,12 @@ export class BilliardWinsView extends BaseCommonScript {
 
     onClickRematch() {
         if (this.moneyType === 0) {
-            BilliardTools.instance.openReMatchView(()=>{
-                this.node.destroy();
-            });
+            this.userQuitCallBack = () =>{
+                BilliardTools.instance.openReMatchView(()=>{
+                    this.node.destroy();
+                });
+            };
+            BilliardService.instance.sendUserQuitReq();
         }
         else if (this.moneyType === 1) {
             yy.dialog.show(
@@ -323,6 +332,13 @@ export class BilliardWinsView extends BaseCommonScript {
                 
                 this.labelScore.string = `${m.scoreboard} : ${o.scoreboard}`;
             }
+        }
+    }
+
+
+    onUserQuitSuccess() {
+        if (this.userQuitCallBack) {
+            this.userQuitCallBack();
         }
     }
 }

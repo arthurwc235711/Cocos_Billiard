@@ -55,4 +55,6 @@ export default [
     "Billiard_Matching_Success",
     "Billiard_Matching_Fail",
     "Billiard_Matching_Cancel",
+
+    "Billiard_GameResult_UserQuit", // 结算界面时，是否允许退出或再匹配
 ]
