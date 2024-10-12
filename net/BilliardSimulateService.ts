@@ -553,7 +553,19 @@ export class BilliardSimulateService {
 
         }
         else {
-            notify.validResult = validResult.validResult;
+            if (validResult) {
+                notify.validResult = validResult.validResult;
+            }
+            else { // 兼容异常数据，只有结算数据，直接显示结果面板
+                let scene = yy.scene.get_scene_script<BilliardScene>();
+                if (scene) {
+                    const playback = scene.get_scene_layer_popup().getComponentInChildren(BilliardPlaybackView);
+                    playback.initPlayers(false);
+                    playback.onGameResult();
+                }
+
+                return;
+            }
         }
 
         // 定色
