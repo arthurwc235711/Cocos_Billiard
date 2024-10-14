@@ -357,7 +357,6 @@ export class BilliardService extends StackListenerNew {
 
 
     sendEnterByTable() {
-        yy.log.e("sendEnterByTable")
         const req = new protoBilliard.EnterReq();
         req.tid = this.tid;
         this.send(this.serviceName.enterByTable, req);
