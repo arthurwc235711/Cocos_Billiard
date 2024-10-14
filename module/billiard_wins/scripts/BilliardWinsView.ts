@@ -276,6 +276,7 @@ export class BilliardWinsView extends BaseCommonScript {
     onClickRematch() {
         if (this.moneyType === 0) {
             this.userQuitCallBack = () =>{
+                BilliardService.instance.sendExit();
                 BilliardTools.instance.openReMatchView(()=>{
                     this.node.destroy();
                 });

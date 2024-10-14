@@ -327,11 +327,11 @@ export class BilliardService extends StackListenerNew {
     }
     respUserQuit(data: any) {
         let msg: protoBilliard.CommonRsp = data.msg;
-        if(data.code == 0 && msg && (msg.code == 0 || msg.code == 4 || msg.code == 2005)) {
-            yy.event.emit(yy.Event_Name.Billiard_GameResult_UserQuit)
+        if (data.code === 0 && msg && msg.code === 1101) { // 1101 游戏已经开始，用户无法退出
+            this.errorTips(msg);
         }
         else {
-            this.errorTips(msg);
+            yy.event.emit(yy.Event_Name.Billiard_GameResult_UserQuit)
         }
     }
 
