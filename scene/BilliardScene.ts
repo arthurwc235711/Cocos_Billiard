@@ -312,6 +312,25 @@ export class BilliardScene extends CasualCommonSceneBase implements ITemplateGam
             }else if(online_info.playStatus == 0){
                 yy.event.emit(yy.Event_Name.CasualCommonQuit);
             } else if(online_info.playStatus > 0){
+
+                if(BilliardData.instance.is8Ball()) {   
+                    if(online_info.gameType === BilliardConst.gid9Ball) {
+                        let req = new protoBilliard.ExitReq(); // 如果在8球桌子上，则退出桌子 继续匹配8球
+                        yy.socket.send("Billiard9BallService.Exit", req);
+                        yy.user.resetOnlineInfo();
+                        return;
+                    }
+                }
+                else if(BilliardData.instance.is9Ball()) {
+                    if(online_info.gameType === BilliardConst.gid8Ball) {
+                        let req = new protoBilliard.ExitReq();// 如果在9球桌子上，则退出桌子 继续匹配9球
+                        yy.socket.send("BilliardService.Exit", req);
+                        yy.user.resetOnlineInfo();
+                        return;
+                    }
+                }
+
+
                 BilliardService.instance.sendEnterByTable();
                 yy.user.resetOnlineInfo();
             }

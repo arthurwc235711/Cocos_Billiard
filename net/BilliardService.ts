@@ -184,8 +184,12 @@ export class BilliardService extends StackListenerNew {
                 this.sendEnterByTable();
                 // yy.event.emit(yy.Event_Name.Billiard_Matching);
             }
-            else if( resp.code === 2803 || resp.code == 2804 || resp.code == 2801) {
+            else if( resp.code === 2803 || resp.code == 2804 || resp.code == 2801) {//2803	加入队列成功    2804	已在队列中   2801	服务器正在分配
 
+            }
+            else if (resp.code === 2020){  //已在其他桌子上，此时不允许再次创建房间
+                let pb = new protoAccount.OnlineStatusReq();
+                yy.socket.send('AccountService.OnlineStatus', pb);
             }
             else {
                 switch(resp.code) {
