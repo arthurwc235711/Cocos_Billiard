@@ -402,8 +402,9 @@ export class BilliardService extends StackListenerNew {
                 return;
             }
             else if (msg.stage === 0) {
-                this.sendExit();
-                yy.event.emit(yy.Event_Name.CasualCommonQuit);// 数据异常退出
+                BilliardService.instance.sendReady();  // 当前状态为在桌为准备状态，现在改为准备，如果踢出，有极小概率因为延迟导致退出
+                // this.sendExit();
+                // yy.event.emit(yy.Event_Name.CasualCommonQuit);// 数据异常退出
                 return;
             }
         }
